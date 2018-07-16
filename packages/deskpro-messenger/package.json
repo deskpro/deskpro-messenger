@@ -1,0 +1,18 @@
+{
+  "name": "deskpro-widget",
+  "version": "0.1.0",
+  "author": "DeskPRO <support@deskpro.com>",
+  "license": "BSD-3-Clause",
+  "description": "DeskPRO embeddable widget",
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
