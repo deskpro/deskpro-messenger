@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import App from './components/App';
 import './index.css';
 
-const App = () => <div>Widget</div>;
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <App />,
+  window.parent.document.getElementById('deskpro-container')
+);
