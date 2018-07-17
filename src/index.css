@@ -1,11 +1,18 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+.widget-toggler--button {
+  width: 150px;
+  align-self: flex-end;
+  border: 1px solid;
+  border-radius: 2px;
+  padding: 5px;
+  font-size: 14px;
+  outline: none;
+  background-color: #ddd
 }
 
-#root {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+.widget-window--container {
+  height: 300px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center
 }
