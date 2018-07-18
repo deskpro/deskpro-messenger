@@ -1,30 +1,36 @@
 var fs = require('fs');
 var path = require('path');
+var uglify = require('uglify-js');
 
 const buildFolder = path.relative(process.cwd(), './build');
 
-fs.readFile(buildFolder + '/widget.js', 'utf8', function(err, data) {
-  if (err) {
-    return console.log(err);
-  }
+try {
+  let data = fs.readFileSync(buildFolder + '/widget.js', 'utf8');
+  let json = fs.readFileSync(buildFolder + '/asset-manifest.json');
 
-  fs.readFile(buildFolder + '/asset-manifest.json', function(err, json) {
-    if (err) {
-      return console.log(err);
-    }
-    const assets = JSON.parse(json);
-    // bundle.js is used for local development, but in production build it's called main.js
-    data = data.replace('bundle.js', 'main.js');
-
-    Object.keys(assets).forEach(fileName => {
-      const hashedFileName = path.basename(assets[fileName]);
-      data = data.replace(fileName, hashedFileName);
-    });
-
-    fs.writeFile(buildFolder + '/widget.js', data, 'utf8', function(err) {
-      if (err) {
-        return console.log(err);
+  let assets = JSON.parse(json);
+  assets = Object.values(assets)
+    .map(fileName => {
+      // {HOST} will be replaced by the widget loader.
+      switch (path.extname(fileName)) {
+        case '.css':
+          return `<link rel="stylesheet" href="{HOST}/${fileName}">`;
+        case '.js':
+          return `<script async src="{HOST}/${fileName}"></script>`;
+        default:
+          return '';
       }
-    });
-  });
-});
+    })
+    .join('');
+  data = data.replace('<!-- INJECT ASSETS -->', assets);
+
+  fs.writeFileSync(buildFolder + '/widget.js', data, 'utf8');
+
+  const minified = uglify.minify(data);
+  if (minified.error) {
+    throw minified.error;
+  }
+  fs.writeFileSync(buildFolder + '/widget.min.js', minified.code);
+} catch (err) {
+  console.log(err);
+}
