@@ -20,10 +20,11 @@ class App extends PureComponent {
     this.setState({ windowVisible: !this.state.windowVisible });
 
   render() {
+    const { windowVisible } = this.state;
     return (
       <ConfigProvider value={this.props.config}>
-        {this.state.windowVisible && <Window />}
-        <WidgetToggler onClick={this.handleClick} />
+        {windowVisible && <Window />}
+        <WidgetToggler onClick={this.handleClick} state={windowVisible} />
       </ConfigProvider>
     );
   }
