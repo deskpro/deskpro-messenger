@@ -23,14 +23,27 @@ const iframeStyle = {
 
 class WidgetToggler extends PureComponent {
   static propTypes = {
+    state: PropTypes.bool,
     onClick: PropTypes.func.isRequired
   };
 
+  static defaultProps = {
+    state: false
+  };
+
   render() {
+    const { state, onClick } = this.props;
+    const buttonClassName = state
+      ? 'widget-toggler--button__opened'
+      : 'widget-toggler--button__collapsed';
+
     return (
       <Frame style={iframeStyle}>
-        <button className="widget-toggler--button" onClick={this.props.onClick}>
-          Click Me!
+        <button
+          className={`widget-toggler--button ${buttonClassName}`}
+          onClick={onClick}
+        >
+          {state ? 'Close' : 'Click Me!'}
         </button>
       </Frame>
     );
