@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from 'react';
 
-import Window from './Window';
-import WidgetToggler from './WidgetToggler';
+import Window from './core/Window';
+import WidgetToggler from './core/WidgetToggler';
 
 class App extends PureComponent {
   state = { windowVisible: false };
