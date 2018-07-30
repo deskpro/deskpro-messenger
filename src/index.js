@@ -5,6 +5,6 @@ import App from './components/App';
 import './index.css';
 
 ReactDOM.render(
-  <App />,
+  <App config={window.parent.DESKPRO_WIDGET_OPTIONS} />,
   window.parent.document.getElementById('deskpro-container')
 );
