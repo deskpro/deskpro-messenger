@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 
 import Frame from './Frame';
 import { ConfigConsumer } from './ConfigContext';
@@ -21,7 +21,14 @@ const iframeStyle = {
 };
 
 const blocks = {
-  conversations: () => <h2>You Conversations</h2>,
+  conversations: ({ category }) => (
+    <Fragment>
+      <h2>You Conversations</h2>
+      <button onClick={() => console.log(`clicked ${category}`)}>
+        Start {category} conversation
+      </button>
+    </Fragment>
+  ),
   tickets: () => <h2>Your Tickets</h2>,
   search: () => <h2>Quick Search</h2>,
   contact_us: () => <h2>Contact Us</h2>
