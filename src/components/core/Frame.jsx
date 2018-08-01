@@ -26,9 +26,11 @@ const defaultIframeStyle = {
   height: '50px'
 };
 
-const iFrameContainer = window.parent.document.getElementById(
-  'deskpro-container'
-);
+const iFrameContainer =
+  document.getElementById('deskpro-container') ||
+  window.parent.document.getElementById('deskpro-container') ||
+  // this is needed for storybooks.
+  document.getElementById('root');
 
 class Frame extends PureComponent {
   constructor(...args) {
