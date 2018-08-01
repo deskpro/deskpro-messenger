@@ -3,6 +3,9 @@ import React, { Fragment, PureComponent } from 'react';
 import Frame from './Frame';
 import { ConfigConsumer } from './ConfigContext';
 
+import RandomImageFrame from '../poc/ImageFrame';
+import LoremIpsumFrame from '../poc/ArticleFrame';
+
 /*const windowStyle = {
   height: '300px',
   width: '200px',
@@ -35,6 +38,17 @@ const blocks = {
 };
 
 class WidgetWindow extends PureComponent {
+  state = {
+    imageVisible: false,
+    articleVisible: false
+  };
+
+  toggleImageFrame = () =>
+    this.setState({ imageVisible: !this.state.imageVisible });
+
+  toggleLoremIpsum = () =>
+    this.setState({ articleVisible: !this.state.articleVisible });
+
   render() {
     return (
       <Frame style={iframeStyle}>
@@ -48,6 +62,13 @@ class WidgetWindow extends PureComponent {
               })
             }
           </ConfigConsumer>
+
+          <hr style={{ width: '250px', marginLeft: '-8px' }} />
+          <button onClick={this.toggleImageFrame}>Show Random Image</button>
+          <br />
+          <button onClick={this.toggleLoremIpsum}>Show Lorem Ipsum</button>
+          {this.state.imageVisible && <RandomImageFrame />}
+          {this.state.articleVisible && <LoremIpsumFrame />}
         </div>
       </Frame>
     );
