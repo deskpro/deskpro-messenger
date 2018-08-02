@@ -1,6 +1,12 @@
-import { createContext } from 'react';
+import React, { createContext } from 'react';
 
 export const {
   Consumer: ConfigConsumer,
   Provider: ConfigProvider
-} = createContext({ features: [] });
+} = createContext({ screens: {} });
+
+export const withConfig = WrappedComponent => props => (
+  <ConfigConsumer>
+    {context => <WrappedComponent {...props} {...context} />}
+  </ConfigConsumer>
+);

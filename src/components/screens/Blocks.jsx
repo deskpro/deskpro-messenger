@@ -1,9 +1,12 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-import { ConfigConsumer } from '../core/ConfigContext';
-
-const blocks = {
+const blocksMapping = {
+  StartChatBlock: ({ to }) => (
+    <div>
+      <Link to={`/${to}`}>Start Chat</Link>
+    </div>
+  ),
   conversations: ({ category }) => (
     <Fragment>
       <h2>You Conversations</h2>
@@ -22,15 +25,13 @@ const blocks = {
   contact_us: () => <h2>Contact Us</h2>
 };
 
-const IndexScreen = () => (
-  <ConfigConsumer>
-    {({ features = [] }) =>
-      features.map(({ type, options = {} }) => {
-        const Component = blocks[type];
-        return Component ? <Component key={type} {...options} /> : null;
-      })
-    }
-  </ConfigConsumer>
+const Blocks = ({ blocks }) => (
+  <Fragment>
+    {blocks.map(({ blockType, ...props }) => {
+      const Component = blocksMapping[blockType];
+      return Component ? <Component key={blockType} {...props} /> : null;
+    })}
+  </Fragment>
 );
 
-export default IndexScreen;
+export default Blocks;
