@@ -46,6 +46,28 @@ storiesOf('Widget', module)
         screenType: 'TicketsScreen'
       };
     }
+    if (boolean('Enable Html Block #1', false)) {
+      screens.index.blocks.push({
+        blockType: 'ScreenLink',
+        label: 'Show html #1',
+        to: 'customHtml1'
+      });
+      screens.customHtml1 = {
+        screenType: 'HtmlScreen',
+        html: '<h2>Lorem Ipsum</h2><p>Some body text in P tag.</p>'
+      };
+    }
+    if (boolean('Enable Html Block #2', false)) {
+      screens.index.blocks.push({
+        blockType: 'ScreenLink',
+        label: 'Show html #2',
+        to: 'customHtml2'
+      });
+      screens.customHtml2 = {
+        screenType: 'HtmlScreen',
+        html: '<h2>Another HTML block</h2><p>Another body text in P tag.</p>'
+      };
+    }
 
     return <App config={{ screens }} />;
   });

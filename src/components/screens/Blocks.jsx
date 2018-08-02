@@ -12,6 +12,11 @@ const blocksMapping = {
       <h2>Your Tickets</h2>
       <Link to="/tickets">view all</Link>
     </Fragment>
+  ),
+  ScreenLink: ({ to, label }) => (
+    <div>
+      <Link to={`/${to}`}>{label}</Link>
+    </div>
   )
 };
 
