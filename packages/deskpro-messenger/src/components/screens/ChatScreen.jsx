@@ -18,7 +18,7 @@ class ChatScreen extends PureComponent {
   render() {
     return (
       <Fragment>
-        <h1>{this.props.match.params.category} chat</h1>
+        <h1>{this.props.category} chat</h1>
         {this.state.messages.map((message, idx) => <p key={idx}>{message}</p>)}
         <textarea
           rows={2}

@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
-import { MemoryRouter, Switch, Route, Link } from 'react-router-dom';
+import { MemoryRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
 
 import Frame from './Frame';
-
-import IndexScreen from '../screens/IndexScreen';
-import ChatScreen from '../screens/ChatScreen';
-import TicketsScreen from '../screens/TicketsScreen';
+import { withConfig } from './ConfigContext';
+import ScreenRoute from './ScreenRoute';
 
 import RandomImageFrame from '../poc/ImageFrame';
 import LoremIpsumFrame from '../poc/ArticleFrame';
@@ -48,7 +46,9 @@ class WidgetWindow extends PureComponent {
 
             <Route>
               {({ location, history }) =>
-                location.pathname.length > 1 && (
+                !(
+                  location.pathname === '/' || location.pathname === '/index'
+                ) && (
                   <Link
                     to={`#`}
                     onClick={e => {
@@ -65,9 +65,16 @@ class WidgetWindow extends PureComponent {
             <hr style={{ width: '250px', marginLeft: '-8px' }} />
 
             <Switch>
-              <Route path="/conversations/:category" component={ChatScreen} />
-              <Route path="/tickets" component={TicketsScreen} />
-              <Route component={IndexScreen} />
+              {Object.entries(this.props.screens)
+                .map(([screenName, screen]) => (
+                  <ScreenRoute
+                    key={screenName}
+                    path={`/${screenName}`}
+                    screen={screen}
+                    screenName={screenName}
+                  />
+                ))
+                .concat([<Redirect to="/index" />])}
             </Switch>
 
             <hr style={{ width: '250px', marginLeft: '-8px' }} />
@@ -83,4 +90,4 @@ class WidgetWindow extends PureComponent {
   }
 }
 
-export default WidgetWindow;
+export default withConfig(WidgetWindow);
