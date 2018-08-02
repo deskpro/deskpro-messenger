@@ -11,29 +11,41 @@ import '../index.css';
 storiesOf('Widget', module)
   .addDecorator(withKnobs)
   .add('Widget', () => {
-    const features = [];
-    if (boolean('Enable Chat', true, 'Conversations')) {
-      features.push({
-        type: 'conversations',
-        options: {
-          category: select(
-            'Chat Category',
-            ['sales', 'support'],
-            'sales',
-            'Conversations'
-          )
-        }
+    const screens = {
+      index: {
+        screenType: 'Blocks',
+        blocks: []
+      }
+    };
+    if (boolean('Enable Sales Chat', true)) {
+      screens.index.blocks.push({
+        blockType: 'StartChatBlock',
+        to: 'salesChat'
       });
+      screens.salesChat = {
+        screenType: 'ChatScreen',
+        category: 'sales'
+      };
     }
-    if (boolean('Enable Tickets', false, 'Tickets')) {
-      features.push({ type: 'tickets' });
+    if (boolean('Enable Support Chat', true)) {
+      screens.index.blocks.push({
+        blockType: 'StartChatBlock',
+        to: 'supportChat'
+      });
+      screens.supportChat = {
+        screenType: 'ChatScreen',
+        category: 'support'
+      };
     }
-    if (boolean('Enable Search', true, 'Search')) {
-      features.push({ type: 'search' });
-    }
-    if (boolean('Enable Contact Us', false, 'Contact Us')) {
-      features.push({ type: 'contact_us' });
+    if (boolean('Enable Tickets', false)) {
+      screens.index.blocks.push({
+        blockType: 'TicketsBlock',
+        to: 'tickets'
+      });
+      screens.tickets = {
+        screenType: 'TicketsScreen'
+      };
     }
 
-    return <App config={{ features }} />;
+    return <App config={{ screens }} />;
   });
