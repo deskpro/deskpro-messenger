@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
+
 import Frame from './Frame';
 
 /*const buttonStyle = {
@@ -23,28 +26,26 @@ const iframeStyle = {
 
 class WidgetToggler extends PureComponent {
   static propTypes = {
-    state: PropTypes.bool,
-    onClick: PropTypes.func.isRequired
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
   };
 
-  static defaultProps = {
-    state: false
-  };
 
   render() {
-    const { state, onClick } = this.props;
-    const buttonClassName = state
-      ? 'widget-toggler--button__opened'
-      : 'widget-toggler--button__collapsed';
+    const opened = this.props.location.pathname.startsWith('/screens');
 
     return (
       <Frame style={iframeStyle}>
-        <button
-          className={`widget-toggler--button ${buttonClassName}`}
-          onClick={onClick}
+        <Link
+          className={classNames(`widget-toggler--button`, {
+            'widget-toggler--button__opened': opened,
+            'widget-toggler--button__collapsed': !opened
+          })}
+          to={opened ? '/' : '/screens'}
         >
-          {state ? 'Close' : 'Click Me!'}
-        </button>
+          {opened ? 'Close' : 'Click Me!'}
+        </Link>
       </Frame>
     );
   }
