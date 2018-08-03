@@ -15,8 +15,18 @@ storiesOf('Widget', module)
       index: {
         screenType: 'Blocks',
         blocks: []
+      },
+      greetingChat: {
+        screenType: 'Blocks',
+        blocks: [
+          {
+            blockType: 'StartChatBlock',
+            to: 'supportChat'
+          }
+        ]
       }
     };
+
     if (boolean('Enable Sales Chat', true)) {
       screens.index.blocks.push({
         blockType: 'StartChatBlock',
@@ -69,5 +79,20 @@ storiesOf('Widget', module)
       };
     }
 
-    return <App config={{ screens }} />;
+    const greetings = {
+      greeting1: {
+        greetingType: 'SimpleGreeting'
+      },
+      greeting2: {
+        greetingType: 'PricingGreeting'
+      }
+    };
+    const enabledGreetings = [
+      null,
+      '/screens/greetingChat',
+      '/greetings/greeting1',
+      '/greetings/greeting2'
+    ];
+
+    return <App config={{ screens, greetings, enabledGreetings }} />;
   });
