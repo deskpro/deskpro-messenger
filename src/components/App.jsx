@@ -1,6 +1,7 @@
 import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { MemoryRouter, Switch, Route } from 'react-router-dom';
+import { MemoryRouter, Switch, Route, Redirect } from 'react-router-dom';
+import _sample from 'lodash/sample';
 
 import Window from './core/Window';
 import WidgetToggler from './core/WidgetToggler';
@@ -17,13 +18,19 @@ class App extends PureComponent {
   };
 
   render() {
+    const { config } = this.props;
+    const randomGreeting =
+      Array.isArray(config.enabledGreetings) &&
+      _sample(config.enabledGreetings);
+
     return (
-      <ConfigProvider value={this.props.config}>
+      <ConfigProvider value={config}>
         <MemoryRouter>
           <Fragment>
             <Switch>
               <Route path="/screens" component={Window} />
               <Route path="/greetings" component={Greetings} />
+              {!!randomGreeting && <Redirect to={randomGreeting} />}
             </Switch>
             <Route component={WidgetToggler} />
           </Fragment>

@@ -71,7 +71,7 @@ class WidgetWindow extends PureComponent {
                   screenName={screenName}
                 />
               ))
-              .concat([<Redirect to="/screens/index" />])}
+              .concat([<Redirect key="index-redirect" to="/screens/index" />])}
           </Switch>
 
           <hr style={{ width: '250px', marginLeft: '-8px' }} />

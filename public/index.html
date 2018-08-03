@@ -43,26 +43,42 @@
     window.DESKPRO_WIDGET_OPTIONS = {
       screens: {
         index: {
-          screenType: "Blocks",
+          screenType: 'Blocks',
           blocks: [{
-              blockType: "StartChatBlock",
-              to: "supportChat"
+              blockType: 'StartChatBlock',
+              to: 'supportChat'
             },
             {
-              blockType: "StartChatBlock",
-              to: "salesChat"
+              blockType: 'StartChatBlock',
+              to: 'salesChat'
             },
           ]
         },
         supportChat: {
-          screenType: "ChatScreen",
-          category: "support"
+          screenType: 'ChatScreen',
+          category: 'support'
         },
         salesChat: {
-          screenType: "ChatScreen",
-          category: "sales"
+          screenType: 'ChatScreen',
+          category: 'sales'
+        },
+        greetingChat: {
+          screenType: 'Blocks',
+          blocks: [{
+            blockType: 'StartChatBlock',
+            to: 'supportChat'
+          }]
         }
-      }
+      },
+      greetings: {
+        greeting1: {
+          greetingType: 'SimpleGreeting'
+        },
+        greeting2: {
+          greetingType: 'PricingGreeting'
+        },
+      },
+      enabledGreetings: [null, '/screens/greetingChat', '/greetings/greeting1', '/greetings/greeting2'],
     };
   </script>
   <!-- in development mode we do not need a widget loader but we can instantiate it as a normal app -->
