@@ -1,8 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { MemoryRouter, Switch, Route } from 'react-router-dom';
 
 import Window from './core/Window';
 import WidgetToggler from './core/WidgetToggler';
+import Greetings from './core/Greetings';
 import { ConfigProvider } from './core/ConfigContext';
 
 class App extends PureComponent {
@@ -14,17 +16,18 @@ class App extends PureComponent {
     config: {}
   };
 
-  state = { windowVisible: false };
-
-  handleClick = e =>
-    this.setState({ windowVisible: !this.state.windowVisible });
-
   render() {
-    const { windowVisible } = this.state;
     return (
       <ConfigProvider value={this.props.config}>
-        {windowVisible && <Window />}
-        <WidgetToggler onClick={this.handleClick} state={windowVisible} />
+        <MemoryRouter>
+          <Fragment>
+            <Switch>
+              <Route path="/screens" component={Window} />
+              <Route path="/greetings" component={Greetings} />
+            </Switch>
+            <Route component={WidgetToggler} />
+          </Fragment>
+        </MemoryRouter>
       </ConfigProvider>
     );
   }

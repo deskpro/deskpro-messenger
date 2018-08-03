@@ -4,18 +4,18 @@ import { Link } from 'react-router-dom';
 const blocksMapping = {
   StartChatBlock: ({ to }) => (
     <div>
-      <Link to={`/${to}`}>Start Chat</Link>
+      <Link to={`/screens/${to}`}>Start Chat</Link>
     </div>
   ),
   TicketsBlock: () => (
     <Fragment>
       <h2>Your Tickets</h2>
-      <Link to="/tickets">view all</Link>
+      <Link to="/screens/tickets">view all</Link>
     </Fragment>
   ),
   ScreenLink: ({ to, label }) => (
     <div>
-      <Link to={`/${to}`}>{label}</Link>
+      <Link to={`/screens/${to}`}>{label}</Link>
     </div>
   )
 };

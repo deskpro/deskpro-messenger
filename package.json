@@ -5,6 +5,7 @@
   "license": "BSD-3-Clause",
   "description": "DeskPRO embeddable widget",
   "dependencies": {
+    "classnames": "^2.2.6",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-frame-component": "^4.0.0",
