@@ -3,7 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 // import { action } from '@storybook/addon-actions';
 // import { linkTo } from '@storybook/addon-links';
-import { withKnobs, boolean, select } from '@storybook/addon-knobs';
+import { withKnobs, boolean, button } from '@storybook/addon-knobs';
 
 import App from '../components/App';
 import '../index.css';
@@ -27,7 +27,7 @@ storiesOf('Widget', module)
       }
     };
 
-    if (boolean('Enable Sales Chat', true)) {
+    if (boolean('Enable Sales Chat', true, 'Config')) {
       screens.index.blocks.push({
         blockType: 'StartChatBlock',
         to: 'salesChat'
@@ -37,7 +37,7 @@ storiesOf('Widget', module)
         category: 'sales'
       };
     }
-    if (boolean('Enable Support Chat', true)) {
+    if (boolean('Enable Support Chat', true, 'Config')) {
       screens.index.blocks.push({
         blockType: 'StartChatBlock',
         to: 'supportChat'
@@ -47,7 +47,7 @@ storiesOf('Widget', module)
         category: 'support'
       };
     }
-    if (boolean('Enable Tickets', false)) {
+    if (boolean('Enable Tickets', false, 'Config')) {
       screens.index.blocks.push({
         blockType: 'TicketsBlock',
         to: 'tickets'
@@ -56,7 +56,7 @@ storiesOf('Widget', module)
         screenType: 'TicketsScreen'
       };
     }
-    if (boolean('Enable Html Block #1', false)) {
+    if (boolean('Enable Html Block #1', false, 'Config')) {
       screens.index.blocks.push({
         blockType: 'ScreenLink',
         label: 'Show html #1',
@@ -67,7 +67,7 @@ storiesOf('Widget', module)
         html: '<h2>Lorem Ipsum</h2><p>Some body text in P tag.</p>'
       };
     }
-    if (boolean('Enable Html Block #2', false)) {
+    if (boolean('Enable Html Block #2', false, 'Config')) {
       screens.index.blocks.push({
         blockType: 'ScreenLink',
         label: 'Show html #2',
@@ -93,6 +93,12 @@ storiesOf('Widget', module)
       '/greetings/greeting1',
       '/greetings/greeting2'
     ];
+
+    const buttonHandler = () => {
+      window.parent.DeskProMessenger.send('open', { screen: 'salesChat' });
+    };
+
+    button('Open Sales Chat', buttonHandler, 'API');
 
     return <App config={{ screens, greetings, enabledGreetings }} />;
   });
