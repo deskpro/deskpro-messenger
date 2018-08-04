@@ -7,6 +7,7 @@ import Window from './core/Window';
 import WidgetToggler from './core/WidgetToggler';
 import Greetings from './core/Greetings';
 import { ConfigProvider } from './core/ConfigContext';
+import WidgetAPI from './core/WidgetAPI';
 
 class App extends PureComponent {
   static propTypes = {
@@ -33,6 +34,7 @@ class App extends PureComponent {
               {!!randomGreeting && <Redirect to={randomGreeting} />}
             </Switch>
             <Route component={WidgetToggler} />
+            <Route component={WidgetAPI} />
           </Fragment>
         </MemoryRouter>
       </ConfigProvider>
