@@ -6,7 +6,7 @@ window.parent.DeskProMessenger.send = function(action, payload) {
   window.postMessage({ action, payload }, '*');
 };
 
-class WidgetAPI extends PureComponent {
+class MessengerAPI extends PureComponent {
   static propTypes = {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired
@@ -45,4 +45,4 @@ class WidgetAPI extends PureComponent {
   }
 }
 
-export default WidgetAPI;
+export default MessengerAPI;

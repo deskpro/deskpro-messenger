@@ -1,9 +1,9 @@
 {
-  "name": "deskpro-widget",
+  "name": "deskpro-messenger",
   "version": "0.1.0",
   "author": "DeskPRO <support@deskpro.com>",
   "license": "BSD-3-Clause",
-  "description": "DeskPRO embeddable widget",
+  "description": "DeskPRO embeddable messenger",
   "dependencies": {
     "classnames": "^2.2.6",
     "react": "^16.4.1",
@@ -16,7 +16,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "node ./scripts/build-widget.js",
+    "postbuild": "node ./scripts/build-messenger.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",

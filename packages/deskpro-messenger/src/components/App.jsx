@@ -4,10 +4,10 @@ import { MemoryRouter, Switch, Route, Redirect } from 'react-router-dom';
 import _sample from 'lodash/sample';
 
 import Window from './core/Window';
-import WidgetToggler from './core/WidgetToggler';
+import MessengerToggler from './core/MessengerToggler';
 import Greetings from './core/Greetings';
 import { ConfigProvider } from './core/ConfigContext';
-import WidgetAPI from './core/WidgetAPI';
+import MessengerAPI from './core/MessengerAPI';
 
 class App extends PureComponent {
   static propTypes = {
@@ -33,8 +33,8 @@ class App extends PureComponent {
               <Route path="/greetings" component={Greetings} />
               {!!randomGreeting && <Redirect to={randomGreeting} />}
             </Switch>
-            <Route component={WidgetToggler} />
-            <Route component={WidgetAPI} />
+            <Route component={MessengerToggler} />
+            <Route component={MessengerAPI} />
           </Fragment>
         </MemoryRouter>
       </ConfigProvider>

@@ -1,4 +1,4 @@
-.widget-toggler--button {
+.messenger-toggler--button {
   width: 150px;
   align-self: flex-end;
   border: 1px solid;
@@ -9,7 +9,7 @@
   background-color: #ddd
 }
 
-.widget-window--container {
+.messenger-window--container {
   height: 300px;
   width: 200px;
 }

@@ -5,13 +5,13 @@ var uglify = require('uglify-js');
 const buildFolder = path.relative(process.cwd(), './build');
 
 try {
-  let data = fs.readFileSync(buildFolder + '/widget.js', 'utf8');
+  let data = fs.readFileSync(buildFolder + '/messenger.js', 'utf8');
   let json = fs.readFileSync(buildFolder + '/asset-manifest.json');
 
   let assets = JSON.parse(json);
   assets = Object.values(assets)
     .map(fileName => {
-      // {HOST} will be replaced by the widget loader.
+      // {HOST} will be replaced by the messenger loader.
       switch (path.extname(fileName)) {
         case '.css':
           return `<link rel="stylesheet" href="{HOST}/${fileName}">`;
@@ -24,13 +24,13 @@ try {
     .join('');
   data = data.replace('<!-- INJECT ASSETS -->', assets);
 
-  fs.writeFileSync(buildFolder + '/widget.js', data, 'utf8');
+  fs.writeFileSync(buildFolder + '/messenger.js', data, 'utf8');
 
   const minified = uglify.minify(data);
   if (minified.error) {
     throw minified.error;
   }
-  fs.writeFileSync(buildFolder + '/widget.min.js', minified.code);
+  fs.writeFileSync(buildFolder + '/messenger.min.js', minified.code);
 } catch (err) {
   console.log(err);
 }
