@@ -1,11 +1,11 @@
 (function() {
   function loadIframe() {
-    var options = window.DESKPRO_WIDGET_OPTIONS || {};
+    var options = window.DESKPRO_MESSENGER_OPTIONS || {};
 
     var iframe = document.createElement('iframe');
     iframe.setAttribute('frameborder', '0');
     iframe.setAttribute('scrolling', 'no');
-    iframe.setAttribute('id', 'deskpro-widget-loader');
+    iframe.setAttribute('id', 'deskpro-messenger-loader');
     iframe.style.display = 'none';
     iframe.style.border = 'none';
     iframe.style.background = 'transparent';
@@ -25,7 +25,7 @@
 
     var initialContent =
       '<!DOCTYPE html><html><head><!-- INJECT ASSETS --></head><body></body></html>';
-    initialContent = initialContent.replace(/{HOST}/g, options.widgetUrl);
+    initialContent = initialContent.replace(/{HOST}/g, options.messengerUrl);
     iframeDoc.open('text/html', 'replace');
     iframeDoc.write(initialContent);
     iframeDoc.close();
