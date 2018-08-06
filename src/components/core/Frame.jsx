@@ -48,6 +48,14 @@ class Frame extends PureComponent {
     }
 
     this.el = window.parent.document.createElement('span');
+
+    // TODO: replace with right styles inclusion.
+    head = (
+      <link
+        rel="stylesheet"
+        href="https://deskpro.github.io/messenger-style/css/main.css"
+      />
+    );
   }
 
   componentDidMount() {

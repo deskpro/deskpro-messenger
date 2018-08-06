@@ -18,11 +18,16 @@ class App extends PureComponent {
     config: {}
   };
 
+  randomGreeting = Array.isArray(this.props.config.enabledGreetings)
+    ? _sample(this.props.config.enabledGreetings)
+    : undefined;
+
+  componentDidMount() {
+    this.randomGreeting = null;
+  }
+
   render() {
     const { config } = this.props;
-    const randomGreeting =
-      Array.isArray(config.enabledGreetings) &&
-      _sample(config.enabledGreetings);
 
     return (
       <ConfigProvider value={config}>
@@ -31,7 +36,7 @@ class App extends PureComponent {
             <Switch>
               <Route path="/screens" component={Window} />
               <Route path="/greetings" component={Greetings} />
-              {!!randomGreeting && <Redirect to={randomGreeting} />}
+              {!!this.randomGreeting && <Redirect to={this.randomGreeting} />}
             </Switch>
             <Route component={MessengerToggler} />
             <Route component={MessengerAPI} />

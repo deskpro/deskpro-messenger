@@ -4,7 +4,7 @@ import { Switch, Route, Link, Redirect } from 'react-router-dom';
 import Frame from './Frame';
 import { withConfig } from './ConfigContext';
 import ScreenRoute from './ScreenRoute';
-
+import MessengerShell from './MessengerShell';
 import RandomImageFrame from '../poc/ImageFrame';
 import LoremIpsumFrame from '../poc/ArticleFrame';
 
@@ -17,12 +17,9 @@ import LoremIpsumFrame from '../poc/ArticleFrame';
 };*/
 
 const iframeStyle = {
-  bottom: '54px',
-  width: '250px',
-  height: '350px',
-  border: '1px solid',
-  borderRadius: '5px',
-  backgroundColor: '#fff'
+  bottom: '104px',
+  width: '400px',
+  height: '400px'
 };
 
 class MessengerWindow extends PureComponent {
@@ -37,50 +34,57 @@ class MessengerWindow extends PureComponent {
   toggleLoremIpsum = () =>
     this.setState({ articleVisible: !this.state.articleVisible });
 
+  renderBackButton = () => {
+    return (
+      <Route>
+        {({ location, history }) =>
+          location.pathname !== '/screens/index' && (
+            <div className="dpmsg-ScreenControls dp-Level">
+              <Link
+                to={`#`}
+                className="dpmsg-BackBtn dp-LevelLeft"
+                onClick={e => {
+                  e.preventDefault();
+                  history.goBack();
+                }}
+              >
+                <i className="dp-IconArrow iconArrow--left" /> back
+              </Link>
+            </div>
+          )
+        }
+      </Route>
+    );
+  };
+
   render() {
     return (
       <Frame style={iframeStyle}>
-        <div className="messenger-window--container">
-          <h1>Get In Touch!</h1>
-
-          <Route>
-            {({ location, history }) =>
-              location.pathname !== '/screens/index' && (
-                <Link
-                  to={`#`}
-                  onClick={e => {
-                    e.preventDefault();
-                    history.goBack();
-                  }}
-                >
-                  &lt; back
-                </Link>
-              )
-            }
-          </Route>
-
-          <hr style={{ width: '250px', marginLeft: '-8px' }} />
-
-          <Switch>
-            {Object.entries(this.props.screens)
-              .map(([screenName, screen]) => (
-                <ScreenRoute
-                  key={screenName}
-                  path={`/screens/${screenName}`}
-                  screen={screen}
-                  screenName={screenName}
-                />
-              ))
-              .concat([<Redirect key="index-redirect" to="/screens/index" />])}
-          </Switch>
-
-          <hr style={{ width: '250px', marginLeft: '-8px' }} />
-          <button onClick={this.toggleImageFrame}>Show Random Image</button>
-          <br />
-          <button onClick={this.toggleLoremIpsum}>Show Lorem Ipsum</button>
-          {this.state.imageVisible && <RandomImageFrame />}
-          {this.state.articleVisible && <LoremIpsumFrame />}
-        </div>
+        <MessengerShell controls={this.renderBackButton()}>
+          <div className="dpmsg-Block">
+            <Switch>
+              {Object.entries(this.props.screens)
+                .map(([screenName, screen]) => (
+                  <ScreenRoute
+                    key={screenName}
+                    path={`/screens/${screenName}`}
+                    screen={screen}
+                    screenName={screenName}
+                  />
+                ))
+                .concat([
+                  <Redirect key="index-redirect" to="/screens/index" />
+                ])}
+            </Switch>
+          </div>
+          <div className="dpmsg-Block">
+            <button onClick={this.toggleImageFrame}>Show Random Image</button>
+            <br />
+            <button onClick={this.toggleLoremIpsum}>Show Lorem Ipsum</button>
+            {this.state.imageVisible && <RandomImageFrame />}
+            {this.state.articleVisible && <LoremIpsumFrame />}
+          </div>
+        </MessengerShell>
       </Frame>
     );
   }

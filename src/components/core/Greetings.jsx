@@ -7,7 +7,7 @@ import Frame from './Frame';
 import { withConfig } from './ConfigContext';
 
 const frameStyles = {
-  bottom: '54px',
+  bottom: '104px',
   width: '250px',
   height: '100px',
   border: '1px solid #aaa',
