@@ -25,7 +25,7 @@ const iframeStyle = {
   backgroundColor: '#fff'
 };
 
-class WidgetWindow extends PureComponent {
+class MessengerWindow extends PureComponent {
   state = {
     imageVisible: false,
     articleVisible: false
@@ -40,7 +40,7 @@ class WidgetWindow extends PureComponent {
   render() {
     return (
       <Frame style={iframeStyle}>
-        <div className="widget-window--container">
+        <div className="messenger-window--container">
           <h1>Get In Touch!</h1>
 
           <Route>
@@ -86,4 +86,4 @@ class WidgetWindow extends PureComponent {
   }
 }
 
-export default withConfig(WidgetWindow);
+export default withConfig(MessengerWindow);

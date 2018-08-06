@@ -1,1 +1,1 @@
-# deskpro-widget
+# Deskpro Messenger

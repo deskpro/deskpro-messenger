@@ -8,9 +8,9 @@ import { withKnobs, boolean, button } from '@storybook/addon-knobs';
 import App from '../components/App';
 import '../index.css';
 
-storiesOf('Widget', module)
+storiesOf('Messenger', module)
   .addDecorator(withKnobs)
-  .add('Widget', () => {
+  .add('Messenger', () => {
     const screens = {
       index: {
         screenType: 'Blocks',

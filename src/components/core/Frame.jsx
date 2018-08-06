@@ -8,7 +8,7 @@ let head;
 // is starting and then this styles could be loaded inside each frame.
 if (process.env.NODE_ENV === 'production') {
   const loaderIframe = window.parent.document.getElementById(
-    'deskpro-widget-loader'
+    'deskpro-messenger-loader'
   );
   if (loaderIframe) {
     const styleLink = loaderIframe.contentDocument.head.querySelector(
