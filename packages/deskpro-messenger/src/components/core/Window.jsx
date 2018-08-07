@@ -17,9 +17,10 @@ import LoremIpsumFrame from '../poc/ArticleFrame';
 };*/
 
 const iframeStyle = {
-  bottom: '104px',
+  bottom: 'calc(60px + 14px + 14px)',
   width: '400px',
-  height: '400px'
+  height: 'calc(100vh - 60px - 14px - 14px - 14px)',
+  maxHeight: '700px'
 };
 
 class MessengerWindow extends PureComponent {
