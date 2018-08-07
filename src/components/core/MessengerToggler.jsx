@@ -20,8 +20,8 @@ const iframeStyle = {
   position: 'fixed',
   right: '14px',
   bottom: '14px',
-  width: '70px',
-  height: '70px'
+  width: '60px',
+  height: '60px'
 };
 
 class WidgetToggler extends PureComponent {
@@ -37,8 +37,8 @@ class WidgetToggler extends PureComponent {
     return (
       <Frame style={iframeStyle}>
         <Link
-          className={classNames(`dpmsg-TriggerBtn`, {
-            'dpmsg-Icon dpmsg-IconClose': opened
+          className={classNames(`dpmsg-TriggerBtn dpmsg-Icon`, {
+            'dpmsg-IconClose': opened
             // 'widget-toggler--button__collapsed': !opened
           })}
           to={opened ? '/' : '/screens'}
@@ -50,7 +50,7 @@ class WidgetToggler extends PureComponent {
             />
           ) : (
             <img
-              src="https://deskpro.github.io/messenger-style/img/docs/avatar.png"
+              src="https://deskpro.github.io/messenger-style/img/docs/chat-icon.jpg"
               alt=""
             />
           )}

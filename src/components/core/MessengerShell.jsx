@@ -30,16 +30,14 @@ class MessengerShell extends PureComponent {
     } = this.props;
 
     return (
-      <div
-        className="dpmsg-ScreenWrap"
-        style={{ marginLeft: '5px', marginTop: '5px' }}
-      >
+      <div className="dpmsg-ScreenWrap">
         <div
           className={classNames('dpmsg-Screen', {
             'is-minimal': isMinimal,
             'is-blue': theme === 'blue',
             'is-light': theme === 'light'
           })}
+          style={{ height: 'calc(100vh - 15px)' }}
         >
           <div className="dpmsg-ScreenHeder">
             {controls}
