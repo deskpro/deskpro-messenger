@@ -37,22 +37,23 @@ class MessengerShell extends PureComponent {
             'is-blue': theme === 'blue',
             'is-light': theme === 'light'
           })}
-          style={{ height: 'calc(100vh - 15px)' }}
         >
-          <div className="dpmsg-ScreenHeder">
-            {controls}
-            <div className="dpmsg-ScreenHederLogo">
-              <img
-                src="https://deskpro.github.io/messenger-style/img/dp-logo-white.svg"
-                alt=""
-              />
+          <div className="dpmsg-ScreenContent">
+            <div className="dpmsg-ScreenHeder">
+              {controls}
+              <div className="dpmsg-ScreenHederLogo">
+                <img
+                  src="https://deskpro.github.io/messenger-style/img/dp-logo-white.svg"
+                  alt=""
+                />
+              </div>
+              <span className="dpmsg-ScreenHederTitle">{title}</span>
+              {!!introText && (
+                <span className="dpmsg-ScreenHederText">{introText}</span>
+              )}
             </div>
-            <span className="dpmsg-ScreenHederTitle">{title}</span>
-            {!!introText && (
-              <span className="dpmsg-ScreenHederText">{introText}</span>
-            )}
+            {children}
           </div>
-          {children}
           <div className="dpmsg-ScreenFooter">
             <span className="dpmsg-ScreenLine" />
             <span className="dpmsg-ScreenFooterText">Powered by</span>
