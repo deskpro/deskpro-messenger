@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -26,17 +26,19 @@ class MessengerShell extends PureComponent {
       title,
       introText,
       children,
-      controls
+      controls,
+      forwardedRef
     } = this.props;
 
     return (
-      <div className="dpmsg-ScreenWrap">
+      <div className="dpmsg-ScreenWrap" ref={forwardedRef}>
         <div
           className={classNames('dpmsg-Screen', {
             'is-minimal': isMinimal,
             'is-blue': theme === 'blue',
             'is-light': theme === 'light'
           })}
+          style={{ height: 'auto' }}
         >
           <div className="dpmsg-ScreenContent">
             <div className="dpmsg-ScreenHeder">
@@ -71,4 +73,6 @@ class MessengerShell extends PureComponent {
   }
 }
 
-export default MessengerShell;
+export default forwardRef((props, ref) => (
+  <MessengerShell {...props} forwardedRef={ref} />
+));

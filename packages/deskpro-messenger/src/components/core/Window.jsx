@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import { Switch, Route, Link, Redirect } from 'react-router-dom';
 
 import Frame from './Frame';
@@ -19,15 +19,38 @@ import LoremIpsumFrame from '../poc/ArticleFrame';
 const iframeStyle = {
   bottom: 'calc(60px + 14px + 14px)',
   width: '400px',
-  height: 'calc(100vh - 60px - 14px - 14px - 14px)',
-  maxHeight: '700px'
+  maxHeight: 'calc(100vh - 60px - 14px - 14px - 14px)',
+  minHeight: '350px'
 };
 
 class MessengerWindow extends PureComponent {
   state = {
     imageVisible: false,
-    articleVisible: false
+    articleVisible: false,
+    iframeHeight: '100%'
   };
+
+  shellRef = createRef();
+
+  recalcIframeHeight = () => {
+    if (!this.shellRef.current) {
+      return;
+    }
+    const rect = this.shellRef.current.getBoundingClientRect();
+    const height = `${rect.height + 15}px`;
+    if (height !== this.state.iframeHeight) {
+      this.setState({ iframeHeight: height });
+    }
+  };
+
+  componentDidMount() {
+    // this.recalcIframeHeight();
+    this.interval = setInterval(this.recalcIframeHeight, 250);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
   toggleImageFrame = () =>
     this.setState({ imageVisible: !this.state.imageVisible });
@@ -60,8 +83,8 @@ class MessengerWindow extends PureComponent {
 
   render() {
     return (
-      <Frame style={iframeStyle}>
-        <MessengerShell controls={this.renderBackButton()}>
+      <Frame style={{ ...iframeStyle, height: this.state.iframeHeight }}>
+        <MessengerShell controls={this.renderBackButton()} ref={this.shellRef}>
           <div className="dpmsg-Block">
             <Switch>
               {Object.entries(this.props.screens)
