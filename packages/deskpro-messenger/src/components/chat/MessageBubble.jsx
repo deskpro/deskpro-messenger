@@ -1,0 +1,30 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+const MessageBubble = ({ avatar, origin, message, author }) => (
+  <div
+    className={classNames('dpmsg-MessageBubbleRow', {
+      'is-incoming': origin === 'agent',
+      'is-outcome': origin === 'user'
+    })}
+  >
+    {avatar && (
+      <div className="dpmsg-AvatarCol">
+        <img src={avatar} alt={author} />
+      </div>
+    )}
+    <div className="dpmsg-BubbleCol">
+      <span className="dpmsg-BubbleItem">{message}</span>
+    </div>
+  </div>
+);
+
+MessageBubble.propTypes = {
+  avatar: PropTypes.string,
+  origin: PropTypes.oneOf(['user', 'agent']).isRequired,
+  message: PropTypes.string.isRequired,
+  author: PropTypes.string
+};
+
+export default MessageBubble;
