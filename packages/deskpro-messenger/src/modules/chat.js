@@ -2,6 +2,7 @@ import { Observable, of } from 'rxjs';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
+import { createSelector } from 'reselect';
 
 import FakeChatService from '../services/FakeChatService';
 const chatService = new FakeChatService();
@@ -72,6 +73,9 @@ export default (state = initialState, { type, payload }) => {
 
 //#region SELECTORS
 const getChatState = state => state.chat;
-export const getChatId = state => getChatState(state).chatId;
-export const getMessages = state => getChatState(state).messages;
+export const getChatId = createSelector(getChatState, state => state.chatId);
+export const getMessages = createSelector(
+  getChatState,
+  state => state.messages
+);
 //#endregion
