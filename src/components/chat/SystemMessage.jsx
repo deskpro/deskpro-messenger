@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 const SystemMessage = ({ message, origin }) => (
   <span
-    class={classNames('dpmsg-BubbleNotification', {
+    className={classNames('dpmsg-BubbleNotification', {
       'is-joined': origin === 'system',
       'is-end': origin !== 'system'
     })}
