@@ -37,22 +37,13 @@ class WidgetToggler extends PureComponent {
     return (
       <Frame style={iframeStyle}>
         <Link
-          className={classNames(`dpmsg-TriggerBtn dpmsg-Icon`, {
-            'dpmsg-IconClose': opened
-            // 'widget-toggler--button__collapsed': !opened
-          })}
+          className={classNames(`dpmsg-TriggerBtn is-blue`)}
           to={opened ? '/' : '/screens'}
         >
           {opened ? (
-            <img
-              src="https://deskpro.github.io/messenger-style/img/docs/close-icon.png"
-              alt=""
-            />
+            <i className="dpmsg-Icon dpmsg-IconClose" />
           ) : (
-            <img
-              src="https://deskpro.github.io/messenger-style/img/docs/chat-icon.jpg"
-              alt=""
-            />
+            <i className="dpmsg-Icon dpmsg-IconChat" />
           )}
         </Link>
       </Frame>
