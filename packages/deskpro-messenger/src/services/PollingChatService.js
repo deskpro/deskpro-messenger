@@ -1,3 +1,5 @@
+import BaseChatService from './BaseChatService';
+
 const POLLING_INTERVAL = 2000;
 
 const apiCall = async (url, method, data) => {
@@ -16,36 +18,37 @@ const sleep = time =>
     setTimeout(res, time);
   });
 
-class PollingChatService {
-  setUp(data) {
-    return apiCall('/api/chat', 'POST', data);
+export default class PollingChatService extends BaseChatService {
+  polling = false;
+  chatId = null;
+
+  async createChat(data) {
+    if (this.chatId) {
+      throw new Error('Chat is already started');
+    }
+    const response = await apiCall('/api/chat', 'POST', data);
+    this.chatId = response.chatId;
+    await super.createChat(data);
+
+    return this.chatId;
   }
 
-  polling = false;
-
-  async subscribe(callback) {
-    if (this.polling) {
-      return;
-    }
-
-    this.polling = true;
-
+  async startListening() {
+    await super.startListening();
     while (true) {
       const response = await apiCall('/api/chat');
-      if (response) {
-        callback(data);
-      }
-      if (!this.polling) {
+      this.onMessageReceived(response);
+      // stop AJAX polling when polling become falsy.
+      if (!this.isRunning || !this.chatId) {
         break;
       }
+
+      await sleep(POLLING_INTERVAL);
     }
   }
 
-  async ubsubscribe() {
-    this.polling = false;
-  }
-
-  send(data) {
-    return apiCall('/api/chat', 'PUT', data);
+  async sendMessage(message) {
+    await super.sendMessage(message);
+    return await apiCall('/api/chat', 'PUT', message);
   }
 }
