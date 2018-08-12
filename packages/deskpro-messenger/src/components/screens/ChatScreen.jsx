@@ -1,49 +1,41 @@
 import React, { Fragment, PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import Chat from '../chat/Chat';
 import MessageBubble from '../chat/MessageBubble';
 import SystemMessage from '../chat/SystemMessage';
 import MessageForm from '../chat/MessageForm';
 
+import {
+  createChat,
+  getChatId,
+  sendMessage,
+  getMessages
+} from '../../modules/chat';
+
 class ChatScreen extends PureComponent {
-  state = {
-    messages: [
-      {
-        type: 'chat.message',
-        origin: 'agent',
-        message:
-          'Our mission is to help businesses and organizations like yours provide their customers with better support across every communication channel.'
-      },
-      {
-        type: 'chat.agentAssigned',
-        origin: 'system',
-        message: 'Nick Green joined the conversation (12.47pm)'
-      },
-      {
-        type: 'chat.message',
-        origin: 'agent',
-        message: 'How can we help you today?',
-        avatar: 'https://deskpro.github.io/messenger-style/img/dp-logo.svg',
-        author: 'John Doe'
-      }
-    ]
+  static propTypes = {
+    chatId: PropTypes.string,
+    messages: PropTypes.array
   };
 
   handleSendMessage = message => {
     if (message) {
-      this.setState({
-        messages: this.state.messages.concat([
-          {
-            message,
-            origin: 'user',
-            type: 'chat.message',
-            avatar:
-              'https://deskpro.github.io/messenger-style/img/docs/avatar.png',
-            author: 'Nick Green'
-          }
-        ])
-      });
+      const messageModel = {
+        message,
+        origin: 'user',
+        type: 'chat.message',
+        avatar: 'https://deskpro.github.io/messenger-style/img/docs/avatar.png',
+        author: 'John Doe'
+      };
+      this.props.sendMessage(messageModel);
     }
   };
+
+  componentDidMount() {
+    !this.props.chatId && this.props.createChat();
+  }
 
   render() {
     return (
@@ -54,15 +46,20 @@ class ChatScreen extends PureComponent {
         /> */}
 
         <div className="dpmsg-BlockWrapper">
-          <span class="dpmsg-BlockHeader">
+          <span className="dpmsg-BlockHeader">
             {this.props.category} conversations
           </span>
-          {this.state.messages.map(message => {
+          {this.props.messages.map(message => {
             switch (message.type) {
               case 'chat.message':
                 return <MessageBubble {...message} />;
               case 'chat.agentAssigned':
-                return <SystemMessage {...message} />;
+                return (
+                  <SystemMessage
+                    {...message}
+                    message={`${message.name} joined the conversation.`}
+                  />
+                );
               default:
                 return null;
             }
@@ -74,4 +71,11 @@ class ChatScreen extends PureComponent {
   }
 }
 
-export default ChatScreen;
+const mapStateToProps = state => ({
+  chatId: getChatId(state),
+  messages: getMessages(state)
+});
+export default connect(
+  mapStateToProps,
+  { createChat, sendMessage }
+)(ChatScreen);
