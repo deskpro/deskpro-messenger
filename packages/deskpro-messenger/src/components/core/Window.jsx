@@ -63,16 +63,16 @@ class MessengerWindow extends PureComponent {
       <Route>
         {({ location, history }) =>
           location.pathname !== '/screens/index' && (
-            <div className="dpmsg-ScreenControls dp-Level">
+            <div className="dpmsg-ScreenControls dpmsg-Level">
               <Link
                 to={`#`}
-                className="dpmsg-BackBtn dp-LevelLeft"
+                className="dpmsg-BackBtn dpmsg-LevelLeft"
                 onClick={e => {
                   e.preventDefault();
                   history.goBack();
                 }}
               >
-                <i className="dp-IconArrow iconArrow--left" /> back
+                <i className="dpmsg-IconArrow iconArrow--left" /> back
               </Link>
             </div>
           )
