@@ -6,11 +6,15 @@ const MessageBubble = ({ avatar, origin, message, author }) => (
   <div
     className={classNames('dpmsg-MessageBubbleRow', {
       'is-incoming': origin === 'agent',
-      'is-outcome': origin === 'user'
+      'is-outgoing': origin === 'user'
     })}
   >
     {avatar && (
-      <div className="dpmsg-AvatarCol">
+      <div
+        className={classNames('dpmsg-AvatarCol', {
+          'is-rounded': origin === 'user'
+        })}
+      >
         <img src={avatar} alt={author} />
       </div>
     )}

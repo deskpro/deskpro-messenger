@@ -31,25 +31,12 @@ class MessageForm extends PureComponent {
         />
         <div className="dpmsg-TextareaActions dpmsg-Level">
           <div className="dpmsg-LevelLeft">
-            <a href="#">
-              <img
-                src="https://deskpro.github.io/messenger-style/img/docs/smile-icon.png"
-                alt=""
-              />
-            </a>
-            <a href="#">
-              <img
-                src="https://deskpro.github.io/messenger-style/img/docs/attach-icon.png"
-                alt=""
-              />
-            </a>
+            <i className="dpmsg-IconSmile" />
+            <i className="dpmsg-IconAttach" />
           </div>
           <div className="dpmsg-LevelRight">
             <a href="#" onClick={this.handleSubmit}>
-              <img
-                src="https://deskpro.github.io/messenger-style/img/docs/send-icon.png"
-                alt=""
-              />
+              <i className="dpmsg-IconSend" />
             </a>
           </div>
         </div>
