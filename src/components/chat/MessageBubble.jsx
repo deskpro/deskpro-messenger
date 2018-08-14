@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const MessageBubble = ({ avatar, origin, message, author }) => (
+const MessageBubble = ({ avatar, origin, message, name }) => (
   <div
     className={classNames('dpmsg-MessageBubbleRow', {
       'is-incoming': origin === 'agent',
@@ -15,7 +15,7 @@ const MessageBubble = ({ avatar, origin, message, author }) => (
           'is-rounded': origin === 'user'
         })}
       >
-        <img src={avatar} alt={author} />
+        <img src={avatar} alt={name} />
       </div>
     )}
     <div className="dpmsg-BubbleCol">

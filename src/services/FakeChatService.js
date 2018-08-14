@@ -51,7 +51,7 @@ export default class FakeChatService extends BaseChatService {
     await super.sendMessage({
       ...message,
       avatar: 'https://deskpro.github.io/messenger-style/img/docs/avatar.png',
-      author: this.userData.name || 'John Doe'
+      name: this.userData.name || 'John Doe'
     });
 
     await sleep(NETWORK_LATENCY);
@@ -65,7 +65,7 @@ export default class FakeChatService extends BaseChatService {
         origin: 'agent',
         message: _sample(agentAnswers),
         avatar: 'https://deskpro.github.io/messenger-style/img/dp-logo.svg',
-        author: 'Nick Green'
+        name: 'Nick Green'
       });
     }
   }
