@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
@@ -43,10 +43,10 @@ export const chatEpic = action$ =>
   action$.ofType(CHAT_START).switchMap(action =>
     listenForMessages()
       .map(message => messageReceived(message))
-      .merge(of(chatService.createChat(action.payload)).map(saveChatId))
+      .merge(from(chatService.createChat(action.payload)).map(saveChatId))
       .merge(
         action$.ofType(CHAT_SEND_MESSAGE).switchMap(action =>
-          of(chatService.sendMessage(action.payload)).map(() => ({
+          from(chatService.sendMessage(action.payload)).map(() => ({
             type: CHAT_SEND_MESSAGE_SUCCESS,
             payload: action.payload
           }))

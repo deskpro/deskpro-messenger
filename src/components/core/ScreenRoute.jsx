@@ -17,6 +17,7 @@ const ScreenRoute = ({
 
   return (
     <Route
+      path={`/screens/${screenName}`}
       render={routeProps => (
         <Component {...routeProps} {...screenProps} screenName={screenName} />
       )}
