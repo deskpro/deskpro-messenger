@@ -1,38 +1,42 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route, Link, Redirect } from 'react-router-dom';
+
+import MessageBubble from './MessageBubble';
+import SystemMessage from './SystemMessage';
+import MessageForm from './MessageForm';
 
 class Chat extends PureComponent {
   static propTypes = {
-    category: PropTypes.string.isRequired
+    category: PropTypes.string,
+    messages: PropTypes.array,
+    onSendMessage: PropTypes.func.isRequired
   };
 
   render() {
-    const { baseUrl } = this.props;
     return (
-      <Switch>
-        <Route
-          path={`${baseUrl}/live`}
-          render={props => <div>Life chat</div>}
-        />
-        <Route
-          path={`${baseUrl}/step1`}
-          render={props => (
-            <div>
-              Name/Email <Link to={`${baseUrl}/step2`}>Next</Link>
-            </div>
-          )}
-        />
-        <Route
-          path={`${baseUrl}/step2`}
-          render={props => (
-            <div>
-              Your message <Link to={`${baseUrl}/live`}>Start</Link>
-            </div>
-          )}
-        />
-        <Redirect to={`${baseUrl}/step1`} />
-      </Switch>
+      <Fragment>
+        <div className="dpmsg-BlockWrapper">
+          <span className="dpmsg-BlockHeader">
+            {this.props.category} conversations
+          </span>
+          {this.props.messages.map(message => {
+            switch (message.type) {
+              case 'chat.message':
+                return <MessageBubble {...message} />;
+              case 'chat.agentAssigned':
+                return (
+                  <SystemMessage
+                    {...message}
+                    message={`${message.name} joined the conversation.`}
+                  />
+                );
+              default:
+                return null;
+            }
+          })}
+        </div>
+        <MessageForm onSend={this.props.onSendMessage} />
+      </Fragment>
     );
   }
 }

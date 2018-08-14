@@ -35,7 +35,7 @@ class MessageForm extends PureComponent {
             <i className="dpmsg-IconAttach" />
           </div>
           <div className="dpmsg-LevelRight">
-            <a href="#" onClick={this.handleSubmit}>
+            <a href={null} onClick={this.handleSubmit}>
               <i className="dpmsg-IconSend" />
             </a>
           </div>

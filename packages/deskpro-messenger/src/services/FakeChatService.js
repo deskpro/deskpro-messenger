@@ -32,7 +32,7 @@ export default class FakeChatService extends BaseChatService {
     await super.createChat(data);
 
     console.log('chat id', this.chatId);
-    return this.chatId;
+    return await this.chatId;
   }
 
   async startListening() {
@@ -48,7 +48,12 @@ export default class FakeChatService extends BaseChatService {
   }
 
   async sendMessage(message) {
-    await super.sendMessage(message);
+    await super.sendMessage({
+      ...message,
+      avatar: 'https://deskpro.github.io/messenger-style/img/docs/avatar.png',
+      author: this.userData.name || 'John Doe'
+    });
+
     await sleep(NETWORK_LATENCY);
     if (
       'type' in message &&

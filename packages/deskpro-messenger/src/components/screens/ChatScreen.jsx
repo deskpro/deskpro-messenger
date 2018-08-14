@@ -1,11 +1,10 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Switch, Route, Link, Redirect, withRouter } from 'react-router-dom';
 
 import Chat from '../chat/Chat';
-import MessageBubble from '../chat/MessageBubble';
-import SystemMessage from '../chat/SystemMessage';
-import MessageForm from '../chat/MessageForm';
+import ChatEnterForm from '../chat/ChatEnterForm';
 
 import {
   createChat,
@@ -22,51 +21,51 @@ class ChatScreen extends PureComponent {
 
   handleSendMessage = message => {
     if (message) {
-      const messageModel = {
+      this.props.sendMessage({
         message,
         origin: 'user',
-        type: 'chat.message',
-        avatar: 'https://deskpro.github.io/messenger-style/img/docs/avatar.png',
-        author: 'John Doe'
-      };
-      this.props.sendMessage(messageModel);
+        type: 'chat.message'
+      });
     }
   };
 
-  componentDidMount() {
-    !this.props.chatId && this.props.createChat();
-  }
-
   render() {
+    const baseUrl = this.props.match.path;
+    console.log('baseUrl', baseUrl);
     return (
-      <Fragment>
-        {/* <Chat
-          category={this.props.category}
-          baseUrl={this.props.location.pathname}
-        /> */}
-
-        <div className="dpmsg-BlockWrapper">
-          <span className="dpmsg-BlockHeader">
-            {this.props.category} conversations
-          </span>
-          {this.props.messages.map(message => {
-            switch (message.type) {
-              case 'chat.message':
-                return <MessageBubble {...message} />;
-              case 'chat.agentAssigned':
-                return (
-                  <SystemMessage
-                    {...message}
-                    message={`${message.name} joined the conversation.`}
-                  />
-                );
-              default:
-                return null;
-            }
-          })}
-        </div>
-        <MessageForm onSend={this.handleSendMessage} />
-      </Fragment>
+      <Switch>
+        <Route
+          path={`${baseUrl}/live`}
+          render={props => (
+            <Chat
+              baseUrl={baseUrl}
+              messages={this.props.messages}
+              category={this.props.category}
+              onSendMessage={this.handleSendMessage}
+              {...props}
+            />
+          )}
+        />
+        <Route
+          path={`${baseUrl}/step1`}
+          render={props => (
+            <ChatEnterForm
+              baseUrl={baseUrl}
+              createChat={this.props.createChat}
+              {...props}
+            />
+          )}
+        />
+        <Route
+          path={`${baseUrl}/step2`}
+          render={props => (
+            <div>
+              Your message <Link to={`${baseUrl}/live`}>Start</Link>
+            </div>
+          )}
+        />
+        <Redirect to={`${baseUrl}/step1`} />
+      </Switch>
     );
   }
 }
@@ -75,7 +74,9 @@ const mapStateToProps = state => ({
   chatId: getChatId(state),
   messages: getMessages(state)
 });
-export default connect(
-  mapStateToProps,
-  { createChat, sendMessage }
-)(ChatScreen);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { createChat, sendMessage }
+  )(ChatScreen)
+);
