@@ -21,7 +21,7 @@ class ChatEnterForm extends PureComponent {
     const { name, email } = this.state;
     if (name && email) {
       this.props.createChat({ name, email });
-      this.props.history.push(`${this.props.baseUrl}/live`);
+      this.props.history.push(`${this.props.baseUrl}/new-message`);
     }
   };
 
