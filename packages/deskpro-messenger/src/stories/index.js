@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Provider } from 'react-redux';
 import { storiesOf } from '@storybook/react';
 // import { action } from '@storybook/addon-actions';
 // import { linkTo } from '@storybook/addon-links';
@@ -7,6 +7,9 @@ import { withKnobs, boolean, button } from '@storybook/addon-knobs';
 
 import App from '../components/App';
 import '../index.css';
+
+import createStore from '../store';
+const store = createStore();
 
 storiesOf('Messenger', module)
   .addDecorator(withKnobs)
@@ -102,5 +105,9 @@ storiesOf('Messenger', module)
 
     button('Open Sales Chat', buttonHandler, 'API');
 
-    return <App config={{ screens, greetings, enabledGreetings }} />;
+    return (
+      <Provider store={store}>
+        <App config={{ screens, greetings, enabledGreetings }} />
+      </Provider>
+    );
   });
