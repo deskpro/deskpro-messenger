@@ -6,6 +6,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import Chat from '../chat/Chat';
 import ChatEnterForm from '../chat/ChatEnterForm';
 import FirstMessage from '../chat/FirstMessage';
+import Block from '../core/Block';
 
 import {
   createChat,
@@ -31,44 +32,48 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
+    const category = this.props.category;
+    const capCategory = category[0].toUpperCase() + category.substring(1);
     const baseUrl = this.props.match.path;
     console.log('baseUrl', baseUrl);
     return (
-      <Switch>
-        <Route
-          path={`${baseUrl}/live`}
-          render={props => (
-            <Chat
-              baseUrl={baseUrl}
-              messages={this.props.messages}
-              category={this.props.category}
-              onSendMessage={this.handleSendMessage}
-              {...props}
-            />
-          )}
-        />
-        <Route
-          path={`${baseUrl}/auth`}
-          render={props => (
-            <ChatEnterForm
-              baseUrl={baseUrl}
-              createChat={this.props.createChat}
-              {...props}
-            />
-          )}
-        />
-        <Route
-          path={`${baseUrl}/new-message`}
-          render={props => (
-            <FirstMessage
-              baseUrl={baseUrl}
-              sendMessage={this.handleSendMessage}
-              {...props}
-            />
-          )}
-        />
-        <Redirect to={`${baseUrl}/auth`} />
-      </Switch>
+      <Block title={`${capCategory} conversation`}>
+        <Switch>
+          <Route
+            path={`${baseUrl}/live`}
+            render={props => (
+              <Chat
+                baseUrl={baseUrl}
+                messages={this.props.messages}
+                category={this.props.category}
+                onSendMessage={this.handleSendMessage}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path={`${baseUrl}/auth`}
+            render={props => (
+              <ChatEnterForm
+                baseUrl={baseUrl}
+                createChat={this.props.createChat}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path={`${baseUrl}/new-message`}
+            render={props => (
+              <FirstMessage
+                baseUrl={baseUrl}
+                sendMessage={this.handleSendMessage}
+                {...props}
+              />
+            )}
+          />
+          <Redirect to={`${baseUrl}/auth`} />
+        </Switch>
+      </Block>
     );
   }
 }

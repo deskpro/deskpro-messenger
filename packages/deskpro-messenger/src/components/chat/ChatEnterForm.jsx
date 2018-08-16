@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Field from '../form/InputField';
+import Button from '../form/Button';
 
 class ChatEnterForm extends PureComponent {
   static propTypes = {
@@ -42,9 +43,9 @@ class ChatEnterForm extends PureComponent {
           onChange={this.handleInputChange}
           placeholder="john.doe@company.com"
         />
-        <button className="dpmsg-Button Button-FullWidth Button--primary Button--medium">
+        <Button width="full" size="medium">
           Start Conversation
-        </button>
+        </Button>
       </form>
     );
   }

@@ -1,22 +1,26 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
+import Block from '../core/Block';
+import Button from '../form/Button';
+
 const blocksMapping = {
-  StartChatBlock: ({ to }) => (
-    <div>
-      <Link to={`/screens/${to}`}>Start Chat</Link>
-    </div>
+  StartChatBlock: ({ to, linkText = 'Start Chat' }) => (
+    <Block title="Conversations">
+      <Button to={`/screens/${to}`} width="full">
+        {linkText}
+      </Button>
+    </Block>
   ),
   TicketsBlock: () => (
-    <Fragment>
-      <h2>Your Tickets</h2>
+    <Block title="Your Tickets">
       <Link to="/screens/tickets">view all</Link>
-    </Fragment>
+    </Block>
   ),
-  ScreenLink: ({ to, label }) => (
-    <div>
+  ScreenLink: ({ to, label, blockTitle }) => (
+    <Block title={blockTitle}>
       <Link to={`/screens/${to}`}>{label}</Link>
-    </div>
+    </Block>
   )
 };
 

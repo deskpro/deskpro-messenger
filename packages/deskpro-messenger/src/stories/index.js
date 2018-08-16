@@ -30,6 +30,7 @@ storiesOf('Messenger', module)
     if (boolean('Enable Sales Chat', true, 'Config')) {
       screens.index.blocks.push({
         blockType: 'StartChatBlock',
+        linkText: 'Start sales chat',
         to: 'salesChat'
       });
       screens.salesChat = {
@@ -40,6 +41,7 @@ storiesOf('Messenger', module)
     if (boolean('Enable Support Chat', true, 'Config')) {
       screens.index.blocks.push({
         blockType: 'StartChatBlock',
+        linkText: 'Start support chat',
         to: 'supportChat'
       });
       screens.supportChat = {
