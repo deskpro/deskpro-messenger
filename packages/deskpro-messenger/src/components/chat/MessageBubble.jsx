@@ -5,7 +5,7 @@ import classNames from 'classnames';
 const MessageBubble = ({ avatar, origin, message, name }) => (
   <div
     className={classNames('dpmsg-MessageBubbleRow', {
-      'is-incoming': origin === 'agent',
+      'is-incoming': origin !== 'user',
       'is-outgoing': origin === 'user'
     })}
   >
@@ -26,7 +26,7 @@ const MessageBubble = ({ avatar, origin, message, name }) => (
 
 MessageBubble.propTypes = {
   avatar: PropTypes.string,
-  origin: PropTypes.oneOf(['user', 'agent']).isRequired,
+  origin: PropTypes.oneOf(['user', 'agent', 'system']).isRequired,
   message: PropTypes.string.isRequired,
   author: PropTypes.string
 };

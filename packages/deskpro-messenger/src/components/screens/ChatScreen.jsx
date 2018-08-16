@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route, Link, Redirect, withRouter } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 import Chat from '../chat/Chat';
 import ChatEnterForm from '../chat/ChatEnterForm';
+import FirstMessage from '../chat/FirstMessage';
 
 import {
   createChat,
@@ -47,7 +48,7 @@ class ChatScreen extends PureComponent {
           )}
         />
         <Route
-          path={`${baseUrl}/step1`}
+          path={`${baseUrl}/auth`}
           render={props => (
             <ChatEnterForm
               baseUrl={baseUrl}
@@ -57,14 +58,16 @@ class ChatScreen extends PureComponent {
           )}
         />
         <Route
-          path={`${baseUrl}/step2`}
+          path={`${baseUrl}/new-message`}
           render={props => (
-            <div>
-              Your message <Link to={`${baseUrl}/live`}>Start</Link>
-            </div>
+            <FirstMessage
+              baseUrl={baseUrl}
+              sendMessage={this.handleSendMessage}
+              {...props}
+            />
           )}
         />
-        <Redirect to={`${baseUrl}/step1`} />
+        <Redirect to={`${baseUrl}/auth`} />
       </Switch>
     );
   }
