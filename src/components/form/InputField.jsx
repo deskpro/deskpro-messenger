@@ -4,13 +4,15 @@ import classNames from 'classnames';
 
 const InputField = ({ className, label, id, ...props }) => {
   return (
-    <div className="form-control">
-      {!!label && <label htmlFor={id}>{label}</label>}
-      <input
-        className={classNames('dpmsg-Input', classNames)}
-        id={id}
-        {...props}
-      />
+    <div className="dpmsg-WrapInput">
+      <label>
+        {!!label && <span className="dpmsg-LabelInputText">{label}</span>}
+        <input
+          className={classNames('dpmsg-Input', classNames)}
+          id={id}
+          {...props}
+        />
+      </label>
     </div>
   );
 };

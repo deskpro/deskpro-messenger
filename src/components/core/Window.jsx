@@ -5,8 +5,8 @@ import Frame from './Frame';
 import { withConfig } from './ConfigContext';
 import ScreenRoute from './ScreenRoute';
 import MessengerShell from './MessengerShell';
-import RandomImageFrame from '../poc/ImageFrame';
-import LoremIpsumFrame from '../poc/ArticleFrame';
+// import RandomImageFrame from '../poc/ImageFrame';
+// import LoremIpsumFrame from '../poc/ArticleFrame';
 
 /*const windowStyle = {
   height: '300px',
@@ -85,29 +85,25 @@ class MessengerWindow extends PureComponent {
     return (
       <Frame style={{ ...iframeStyle, height: this.state.iframeHeight }}>
         <MessengerShell controls={this.renderBackButton()} ref={this.shellRef}>
-          <div className="dpmsg-Block">
-            <Switch>
-              {Object.entries(this.props.screens)
-                .map(([screenName, screen]) => (
-                  <ScreenRoute
-                    key={screenName}
-                    path={`/screens/${screenName}`}
-                    screen={screen}
-                    screenName={screenName}
-                  />
-                ))
-                .concat([
-                  <Redirect key="index-redirect" to="/screens/index" />
-                ])}
-            </Switch>
-          </div>
-          <div className="dpmsg-Block">
+          <Switch>
+            {Object.entries(this.props.screens)
+              .map(([screenName, screen]) => (
+                <ScreenRoute
+                  key={screenName}
+                  path={`/screens/${screenName}`}
+                  screen={screen}
+                  screenName={screenName}
+                />
+              ))
+              .concat([<Redirect key="index-redirect" to="/screens/index" />])}
+          </Switch>
+          {/*<div className="dpmsg-Block">
             <button onClick={this.toggleImageFrame}>Show Random Image</button>
             <br />
             <button onClick={this.toggleLoremIpsum}>Show Lorem Ipsum</button>
             {this.state.imageVisible && <RandomImageFrame />}
             {this.state.articleVisible && <LoremIpsumFrame />}
-          </div>
+              </div>*/}
         </MessengerShell>
       </Frame>
     );

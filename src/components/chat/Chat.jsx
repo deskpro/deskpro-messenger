@@ -15,26 +15,21 @@ class Chat extends PureComponent {
   render() {
     return (
       <Fragment>
-        <div className="dpmsg-BlockWrapper">
-          <span className="dpmsg-BlockHeader">
-            {this.props.category} conversations
-          </span>
-          {this.props.messages.map(message => {
-            switch (message.type) {
-              case 'chat.message':
-                return <MessageBubble {...message} />;
-              case 'chat.agentAssigned':
-                return (
-                  <SystemMessage
-                    {...message}
-                    message={`${message.name} joined the conversation.`}
-                  />
-                );
-              default:
-                return null;
-            }
-          })}
-        </div>
+        {this.props.messages.map(message => {
+          switch (message.type) {
+            case 'chat.message':
+              return <MessageBubble {...message} />;
+            case 'chat.agentAssigned':
+              return (
+                <SystemMessage
+                  {...message}
+                  message={`${message.name} joined the conversation.`}
+                />
+              );
+            default:
+              return null;
+          }
+        })}
         <MessageForm onSend={this.props.onSendMessage} />
       </Fragment>
     );
