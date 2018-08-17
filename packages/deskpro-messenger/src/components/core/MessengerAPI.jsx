@@ -10,7 +10,12 @@ class MessengerAPI extends PureComponent {
   static propTypes = {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired
-    }).isRequired
+    }).isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired
+    }).isRequired,
+    opened: PropTypes.bool,
+    onToggle: PropTypes.func.isRequired
   };
 
   handleMessage = event => {
@@ -24,7 +29,10 @@ class MessengerAPI extends PureComponent {
         } else if ('greeting' in payload) {
           path = `/greetings/${payload.greeting}`;
         }
-        !!path && this.props.history.push(path, { api: true, ...payload });
+        if (path) {
+          this.props.history.push(path, { api: true, ...payload });
+          !this.props.opened && this.props.onToggle();
+        }
         break;
 
       default:

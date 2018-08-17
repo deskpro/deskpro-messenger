@@ -1,4 +1,5 @@
 import React, { PureComponent, createRef } from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route, Link, Redirect } from 'react-router-dom';
 
 import Frame from './Frame';
@@ -24,6 +25,9 @@ const iframeStyle = {
 };
 
 class MessengerWindow extends PureComponent {
+  static propTypes = {
+    opened: PropTypes.bool
+  };
   state = {
     imageVisible: false,
     articleVisible: false,
@@ -78,8 +82,16 @@ class MessengerWindow extends PureComponent {
   };
 
   render() {
+    const { opened } = this.props;
+
     return (
-      <Frame style={{ ...iframeStyle, height: this.state.iframeHeight }}>
+      <Frame
+        style={{
+          ...iframeStyle,
+          height: this.state.iframeHeight,
+          display: opened ? 'block' : 'none'
+        }}
+      >
         <MessengerShell controls={this.renderBackButton()} ref={this.shellRef}>
           <Switch>
             {Object.entries(this.props.screens)
