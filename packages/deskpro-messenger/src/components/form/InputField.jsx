@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 const InputField = ({ className, label, id, ...props }) => {
   return (
-    <div className="dpmsg-WrapInput">
+    <div className="dpmsg-GroupInputs">
       <label>
         {!!label && <span className="dpmsg-LabelInputText">{label}</span>}
         <input
