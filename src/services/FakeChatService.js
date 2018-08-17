@@ -54,12 +54,19 @@ export default class FakeChatService extends BaseChatService {
       name: this.userData.name || 'John Doe'
     });
 
-    await sleep(NETWORK_LATENCY);
+    await sleep(NETWORK_LATENCY / 2);
     if (
       'type' in message &&
       message.type === 'chat.message' &&
       message.origin === 'user'
     ) {
+      this.onMessageReceived({
+        type: 'typing.start',
+        origin: 'agent',
+        avatar: 'https://deskpro.github.io/messenger-style/img/dp-logo.svg',
+        name: 'Nick Green'
+      });
+      await sleep(NETWORK_LATENCY * 2);
       this.onMessageReceived({
         type: 'chat.message',
         origin: 'agent',

@@ -12,13 +12,15 @@ import {
   createChat,
   getChatId,
   sendMessage,
-  getMessages
+  getMessages,
+  getTypingState
 } from '../../modules/chat';
 
 class ChatScreen extends PureComponent {
   static propTypes = {
     chatId: PropTypes.string,
-    messages: PropTypes.array
+    messages: PropTypes.array,
+    typing: PropTypes.bool
   };
 
   handleSendMessage = message => {
@@ -47,6 +49,7 @@ class ChatScreen extends PureComponent {
                 messages={this.props.messages}
                 category={this.props.category}
                 onSendMessage={this.handleSendMessage}
+                typing={this.props.typing}
                 {...props}
               />
             )}
@@ -80,7 +83,8 @@ class ChatScreen extends PureComponent {
 
 const mapStateToProps = state => ({
   chatId: getChatId(state),
-  messages: getMessages(state)
+  messages: getMessages(state),
+  typing: getTypingState(state)
 });
 export default withRouter(
   connect(
