@@ -21,29 +21,52 @@ class App extends PureComponent {
   state = {
     randomGreeting: Array.isArray(this.props.config.enabledGreetings)
       ? _sample(this.props.config.enabledGreetings)
-      : undefined
+      : undefined,
+    windowVisible: false
   };
 
   componentDidMount() {
     this.setState({ randomGreeting: undefined });
   }
 
+  toggleWindow = () => {
+    this.setState({ windowVisible: !this.state.windowVisible });
+  };
+
   render() {
     const { config } = this.props;
+    const { windowVisible, randomGreeting } = this.state;
 
     return (
       <ConfigProvider value={config}>
         <MemoryRouter>
           <Fragment>
             <Switch>
-              <Route path="/screens" component={Window} />
+              <Route
+                path="/screens"
+                render={props => <Window {...props} opened={windowVisible} />}
+              />
               <Route path="/greetings" component={Greetings} />
-              {!!this.state.randomGreeting && (
-                <Redirect to={this.state.randomGreeting} />
-              )}
+              {!!randomGreeting && <Redirect to={randomGreeting} />}
             </Switch>
-            <Route component={MessengerToggler} />
-            <Route component={MessengerAPI} />
+            <Route
+              render={props => (
+                <MessengerToggler
+                  opened={windowVisible}
+                  onToggle={this.toggleWindow}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              render={props => (
+                <MessengerAPI
+                  opened={windowVisible}
+                  onToggle={this.toggleWindow}
+                  {...props}
+                />
+              )}
+            />
           </Fragment>
         </MemoryRouter>
       </ConfigProvider>
