@@ -63,7 +63,17 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, chatId: payload };
 
     case CHAT_MESSAGE_RECEIVED:
-      return { ...state, messages: state.messages.concat([payload]) };
+      if (payload.type.startsWith('typing.')) {
+        return {
+          ...state,
+          typing: payload.type === 'typing.start' ? payload : false
+        };
+      }
+      return {
+        ...state,
+        messages: state.messages.concat([payload]),
+        typing: payload.origin === 'agent' ? undefined : state.typing
+      };
 
     default:
       return state;
@@ -77,5 +87,9 @@ export const getChatId = createSelector(getChatState, state => state.chatId);
 export const getMessages = createSelector(
   getChatState,
   state => state.messages
+);
+export const getTypingState = createSelector(
+  getChatState,
+  state => state.typing
 );
 //#endregion

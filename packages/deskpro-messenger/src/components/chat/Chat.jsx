@@ -4,18 +4,21 @@ import PropTypes from 'prop-types';
 import MessageBubble from './MessageBubble';
 import SystemMessage from './SystemMessage';
 import MessageForm from './MessageForm';
+import TypingMessage from './TypingMessage';
 
 class Chat extends PureComponent {
   static propTypes = {
     category: PropTypes.string,
     messages: PropTypes.array,
-    onSendMessage: PropTypes.func.isRequired
+    onSendMessage: PropTypes.func.isRequired,
+    typing: PropTypes.object
   };
 
   render() {
+    const { typing, messages, onSendMessage } = this.props;
     return (
       <Fragment>
-        {this.props.messages.map(message => {
+        {messages.map(message => {
           switch (message.type) {
             case 'chat.message':
               return <MessageBubble {...message} />;
@@ -30,7 +33,8 @@ class Chat extends PureComponent {
               return null;
           }
         })}
-        <MessageForm onSend={this.props.onSendMessage} />
+        {!!typing && <TypingMessage value={typing} />}
+        <MessageForm onSend={onSendMessage} />
       </Fragment>
     );
   }
