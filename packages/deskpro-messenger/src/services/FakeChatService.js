@@ -71,7 +71,8 @@ export default class FakeChatService extends BaseChatService {
         await sleep(NETWORK_LATENCY);
         this.onMessageReceived({
           type: 'chat.block.rate',
-          origin: 'system'
+          origin: 'system',
+          name: 'Nick'
         });
       } else {
         this.onMessageReceived({

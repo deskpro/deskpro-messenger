@@ -73,7 +73,7 @@ export default (state = initialState, { type, payload }) => {
       if (payload.type.startsWith('chat.block.') && payload.origin === 'user') {
         const message = _findLast(
           state.messages,
-          m => m.type === 'chat.block.transcript' && m.origin === 'system'
+          m => m.type === payload.type && m.origin !== 'user'
         );
         const index = state.messages.indexOf(message);
         return {

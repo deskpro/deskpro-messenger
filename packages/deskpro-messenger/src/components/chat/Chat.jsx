@@ -6,6 +6,7 @@ import SystemMessage from './SystemMessage';
 import MessageForm from './MessageForm';
 import TypingMessage from './TypingMessage';
 import TranscriptBlock from './TranscriptBlock';
+import RatingBlock from './RatingBlock';
 
 class Chat extends PureComponent {
   static propTypes = {
@@ -34,8 +35,8 @@ class Chat extends PureComponent {
               return (
                 <TranscriptBlock onSend={onSendMessage} message={message} />
               );
-            // case 'chat.block.rate':
-            //   return <RatingBlock onSend={onSendMessage} />;
+            case 'chat.block.rate':
+              return <RatingBlock onSend={onSendMessage} message={message} />;
             default:
               return null;
           }
