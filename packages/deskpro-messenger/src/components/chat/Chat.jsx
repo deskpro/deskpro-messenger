@@ -5,6 +5,7 @@ import MessageBubble from './MessageBubble';
 import SystemMessage from './SystemMessage';
 import MessageForm from './MessageForm';
 import TypingMessage from './TypingMessage';
+import TranscriptBlock from './TranscriptBlock';
 
 class Chat extends PureComponent {
   static propTypes = {
@@ -29,6 +30,12 @@ class Chat extends PureComponent {
                   message={`${message.name} joined the conversation.`}
                 />
               );
+            case 'chat.block.transcript':
+              return (
+                <TranscriptBlock onSend={onSendMessage} message={message} />
+              );
+            // case 'chat.block.rate':
+            //   return <RatingBlock onSend={onSendMessage} />;
             default:
               return null;
           }
