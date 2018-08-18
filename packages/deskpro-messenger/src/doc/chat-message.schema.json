@@ -7,7 +7,7 @@
     "type": {
       "type": "string",
       "enum": [
-        "chat.message", "chat.agentAssigned", "chat.agentTimeout", "chat.userTimeout", "chat.ended"
+        "chat.message", "chat.agentAssigned", "chat.agentTimeout", "chat.userTimeout", "chat.ended", "typing.start", "typing.end", "chat.block.transcript", "chat.block.rating"
       ],
       "description": "Type of the message"
     },
@@ -29,6 +29,17 @@
     "avatar": {
       "type": "string",
       "description": "Absolute URL for the message's author avatar"
+    },
+    "email": {
+      "type": "string",
+      "description": "User's email to send a transcript to"
+    },
+    "rate": {
+      "type": "boolean",
+      "description": "Rating from the user for the conversation with agent"
     }
-  }
+  },
+  "required": [
+    "type", "origin"
+  ]
 }
