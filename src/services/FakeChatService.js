@@ -60,20 +60,35 @@ export default class FakeChatService extends BaseChatService {
       message.type === 'chat.message' &&
       message.origin === 'user'
     ) {
-      this.onMessageReceived({
-        type: 'typing.start',
-        origin: 'agent',
-        avatar: 'https://deskpro.github.io/messenger-style/img/dp-logo.svg',
-        name: 'Nick Green'
-      });
-      await sleep(NETWORK_LATENCY * 2);
-      this.onMessageReceived({
-        type: 'chat.message',
-        origin: 'agent',
-        message: _sample(agentAnswers),
-        avatar: 'https://deskpro.github.io/messenger-style/img/dp-logo.svg',
-        name: 'Nick Green'
-      });
+      const lowerMessage = message.message.toLowerCase();
+      if (lowerMessage.includes('transcript')) {
+        await sleep(NETWORK_LATENCY);
+        this.onMessageReceived({
+          type: 'chat.block.transcript',
+          origin: 'system'
+        });
+      } else if (lowerMessage.includes('rating')) {
+        await sleep(NETWORK_LATENCY);
+        this.onMessageReceived({
+          type: 'chat.block.rate',
+          origin: 'system'
+        });
+      } else {
+        this.onMessageReceived({
+          type: 'typing.start',
+          origin: 'agent',
+          avatar: 'https://deskpro.github.io/messenger-style/img/dp-logo.svg',
+          name: 'Nick Green'
+        });
+        await sleep(NETWORK_LATENCY * 2);
+        this.onMessageReceived({
+          type: 'chat.message',
+          origin: 'agent',
+          message: _sample(agentAnswers),
+          avatar: 'https://deskpro.github.io/messenger-style/img/dp-logo.svg',
+          name: 'Nick Green'
+        });
+      }
     }
   }
 }

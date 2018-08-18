@@ -3,6 +3,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
 import { createSelector } from 'reselect';
+import _findLast from 'lodash/findLast';
 
 import FakeChatService from '../services/FakeChatService';
 const chatService = new FakeChatService();
@@ -69,11 +70,44 @@ export default (state = initialState, { type, payload }) => {
           typing: payload.type === 'typing.start' ? payload : false
         };
       }
+      if (payload.type.startsWith('chat.block.') && payload.origin === 'user') {
+        const message = _findLast(
+          state.messages,
+          m => m.type === 'chat.block.transcript' && m.origin === 'system'
+        );
+        const index = state.messages.indexOf(message);
+        return {
+          ...state,
+          messages: Object.assign(state.messages.slice(), {
+            [index]: payload
+          })
+        };
+      }
       return {
         ...state,
         messages: state.messages.concat([payload]),
         typing: payload.origin === 'agent' ? undefined : state.typing
       };
+
+    case CHAT_SEND_MESSAGE_SUCCESS:
+      if (payload.type === 'chat.block.transcript') {
+        const { name, email } = payload;
+        const transcriptIndex = _findLast(state.messages, [
+          'type',
+          'chat.block.transcript'
+        ]);
+        return {
+          ...state,
+          messages: Object.assign(state.messages.slice(), {
+            [transcriptIndex]: {
+              ...state.messages[transcriptIndex],
+              name,
+              email
+            }
+          })
+        };
+      }
+      return state;
 
     default:
       return state;
