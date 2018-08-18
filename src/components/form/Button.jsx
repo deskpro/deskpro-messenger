@@ -31,7 +31,6 @@ const Button = ({
   );
 
 Button.propTypes = {
-  label: PropTypes.string.isRequired,
   to: PropTypes.string,
   width: PropTypes.oneOf(['full', 'limited', 'half']),
   size: PropTypes.oneOf(['medium']),
@@ -46,7 +45,8 @@ Button.propTypes = {
     'white',
     'black'
   ]),
-  textOnly: PropTypes.bool
+  textOnly: PropTypes.bool,
+  children: PropTypes.any.isRequired
 };
 
 export default Button;
