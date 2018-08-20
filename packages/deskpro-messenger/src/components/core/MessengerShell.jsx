@@ -2,6 +2,14 @@ import React, { PureComponent, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+/* Heigh of the toggle button, its margins, and margins of the widget shell */
+const OUTER_ELEMENTS_HEIGHT = 102;
+/* Height of the widget header, footer and margins  */
+const INNER_ELEMENTS_HEIGHT = 185;
+
+const getWidgetContentMaxHeight = () =>
+  window.parent.innerHeight - OUTER_ELEMENTS_HEIGHT - INNER_ELEMENTS_HEIGHT;
+
 class MessengerShell extends PureComponent {
   static propTypes = {
     isMinimal: PropTypes.bool,
@@ -40,20 +48,31 @@ class MessengerShell extends PureComponent {
           })}
           style={{ height: 'auto' }}
         >
-          <div className="dpmsg-ScreenContent">
-            <div className="dpmsg-ScreenHeder">
-              {controls}
-              <div className="dpmsg-ScreenHederLogo">
-                <img
-                  src="https://deskpro.github.io/messenger-style/img/dp-logo-white.svg"
-                  alt=""
-                />
-              </div>
-              <span className="dpmsg-ScreenHederTitle">{title}</span>
-              {!!introText && (
-                <span className="dpmsg-ScreenHederText">{introText}</span>
-              )}
+          <div className="dpmsg-ScreenHeder">
+            {controls}
+            <div class="dpmsg-LevelRight">
+              <a href="#">
+                <i class="dpmsg-IconMute" />
+              </a>
             </div>
+            <div className="dpmsg-ScreenHederLogo">
+              <img
+                src="https://deskpro.github.io/messenger-style/img/dp-logo-white.svg"
+                alt=""
+              />
+            </div>
+            <span className="dpmsg-ScreenHederTitle">{title}</span>
+            {!!introText && (
+              <span className="dpmsg-ScreenHederText">{introText}</span>
+            )}
+          </div>
+          <div
+            className="dpmsg-ScreenContent"
+            style={{
+              maxHeight: `${getWidgetContentMaxHeight()}px`,
+              overflowY: 'scroll'
+            }}
+          >
             {children}
           </div>
           <div className="dpmsg-ScreenFooter">
