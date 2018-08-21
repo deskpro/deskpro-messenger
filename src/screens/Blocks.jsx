@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-import Block from '../core/Block';
-import Button from '../form/Button';
+import Block from '../components/core/Block';
+import Button from '../components/form/Button';
 
 const blocksMapping = {
   StartChatBlock: ({ to, linkText = 'Start Chat' }) => (

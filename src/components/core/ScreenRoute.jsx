@@ -11,7 +11,7 @@ const ScreenRoute = ({
   screenName
 }) => {
   const Component = makeLoadable({
-    loader: () => import(`../screens/${screenType}`),
+    loader: () => import(`../../screens/${screenType}`),
     loading: Loading
   });
 

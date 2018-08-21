@@ -35,7 +35,7 @@ class Greetings extends PureComponent {
               key={greetingName}
               path={`/greetings/${greetingName}`}
               component={Loadable({
-                loader: () => import(`../greetings/${greetingType}`),
+                loader: () => import(`../../greetings/${greetingType}`),
                 loading: ({ error }) => (error ? <p>{error}</p> : '...')
               })}
             />
