@@ -1,14 +1,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Button from '../form/Button';
+import ChatPrompt from '../ui/ChatPrompt';
 
 class RatingBlock extends PureComponent {
   static propTypes = {
     onSend: PropTypes.func.isRequired,
     message: PropTypes.shape({
       type: PropTypes.string.isRequired,
-      origin: PropTypes.string.isRequired
+      origin: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
     }).isRequired
   };
 
@@ -21,22 +24,24 @@ class RatingBlock extends PureComponent {
   };
 
   render() {
-    const { rate, name } = this.props.message;
+    const { rate } = this.props.message;
 
+    return typeof rate === 'undefined'
+      ? this.renderButtons()
+      : this.renderSmile();
+  }
+
+  renderButtons() {
     return (
-      <div className="dpmsg-MessagePrompt">
-        <div className="dpmsg-PromptHeader">
-          <span className="dpmsg-PromptHeaderText">
-            Rate your conversation with {name}
-          </span>
-        </div>
+      <ChatPrompt
+        header={`Rate your conversation with ${this.props.message.name}`}
+      >
         <div className="dpmsg-PromptContentEvaluation">
           <Button
             width="limited"
             color="success"
             name="helpful"
-            onClick={typeof rate === 'undefined' ? this.handleClick : undefined}
-            disabled={rate === false}
+            onClick={this.handleClick}
           >
             Helpful
           </Button>
@@ -44,13 +49,31 @@ class RatingBlock extends PureComponent {
             width="limited"
             color="danger"
             name="unhelpful"
-            onClick={typeof rate === 'undefined' ? this.handleClick : undefined}
-            disabled={rate === true}
+            onClick={this.handleClick}
           >
             Unhelpful
           </Button>
         </div>
-      </div>
+      </ChatPrompt>
+    );
+  }
+
+  renderSmile() {
+    const { rate } = this.props.message;
+    return (
+      <ChatPrompt header={`Thank you for your feedback`}>
+        <div className="dpmsg-PromptContentEvaluation">
+          <i
+            className={classNames(
+              {
+                'dpmsg-IconSmile': rate,
+                'dpmsg-Icon': !!rate
+              },
+              'is-blue'
+            )}
+          />
+        </div>
+      </ChatPrompt>
     );
   }
 }
