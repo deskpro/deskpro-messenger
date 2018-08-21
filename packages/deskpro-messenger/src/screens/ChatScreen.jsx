@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
-import Chat from '../chat/Chat';
-import ChatEnterForm from '../chat/ChatEnterForm';
-import FirstMessage from '../chat/FirstMessage';
-import Block from '../core/Block';
+import Chat from '../components/chat/Chat';
+import ChatEnterForm from '../components/chat/ChatEnterForm';
+import FirstMessage from '../components/chat/FirstMessage';
+import Block from '../components/core/Block';
 
 import {
   createChat,
@@ -14,7 +14,7 @@ import {
   sendMessage,
   getMessages,
   getTypingState
-} from '../../modules/chat';
+} from '../modules/chat';
 
 class ChatScreen extends PureComponent {
   static propTypes = {
