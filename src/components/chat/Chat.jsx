@@ -20,23 +20,35 @@ class Chat extends PureComponent {
     const { typing, messages, onSendMessage } = this.props;
     return (
       <Fragment>
-        {messages.map(message => {
+        {messages.map((message, index) => {
+          const key = `${message.type}-${index}`;
           switch (message.type) {
             case 'chat.message':
-              return <MessageBubble {...message} />;
+              return <MessageBubble key={key} {...message} />;
             case 'chat.agentAssigned':
               return (
                 <SystemMessage
+                  key={key}
                   {...message}
                   message={`${message.name} joined the conversation.`}
                 />
               );
             case 'chat.block.transcript':
               return (
-                <TranscriptBlock onSend={onSendMessage} message={message} />
+                <TranscriptBlock
+                  key={key}
+                  onSend={onSendMessage}
+                  message={message}
+                />
               );
             case 'chat.block.rate':
-              return <RatingBlock onSend={onSendMessage} message={message} />;
+              return (
+                <RatingBlock
+                  key={key}
+                  onSend={onSendMessage}
+                  message={message}
+                />
+              );
             default:
               return null;
           }
