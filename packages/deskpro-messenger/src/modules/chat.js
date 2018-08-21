@@ -11,8 +11,9 @@ import _mapValues from 'lodash/mapValues';
 import FakeChatService from '../services/FakeChatService';
 const chatService = new FakeChatService();
 
+const messengerOptions = window.parent.DESKPRO_MESSENGER_OPTIONS || {};
 const sounds = _mapValues(
-  window.parent.DESKPRO_MESSENGER_OPTIONS.sounds || {},
+  messengerOptions.sounds || {},
   path => new Audio(path)
 );
 sounds.default = new Audio('/assets/audio/unconvinced.mp3');

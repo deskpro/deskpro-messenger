@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react';
 // import { linkTo } from '@storybook/addon-links';
 import { withKnobs, boolean, button } from '@storybook/addon-knobs';
 
-import App from '../components/App';
+import App from '../App';
 import '../index.css';
 
 import createStore from '../store';
