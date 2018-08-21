@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../form/Button';
+import ChatPrompt from '../ui/ChatPrompt';
 
 class TranscriptBlock extends PureComponent {
   static propTypes = {
@@ -52,19 +53,18 @@ class TranscriptBlock extends PureComponent {
     const { origin } = this.props.message;
 
     return (
-      <div className="dpmsg-MessagePrompt">
-        <div className="dpmsg-PromptHeader">
-          <i className="dpmsg-IconNotes" />
-          <span className="dpmsg-PromptHeaderText">
-            {origin === 'user'
-              ? 'Your transcript is on it’s way to:'
-              : 'Would you like an email transcript?'}
-          </span>
-        </div>
+      <ChatPrompt
+        header={
+          origin === 'user'
+            ? 'Your transcript is on it’s way to:'
+            : 'Would you like an email transcript?'
+        }
+        icon="Notes"
+      >
         {view_mode === 'ask' && this.renderYesNo()}
         {view_mode === 'fields' && this.renderFields()}
         {view_mode === 'final' && this.renderFinal()}
-      </div>
+      </ChatPrompt>
     );
   }
 
@@ -112,7 +112,7 @@ class TranscriptBlock extends PureComponent {
   }
 
   renderFinal() {
-    return <span class="dpmsg-PromptText">{this.props.message.email}</span>;
+    return <span className="dpmsg-PromptText">{this.props.message.email}</span>;
   }
 }
 
