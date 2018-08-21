@@ -1,4 +1,4 @@
-import React, { PureComponent, createRef } from 'react';
+import React, { Fragment, PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Link, Redirect } from 'react-router-dom';
 
@@ -6,6 +6,7 @@ import Frame from './Frame';
 import { withConfig } from './ConfigContext';
 import ScreenRoute from './ScreenRoute';
 import MessengerShell from './MessengerShell';
+import MuteButton from '../../containers/MuteButton';
 // import RandomImageFrame from '../poc/ImageFrame';
 // import LoremIpsumFrame from '../poc/ArticleFrame';
 
@@ -62,16 +63,28 @@ class MessengerWindow extends PureComponent {
   toggleLoremIpsum = () =>
     this.setState({ articleVisible: !this.state.articleVisible });
 
-  renderBackButton = () => {
+  renderToolbar = () => {
     return (
-      <Route>
-        {({ location }) =>
-          location.pathname !== '/screens/index' && (
-            <Link to={`/screens/index`} className="dpmsg-BackBtn">
-              <i className="dpmsg-IconArrow iconArrow--left" /> back
-            </Link>
-          )
-        }
+      <Route path="/screens/:screenName">
+        {({ match }) => {
+          const { screenName } = match.params;
+          const screen = this.props.screens[screenName];
+          return (
+            <Fragment>
+              <div className="dpmsg-LevelLeft">
+                {screenName !== 'index' && (
+                  <Link to={`/screens/index`} className="dpmsg-BackBtn">
+                    <i className="dpmsg-IconArrow iconArrow--left" /> back
+                  </Link>
+                )}
+              </div>
+              <div className="dpmsg-LevelRight">
+                {!!screen &&
+                  screen.screenType === 'ChatScreen' && <MuteButton />}
+              </div>
+            </Fragment>
+          );
+        }}
       </Route>
     );
   };
@@ -87,7 +100,7 @@ class MessengerWindow extends PureComponent {
           display: opened ? 'block' : 'none'
         }}
       >
-        <MessengerShell controls={this.renderBackButton()} ref={this.shellRef}>
+        <MessengerShell controls={this.renderToolbar()} ref={this.shellRef}>
           <Switch>
             {Object.entries(this.props.screens)
               .map(([screenName, screen]) => (

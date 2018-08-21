@@ -49,14 +49,7 @@ class MessengerShell extends PureComponent {
           style={{ height: 'auto' }}
         >
           <div className="dpmsg-ScreenHeder">
-            <div className="dpmsg-ScreenControls dpmsg-Level">
-              <div className="dpmsg-LevelLeft">{controls}</div>
-              <div className="dpmsg-LevelRight">
-                <a href="#">
-                  <i className="dpmsg-IconMute" />
-                </a>
-              </div>
-            </div>
+            <div className="dpmsg-ScreenControls dpmsg-Level">{controls}</div>
             <div className="dpmsg-ScreenHederLogo">
               <img
                 src="https://deskpro.github.io/messenger-style/img/dp-logo-white.svg"
