@@ -1,12 +1,21 @@
 import { Observable, from } from 'rxjs';
+import { ofType, combineEpics } from 'redux-observable';
+import { withLatestFrom, tap, skip, filter } from 'rxjs/operators';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
 import { createSelector } from 'reselect';
 import _findLast from 'lodash/findLast';
+import _mapValues from 'lodash/mapValues';
 
 import FakeChatService from '../services/FakeChatService';
 const chatService = new FakeChatService();
+
+const sounds = _mapValues(
+  window.parent.DESKPRO_MESSENGER_OPTIONS.sounds || {},
+  path => new Audio(path)
+);
+sounds.default = new Audio('/assets/audio/unconvinced.mp3');
 
 //#region ACTION TYPES
 const CHAT_START = 'CHART_START';
@@ -14,6 +23,7 @@ const CHAT_SAVE_CHAT_ID = 'CHAT_SAVE_CHAT_ID';
 const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
 const CHAT_SEND_MESSAGE_SUCCESS = 'CHAT_SEND_MESSAGE_SUCCESS';
 const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
+const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
 //#endregion
 
 //#region ACTION CREATORS
@@ -30,6 +40,7 @@ export const sendMessage = message => ({
   type: CHAT_SEND_MESSAGE,
   payload: message
 });
+export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
 //#endregion
 
 //#region EPICS
@@ -40,7 +51,7 @@ const listenForMessages = () =>
     return () => chatService.unsubscribe(callback);
   });
 
-export const chatEpic = action$ =>
+export const chatMessagingEpic = action$ =>
   action$.ofType(CHAT_START).switchMap(action =>
     listenForMessages()
       .map(message => messageReceived(message))
@@ -54,10 +65,28 @@ export const chatEpic = action$ =>
         )
       )
   );
+export const soundEpic = (action$, state$) =>
+  action$.pipe(
+    ofType(CHAT_MESSAGE_RECEIVED),
+    withLatestFrom(state$),
+    filter(
+      ([{ payload: message }, state]) =>
+        message.type === 'chat.message' &&
+        ['user', 'agent'].includes(message.origin) &&
+        !isMuted(state)
+    ),
+    tap(([{ payload: message }]) => {
+      const sound =
+        message.origin in sounds ? sounds[message.origin] : sounds.default;
+      sound.play();
+    }),
+    skip()
+  );
+export const chatEpic = combineEpics(chatMessagingEpic, soundEpic);
 //#endregion
 
 //#region REDUCER
-const initialState = { chatId: '', messages: [] };
+const initialState = { chatId: '', messages: [], mute: false };
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case CHAT_SAVE_CHAT_ID:
@@ -109,6 +138,9 @@ export default (state = initialState, { type, payload }) => {
       }
       return state;
 
+    case CHAT_TOGGLE_SOUND:
+      return { ...state, mute: !state.mute };
+
     default:
       return state;
   }
@@ -126,4 +158,5 @@ export const getTypingState = createSelector(
   getChatState,
   state => state.typing
 );
+export const isMuted = createSelector(getChatState, state => state.mute);
 //#endregion
