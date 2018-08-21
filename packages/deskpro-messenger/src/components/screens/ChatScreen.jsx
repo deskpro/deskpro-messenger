@@ -20,7 +20,7 @@ class ChatScreen extends PureComponent {
   static propTypes = {
     chatId: PropTypes.string,
     messages: PropTypes.array,
-    typing: PropTypes.bool
+    typing: PropTypes.object
   };
 
   handleSendMessage = message => {
@@ -78,7 +78,9 @@ class ChatScreen extends PureComponent {
               />
             )}
           />
-          <Redirect to={`${baseUrl}/auth`} />
+          <Redirect
+            to={this.props.chatId ? `${baseUrl}/chat` : `${baseUrl}/auth`}
+          />
         </Switch>
       </Block>
     );
