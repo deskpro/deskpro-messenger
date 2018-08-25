@@ -9,12 +9,17 @@ class MessageForm extends PureComponent {
 
   state = { message: '' };
 
-  onChange = e => {
-    this.setState({ message: e.target.value });
+  onChange = (e) => {
+    const { value } = e.target;
+    if (value.includes('<br>')) {
+      this.handleSubmit(e);
+    } else {
+      this.setState({ message: e.target.value });
+    }
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
+  handleSubmit = (e) => {
+    e.preventDefault && e.preventDefault();
     const { message } = this.state;
     this.props.onSend(message);
     this.setState({ message: '' });

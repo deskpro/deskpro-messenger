@@ -64,8 +64,7 @@ class MessengerShell extends PureComponent {
           <div
             className="dpmsg-ScreenContent"
             style={{
-              maxHeight: `${getWidgetContentMaxHeight()}px`,
-              overflowY: 'scroll'
+              maxHeight: `${getWidgetContentMaxHeight()}px`
             }}
           >
             {children}

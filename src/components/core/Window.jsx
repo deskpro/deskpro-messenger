@@ -71,17 +71,15 @@ class MessengerWindow extends PureComponent {
           const screen = this.props.screens[screenName];
           return (
             <Fragment>
-              <div className="dpmsg-LevelLeft">
-                {screenName !== 'index' && (
-                  <Link to={`/screens/index`} className="dpmsg-BackBtn">
-                    <i className="dpmsg-IconArrow iconArrow--left" /> back
-                  </Link>
-                )}
-              </div>
-              <div className="dpmsg-LevelRight">
-                {!!screen &&
-                  screen.screenType === 'ChatScreen' && <MuteButton />}
-              </div>
+              {screenName !== 'index' && (
+                <Link
+                  to={`/screens/index`}
+                  className="dpmsg-BackBtn dpmsg-LevelLeft"
+                >
+                  <i className="dpmsg-IconArrow iconArrow--left" /> back
+                </Link>
+              )}
+              {!!screen && screen.screenType === 'ChatScreen' && <MuteButton />}
             </Fragment>
           );
         }}
