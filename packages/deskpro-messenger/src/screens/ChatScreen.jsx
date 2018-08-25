@@ -63,6 +63,7 @@ class ChatScreen extends PureComponent {
             render={props => (
               <ChatEnterForm
                 baseUrl={baseUrl}
+                category={this.props.category}
                 createChat={this.props.createChat}
                 {...props}
               />
@@ -73,6 +74,7 @@ class ChatScreen extends PureComponent {
             render={props => (
               <FirstMessage
                 baseUrl={baseUrl}
+                category={this.props.category}
                 sendMessage={this.handleSendMessage}
                 {...props}
               />

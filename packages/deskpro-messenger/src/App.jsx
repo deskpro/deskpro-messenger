@@ -44,13 +44,13 @@ class App extends PureComponent {
             <Switch>
               <Route
                 path="/screens"
-                render={props => <Window {...props} opened={windowVisible} />}
+                render={(props) => <Window {...props} opened={windowVisible} />}
               />
               <Route path="/greetings" component={Greetings} />
               {!!randomGreeting && <Redirect to={randomGreeting} />}
             </Switch>
             <Route
-              render={props => (
+              render={(props) => (
                 <MessengerToggler
                   opened={windowVisible}
                   onToggle={this.toggleWindow}
@@ -59,7 +59,7 @@ class App extends PureComponent {
               )}
             />
             <Route
-              render={props => (
+              render={(props) => (
                 <MessengerAPI
                   opened={windowVisible}
                   onToggle={this.toggleWindow}
