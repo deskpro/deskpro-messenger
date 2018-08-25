@@ -1,8 +1,65 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-import Field from '../form/InputField';
+import { Form, withFormik } from 'formik';
+// import { Submit } from 'portal-components/src/Components';
+import { LayoutConfig, FieldLayout } from '@deskpro/portal-components';
+// import Field from '../form/InputField';
 import Button from '../form/Button';
+
+const layoutsConfig = [
+  {
+    rules: [{ field: 'category', value: 'sales', op: 'eq' }],
+    fields: [
+      {
+        name: 'name',
+        label: 'Full Name',
+        type: 'text',
+        validation: ['required'],
+        placeholder: 'John Doe'
+      },
+      {
+        name: 'email',
+        label: 'Email',
+        type: 'text',
+        validation: ['required'],
+        placeholder: 'john.doe@company.com'
+      },
+      { name: 'budget', label: 'Budget', type: 'text' }
+    ]
+  },
+  {
+    rules: [{ field: 'category', value: 'support', op: 'eq' }],
+    fields: [
+      {
+        name: 'name',
+        label: 'Full Name',
+        type: 'text',
+        validation: ['required'],
+        placeholder: 'John Doe'
+      },
+      {
+        name: 'email',
+        label: 'Email',
+        type: 'text',
+        validation: ['required'],
+        placeholder: 'john.doe@company.com'
+      },
+      {
+        name: 'cloud_premise',
+        label: 'Cloud or On-Premise',
+        type: 'choice',
+        dataSource: {
+          getOptions: [
+            { value: 'cloud', label: 'Cloud' },
+            { value: 'on-premise', label: 'On-Premise' }
+          ]
+        }
+      }
+    ]
+  }
+];
+
+const layouts = new LayoutConfig(layoutsConfig);
 
 class ChatEnterForm extends PureComponent {
   static propTypes = {
@@ -13,11 +70,11 @@ class ChatEnterForm extends PureComponent {
 
   state = { name: '', email: '' };
 
-  handleInputChange = e => {
+  handleInputChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { name, email } = this.state;
     if (name && email) {
@@ -27,28 +84,30 @@ class ChatEnterForm extends PureComponent {
   };
 
   render() {
+    const { category } = this.props;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <Field
-          id="name"
-          name="name"
-          value={this.state.name}
-          onChange={this.handleInputChange}
-          placeholder="John Doe"
-        />
-        <Field
-          id="email"
-          name="email"
-          value={this.state.email}
-          onChange={this.handleInputChange}
-          placeholder="john.doe@company.com"
-        />
-        <Button width="full" size="medium">
+      <Form>
+        {!!category && <FieldLayout layouts={layouts} {...this.props} />}
+        <Button width="full" size="medium" type="submit">
           Start Conversation
         </Button>
-      </form>
+      </Form>
     );
   }
 }
 
-export default ChatEnterForm;
+export default withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ category }) => {
+    const layout = layouts.getMatchingLayout({ category });
+    if (layout) {
+      return { category, ...layout.getDefaultValues() };
+    }
+    return { category };
+  },
+  handleSubmit: (values, { props, setSubmitting }) => {
+    setSubmitting(true);
+    props.createChat(values);
+    props.history.push(`${props.baseUrl}/new-message`);
+  }
+})(ChatEnterForm);
