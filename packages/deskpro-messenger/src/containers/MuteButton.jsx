@@ -6,8 +6,13 @@ import classNames from 'classnames';
 import { toggleSound, isMuted } from '../modules/chat';
 
 const MuteButton = ({ isMuted, toggleSound }) => (
-  <a onClick={toggleSound}>
-    <i className={classNames('dpmsg-IconMute', { 'is-active': !!isMuted })} />
+  <a
+    onClick={toggleSound}
+    className={classNames('dpmsg-LevelRight', {
+      'is-disabled': !!isMuted
+    })}
+  >
+    <i className="dpmsg-IconMute" />
   </a>
 );
 
@@ -17,6 +22,6 @@ MuteButton.propTypes = {
 };
 
 export default connect(
-  state => ({ isMuted: isMuted(state) }),
+  (state) => ({ isMuted: isMuted(state) }),
   { toggleSound }
 )(MuteButton);
