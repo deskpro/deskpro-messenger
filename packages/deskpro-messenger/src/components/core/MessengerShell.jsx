@@ -2,6 +2,8 @@ import React, { PureComponent, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import asset from '../../utils/asset';
+
 /* Heigh of the toggle button, its margins, and margins of the widget shell */
 const OUTER_ELEMENTS_HEIGHT = 102;
 /* Height of the widget header, footer and margins  */
@@ -51,10 +53,7 @@ class MessengerShell extends PureComponent {
           <div className="dpmsg-ScreenHeder">
             <div className="dpmsg-ScreenControls dpmsg-Level">{controls}</div>
             <div className="dpmsg-ScreenHederLogo">
-              <img
-                src="https://deskpro.github.io/messenger-style/img/dp-logo-white.svg"
-                alt=""
-              />
+              <img src={asset('img/dp-logo-white.svg')} alt="" />
             </div>
             <span className="dpmsg-ScreenHederTitle">{title}</span>
             {!!introText && (
@@ -75,7 +74,7 @@ class MessengerShell extends PureComponent {
             <span className="dpmsg-VertLine" />
             <img
               className="dpmsg-ScreenFooterLogo"
-              src="https://deskpro.github.io/messenger-style/img/deskpro-logo.svg"
+              src={asset('img/deskpro-logo.svg')}
               alt=""
             />
             <span className="dpmsg-ScreenLine" />

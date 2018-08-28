@@ -1,0 +1,169 @@
+.dpmsg-WrapInput {
+  display: block;
+  position: relative;
+}
+
+.dpmsg-Input {
+  background-color: #f8fafc;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  font-size: var(--h1);
+  padding: 11px var(--sm-space);
+  width: 100%;
+
+  &.is-search {
+    background-color: #fff;
+    padding-left: 39px;
+  }
+}
+
+.dpmsg-GroupInputs {
+  display: block;
+  padding-bottom: var(--sm-space);
+  padding-top: var(--sm-space);
+}
+
+.dpmsg-GroupInputs input {
+  margin-bottom: var(--xs-space);
+}
+
+.dpmsg-Input::placeholder {
+  color: var(--gray-300);
+}
+
+label {
+  display: block;
+}
+
+.dpmsg-LabelInputText {
+  color: var(--gray-500);
+  display: block;
+  font-size: var(--h2);
+  line-height: 1;
+  padding: var(--xs-space) 0;
+}
+
+.dpmsg-GroupInputs .dpmsg-LabelInputText {
+  padding-top: 4px;
+}
+
+.dpmsg-LabelInputText + .dpmsg-Input {
+  margin-bottom: 4px;
+}
+
+.dpmsg-WrapInput .dpmsg-IconSearch {
+  left: 12px;
+  position: absolute;
+  top: 12px;
+}
+
+.dpmsg-InputCheckbox {
+  display: block;
+  height: 0;
+  position: absolute;
+  visibility: hidden;
+  width: 0;
+}
+
+.dpmsg-InputCustomCheckbox,
+.dpmsg-InputCustomCheckbox * {
+  cursor: pointer;
+}
+
+.dpmsg-InputCheckboxText {
+  color: #6e8293;
+  font-size: var(--h4);
+}
+
+.dpmsg-InputCheckboxMarker {
+  background-color: #f4f7fa;
+  border: 1px solid #c3cbd1;
+  border-radius: 4px;
+  display: inline-block;
+  height: 9px;
+  position: relative;
+  width: 25px;
+}
+
+.dpmsg-InputCheckboxMarker::after {
+  background-color: #3c87f3;
+  border-radius: 50%;
+  content: "";
+  display: block;
+  height: 13px;
+  left: 0;
+  position: absolute;
+  right: auto;
+  top: -3px;
+  transition: left var(--animation-speed);
+  width: 12px;
+}
+
+.dpmsg-InputCheckbox:checked + .dpmsg-InputCustomCheckbox .dpmsg-InputCheckboxMarker::after {
+  left: 13px;
+  transition: left var(--animation-speed);
+}
+
+.dpmsg-InputCheckboxText.is-first {
+  color: #3c87f3;
+  transition: color var(--animation-speed);
+}
+
+.dpmsg-InputCheckbox:checked + .dpmsg-InputCustomCheckbox .dpmsg-InputCheckboxText.is-first {
+  color: #6e8293;
+  transition: color var(--animation-speed);
+}
+
+.dpmsg-InputCheckbox:checked + .dpmsg-InputCustomCheckbox .dpmsg-InputCheckboxText {
+  color: #3c87f3;
+  transition: color var(--animation-speed);
+}
+
+.dpmsg-WrapTextarea {
+  background-color: #fff;
+  bottom: 0;
+  display: block;
+  margin-left: calc(var(--xs-space) * -1);
+  margin-right: calc(var(--xs-space) * -1);
+  margin-top: 20px;
+  padding: 0 var(--xs-space) var(--xs-space);
+  position: sticky;
+  top: auto;
+  width: calc(100% + var(--xs-space) + var(--xs-space));
+}
+
+.dpmsg-MainTextarea {
+  background-color: #fff;
+  border: none;
+  border-top: 2px solid var(--blue);
+  color: var(--gray-500);
+  cursor: text;
+  display: block;
+  font-size: var(--h1);
+  max-height: 170px;
+  overflow-x: auto;
+  padding: var(--sm-space);
+  padding-left: 0;
+  resize: none;
+  white-space: pre;
+  white-space: pre-wrap;
+  width: 100%;
+  word-wrap: break-word;
+}
+
+.dpmsg-TextareaActions {
+  align-items: center;
+}
+
+.dpmsg-TextareaActions img {
+  max-height: 22px;
+}
+
+.dpmsg-TextareaActions .dpmsg-LevelLeft [class*="dpmsg-Icon"] {
+  margin-right: 17px;
+}
+
+.dpmsg-TextareaActions [class*="dpmsg-Icon"] {
+  cursor: pointer;
+}
+
