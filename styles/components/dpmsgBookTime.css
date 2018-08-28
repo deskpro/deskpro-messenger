@@ -1,0 +1,172 @@
+.dpmsg-BookTime {
+  color: var(--gray-500);
+  display: block;
+  font-size: var(--h2);
+
+  &.is-empty {
+    margin-bottom: 0;
+  }
+}
+
+a.dpmsg-BlockHeader:hover span {
+  color: var(--blue);
+}
+
+.dpmsg-BookTime .is-italic {
+  font-style: italic;
+}
+
+.dpmsg-BookTime .is-bold {
+  font-weight: 700;
+}
+
+.dpmsg-BookTime * {
+  color: inherit;
+}
+
+.dpmsg-BookAvatar {
+  display: block;
+  height: 42px;
+  margin: auto;
+  padding-top: 4px;
+  width: 37px;
+}
+
+.dpmsg-BookAvatar img {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.dpmsg-BookName {
+  color: inherit;
+  display: block;
+  font-size: var(--h1);
+  padding-top: var(--xs-space);
+  text-align: center;
+}
+
+.dpmsg-BookPost {
+  display: block;
+  padding-top: 5px;
+  text-align: center;
+}
+
+.dpmsg-BookTime .dpmsg-Level {
+  border-bottom: var(--border);
+  padding: var(--sm-space) 0;
+
+  &.dpmsg-BookHeader {
+    padding-bottom: 8px;
+    padding-top: var(--space);
+  }
+}
+
+.dpmsg-BookTime a.dpmsg-Level,
+.dpmsg-BookTime a.dpmsg-Level * {
+  cursor: pointer;
+}
+
+.dpmsg-BookTime .dpmsg-BackBtn {
+  cursor: pointer;
+  float: left;
+}
+
+.dpmsg-BookTime .dpmsg-Level .dpmsg-LevelLeft {
+  flex-wrap: wrap;
+}
+
+.dpmsg-BookTime .dpmsg-Level .dpmsg-LevelLeft span {
+  display: block;
+  padding-top: 1px;
+  width: 100%;
+}
+
+.dpmsg-BookTime .dpmsg-Level.dpmsg-BookFooter {
+  border-bottom: none;
+  color: var(--blue);
+  font-size: var(--h3);
+  margin-top: 10px;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.dpmsg-BookFooter a {
+  cursor: pointer;
+}
+
+.dpmsg-BookTime .dpmsg-BtnRow {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--sm-space) 0 var(--space);
+  overflow: hidden;
+  position: relative;
+  transition: all var(--animation-speed);
+  width: 100%;
+}
+
+.dpmsg-BookTime .Button-Time {
+  background: transparent;
+  border: 1px solid var(--blue);
+  color: var(--gray-500);
+  display: inline-block;
+  height: 37px;
+  width: 100%;
+  &:hover { background: var(--gray-100); }
+}
+
+.dpmsg-BookTime .Button-Confirm {
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: var(--text-light);
+  height: 37px;
+  margin-right: -50%;
+  transition: all var(--animation-speed);
+  width: calc(50% - 9px);
+  &:hover { background: color-mod(var(--color-primary) blackness(20%)); }
+}
+
+.dpmsg-BookTime .for-confirm .Button-Time {
+  background: var(--color-secondary);
+  border: 1px solid var(--color-secondary);
+  color: var(--text-light);
+  margin-right: 9px;
+  transition: all var(--animation-speed);
+  width: calc(50% - 9px);
+  &:hover { background: color-mod(var(--color-secondary) blackness(20%)); }
+}
+
+.dpmsg-BookTime .for-confirm .Button-Confirm {
+  margin-left: 9px;
+  margin-right: 0;
+  transition: all var(--animation-speed);
+}
+
+.dpmsg-DateMeeting {
+  border-bottom: var(--border);
+  display: block;
+  padding: 21px;
+  text-align: center;
+}
+
+.dpmsg-Button.submit-bookTime {
+  font-size: var(--h1);
+  height: 37px;
+  margin-top: 55px;
+}
+
+.dpmsg-ConfirmDateMeeting {
+  display: block;
+  font-size: var(--h2);
+  font-style: italic;
+  padding-top: var(--space);
+  text-align: center;
+}
+
+.dpmsg-BookTimeLink {
+  color: var(--blue);
+  cursor: pointer;
+  display: block;
+  font-size: var(--h4);
+  padding-top: 4px;
+  text-align: center;
+}

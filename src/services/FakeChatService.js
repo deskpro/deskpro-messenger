@@ -1,6 +1,7 @@
 import _uniqueId from 'lodash/uniqueId';
 import _sample from 'lodash/sample';
 
+import asset from '../utils/asset';
 import BaseChatService from './BaseChatService';
 
 const NETWORK_LATENCY = 2000;
@@ -15,8 +16,8 @@ const agentAnswers = [
   'You are so smart!'
 ];
 
-const sleep = time =>
-  new Promise(res => {
+const sleep = (time) =>
+  new Promise((res) => {
     setTimeout(res, time);
   });
 
@@ -50,7 +51,7 @@ export default class FakeChatService extends BaseChatService {
   async sendMessage(message) {
     await super.sendMessage({
       ...message,
-      avatar: 'https://deskpro.github.io/messenger-style/img/docs/avatar.png',
+      avatar: asset('img/docs/avatar.png'),
       name: this.userData.name || 'John Doe'
     });
 
@@ -78,7 +79,7 @@ export default class FakeChatService extends BaseChatService {
         this.onMessageReceived({
           type: 'typing.start',
           origin: 'agent',
-          avatar: 'https://deskpro.github.io/messenger-style/img/dp-logo.svg',
+          avatar: asset('img/dp-logo.svg'),
           name: 'Nick Green'
         });
         await sleep(NETWORK_LATENCY * 2);
@@ -86,7 +87,7 @@ export default class FakeChatService extends BaseChatService {
           type: 'chat.message',
           origin: 'agent',
           message: _sample(agentAnswers),
-          avatar: 'https://deskpro.github.io/messenger-style/img/dp-logo.svg',
+          avatar: asset('img/dp-logo.svg'),
           name: 'Nick Green'
         });
       }

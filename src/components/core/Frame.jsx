@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import FrameComponent from 'react-frame-component';
-
+import asset from '../../utils/asset';
 let head;
 
 // in production env this the styles could be extracted only once when the app
@@ -42,7 +42,7 @@ class Frame extends PureComponent {
       // pull css from all style tags because we might not know which one is
       // generated and inserted by webpack HMR.
       const style = Array.from(document.head.querySelectorAll('style'))
-        .map(el => el.innerText)
+        .map((el) => el.innerText)
         .join('\\n');
       head = <style type="text/css">{style}</style>;
     }
@@ -50,12 +50,7 @@ class Frame extends PureComponent {
     this.el = window.parent.document.createElement('span');
 
     // TODO: replace with right styles inclusion.
-    head = (
-      <link
-        rel="stylesheet"
-        href="https://deskpro.github.io/messenger-style/css/main.css"
-      />
-    );
+    head = <link rel="stylesheet" href={asset(`/styles.css`)} />;
   }
 
   componentDidMount() {

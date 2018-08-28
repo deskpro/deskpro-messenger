@@ -1,0 +1,192 @@
+.dpmsg-ScreenWrap {
+  align-items: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 4px var(--xs-space) 0;
+  padding-bottom: var(--space);
+  width: 323px;
+}
+
+.dpmsg-Screen {
+  background-color: #f6f7fa;
+  border-radius: var(--border-radius);
+  box-shadow: 0 3px 8px 1px rgba(51, 51, 62, 0.3);
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  overflow-x: auto;
+}
+
+.dpmsg-ScreenContent {
+  align-self: flex-start;
+  flex: 0 0 100%;
+  overflow-y: auto;
+}
+
+.dpmsg-ScreenHeder {
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  display: flex;
+  flex: 0 0 100%;
+  flex-wrap: wrap;
+  margin-bottom: -50px;
+  padding: 25px 25px 62px 25px;
+}
+
+.is-minimal .dpmsg-ScreenHeder {
+  padding: 25px 25px 65px 23px;
+}
+
+.dpmsg-ScreenHederLogo img {
+  height: 30px;
+}
+
+.is-minimal .dpmsg-ScreenHederLogo img {
+  height: 37px;
+}
+
+.is-minimal .dpmsg-ScreenHeder {
+  flex-direction: row;
+}
+
+.dpmsg-ScreenHederLogo {
+  flex: 0 0 100%;
+  margin-right: 9px;
+}
+
+.dpmsg-ScreenHederTitle {
+  flex: 0 0 100%;
+  font-size: 24px;
+  letter-spacing: 1.4px;
+  padding: 18px 0 var(--xs-space);
+}
+
+.is-minimal .dpmsg-ScreenHederTitle {
+  letter-spacing: 0;
+  padding: 0;
+}
+
+.is-minimal .dpmsg-ScreenHederLogo,
+.is-minimal .dpmsg-ScreenHederTitle {
+  flex: 0 0 auto;
+}
+
+.dpmsg-Block {
+  margin: 0 var(--xs-space) 10px var(--xs-space);
+}
+
+.dpmsg-ScreenHederText {
+  flex: 0 0 100%;
+  font-size: var(--h1);
+  letter-spacing: 0.4px;
+  line-height: 1.168;
+}
+
+.dpmsg-ScreenFooter {
+  align-items: center;
+  align-self: flex-end;
+  display: flex;
+  flex: 0 0 100%;
+  justify-content: space-between;
+  padding: 0 25px var(--xs-space);
+}
+
+.dpmsg-ScreenLine {
+  background-color: #e4e4e4;
+  display: block;
+  height: 1px;
+  width: 56px;
+}
+
+.dpmsg-ScreenFooterText {
+  color: #666;
+  font-size: var(--h4);
+}
+
+.dpmsg-VertLine {
+  background-color: #d1d5dc;
+  height: 25px;
+  width: 2px;
+}
+
+.dpmsg-ScreenFooterLogo {
+  height: 20px;
+}
+
+.dpmsg-ScreenIconRow {
+  margin-top: var(--sm-space);
+}
+
+.dpmsg-ScreenIconRow.is-left {
+  display: flex;
+  flex: 0 0 100%;
+  justify-content: flex-end;
+}
+
+.is-blue .dpmsg-ScreenHeder {
+  background-image: linear-gradient(30deg, var(--blue) 0%, var(--blue) 22%, #4877b2 100%);
+}
+
+.is-blue .dpmsg-ScreenHederTitle {
+  color: var(--white);
+}
+
+.is-blue .dpmsg-ScreenHederText {
+  color: #f9f9f9;
+}
+
+.is-minimal.is-light .dpmsg-ScreenHederText {
+  color: #f9f9f9;
+}
+
+.is-light .dpmsg-ScreenHederText {
+  color: var(--gray-500);
+}
+
+.is-light .dpmsg-ScreenHeder {
+  background-color: var(--white);
+  background-image: none;
+}
+
+.is-minimal.is-light .dpmsg-ScreenHederTitle {
+  color: #5f7689;
+}
+
+.is-light .dpmsg-ScreenHederTitle {
+  color: #1d3e55;
+}
+
+.dpmsg-Screen .dpmsg-IconArrow {
+  height: var(--height-icon);
+  width: var(--width-icon);
+}
+
+.dpmsg-ScreenControls {
+  flex: 0 0 100%;
+  margin-top: -4px;
+  padding-bottom: var(--space);
+}
+
+.dpmsg-ScreenControls a,
+.dpmsg-ScreenControls a * {
+  cursor: pointer;
+  font-size: var(--h1);
+}
+
+.is-blue .dpmsg-ScreenControls,
+.is-blue .dpmsg-ScreenControls a {
+  color: var(--white);
+}
+
+.is-blue .dpmsg-ScreenControls .dpmsg-IconArrow {
+  background-image: url('data:image/svg+xml,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><style>.cls-1{fill:%23fff;}</style></defs><title>app_icons</title><path class="cls-1" d="M275,468.73a36.26,36.26,0,0,0,50.26,0l0,0L589.1,206a36.27,36.27,0,0,0-51.29-51.29L300.69,391.8,63.56,154.67A36.27,36.27,0,0,0,12.27,206Z"/></svg>');
+}
+
+.is-light .dpmsg-ScreenControls,
+.is-light .dpmsg-ScreenControls a {
+  color: #5f7689;
+}
+
+.is-light .dpmsg-ScreenControls .dpmsg-IconArrow {
+  background-image: url('data:image/svg+xml,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><style>.cls-1{fill: %234395d2;}</style></defs><title>app_icons</title><path class="cls-1" d="M275,468.73a36.26,36.26,0,0,0,50.26,0l0,0L589.1,206a36.27,36.27,0,0,0-51.29-51.29L300.69,391.8,63.56,154.67A36.27,36.27,0,0,0,12.27,206Z"/></svg>');
+
+}
