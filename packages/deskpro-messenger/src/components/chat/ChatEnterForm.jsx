@@ -88,7 +88,7 @@ class ChatEnterForm extends PureComponent {
     return (
       <Form>
         {!!category && <FieldLayout layouts={layouts} {...this.props} />}
-        <Button width="full" size="medium" type="submit">
+        <Button width="full" size="medium" color="primary" type="submit">
           Start Conversation
         </Button>
       </Form>

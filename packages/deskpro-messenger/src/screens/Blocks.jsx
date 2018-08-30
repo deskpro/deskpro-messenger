@@ -7,7 +7,7 @@ import Button from '../components/form/Button';
 const blocksMapping = {
   StartChatBlock: ({ to, linkText = 'Start Chat' }) => (
     <Block title="Conversations">
-      <Button to={`/screens/${to}`} width="full">
+      <Button to={`/screens/${to}`} width="full" color="primary">
         {linkText}
       </Button>
     </Block>

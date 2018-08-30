@@ -7,10 +7,11 @@ const Button = ({
   children,
   to,
   className,
-  width = 'full',
+  width = '',
   size,
-  color = 'primary',
+  color = '',
   textOnly = false,
+  rounded = false,
   ...props
 }) =>
   React.createElement(
@@ -22,7 +23,8 @@ const Button = ({
         'Button-HalfWidth': width === 'half',
         'Button--text': textOnly,
         [`Button--${size}`]: !!size,
-        [`Button--${color}`]: !!color
+        [`Button--${color}`]: !!color,
+        'Button--rounded': !!rounded
       }),
       to,
       ...props
