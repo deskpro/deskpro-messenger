@@ -5,10 +5,11 @@
   "license": "BSD-3-Clause",
   "description": "DeskPRO embeddable messenger",
   "dependencies": {
-    "@deskpro/portal-components": "^0.2.0",
+    "@deskpro/portal-components": "^0.2.1",
     "classnames": "^2.2.6",
     "contrast": "^1.0.1",
     "formik": "^0.11",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-contenteditable": "^2.1.5",
     "react-dom": "^16.4.1",
