@@ -105,9 +105,14 @@ storiesOf('Messenger', module)
 
     button('Open Sales Chat', buttonHandler, 'API');
 
+    const baseUrl =
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:9009/'
+        : 'https://deskpro.github.io/deskpro-messenger/';
+
     return (
       <Provider store={store}>
-        <App config={{ screens, greetings, enabledGreetings }} />
+        <App config={{ screens, greetings, enabledGreetings, baseUrl }} />
       </Provider>
     );
   });
