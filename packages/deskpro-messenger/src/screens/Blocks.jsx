@@ -26,9 +26,9 @@ const blocksMapping = {
 
 const Blocks = ({ blocks }) => (
   <Fragment>
-    {blocks.map(({ blockType, ...props }) => {
+    {blocks.map(({ blockType, ...props }, index) => {
       const Component = blocksMapping[blockType];
-      return Component ? <Component key={blockType} {...props} /> : null;
+      return Component ? <Component key={blockType + index} {...props} /> : null;
     })}
   </Fragment>
 );
