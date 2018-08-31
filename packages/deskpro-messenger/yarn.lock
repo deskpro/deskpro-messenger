@@ -206,9 +206,9 @@
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@deskpro/js-utils/-/js-utils-1.0.4.tgz#cbe461d10d23fa42dcd7016162fcd33626022143"
 
-"@deskpro/portal-components@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.2.1.tgz#6ba2ffaedcd1ff29c40c2258cfc556a21a5aa72a"
+"@deskpro/portal-components@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.2.5.tgz#a17959a79b82d3262c9540e060ffd1472554022d"
   dependencies:
     "@deskpro/js-utils" "^1.0.4"
     "@deskpro/react-datepicker-hijri" "^1.5.0"
@@ -216,7 +216,6 @@
     classnames "^2.2.5"
     emotion "^9.2.6"
     es6-promise "^4.2.4"
-    formik "1.1.1"
     immutable "^3.8.2"
     isomorphic-fetch "^2.2.1"
     libphonenumber-js "^1.3.1"
@@ -224,13 +223,13 @@
     moment "^2.22.1"
     moment-hijri "^2.0.1"
     raw-loader "^0.5.1"
-    react-dropzone "^4.2.9"
+    react-dropzone "^5.0.1"
     react-select "^2.0.0"
     react-svg-inline "^2.1.0"
-    react-textarea-autosize "^6.1.0"
+    react-textarea-autosize "^7.0.4"
     url-polyfill "^1.0.13"
     world-countries "^2.0.0"
-    yup "^0.24.1"
+    yup "0.24.1"
 
 "@deskpro/react-datepicker-hijri@^1.5.0":
   version "1.5.0"
@@ -4189,7 +4188,7 @@ form-data@~2.3.2:
     combined-stream "1.0.6"
     mime-types "^2.1.12"
 
-formik@1.1.1, formik@^1.1.1:
+formik@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/formik/-/formik-1.1.1.tgz#078e6b7ff09d040ad63a30058e1ce8f1c0ad59cb"
   dependencies:
@@ -8163,9 +8162,9 @@ react-dom@^16.4.1:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-dropzone@^4.2.9:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-4.3.0.tgz#facdd7db16509772633c9f5200621ac01aa6706f"
+react-dropzone@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-5.0.1.tgz#3ed201215794c0f650c6f25a8311a9d96d35ebb6"
   dependencies:
     attr-accept "^1.1.3"
     prop-types "^15.5.7"
@@ -8369,9 +8368,9 @@ react-textarea-autosize@^5.2.1:
   dependencies:
     prop-types "^15.6.0"
 
-react-textarea-autosize@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/react-textarea-autosize/-/react-textarea-autosize-6.1.0.tgz#df91387f8a8f22020b77e3833c09829d706a09a5"
+react-textarea-autosize@^7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/react-textarea-autosize/-/react-textarea-autosize-7.0.4.tgz#4e4be649b544a88713e7b5043f76950f35d3d503"
   dependencies:
     prop-types "^15.6.0"
 
@@ -10637,7 +10636,7 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yup@^0.24.1:
+yup@0.24.1:
   version "0.24.1"
   resolved "https://registry.yarnpkg.com/yup/-/yup-0.24.1.tgz#2c8a81b5f929ef29aaf77a8b7c9acfa52ab6a7d1"
   dependencies:
