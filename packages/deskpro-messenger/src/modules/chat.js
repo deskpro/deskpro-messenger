@@ -8,15 +8,16 @@ import { createSelector } from 'reselect';
 import _findLast from 'lodash/findLast';
 import _mapValues from 'lodash/mapValues';
 
+import asset from '../utils/asset';
 import FakeChatService from '../services/FakeChatService';
 const chatService = new FakeChatService();
 
 const messengerOptions = window.parent.DESKPRO_MESSENGER_OPTIONS || {};
 const sounds = _mapValues(
   messengerOptions.sounds || {},
-  path => new Audio(path)
+  (path) => new Audio(path)
 );
-sounds.default = new Audio('/assets/audio/unconvinced.mp3');
+sounds.default = new Audio(asset('/audio/unconvinced.mp3'));
 
 //#region ACTION TYPES
 const CHAT_START = 'CHART_START';
@@ -28,16 +29,16 @@ const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
 //#endregion
 
 //#region ACTION CREATORS
-export const createChat = data => ({ type: CHAT_START, payload: data });
-export const saveChatId = chatId => ({
+export const createChat = (data) => ({ type: CHAT_START, payload: data });
+export const saveChatId = (chatId) => ({
   type: CHAT_SAVE_CHAT_ID,
   payload: chatId
 });
-export const messageReceived = message => ({
+export const messageReceived = (message) => ({
   type: CHAT_MESSAGE_RECEIVED,
   payload: message
 });
-export const sendMessage = message => ({
+export const sendMessage = (message) => ({
   type: CHAT_SEND_MESSAGE,
   payload: message
 });
@@ -46,19 +47,19 @@ export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
 
 //#region EPICS
 const listenForMessages = () =>
-  new Observable(observer => {
-    const callback = message => observer.next(message);
+  new Observable((observer) => {
+    const callback = (message) => observer.next(message);
     chatService.subscribe(callback);
     return () => chatService.unsubscribe(callback);
   });
 
-export const chatMessagingEpic = action$ =>
-  action$.ofType(CHAT_START).switchMap(action =>
+export const chatMessagingEpic = (action$) =>
+  action$.ofType(CHAT_START).switchMap((action) =>
     listenForMessages()
-      .map(message => messageReceived(message))
+      .map((message) => messageReceived(message))
       .merge(from(chatService.createChat(action.payload)).map(saveChatId))
       .merge(
-        action$.ofType(CHAT_SEND_MESSAGE).switchMap(action =>
+        action$.ofType(CHAT_SEND_MESSAGE).switchMap((action) =>
           from(chatService.sendMessage(action.payload)).map(() => ({
             type: CHAT_SEND_MESSAGE_SUCCESS,
             payload: action.payload
@@ -103,7 +104,7 @@ export default (state = initialState, { type, payload }) => {
       if (payload.type.startsWith('chat.block.') && payload.origin === 'user') {
         const message = _findLast(
           state.messages,
-          m => m.type === payload.type && m.origin !== 'user'
+          (m) => m.type === payload.type && m.origin !== 'user'
         );
         const index = state.messages.indexOf(message);
         return {
@@ -149,15 +150,15 @@ export default (state = initialState, { type, payload }) => {
 //#endregion
 
 //#region SELECTORS
-const getChatState = state => state.chat;
-export const getChatId = createSelector(getChatState, state => state.chatId);
+const getChatState = (state) => state.chat;
+export const getChatId = createSelector(getChatState, (state) => state.chatId);
 export const getMessages = createSelector(
   getChatState,
-  state => state.messages
+  (state) => state.messages
 );
 export const getTypingState = createSelector(
   getChatState,
-  state => state.typing
+  (state) => state.typing
 );
-export const isMuted = createSelector(getChatState, state => state.mute);
+export const isMuted = createSelector(getChatState, (state) => state.mute);
 //#endregion
