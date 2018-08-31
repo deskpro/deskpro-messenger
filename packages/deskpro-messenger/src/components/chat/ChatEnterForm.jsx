@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-// import { Formik } from 'formik';
+// import { Form, Formik } from 'formik';
 // import { Submit } from 'portal-components/src/Components';
 import {
   LayoutConfig,
   FieldLayout,
   Form,
-  Formik
+  withFormik
 } from '@deskpro/portal-components';
 // import Field from '../form/InputField';
 import Button from '../form/Button';
@@ -78,25 +78,18 @@ class ChatEnterForm extends PureComponent {
   }
 }
 
-export default (props) => {
-  const initialValues = {
-    category: props.category,
-    ...layouts
-      .getMatchingLayout({ category: props.category })
-      .getDefaultValues()
-  };
-
-  return (
-    <Formik
-      enableReinitialize={true}
-      initialValues={initialValues}
-      handleSubmit={(values, { props, setSubmitting }) => {
-        setSubmitting(true);
-        props.createChat(values);
-        props.history.push(`${props.baseUrl}/new-message`);
-      }}
-      component={ChatEnterForm}
-      {...props}
-    />
-  );
-};
+export default withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ category }) => {
+    const layout = layouts.getMatchingLayout({ category });
+    if (layout) {
+      return { category, ...layout.getDefaultValues() };
+    }
+    return { category };
+  },
+  handleSubmit: (values, { props, setSubmitting }) => {
+    setSubmitting(true);
+    props.createChat(values);
+    props.history.push(`${props.baseUrl}/new-message`);
+  }
+})(ChatEnterForm);
