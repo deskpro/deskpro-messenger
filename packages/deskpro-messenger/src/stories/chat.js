@@ -6,6 +6,13 @@ import Block from '../components/core/Block';
 import Chat from '../components/chat/Chat';
 import { MuteButton } from '../containers/MuteButton';
 
+window.parent.DESKPRO_MESSENGER_OPTIONS = {
+  baseUrl:
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:9009/'
+      : 'https://deskpro.github.io/deskpro-messenger/'
+};
+
 import asset from '../utils/asset';
 
 const messages = [

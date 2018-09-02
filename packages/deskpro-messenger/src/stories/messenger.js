@@ -8,6 +8,13 @@ import { withKnobs, boolean, button } from '@storybook/addon-knobs';
 import App from '../App';
 import '../index.css';
 
+window.parent.DESKPRO_MESSENGER_OPTIONS = {
+  baseUrl:
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:9009/'
+      : 'https://deskpro.github.io/deskpro-messenger/'
+};
+
 import createStore from '../store';
 const store = createStore();
 
@@ -105,19 +112,15 @@ storiesOf('Messenger', module)
 
     button('Open Sales Chat', buttonHandler, 'API');
 
-    window.parent.DESKPRO_MESSENGER_OPTIONS = {
-      screens,
-      greetings,
-      enabledGreetings,
-      baseUrl:
-        process.env.NODE_ENV === 'development'
-          ? 'http://localhost:9009/'
-          : 'https://deskpro.github.io/deskpro-messenger/'
-    };
-
     return (
       <Provider store={store}>
-        <App config={window.parent.DESKPRO_MESSENGER_OPTIONS} />
+        <App
+          config={{
+            screens,
+            greetings,
+            enabledGreetings
+          }}
+        />
       </Provider>
     );
   });
