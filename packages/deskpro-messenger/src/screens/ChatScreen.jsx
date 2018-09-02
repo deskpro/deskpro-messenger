@@ -41,7 +41,6 @@ class ChatScreen extends PureComponent {
     const category = this.props.category;
     const capCategory = category[0].toUpperCase() + category.substring(1);
     const baseUrl = this.props.match.path;
-    console.log(this.props.chatId, this.props.location.pathname);
 
     return (
       <Block title={`${capCategory} conversation`}>
