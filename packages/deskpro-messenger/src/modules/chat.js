@@ -24,7 +24,7 @@ const sounds = _mapValues(
   messengerOptions.sounds || {},
   (path) => new Audio(path)
 );
-sounds.default = new Audio(asset('/audio/unconvinced.mp3'));
+sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 
 //#region ACTION TYPES
 const CHAT_START = 'CHART_START';

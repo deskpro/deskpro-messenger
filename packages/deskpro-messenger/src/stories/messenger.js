@@ -8,13 +8,6 @@ import { withKnobs, boolean, button } from '@storybook/addon-knobs';
 import App from '../App';
 import '../index.css';
 
-window.parent.DESKPRO_MESSENGER_OPTIONS = {
-  baseUrl:
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:9009/'
-      : 'https://deskpro.github.io/deskpro-messenger/'
-};
-
 import createStore from '../store';
 const store = createStore();
 

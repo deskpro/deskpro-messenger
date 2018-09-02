@@ -6,13 +6,6 @@ import Block from '../components/core/Block';
 import Chat from '../components/chat/Chat';
 import { MuteButton } from '../containers/MuteButton';
 
-window.parent.DESKPRO_MESSENGER_OPTIONS = {
-  baseUrl:
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:9009/'
-      : 'https://deskpro.github.io/deskpro-messenger/'
-};
-
 import asset from '../utils/asset';
 
 const messages = [
@@ -53,11 +46,13 @@ const messages = [
   },
   {
     type: 'chat.block.rate',
-    origin: 'system'
+    origin: 'system',
+    name: 'Nick Green'
   },
   {
     type: 'chat.block.rate',
     origin: 'user',
+    name: 'Nick Green',
     rate: 'helpful'
   }
 ];
@@ -66,11 +61,7 @@ storiesOf('Chat Elements', module).add('Chat', () => (
   <MessageShell
     controls={
       <Fragment>
-        <a
-          href={false}
-          className="dpmsg-BackBtn dpmsg-LevelLeft"
-          onClick={action('back')}
-        >
+        <a className="dpmsg-BackBtn dpmsg-LevelLeft" onClick={action('back')}>
           <i className="dpmsg-IconArrow iconArrow--left" /> back
         </a>
         <MuteButton isMuted toggleSound={action('toggle muted')} />
@@ -82,7 +73,6 @@ storiesOf('Chat Elements', module).add('Chat', () => (
       <Chat
         messages={messages}
         category="sales"
-        typing={false}
         onSendMessage={action('send message')}
       />
     </Block>
