@@ -39,13 +39,13 @@ export default class FakeChatService extends BaseChatService {
   async startListening() {
     await super.startListening();
 
-    this.onMessageReceived({
+    await sleep(NETWORK_LATENCY);
+
+    await this.onMessageReceived({
       type: 'chat.agentAssigned',
       origin: 'system',
       name: 'Nick Green'
     });
-
-    await sleep(NETWORK_LATENCY);
   }
 
   async sendMessage(message) {

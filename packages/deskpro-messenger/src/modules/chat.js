@@ -1,6 +1,14 @@
 import { Observable, from } from 'rxjs';
 import { ofType, combineEpics } from 'redux-observable';
-import { withLatestFrom, tap, skip, filter } from 'rxjs/operators';
+import {
+  withLatestFrom,
+  tap,
+  skip,
+  filter,
+  map,
+  merge,
+  switchMap
+} from 'rxjs/operators';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
@@ -10,7 +18,6 @@ import _mapValues from 'lodash/mapValues';
 
 import asset from '../utils/asset';
 import FakeChatService from '../services/FakeChatService';
-const chatService = new FakeChatService();
 
 const messengerOptions = window.parent.DESKPRO_MESSENGER_OPTIONS || {};
 const sounds = _mapValues(
@@ -30,23 +37,26 @@ const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
 
 //#region ACTION CREATORS
 export const createChat = (data) => ({ type: CHAT_START, payload: data });
-export const saveChatId = (chatId) => ({
+export const saveChatId = (chatId, category) => ({
   type: CHAT_SAVE_CHAT_ID,
-  payload: chatId
+  payload: chatId,
+  meta: { category }
 });
-export const messageReceived = (message) => ({
+export const messageReceived = (message, category) => ({
   type: CHAT_MESSAGE_RECEIVED,
-  payload: message
+  payload: message,
+  meta: { category }
 });
-export const sendMessage = (message) => ({
+export const sendMessage = (message, category) => ({
   type: CHAT_SEND_MESSAGE,
-  payload: message
+  payload: message,
+  meta: { category }
 });
 export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
 //#endregion
 
 //#region EPICS
-const listenForMessages = () =>
+const listenForMessages = (chatService) =>
   new Observable((observer) => {
     const callback = (message) => observer.next(message);
     chatService.subscribe(callback);
@@ -54,19 +64,33 @@ const listenForMessages = () =>
   });
 
 export const chatMessagingEpic = (action$) =>
-  action$.ofType(CHAT_START).switchMap((action) =>
-    listenForMessages()
-      .map((message) => messageReceived(message))
-      .merge(from(chatService.createChat(action.payload)).map(saveChatId))
-      .merge(
-        action$.ofType(CHAT_SEND_MESSAGE).switchMap((action) =>
-          from(chatService.sendMessage(action.payload)).map(() => ({
-            type: CHAT_SEND_MESSAGE_SUCCESS,
-            payload: action.payload
-          }))
+  action$.pipe(
+    ofType(CHAT_START),
+    switchMap((action) => {
+      const { category } = action.payload;
+      const chatService = new FakeChatService();
+      return listenForMessages(chatService).pipe(
+        map((message) => messageReceived(message, category)),
+        merge(
+          from(chatService.createChat(action.payload)).map((chatId) =>
+            saveChatId(chatId, category)
+          )
+        ),
+        merge(
+          action$.pipe(
+            ofType(CHAT_SEND_MESSAGE),
+            filter(({ meta }) => meta.category === category),
+            tap(({ payload }) => chatService.sendMessage(payload)),
+            map((action) => ({
+              ...action,
+              type: CHAT_SEND_MESSAGE_SUCCESS
+            }))
+          )
         )
-      )
+      );
+    })
   );
+
 export const soundEpic = (action$, state$) =>
   action$.pipe(
     ofType(CHAT_MESSAGE_RECEIVED),
@@ -88,8 +112,8 @@ export const chatEpic = combineEpics(chatMessagingEpic, soundEpic);
 //#endregion
 
 //#region REDUCER
-const initialState = { chatId: '', messages: [], mute: false };
-export default (state = initialState, { type, payload }) => {
+const chatInitialState = { chatId: '', messages: [] };
+const chatReducer = (state = chatInitialState, { type, payload }) => {
   switch (type) {
     case CHAT_SAVE_CHAT_ID:
       return { ...state, chatId: payload };
@@ -140,25 +164,39 @@ export default (state = initialState, { type, payload }) => {
       }
       return state;
 
-    case CHAT_TOGGLE_SOUND:
-      return { ...state, mute: !state.mute };
-
     default:
       return state;
+  }
+};
+const initialState = { chats: {}, mute: false };
+export default (state = initialState, action) => {
+  if (action.type === CHAT_TOGGLE_SOUND) {
+    return { ...state, mute: !state.mute };
+  } else if (action.meta && action.meta.category) {
+    const { category } = action.meta;
+    return {
+      ...state,
+      chats: {
+        ...state.chats,
+        [category]: chatReducer(state.chats[category], action)
+      }
+    };
+  } else {
+    return state;
   }
 };
 //#endregion
 
 //#region SELECTORS
 const getChatState = (state) => state.chat;
-export const getChatId = createSelector(getChatState, (state) => state.chatId);
-export const getMessages = createSelector(
-  getChatState,
-  (state) => state.messages
+const getChats = createSelector(getChatState, (state) => state.chats || {});
+const getChat = createSelector(
+  getChats,
+  (_, props) => props.category,
+  (chats, category) => chats[category] || {}
 );
-export const getTypingState = createSelector(
-  getChatState,
-  (state) => state.typing
-);
+export const getChatId = createSelector(getChat, (chat) => chat.chatId);
+export const getMessages = createSelector(getChat, (chat) => chat.messages);
+export const getTypingState = createSelector(getChat, (chat) => chat.typing);
 export const isMuted = createSelector(getChatState, (state) => state.mute);
 //#endregion

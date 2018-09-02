@@ -23,7 +23,7 @@ class ChatScreen extends PureComponent {
     typing: PropTypes.object
   };
 
-  handleSendMessage = message => {
+  handleSendMessage = (message) => {
     if (message) {
       const messageModel =
         typeof message === 'string'
@@ -33,7 +33,7 @@ class ChatScreen extends PureComponent {
               type: 'chat.message'
             }
           : message;
-      this.props.sendMessage(messageModel);
+      this.props.sendMessage(messageModel, this.props.category);
     }
   };
 
@@ -47,7 +47,7 @@ class ChatScreen extends PureComponent {
         <Switch>
           <Route
             path={`${baseUrl}/live`}
-            render={props => (
+            render={(props) => (
               <Chat
                 baseUrl={baseUrl}
                 messages={this.props.messages}
@@ -60,7 +60,7 @@ class ChatScreen extends PureComponent {
           />
           <Route
             path={`${baseUrl}/auth`}
-            render={props => (
+            render={(props) => (
               <ChatEnterForm
                 baseUrl={baseUrl}
                 category={this.props.category}
@@ -71,7 +71,7 @@ class ChatScreen extends PureComponent {
           />
           <Route
             path={`${baseUrl}/new-message`}
-            render={props => (
+            render={(props) => (
               <FirstMessage
                 baseUrl={baseUrl}
                 category={this.props.category}
@@ -89,10 +89,10 @@ class ChatScreen extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  chatId: getChatId(state),
-  messages: getMessages(state),
-  typing: getTypingState(state)
+const mapStateToProps = (state, props) => ({
+  chatId: getChatId(state, props),
+  messages: getMessages(state, props),
+  typing: getTypingState(state, props)
 });
 export default withRouter(
   connect(
