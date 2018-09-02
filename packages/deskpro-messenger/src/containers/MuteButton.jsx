@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import { toggleSound, isMuted } from '../modules/chat';
 
-const MuteButton = ({ isMuted, toggleSound }) => (
+export const MuteButton = ({ isMuted, toggleSound }) => (
   <a
     onClick={toggleSound}
     className={classNames('dpmsg-LevelRight', {
