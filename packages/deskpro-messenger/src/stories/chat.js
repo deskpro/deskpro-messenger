@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { storiesOf, action } from '@storybook/react';
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 
 import MessageShell from '../components/core/MessengerShell';
 import Block from '../components/core/Block';
@@ -61,10 +62,13 @@ storiesOf('Chat Elements', module).add('Chat', () => (
   <MessageShell
     controls={
       <Fragment>
-        <a className="dpmsg-BackBtn dpmsg-LevelLeft" onClick={action('back')}>
+        <a
+          className="dpmsg-BackBtn dpmsg-LevelLeft"
+          onClick={action('go-back')}
+        >
           <i className="dpmsg-IconArrow iconArrow--left" /> back
         </a>
-        <MuteButton isMuted toggleSound={action('toggle muted')} />
+        <MuteButton isMuted toggleSound={action('toggle-mute')} />
       </Fragment>
     }
     introText="Helping organizations provide their customers with better support."
@@ -73,7 +77,7 @@ storiesOf('Chat Elements', module).add('Chat', () => (
       <Chat
         messages={messages}
         category="sales"
-        onSendMessage={action('send message')}
+        onSendMessage={action('send-message')}
       />
     </Block>
   </MessageShell>
