@@ -1,0 +1,16 @@
+{
+  "app.buttons.back": "back",
+  "app.title": "Get in Touch",
+  "chat.agent_assigned.message": "{name} joined the conversation.",
+  "chat.rating_block.question_header": "Rate your conversation with {name}",
+  "chat.rating_block.buttons.helpful": "Helpful",
+  "chat.rating_block.buttons.unhelpful": "Unhelpful",
+  "chat.rating_block.thank_you_header": "Thank you for your feedback",
+  "chat.transcript_block.question_header": "Would you like an email transcript?",
+  "chat.transcript_block.answer_header": "Your transcript is on it’s way to:",
+  "chat.transcript_block.yes_button": "Yes",
+  "chat.transcript_block.no_button": "No",
+  "chat.transcript_block.send_button": "Send Message",
+  "chat.welcome_bubble.message": "What can we help you with today?",
+  "chat.enter_form.button": "Start Conversation"
+}

@@ -80,9 +80,11 @@ class RatingBlock extends PureComponent {
   }
 
   renderSmile() {
-    const { rate, intl } = this.props.message;
+    const { rate } = this.props.message;
     return (
-      <ChatPrompt header={intl.formatMessage(transMessages.thankYouHeader)}>
+      <ChatPrompt
+        header={this.props.intl.formatMessage(transMessages.thankYouHeader)}
+      >
         <div className="dpmsg-PromptContentEvaluation">
           <i
             className={classNames(
