@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-// import { Form, Formik } from 'formik';
-// import { Submit } from 'portal-components/src/Components';
+import { FormattedMessage } from 'react-intl';
 import {
   LayoutConfig,
   FieldLayout,
@@ -71,7 +70,10 @@ class ChatEnterForm extends PureComponent {
       <Form>
         <FieldLayout layouts={layouts} {...this.props} />
         <Button width="full" size="medium" color="primary" type="submit">
-          Start Conversation
+          <FormattedMessage
+            id="chat.enter_form.button"
+            defaultMessage="Start Conversation"
+          />
         </Button>
       </Form>
     );

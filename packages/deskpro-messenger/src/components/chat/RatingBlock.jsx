@@ -1,9 +1,29 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { injectIntl } from 'react-intl';
 
 import Button from '../form/Button';
 import ChatPrompt from '../ui/ChatPrompt';
+
+const transMessages = {
+  questionHeader: {
+    id: 'chat.rating_block.question_header',
+    defaultMessage: 'Rate your conversation with {name}'
+  },
+  buttonHelpful: {
+    id: 'chat.rating_block.buttons.helpful',
+    defaultMessage: 'Helpful'
+  },
+  buttonUnhelpful: {
+    id: 'chat.rating_block.buttons.unhelpful',
+    defaultMessage: 'Unhelpful'
+  },
+  thankYouHeader: {
+    id: 'chat.rating_block.thank_you_header',
+    defaultMessage: 'Thank you for your feedback'
+  }
+};
 
 class RatingBlock extends PureComponent {
   static propTypes = {
@@ -15,7 +35,7 @@ class RatingBlock extends PureComponent {
     }).isRequired
   };
 
-  handleClick = e => {
+  handleClick = (e) => {
     this.props.onSend({
       ...this.props.message,
       origin: 'user',
@@ -32,9 +52,10 @@ class RatingBlock extends PureComponent {
   }
 
   renderButtons() {
+    const { intl, message } = this.props;
     return (
       <ChatPrompt
-        header={`Rate your conversation with ${this.props.message.name}`}
+        header={intl.formatMessage(transMessages.questionHeader, message)}
       >
         <div className="dpmsg-PromptContentEvaluation">
           <Button
@@ -43,7 +64,7 @@ class RatingBlock extends PureComponent {
             name="helpful"
             onClick={this.handleClick}
           >
-            Helpful
+            {intl.formatMessage(transMessages.buttonHelpful)}
           </Button>
           <Button
             width="limited"
@@ -51,7 +72,7 @@ class RatingBlock extends PureComponent {
             name="unhelpful"
             onClick={this.handleClick}
           >
-            Unhelpful
+            {intl.formatMessage(transMessages.buttonUnhelpful)}
           </Button>
         </div>
       </ChatPrompt>
@@ -59,9 +80,9 @@ class RatingBlock extends PureComponent {
   }
 
   renderSmile() {
-    const { rate } = this.props.message;
+    const { rate, intl } = this.props.message;
     return (
-      <ChatPrompt header={`Thank you for your feedback`}>
+      <ChatPrompt header={intl.formatMessage(transMessages.thankYouHeader)}>
         <div className="dpmsg-PromptContentEvaluation">
           <i
             className={classNames(
@@ -78,4 +99,4 @@ class RatingBlock extends PureComponent {
   }
 }
 
-export default RatingBlock;
+export default injectIntl(RatingBlock);

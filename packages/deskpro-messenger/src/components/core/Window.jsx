@@ -1,6 +1,7 @@
 import React, { Fragment, PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Link, Redirect } from 'react-router-dom';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import Frame from './Frame';
 import { withConfig } from './ConfigContext';
@@ -23,6 +24,13 @@ const iframeStyle = {
   width: '400px',
   maxHeight: 'calc(100vh - 60px - 14px - 14px - 14px)',
   minHeight: '350px'
+};
+
+const transMessages = {
+  title: {
+    id: 'app.title',
+    defaultMessage: 'Get in Touch'
+  }
 };
 
 class MessengerWindow extends PureComponent {
@@ -76,7 +84,11 @@ class MessengerWindow extends PureComponent {
                   to={`/screens/index`}
                   className="dpmsg-BackBtn dpmsg-LevelLeft"
                 >
-                  <i className="dpmsg-IconArrow iconArrow--left" /> back
+                  <i className="dpmsg-IconArrow iconArrow--left" />{' '}
+                  <FormattedMessage
+                    id="app.buttons.back"
+                    defaultMessage="back"
+                  />
                 </Link>
               )}
               {!!screen && screen.screenType === 'ChatScreen' && <MuteButton />}
@@ -88,7 +100,7 @@ class MessengerWindow extends PureComponent {
   };
 
   render() {
-    const { opened } = this.props;
+    const { opened, intl } = this.props;
 
     return (
       <Frame
@@ -98,7 +110,11 @@ class MessengerWindow extends PureComponent {
           display: opened ? 'block' : 'none'
         }}
       >
-        <MessengerShell controls={this.renderToolbar()} ref={this.shellRef}>
+        <MessengerShell
+          controls={this.renderToolbar()}
+          ref={this.shellRef}
+          title={intl.formatMessage(transMessages.title)}
+        >
           <Switch>
             {Object.entries(this.props.screens)
               .map(([screenName, screen]) => (
@@ -124,4 +140,4 @@ class MessengerWindow extends PureComponent {
   }
 }
 
-export default withConfig(MessengerWindow);
+export default withConfig(injectIntl(MessengerWindow));

@@ -1,5 +1,6 @@
 import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl } from 'react-intl';
 
 import MessageBubble from './MessageBubble';
 import SystemMessage from './SystemMessage';
@@ -7,6 +8,13 @@ import MessageForm from './MessageForm';
 import TypingMessage from './TypingMessage';
 import TranscriptBlock from './TranscriptBlock';
 import RatingBlock from './RatingBlock';
+
+const transMessages = {
+  agentAssigned: {
+    id: 'chat.agent_assigned.message',
+    defaultMessage: `{name} joined the conversation.`
+  }
+};
 
 class Chat extends PureComponent {
   static propTypes = {
@@ -17,7 +25,8 @@ class Chat extends PureComponent {
   };
 
   render() {
-    const { typing, messages, onSendMessage } = this.props;
+    const { typing, messages, onSendMessage, intl } = this.props;
+
     return (
       <Fragment>
         {messages.map((message, index) => {
@@ -30,7 +39,10 @@ class Chat extends PureComponent {
                 <SystemMessage
                   key={key}
                   {...message}
-                  message={`${message.name} joined the conversation.`}
+                  message={intl.formatMessage(
+                    transMessages.agentAssigned,
+                    message
+                  )}
                 />
               );
             case 'chat.block.transcript':
@@ -60,4 +72,4 @@ class Chat extends PureComponent {
   }
 }
 
-export default Chat;
+export default injectIntl(Chat);

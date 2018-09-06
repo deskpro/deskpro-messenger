@@ -1,8 +1,32 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import Button from '../form/Button';
 import ChatPrompt from '../ui/ChatPrompt';
+
+const transMessages = {
+  questionHeader: {
+    id: 'chat.transcript_block.question_header',
+    defaultMessage: 'Would you like an email transcript?'
+  },
+  answerHeader: {
+    id: 'chat.transcript_block.answer_header',
+    defaultMessage: 'Your transcript is on it’s way to:'
+  },
+  yesButton: {
+    id: 'chat.transcript_block.yes_button',
+    defaultMessage: 'Yes'
+  },
+  noButton: {
+    id: 'chat.transcript_block.no_button',
+    defaultMessage: 'No'
+  },
+  sendButton: {
+    id: 'chat.transcript_block.send_button',
+    defaultMessage: 'Send Message'
+  }
+};
 
 class TranscriptBlock extends PureComponent {
   static propTypes = {
@@ -26,16 +50,16 @@ class TranscriptBlock extends PureComponent {
     return null;
   }
 
-  handleYesNo = e => {
+  handleYesNo = (e) => {
     e.preventDefault();
     if (e.target.name === 'yes') {
       this.setState({ view_mode: 'fields' });
     }
   };
 
-  handleInputChange = e => this.setState({ [e.target.name]: e.target.value });
+  handleInputChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { name, email } = this.state;
     if (name && email) {
@@ -51,14 +75,13 @@ class TranscriptBlock extends PureComponent {
   render() {
     const { view_mode } = this.state;
     const { origin } = this.props.message;
+    const { formatMessage } = this.props.intl;
 
     return (
       <ChatPrompt
-        header={
-          origin === 'user'
-            ? 'Your transcript is on it’s way to:'
-            : 'Would you like an email transcript?'
-        }
+        header={formatMessage(
+          transMessages[`${origin === 'user' ? 'answer' : 'question'}Header`]
+        )}
         icon="Notes"
       >
         {view_mode === 'ask' && this.renderYesNo()}
@@ -76,14 +99,14 @@ class TranscriptBlock extends PureComponent {
           name="yes"
           onClick={this.handleYesNo}
         >
-          Yes
+          <FormattedMessage {...transMessages.yesButton} />
         </button>
         <button
           className="dpmsg-PromptBtn is-disagree"
           name="no"
           onClick={this.handleYesNo}
         >
-          No
+          <FormattedMessage {...transMessages.noButton} />
         </button>
       </div>
     );
@@ -105,7 +128,7 @@ class TranscriptBlock extends PureComponent {
           onChange={this.handleInputChange}
         />
         <Button width="full" size="medium" onClick={this.handleSubmit}>
-          Send a message
+          <FormattedMessage {...transMessages.sendButton} />
         </Button>
       </div>
     );
@@ -116,4 +139,4 @@ class TranscriptBlock extends PureComponent {
   }
 }
 
-export default TranscriptBlock;
+export default injectIntl(TranscriptBlock);
