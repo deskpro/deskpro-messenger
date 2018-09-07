@@ -6,6 +6,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "lerna": "lerna"
+    "lerna": "lerna",
+    "test": "cd packages/deskpro-messenger && yarn test"
   }
 }
