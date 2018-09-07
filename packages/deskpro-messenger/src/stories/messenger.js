@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { storiesOf } from '@storybook/react';
 // import { action } from '@storybook/addon-actions';
 // import { linkTo } from '@storybook/addon-links';
-import { withKnobs, boolean, button } from '@storybook/addon-knobs';
+import { withKnobs, boolean, button, select } from '@storybook/addon-knobs';
 
 import App from '../App';
 import '../index.css';
@@ -109,6 +109,7 @@ storiesOf('Messenger', module)
       <Provider store={store}>
         <App
           config={{
+            locale: select('Locale', ['en-US', 'ru-RU'], 'en-US', 'i18n'),
             screens,
             greetings,
             enabledGreetings

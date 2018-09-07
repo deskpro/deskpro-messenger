@@ -12,6 +12,8 @@ import Greetings from './components/core/Greetings';
 import { ConfigProvider } from './components/core/ConfigContext';
 import MessengerAPI from './components/core/MessengerAPI';
 
+addLocaleData(enLocale);
+
 class App extends PureComponent {
   static propTypes = {
     config: PropTypes.object
@@ -29,24 +31,34 @@ class App extends PureComponent {
   };
 
   componentDidMount() {
+    this.setState({ randomGreeting: undefined });
+    this.loadLocale();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.config.locale !== this.props.config.locale) {
+      this.loadLocale(true);
+    }
+  }
+
+  loadLocale = (force = false) => {
     const { locale } = this.props.config;
 
-    this.setState({ randomGreeting: undefined });
-
-    addLocaleData(enLocale);
-    if (locale && !locale.startsWith('en')) {
+    if (force && locale.startsWith('en')) {
+      this.setState({ translations: enTranslations });
+    } else if (locale && !locale.startsWith('en')) {
       const lang = locale.substring(0, 2);
       Promise.all([
         import(`react-intl/locale-data/${lang}`),
         import(`./translations/${lang}.json`)
       ])
-        .then(([locale, translations]) => {
-          addLocaleData(locale);
+        .then(([localeData, translations]) => {
+          addLocaleData(localeData);
           this.setState({ translations });
         })
         .catch((err) => console.log(err.message));
     }
-  }
+  };
 
   toggleWindow = () => {
     this.setState({ windowVisible: !this.state.windowVisible });
