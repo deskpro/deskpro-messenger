@@ -5,8 +5,10 @@ cache:
   directories:
     - packages/deskpro-messenger/node_modules
     - packages/deskpro-messenger-setup/node_modules
-before_deploy:
+install:
+  - yarn
   - yarn bootstrap
+before_deploy:
   - yarn lerna run build-storybook --parallel --since=origin/master
 deploy:
   - provider: pages
