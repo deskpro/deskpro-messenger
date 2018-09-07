@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - '8'
+cache:
+  directories:
+    - packages/deskpro-messenger/node_modules
+    - packages/deskpro-messenger-setup/node_modules
+before_deploy:
+  - yarn bootstrap
+  - yarn lerna run build-storybook --parallel --since=origin/master
+deploy:
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    keep-history: true
+    local-dir: packages/deskpro-messenger/storybook-static
+    on:
+      branch: master
