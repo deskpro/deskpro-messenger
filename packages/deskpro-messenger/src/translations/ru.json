@@ -12,5 +12,9 @@
   "chat.transcript_block.no_button": "Нет",
   "chat.transcript_block.send_button": "Отправить сообщение",
   "chat.welcome_bubble.message": "Как я могу вам помочь?",
-  "chat.enter_form.button": "Начать разговор."
+  "chat.enter_form.button": "Начать разговор",
+  "blocks.start_chat.title": "Разговоры",
+  "blocks.start_chat.link": "Начать разговор",
+  "blocks.tickets.title": "Ваши Тикеты",
+  "blocks.tickets.view_all_link": "посмотреть все"
 }

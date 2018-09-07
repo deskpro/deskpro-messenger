@@ -12,5 +12,9 @@
   "chat.transcript_block.no_button": "No",
   "chat.transcript_block.send_button": "Send Message",
   "chat.welcome_bubble.message": "What can we help you with today?",
-  "chat.enter_form.button": "Start Conversation"
+  "chat.enter_form.button": "Start Conversation",
+  "blocks.start_chat.title": "Conversations",
+  "blocks.start_chat.link": "Start Chat",
+  "blocks.tickets.title": "Your Tickets",
+  "blocks.tickets.view_all_link": "view all"
 }
