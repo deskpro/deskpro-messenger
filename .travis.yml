@@ -9,7 +9,7 @@ install:
   - yarn
   - yarn bootstrap
 before_deploy:
-  - yarn lerna run build-storybook --parallel --since=origin/master
+  - yarn lerna run build-storybook
 deploy:
   - provider: pages
     skip_cleanup: true
