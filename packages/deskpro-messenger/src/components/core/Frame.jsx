@@ -4,6 +4,20 @@ import FrameComponent from 'react-frame-component';
 import asset from '../../utils/asset';
 let head;
 
+const initialContent = `
+  <!DOCTYPE html><html>
+    <head>
+      <!--[if IE]>
+      <script src="https://unpkg.com/css-vars-ponyfill@1"></script>
+      <script>
+        cssVars();
+      </script>
+      <![endif]-->
+    </head>
+    <body><div class="frame-root"></div></body>
+  </html>
+`;
+
 // in production env this the styles could be extracted only once when the app
 // is starting and then this styles could be loaded inside each frame.
 if (process.env.NODE_ENV === 'production') {
@@ -71,6 +85,7 @@ class Frame extends PureComponent {
         scrolling="no"
         style={{ ...defaultIframeStyle, ...style }}
         {...props}
+        initialContent={initialContent}
       >
         {children}
       </FrameComponent>,

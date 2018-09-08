@@ -128,7 +128,7 @@ module.exports = (ctx) => ({
       stage: 0,
       features: {
         'custom-properties': {
-          preserve: false,
+          preserve: true,
           warnings: true
         },
         'nesting-rules': true
