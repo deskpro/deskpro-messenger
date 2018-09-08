@@ -1,22 +1,10 @@
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import FrameComponent from 'react-frame-component';
+
+import { ConfigConsumer } from './ConfigContext';
 import asset from '../../utils/asset';
 let head;
-
-const initialContent = `
-  <!DOCTYPE html><html>
-    <head>
-      <!--[if IE]>
-      <script src="https://unpkg.com/css-vars-ponyfill@1"></script>
-      <script>
-        cssVars();
-      </script>
-      <![endif]-->
-    </head>
-    <body><div class="frame-root"></div></body>
-  </html>
-`;
 
 // in production env this the styles could be extracted only once when the app
 // is starting and then this styles could be loaded inside each frame.
@@ -64,7 +52,7 @@ class Frame extends PureComponent {
     this.el = window.parent.document.createElement('span');
 
     // TODO: replace with right styles inclusion.
-    head = <link rel="stylesheet" href={asset(`/styles.css`)} />;
+    head = <link rel="stylesheet" href={asset(`styles.css`)} />;
   }
 
   componentDidMount() {
@@ -76,7 +64,24 @@ class Frame extends PureComponent {
   }
 
   render() {
-    const { children, style = {}, ...props } = this.props;
+    const { children, style = {}, themeVars, ...props } = this.props;
+
+    const htmlStyles = Object.entries(themeVars)
+      .map(([name, value]) => `${name}: ${value};`)
+      .join(' ');
+    const initialContent = `
+      <!DOCTYPE html><html style="${htmlStyles}">
+        <head>
+          <!--[if IE]>
+          <script src="https://unpkg.com/css-vars-ponyfill@1"></script>
+          <script>
+            cssVars();
+          </script>
+          <![endif]-->
+        </head>
+        <body><div class="frame-root"></div></body>
+      </html>
+    `;
 
     return ReactDOM.createPortal(
       <FrameComponent
@@ -86,6 +91,7 @@ class Frame extends PureComponent {
         style={{ ...defaultIframeStyle, ...style }}
         {...props}
         initialContent={initialContent}
+        ref={this.frame}
       >
         {children}
       </FrameComponent>,
@@ -94,4 +100,8 @@ class Frame extends PureComponent {
   }
 }
 
-export default Frame;
+export default (props) => (
+  <ConfigConsumer>
+    {({ themeVars }) => <Frame themeVars={themeVars} {...props} />}
+  </ConfigConsumer>
+);
