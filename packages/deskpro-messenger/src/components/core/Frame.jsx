@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import FrameComponent from 'react-frame-component';
 
@@ -34,7 +35,31 @@ const iFrameContainer =
   // this is needed for storybooks.
   document.getElementById('root');
 
+const initialContent = `
+      <!DOCTYPE html><html>
+        <head>
+          <!--[if IE]>
+          <script src="https://unpkg.com/css-vars-ponyfill@1"></script>
+          <script>
+            cssVars();
+          </script>
+          <![endif]-->
+        </head>
+        <body><div class="frame-root"></div></body>
+      </html>
+    `;
+
 class Frame extends PureComponent {
+  static propTypes = {
+    themeVars: PropTypes.object,
+    style: PropTypes.object
+  };
+
+  static defaultProps = {
+    themeVars: {},
+    style: {}
+  };
+
   constructor(...args) {
     super(...args);
 
@@ -55,33 +80,32 @@ class Frame extends PureComponent {
     head = <link rel="stylesheet" href={asset(`styles.css`)} />;
   }
 
+  frame = React.createRef();
+
   componentDidMount() {
     iFrameContainer.appendChild(this.el);
+    this.updateStyles();
+  }
+
+  componentDidUpdate() {
+    this.updateStyles();
   }
 
   componentWillUnmount() {
     iFrameContainer.removeChild(this.el);
   }
 
+  updateStyles = () => {
+    if (this.frame.current.node) {
+      const html = this.frame.current.getDoc().getElementsByTagName('html')[0];
+      Object.entries(this.props.themeVars).forEach(([name, value]) => {
+        html.style.setProperty(name, value);
+      });
+    }
+  };
+
   render() {
     const { children, style = {}, themeVars, ...props } = this.props;
-
-    const htmlStyles = Object.entries(themeVars)
-      .map(([name, value]) => `${name}: ${value};`)
-      .join(' ');
-    const initialContent = `
-      <!DOCTYPE html><html style="${htmlStyles}">
-        <head>
-          <!--[if IE]>
-          <script src="https://unpkg.com/css-vars-ponyfill@1"></script>
-          <script>
-            cssVars();
-          </script>
-          <![endif]-->
-        </head>
-        <body><div class="frame-root"></div></body>
-      </html>
-    `;
 
     return ReactDOM.createPortal(
       <FrameComponent

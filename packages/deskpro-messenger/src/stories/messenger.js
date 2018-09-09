@@ -3,7 +3,13 @@ import { Provider } from 'react-redux';
 import { storiesOf } from '@storybook/react';
 // import { action } from '@storybook/addon-actions';
 // import { linkTo } from '@storybook/addon-links';
-import { withKnobs, boolean, button, select } from '@storybook/addon-knobs';
+import {
+  withKnobs,
+  boolean,
+  button,
+  select,
+  color
+} from '@storybook/addon-knobs';
 
 import App from '../App';
 import '../index.css';
@@ -105,6 +111,11 @@ storiesOf('Messenger', module)
 
     button('Open Sales Chat', buttonHandler, 'API');
 
+    const themeVars = {
+      '--color-primary': color('Primary Color', '#3d88f3', 'Theme'),
+      '--color-background': color('Background Color', '#3d88f3', 'Theme')
+    };
+
     return (
       <Provider store={store}>
         <App
@@ -112,7 +123,8 @@ storiesOf('Messenger', module)
             locale: select('Locale', ['en-US', 'ru-RU'], 'en-US', 'i18n'),
             screens,
             greetings,
-            enabledGreetings
+            enabledGreetings,
+            themeVars
           }}
         />
       </Provider>
