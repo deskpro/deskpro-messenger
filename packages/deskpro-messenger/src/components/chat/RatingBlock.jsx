@@ -90,7 +90,7 @@ class RatingBlock extends PureComponent {
             className={classNames(
               {
                 'dpmsg-IconSmile': rate,
-                'dpmsg-Icon': !!rate
+                'dpmsg-IconSadSmile': !rate
               },
               'is-blue'
             )}

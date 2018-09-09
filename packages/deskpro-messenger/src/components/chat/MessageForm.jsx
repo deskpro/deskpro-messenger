@@ -36,13 +36,17 @@ class MessageForm extends PureComponent {
         />
         <div className="dpmsg-TextareaActions dpmsg-Level">
           <div className="dpmsg-LevelLeft">
-            <i className="dpmsg-IconSmile" />
-            <i className="dpmsg-IconAttach" />
+            <button type="button" className="dpmsg-iconOnly">
+              <i className="dpmsg-IconSmile" />
+            </button>
+            <button type="button" className="dpmsg-iconOnly">
+              <i className="dpmsg-IconAttach" />
+            </button>
           </div>
           <div className="dpmsg-LevelRight">
-            <a href={null} onClick={this.handleSubmit}>
+            <button className="dpmsg-iconOnly" onClick={this.handleSubmit}>
               <i className="dpmsg-IconSend" />
-            </a>
+            </button>
           </div>
         </div>
       </div>
