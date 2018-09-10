@@ -35,20 +35,6 @@ const iFrameContainer =
   // this is needed for storybooks.
   document.getElementById('root');
 
-const initialContent = `
-      <!DOCTYPE html><html>
-        <head>
-          <!--[if IE]>
-          <script src="https://unpkg.com/css-vars-ponyfill@1"></script>
-          <script>
-            cssVars();
-          </script>
-          <![endif]-->
-        </head>
-        <body><div class="frame-root"></div></body>
-      </html>
-    `;
-
 class Frame extends PureComponent {
   static propTypes = {
     themeVars: PropTypes.object,
@@ -114,7 +100,6 @@ class Frame extends PureComponent {
         scrolling="no"
         style={{ ...defaultIframeStyle, ...style }}
         {...props}
-        initialContent={initialContent}
         ref={this.frame}
       >
         {children}
