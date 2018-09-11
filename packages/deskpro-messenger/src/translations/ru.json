@@ -1,6 +1,8 @@
 {
   "app.buttons.back": "назад",
   "app.title": "Будь на связи",
+  "chat.header.sales_title": "Чат по вопросам продаж",
+  "chat.header.support_title": "Чат поддержки",
   "chat.agent_assigned.message": "{name} присоединился к разговору.",
   "chat.rating_block.question_header": "Оцените вашу переписку с {name}",
   "chat.rating_block.buttons.helpful": "Полезно",
