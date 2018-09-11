@@ -2,6 +2,7 @@
   "app.buttons.back": "назад",
   "app.title": "Будь на связи",
   "chat.agent_assigned.message": "{name} присоединился к разговору.",
+  "chat.prompt.support": "Спасибо, что обратились к нам. Чем мы можем быть полезны вам?",
   "chat.rating_block.question_header": "Оцените вашу переписку с {name}",
   "chat.rating_block.buttons.helpful": "Полезно",
   "chat.rating_block.buttons.unhelpful": "Бесполезно",

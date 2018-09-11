@@ -5,13 +5,6 @@ import { injectIntl } from 'react-intl';
 import MessageBubble from './MessageBubble';
 import MessageForm from './MessageForm';
 
-const transMessages = {
-  welcomeMessage: {
-    id: 'chat.welcome_bubble.message',
-    defaultMessage: 'What can we help you with today?'
-  }
-};
-
 class FirstMessage extends PureComponent {
   static propTypes = {
     baseUrl: PropTypes.string.isRequired,
@@ -26,12 +19,12 @@ class FirstMessage extends PureComponent {
   };
 
   render() {
-    const { intl } = this.props;
+    const { intl, prompt } = this.props;
     return (
       <Fragment>
         <MessageBubble
           origin="system"
-          message={intl.formatMessage(transMessages.welcomeMessage)}
+          message={intl.formatMessage({ id: prompt, defaultMessage: prompt })}
         />
         <MessageForm onSend={this.handleSendMessage} />
       </Fragment>

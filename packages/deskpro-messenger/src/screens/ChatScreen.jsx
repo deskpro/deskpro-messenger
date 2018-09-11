@@ -20,8 +20,33 @@ class ChatScreen extends PureComponent {
   static propTypes = {
     chatId: PropTypes.string,
     messages: PropTypes.array,
-    typing: PropTypes.object
+    typing: PropTypes.object,
+    preChatForm: PropTypes.array,
+    prompt: PropTypes.string
   };
+
+  static defaultProps = {
+    chatId: null,
+    messages: [],
+    typing: null,
+    preChatForm: [],
+    prompt: ''
+  };
+
+  componentDidMount() {
+    const {
+      chatId,
+      category,
+      preChatForm,
+      createChat,
+      match,
+      location
+    } = this.props;
+    const isNotChildPage = match.path === location.pathname;
+    if (!preChatForm.length && !chatId && isNotChildPage) {
+      createChat({ category });
+    }
+  }
 
   handleSendMessage = (message) => {
     if (message) {
@@ -38,9 +63,21 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const category = this.props.category;
+    const {
+      category,
+      preChatForm,
+      prompt,
+      chatId,
+      match: { path: baseUrl }
+    } = this.props;
     const capCategory = category[0].toUpperCase() + category.substring(1);
-    const baseUrl = this.props.match.path;
+
+    let defaultPage = `${baseUrl}/live`;
+    if (preChatForm.length) {
+      defaultPage = `${baseUrl}/auth`;
+    } else if (prompt) {
+      defaultPage = `${baseUrl}/new-message`;
+    }
 
     return (
       <Block title={`${capCategory} conversation`}>
@@ -54,35 +91,41 @@ class ChatScreen extends PureComponent {
                 category={this.props.category}
                 onSendMessage={this.handleSendMessage}
                 typing={this.props.typing}
+                chatId={chatId}
                 {...props}
               />
             )}
           />
-          <Route
-            path={`${baseUrl}/auth`}
-            render={(props) => (
-              <ChatEnterForm
-                baseUrl={baseUrl}
-                category={this.props.category}
-                createChat={this.props.createChat}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path={`${baseUrl}/new-message`}
-            render={(props) => (
-              <FirstMessage
-                baseUrl={baseUrl}
-                category={this.props.category}
-                sendMessage={this.handleSendMessage}
-                {...props}
-              />
-            )}
-          />
-          <Redirect
-            to={this.props.chatId ? `${baseUrl}/live` : `${baseUrl}/auth`}
-          />
+          {preChatForm.length > 0 && (
+            <Route
+              path={`${baseUrl}/auth`}
+              render={(props) => (
+                <ChatEnterForm
+                  baseUrl={baseUrl}
+                  category={this.props.category}
+                  createChat={this.props.createChat}
+                  formConfig={preChatForm}
+                  nextStep={!!prompt ? 'new-message' : 'live'}
+                  {...props}
+                />
+              )}
+            />
+          )}
+          {!!prompt && (
+            <Route
+              path={`${baseUrl}/new-message`}
+              render={(props) => (
+                <FirstMessage
+                  baseUrl={baseUrl}
+                  category={this.props.category}
+                  sendMessage={this.handleSendMessage}
+                  prompt={prompt}
+                  {...props}
+                />
+              )}
+            />
+          )}
+          <Redirect to={defaultPage} />
         </Switch>
       </Block>
     );
