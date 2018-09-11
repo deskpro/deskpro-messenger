@@ -1,6 +1,8 @@
 {
   "app.buttons.back": "back",
   "app.title": "Get in Touch",
+  "chat.header.sales_title": "Sales conversation",
+  "chat.header.support_title": "Support conversation",
   "chat.agent_assigned.message": "{name} joined the conversation.",
   "chat.rating_block.question_header": "Rate your conversation with {name}",
   "chat.rating_block.buttons.helpful": "Helpful",

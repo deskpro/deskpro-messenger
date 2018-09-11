@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { injectIntl } from 'react-intl';
 
 import Chat from '../components/chat/Chat';
 import ChatEnterForm from '../components/chat/ChatEnterForm';
@@ -38,12 +39,20 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const category = this.props.category;
+    const { intl, category } = this.props;
     const capCategory = category[0].toUpperCase() + category.substring(1);
     const baseUrl = this.props.match.path;
 
     return (
-      <Block title={`${capCategory} conversation`}>
+      <Block
+        title={intl.formatMessage(
+          {
+            id: `chat.header.${category}_title`,
+            defaultMessage: '{category} conversation'
+          },
+          { category: capCategory }
+        )}
+      >
         <Switch>
           <Route
             path={`${baseUrl}/live`}
@@ -98,5 +107,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     { createChat, sendMessage }
-  )(ChatScreen)
+  )(injectIntl(ChatScreen))
 );
