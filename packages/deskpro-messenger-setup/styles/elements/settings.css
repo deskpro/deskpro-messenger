@@ -1,0 +1,9 @@
+.messenger-settings  input:not([type=checkbox]) {
+    width: 100%;
+}
+.messenger-settings .dp-input {
+    width: 100%;
+}
+.messenger-settings .dp-input.small {
+    width: 50px;
+}
