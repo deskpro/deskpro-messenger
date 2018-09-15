@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import {
   LayoutConfig,
   FieldLayout,
@@ -8,8 +10,13 @@ import {
 } from '@deskpro/portal-components';
 // import Field from '../form/InputField';
 import Button from '../form/Button';
+import translateFieldLayout from '../../utils/translateFieldLayout';
 
 class ChatEnterForm extends PureComponent {
+  static propTypes = {
+    intl: PropTypes.object.isRequired
+  };
+
   render() {
     return (
       <Form>
@@ -41,7 +48,18 @@ const formEnhancer = withFormik({
 });
 
 const mapProps = (WrappedComponent) => ({ formConfig, ...props }) => (
-  <WrappedComponent {...props} layouts={new LayoutConfig(formConfig)} />
+  <WrappedComponent
+    {...props}
+    layouts={
+      new LayoutConfig(
+        translateFieldLayout(formConfig, props.intl.formatMessage)
+      )
+    }
+  />
 );
 
-export default mapProps(formEnhancer(ChatEnterForm));
+export default compose(
+  injectIntl,
+  mapProps,
+  formEnhancer
+)(ChatEnterForm);

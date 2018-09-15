@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { injectIntl } from 'react-intl';
 
 import Chat from '../components/chat/Chat';
 import ChatEnterForm from '../components/chat/ChatEnterForm';
@@ -76,13 +78,21 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const { category, preChatForm, prompt, chatId } = this.props;
+    const { category, preChatForm, prompt, chatId, intl } = this.props;
     const { viewMode } = this.state;
 
     const capCategory = category[0].toUpperCase() + category.substring(1);
 
     return (
-      <Block title={`${capCategory} conversation`}>
+      <Block
+        title={intl.formatMessage(
+          {
+            id: `chat.header.${category}_title`,
+            defaultMessage: '{category} conversation'
+          },
+          { category: capCategory }
+        )}
+      >
         {viewMode === 'form' && (
           <ChatEnterForm
             category={category}
@@ -110,7 +120,11 @@ const mapStateToProps = (state, props) => ({
   messages: getMessages(state, props),
   typing: getTypingState(state, props)
 });
-export default connect(
-  mapStateToProps,
-  { createChat, sendMessage }
+
+export default compose(
+  connect(
+    mapStateToProps,
+    { createChat, sendMessage }
+  ),
+  injectIntl
 )(ChatScreen);
