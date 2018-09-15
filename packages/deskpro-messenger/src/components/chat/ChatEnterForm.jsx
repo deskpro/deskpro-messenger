@@ -35,9 +35,8 @@ const formEnhancer = withFormik({
     return { category };
   },
   handleSubmit: (values, { props, setSubmitting }) => {
-    setSubmitting(true);
-    props.createChat(values);
-    props.history.push(`${props.baseUrl}/${props.nextStep || 'live'}`);
+    // setSubmitting(true);
+    props.onSubmit(values);
   }
 });
 

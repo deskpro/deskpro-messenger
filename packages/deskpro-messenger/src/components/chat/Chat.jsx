@@ -13,6 +13,10 @@ const transMessages = {
   agentAssigned: {
     id: 'chat.agent_assigned.message',
     defaultMessage: `{name} joined the conversation.`
+  },
+  noAgentOnline: {
+    id: 'chat.no_agent_online',
+    defaultMessage: 'Sorry, no one is online to accept your chat.'
   }
 };
 
@@ -25,10 +29,16 @@ class Chat extends PureComponent {
   };
 
   render() {
-    const { typing, messages, onSendMessage, intl } = this.props;
+    const { typing, messages, onSendMessage, intl, prompt } = this.props;
 
     return (
       <Fragment>
+        {!!prompt && (
+          <MessageBubble
+            origin="system"
+            message={intl.formatMessage({ id: prompt, defaultMessage: prompt })}
+          />
+        )}
         {messages.map((message, index) => {
           const key = `${message.type}-${index}`;
           switch (message.type) {
@@ -41,6 +51,17 @@ class Chat extends PureComponent {
                   {...message}
                   message={intl.formatMessage(
                     transMessages.agentAssigned,
+                    message
+                  )}
+                />
+              );
+            case 'chat.noAgents':
+              return (
+                <SystemMessage
+                  key={key}
+                  {...message}
+                  message={intl.formatMessage(
+                    transMessages.noAgentOnline,
                     message
                   )}
                 />

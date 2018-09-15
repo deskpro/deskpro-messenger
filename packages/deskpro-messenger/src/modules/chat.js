@@ -6,10 +6,8 @@ import {
   skip,
   filter,
   map,
-  merge,
   switchMap
 } from 'rxjs/operators';
-import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
 import { createSelector } from 'reselect';
@@ -27,7 +25,7 @@ const sounds = _mapValues(
 sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 
 //#region ACTION TYPES
-const CHAT_START = 'CHART_START';
+const CHAT_START = 'CHAT_START';
 const CHAT_SAVE_CHAT_ID = 'CHAT_SAVE_CHAT_ID';
 const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
 const CHAT_SEND_MESSAGE_SUCCESS = 'CHAT_SEND_MESSAGE_SUCCESS';
@@ -69,25 +67,27 @@ export const chatMessagingEpic = (action$) =>
     switchMap((action) => {
       const { category } = action.payload;
       const chatService = new FakeChatService();
-      return listenForMessages(chatService).pipe(
-        map((message) => messageReceived(message, category)),
-        merge(
-          from(chatService.createChat(action.payload)).map((chatId) =>
-            saveChatId(chatId, category)
-          )
-        ),
-        merge(
-          action$.pipe(
-            ofType(CHAT_SEND_MESSAGE),
-            filter(({ meta }) => meta.category === category),
-            tap(({ payload }) => chatService.sendMessage(payload)),
-            map((action) => ({
-              ...action,
-              type: CHAT_SEND_MESSAGE_SUCCESS
-            }))
-          )
-        )
+
+      const messages$ = listenForMessages(chatService).map((message) =>
+        messageReceived(message, category)
       );
+
+      const createChat$ = from(chatService.createChat(action.payload)).pipe(
+        map((chatId) => saveChatId(chatId, category)),
+        tap(() => from(chatService.assignAgent()))
+      );
+
+      const sendMessage$ = action$.pipe(
+        ofType(CHAT_SEND_MESSAGE),
+        filter(({ meta }) => meta.category === category),
+        tap(({ payload }) => chatService.sendMessage(payload)),
+        map((action) => ({
+          ...action,
+          type: CHAT_SEND_MESSAGE_SUCCESS
+        }))
+      );
+
+      return messages$.merge(createChat$, sendMessage$);
     })
   );
 

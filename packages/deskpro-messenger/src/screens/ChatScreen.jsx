@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 import Chat from '../components/chat/Chat';
 import ChatEnterForm from '../components/chat/ChatEnterForm';
-import FirstMessage from '../components/chat/FirstMessage';
 import Block from '../components/core/Block';
 
 import {
@@ -33,22 +31,21 @@ class ChatScreen extends PureComponent {
     prompt: ''
   };
 
-  componentDidMount() {
-    const {
-      chatId,
-      category,
-      preChatForm,
-      createChat,
-      match,
-      location
-    } = this.props;
-    const isNotChildPage = match.path === location.pathname;
-    if (!preChatForm.length && !chatId && isNotChildPage) {
-      createChat({ category });
+  state = {
+    viewMode: this.props.preChatForm.length ? 'form' : 'chat',
+    messages: []
+  };
+
+  componentDidUpdate(prevProps) {
+    const { chatId, sendMessage, category } = this.props;
+    if (!prevProps.chatId && chatId) {
+      this.state.messages.forEach((message) => sendMessage(message, category));
     }
   }
 
   handleSendMessage = (message) => {
+    const { chatId, category } = this.props;
+
     if (message) {
       const messageModel =
         typeof message === 'string'
@@ -58,75 +55,51 @@ class ChatScreen extends PureComponent {
               type: 'chat.message'
             }
           : message;
-      this.props.sendMessage(messageModel, this.props.category);
+
+      if (!chatId) {
+        this.setState(({ messages }) => ({
+          messages: messages.concat([messageModel])
+        }));
+
+        if (!this.props.preChatForm.length && !this.state.messages.length) {
+          this.props.createChat({ category });
+        }
+      } else {
+        this.props.sendMessage(messageModel, category);
+      }
     }
   };
 
-  render() {
-    const {
-      category,
-      preChatForm,
-      prompt,
-      chatId,
-      match: { path: baseUrl }
-    } = this.props;
-    const capCategory = category[0].toUpperCase() + category.substring(1);
+  submitPreChatForm = (formValues) => {
+    this.props.createChat(formValues);
+    this.setState({ viewMode: 'chat' });
+  };
 
-    let defaultPage = `${baseUrl}/live`;
-    if (preChatForm.length) {
-      defaultPage = `${baseUrl}/auth`;
-    } else if (prompt) {
-      defaultPage = `${baseUrl}/new-message`;
-    }
+  render() {
+    const { category, preChatForm, prompt, chatId } = this.props;
+    const { viewMode } = this.state;
+
+    const capCategory = category[0].toUpperCase() + category.substring(1);
 
     return (
       <Block title={`${capCategory} conversation`}>
-        <Switch>
-          <Route
-            path={`${baseUrl}/live`}
-            render={(props) => (
-              <Chat
-                baseUrl={baseUrl}
-                messages={this.props.messages}
-                category={this.props.category}
-                onSendMessage={this.handleSendMessage}
-                typing={this.props.typing}
-                chatId={chatId}
-                {...props}
-              />
-            )}
+        {viewMode === 'form' && (
+          <ChatEnterForm
+            category={category}
+            onSubmit={this.submitPreChatForm}
+            formConfig={preChatForm}
           />
-          {preChatForm.length > 0 && (
-            <Route
-              path={`${baseUrl}/auth`}
-              render={(props) => (
-                <ChatEnterForm
-                  baseUrl={baseUrl}
-                  category={this.props.category}
-                  createChat={this.props.createChat}
-                  formConfig={preChatForm}
-                  nextStep={!!prompt ? 'new-message' : 'live'}
-                  {...props}
-                />
-              )}
-            />
-          )}
-          {!!prompt && (
-            <Route
-              path={`${baseUrl}/new-message`}
-              render={(props) => (
-                <FirstMessage
-                  baseUrl={baseUrl}
-                  category={this.props.category}
-                  sendMessage={this.handleSendMessage}
-                  prompt={prompt}
-                  {...props}
-                />
-              )}
-            />
-          )}
-          <Redirect to={defaultPage} />
-        </Switch>
+        )}
+        {viewMode === 'chat' && (
+          <Chat
+            messages={chatId ? this.props.messages : this.state.messages}
+            category={this.props.category}
+            onSendMessage={this.handleSendMessage}
+            typing={this.props.typing}
+            chatId={chatId}
+            prompt={prompt}
+          />
+        )}
       </Block>
     );
   }
@@ -137,9 +110,7 @@ const mapStateToProps = (state, props) => ({
   messages: getMessages(state, props),
   typing: getTypingState(state, props)
 });
-export default withRouter(
-  connect(
-    mapStateToProps,
-    { createChat, sendMessage }
-  )(ChatScreen)
-);
+export default connect(
+  mapStateToProps,
+  { createChat, sendMessage }
+)(ChatScreen);
