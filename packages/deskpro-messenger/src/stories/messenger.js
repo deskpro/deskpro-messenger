@@ -44,7 +44,82 @@ storiesOf('Messenger', module)
       });
       screens.salesChat = {
         screenType: 'ChatScreen',
-        category: 'sales'
+        category: 'sales',
+        noAnswerBehavior: 'new_ticket',
+        preChatForm: [
+          {
+            rules: [
+              {
+                field: 'category',
+                value: 'sales',
+                op: 'eq'
+              }
+            ],
+            fields: [
+              {
+                name: 'name',
+                label: 'Full Name',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'John Doe'
+              },
+              {
+                name: 'email',
+                label: 'Email',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'john.doe@company.com'
+              },
+              {
+                name: 'budget',
+                label: 'Budget',
+                type: 'text'
+              }
+            ]
+          },
+          {
+            rules: [
+              {
+                field: 'category',
+                value: 'support',
+                op: 'eq'
+              }
+            ],
+            fields: [
+              {
+                name: 'name',
+                label: 'Full Name',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'John Doe'
+              },
+              {
+                name: 'email',
+                label: 'Email',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'john.doe@company.com'
+              },
+              {
+                name: 'cloud_premise',
+                label: 'Cloud or On-Premise',
+                type: 'choice',
+                dataSource: {
+                  getOptions: [
+                    {
+                      value: 'cloud',
+                      label: 'Cloud'
+                    },
+                    {
+                      value: 'on-premise',
+                      label: 'On-Premise'
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
       };
     }
     if (boolean('Enable Support Chat', true, 'Config')) {
@@ -55,16 +130,53 @@ storiesOf('Messenger', module)
       });
       screens.supportChat = {
         screenType: 'ChatScreen',
-        category: 'support'
+        category: 'support',
+        prompt: 'chat.prompt.support',
+        noAnswerBehavior: 'save_ticket'
       };
     }
-    if (boolean('Enable Tickets', false, 'Config')) {
+    if (boolean('Enable Ticket Form', true, 'Config')) {
       screens.index.blocks.push({
-        blockType: 'TicketsBlock',
-        to: 'tickets'
+        blockType: 'ScreenLink',
+        blockTitle: 'tickets.create_form_block.header',
+        label: 'tickets.create_form_block.link_label',
+        to: 'newTicket'
       });
-      screens.tickets = {
-        screenType: 'TicketsScreen'
+      screens.newTicket = {
+        screenType: 'TicketFormScreen',
+        formConfig: [
+          {
+            fields: [
+              {
+                name: 'subject',
+                label: 'Subject',
+                type: 'text',
+                validation: ['required']
+              },
+              {
+                name: 'name',
+                label: 'Full Name',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'John Doe'
+              },
+              {
+                name: 'email',
+                label: 'Email',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'john.doe@company.com'
+              },
+              {
+                name: 'message',
+                label: 'Message',
+                type: 'textarea',
+                validation: ['required'],
+                placeholder: 'Enter you message here...'
+              }
+            ]
+          }
+        ]
       };
     }
     if (boolean('Enable Html Block #1', false, 'Config')) {
