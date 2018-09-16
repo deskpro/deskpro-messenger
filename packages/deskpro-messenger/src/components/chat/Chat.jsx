@@ -66,6 +66,15 @@ class Chat extends PureComponent {
                   )}
                 />
               );
+            case 'chat.block.saveTicket':
+              return (
+                <SystemMessage
+                  key={key}
+                  {...message}
+                  message="Do you want to save a new ticket?"
+                />
+              );
+
             case 'chat.block.transcript':
               return (
                 <TranscriptBlock

@@ -13,7 +13,9 @@ import {
   getChatId,
   sendMessage,
   getMessages,
-  getTypingState
+  getTypingState,
+  isUnanswered,
+  showSaveTicketForm
 } from '../modules/chat';
 
 class ChatScreen extends PureComponent {
@@ -22,7 +24,9 @@ class ChatScreen extends PureComponent {
     messages: PropTypes.array,
     typing: PropTypes.object,
     preChatForm: PropTypes.array,
-    prompt: PropTypes.string
+    prompt: PropTypes.string,
+    isUnanswered: PropTypes.bool,
+    noAnswerBehavior: PropTypes.oneOf(['save_ticket', 'new_ticket'])
   };
 
   static defaultProps = {
@@ -30,7 +34,9 @@ class ChatScreen extends PureComponent {
     messages: [],
     typing: null,
     preChatForm: [],
-    prompt: ''
+    prompt: '',
+    isUnanswered: false,
+    noAnswerBehavior: null
   };
 
   state = {
@@ -39,9 +45,21 @@ class ChatScreen extends PureComponent {
   };
 
   componentDidUpdate(prevProps) {
-    const { chatId, sendMessage, category } = this.props;
+    const { chatId, sendMessage, category, isUnanswered } = this.props;
     if (!prevProps.chatId && chatId) {
       this.state.messages.forEach((message) => sendMessage(message, category));
+    }
+    if (!prevProps.isUnanswered && isUnanswered) {
+      switch (this.props.noAnswerBehavior) {
+        case 'save_ticket':
+          this.props.showSaveTicketForm({ category });
+          break;
+        case 'new_ticket':
+          console.log('redirect to new ticket form');
+          break;
+        default:
+          break;
+      }
     }
   }
 
@@ -118,13 +136,14 @@ class ChatScreen extends PureComponent {
 const mapStateToProps = (state, props) => ({
   chatId: getChatId(state, props),
   messages: getMessages(state, props),
-  typing: getTypingState(state, props)
+  typing: getTypingState(state, props),
+  isUnanswered: isUnanswered(state, props)
 });
 
 export default compose(
   connect(
     mapStateToProps,
-    { createChat, sendMessage }
+    { createChat, sendMessage, showSaveTicketForm }
   ),
   injectIntl
 )(ChatScreen);

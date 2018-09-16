@@ -83,10 +83,12 @@
           screenType: 'ChatScreen',
           category: 'support',
           prompt: 'chat.prompt.support',
+          noAnswerBehavior: 'save_ticket',
         },
         salesChat: {
           screenType: 'ChatScreen',
           category: 'sales',
+          noAnswerBehavior: 'new_ticket',
           preChatForm: [{
               rules: [{
                 field: 'category',
