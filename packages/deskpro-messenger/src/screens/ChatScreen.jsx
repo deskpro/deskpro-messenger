@@ -55,7 +55,7 @@ class ChatScreen extends PureComponent {
           this.props.showSaveTicketForm({ category });
           break;
         case 'new_ticket':
-          console.log('redirect to new ticket form');
+          this.props.history.push('/screens/newTicket');
           break;
         default:
           break;
