@@ -77,6 +77,12 @@
               linkText: 'Start sales chat',
               to: 'salesChat'
             },
+            {
+              blockType: 'ScreenLink',
+              blockTitle: 'tickets.create_form_block.header',
+              label: 'tickets.create_form_block.link_label',
+              to: 'newTicket',
+            },
           ]
         },
         supportChat: {
@@ -155,6 +161,38 @@
               ]
             }
           ]
+        },
+        newTicket: {
+          screenType: 'TicketFormScreen',
+          formConfig: [{
+            fields: [{
+                name: 'subject',
+                label: 'Subject',
+                type: 'text',
+                validation: ['required']
+              },
+              {
+                name: 'name',
+                label: 'Full Name',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'John Doe'
+              },
+              {
+                name: 'email',
+                label: 'Email',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'john.doe@company.com'
+              }, {
+                name: 'message',
+                label: 'Message',
+                type: 'textarea',
+                validation: ['required'],
+                placeholder: 'Enter you message here...',
+              }
+            ],
+          }],
         },
         greetingChat: {
           screenType: 'Blocks',

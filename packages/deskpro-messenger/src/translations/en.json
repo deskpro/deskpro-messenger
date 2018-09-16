@@ -20,5 +20,7 @@
   "blocks.start_chat.title": "Conversations",
   "blocks.start_chat.link": "Start Chat",
   "blocks.tickets.title": "Your Tickets",
-  "blocks.tickets.view_all_link": "view all"
+  "blocks.tickets.view_all_link": "view all",
+  "tickets.create_form_block.header": "Create a ticket",
+  "tickets.create_form_block.link_label": "Create new ticket"
 }
