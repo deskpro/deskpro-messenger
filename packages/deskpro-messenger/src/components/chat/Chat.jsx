@@ -8,11 +8,17 @@ import MessageForm from './MessageForm';
 import TypingMessage from './TypingMessage';
 import TranscriptBlock from './TranscriptBlock';
 import RatingBlock from './RatingBlock';
+import SaveTicketBlock from './SaveTicketBlock';
+import CreateTicketBlock from './CreateTicketBlock';
 
 const transMessages = {
   agentAssigned: {
     id: 'chat.agent_assigned.message',
     defaultMessage: `{name} joined the conversation.`
+  },
+  noAgentOnline: {
+    id: 'chat.no_agent_online',
+    defaultMessage: 'Sorry, no one is online to accept your chat.'
   }
 };
 
@@ -24,11 +30,28 @@ class Chat extends PureComponent {
     typing: PropTypes.object
   };
 
+  saveTicket = (values) => {
+    this.props.onSendMessage({
+      type: 'chat.block.saveTicket',
+      origin: 'user',
+      ...values,
+      messages: this.props.messages
+        .filter((m) => m.origin === 'user' && m.type === 'chat.message')
+        .map((m) => m.message)
+    });
+  };
+
   render() {
-    const { typing, messages, onSendMessage, intl } = this.props;
+    const { typing, messages, onSendMessage, intl, prompt } = this.props;
 
     return (
       <Fragment>
+        {!!prompt && (
+          <MessageBubble
+            origin="system"
+            message={intl.formatMessage({ id: prompt, defaultMessage: prompt })}
+          />
+        )}
         {messages.map((message, index) => {
           const key = `${message.type}-${index}`;
           switch (message.type) {
@@ -45,6 +68,29 @@ class Chat extends PureComponent {
                   )}
                 />
               );
+            case 'chat.noAgents':
+              return (
+                <SystemMessage
+                  key={key}
+                  {...message}
+                  message={intl.formatMessage(
+                    transMessages.noAgentOnline,
+                    message
+                  )}
+                />
+              );
+            case 'chat.block.saveTicket':
+              return (
+                <SaveTicketBlock
+                  key={key}
+                  {...message}
+                  onSaveTicket={this.saveTicket}
+                />
+              );
+            
+            case 'chat.block.createTicket':
+              return <CreateTicketBlock key={key} {...message} />;
+
             case 'chat.block.transcript':
               return (
                 <TranscriptBlock

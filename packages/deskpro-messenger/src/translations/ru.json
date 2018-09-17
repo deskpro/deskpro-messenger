@@ -4,6 +4,8 @@
   "chat.header.sales_title": "Чат по вопросам продаж",
   "chat.header.support_title": "Чат поддержки",
   "chat.agent_assigned.message": "{name} присоединился к разговору.",
+  "chat.no_agent_online": "Извините, все операторы заняты.",
+  "chat.prompt.support": "Спасибо, что обратились к нам. Чем мы можем быть полезны вам?",
   "chat.rating_block.question_header": "Оцените вашу переписку с {name}",
   "chat.rating_block.buttons.helpful": "Полезно",
   "chat.rating_block.buttons.unhelpful": "Бесполезно",

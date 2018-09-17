@@ -6,30 +6,34 @@ import makeLoadable from 'react-loadable';
 const Loading = ({ error }) =>
   error ? <div>Error: {error}</div> : <div>...</div>;
 
-const ScreenRoute = ({
-  screen: { screenType, ...screenProps },
-  screenName
-}) => {
-  const Component = makeLoadable({
-    loader: () => import(`../../screens/${screenType}`),
+class ScreenRoute extends React.PureComponent {
+  static propTypes = {
+    screen: PropTypes.shape({
+      screenType: PropTypes.string.isRequired
+    }).isRequired,
+    screenName: PropTypes.string.isRequired
+  };
+  component = makeLoadable({
+    loader: () => import(`../../screens/${this.props.screen.screenType}`),
     loading: Loading
   });
 
-  return (
-    <Route
-      path={`/screens/${screenName}`}
-      render={routeProps => (
-        <Component {...routeProps} {...screenProps} screenName={screenName} />
-      )}
-    />
-  );
-};
+  render() {
+    const {
+      screen: { screenType, ...screenProps },
+      screenName
+    } = this.props;
 
-ScreenRoute.propTypes = {
-  screen: PropTypes.shape({
-    screenType: PropTypes.string.isRequired
-  }).isRequired,
-  screenName: PropTypes.string.isRequired
-};
+    const Component = this.component;
+
+    return (
+      <Route>
+        {(routeProps) => (
+          <Component {...routeProps} {...screenProps} screenName={screenName} />
+        )}
+      </Route>
+    );
+  }
+}
 
 export default ScreenRoute;

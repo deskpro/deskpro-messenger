@@ -4,6 +4,8 @@
   "chat.header.sales_title": "Sales conversation",
   "chat.header.support_title": "Support conversation",
   "chat.agent_assigned.message": "{name} joined the conversation.",
+  "chat.no_agent_online": "Sorry, no one is online to accept your chat.",
+  "chat.prompt.support": "Thanks for starting a chat. How can we help you today?",
   "chat.rating_block.question_header": "Rate your conversation with {name}",
   "chat.rating_block.buttons.helpful": "Helpful",
   "chat.rating_block.buttons.unhelpful": "Unhelpful",
@@ -13,10 +15,15 @@
   "chat.transcript_block.yes_button": "Yes",
   "chat.transcript_block.no_button": "No",
   "chat.transcript_block.send_button": "Send Message",
+  "chat.save_ticket.question": "Would you like an agent to contact you?",
+  "chat.save_ticket.thanks": "An agent will get back to you as soon as possible",
+  "chat.save_ticket_form.button": "Save Ticket",
   "chat.welcome_bubble.message": "What can we help you with today?",
   "chat.enter_form.button": "Start Conversation",
   "blocks.start_chat.title": "Conversations",
   "blocks.start_chat.link": "Start Chat",
   "blocks.tickets.title": "Your Tickets",
-  "blocks.tickets.view_all_link": "view all"
+  "blocks.tickets.view_all_link": "view all",
+  "tickets.create_form_block.header": "Create a ticket",
+  "tickets.create_form_block.link_label": "Create new ticket"
 }

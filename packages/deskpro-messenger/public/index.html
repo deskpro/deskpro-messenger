@@ -77,15 +77,139 @@
               linkText: 'Start sales chat',
               to: 'salesChat'
             },
+            {
+              blockType: 'ScreenLink',
+              blockTitle: 'tickets.create_form_block.header',
+              label: 'tickets.create_form_block.link_label',
+              to: 'newTicket',
+            },
           ]
         },
         supportChat: {
           screenType: 'ChatScreen',
-          category: 'support'
+          category: 'support',
+          prompt: 'chat.prompt.support',
+          noAnswerBehavior: 'save_ticket',
+          ticketFormConfig: [{
+            fields: [{
+                name: 'name',
+                label: 'Full Name',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'John Doe'
+              },
+              {
+                name: 'email',
+                label: 'Email',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'john.doe@company.com'
+              }
+            ]
+          }]
         },
         salesChat: {
           screenType: 'ChatScreen',
-          category: 'sales'
+          category: 'sales',
+          noAnswerBehavior: 'new_ticket',
+          preChatForm: [{
+              rules: [{
+                field: 'category',
+                value: 'sales',
+                op: 'eq'
+              }],
+              fields: [{
+                  name: 'name',
+                  label: 'Full Name',
+                  type: 'text',
+                  validation: ['required'],
+                  placeholder: 'John Doe'
+                },
+                {
+                  name: 'email',
+                  label: 'Email',
+                  type: 'text',
+                  validation: ['required'],
+                  placeholder: 'john.doe@company.com'
+                },
+                {
+                  name: 'budget',
+                  label: 'Budget',
+                  type: 'text'
+                }
+              ]
+            },
+            {
+              rules: [{
+                field: 'category',
+                value: 'support',
+                op: 'eq'
+              }],
+              fields: [{
+                  name: 'name',
+                  label: 'Full Name',
+                  type: 'text',
+                  validation: ['required'],
+                  placeholder: 'John Doe'
+                },
+                {
+                  name: 'email',
+                  label: 'Email',
+                  type: 'text',
+                  validation: ['required'],
+                  placeholder: 'john.doe@company.com'
+                },
+                {
+                  name: 'cloud_premise',
+                  label: 'Cloud or On-Premise',
+                  type: 'choice',
+                  dataSource: {
+                    getOptions: [{
+                        value: 'cloud',
+                        label: 'Cloud'
+                      },
+                      {
+                        value: 'on-premise',
+                        label: 'On-Premise'
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        newTicket: {
+          screenType: 'TicketFormScreen',
+          formConfig: [{
+            fields: [{
+                name: 'subject',
+                label: 'Subject',
+                type: 'text',
+                validation: ['required']
+              },
+              {
+                name: 'name',
+                label: 'Full Name',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'John Doe'
+              },
+              {
+                name: 'email',
+                label: 'Email',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'john.doe@company.com'
+              }, {
+                name: 'message',
+                label: 'Message',
+                type: 'textarea',
+                validation: ['required'],
+                placeholder: 'Enter you message here...',
+              }
+            ],
+          }],
         },
         greetingChat: {
           screenType: 'Blocks',

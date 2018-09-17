@@ -6,10 +6,8 @@ import {
   skip,
   filter,
   map,
-  merge,
   switchMap
 } from 'rxjs/operators';
-import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
 import { createSelector } from 'reselect';
@@ -27,12 +25,14 @@ const sounds = _mapValues(
 sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 
 //#region ACTION TYPES
-const CHAT_START = 'CHART_START';
+const CHAT_START = 'CHAT_START';
 const CHAT_SAVE_CHAT_ID = 'CHAT_SAVE_CHAT_ID';
 const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
 const CHAT_SEND_MESSAGE_SUCCESS = 'CHAT_SEND_MESSAGE_SUCCESS';
 const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
 const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
+const CHAT_SAVE_TICKET_FORM = 'CHAT_SAVE_TICKET_FORM';
+const CHAT_CREATE_TICKET_BLOCK = 'CHAT_CREATE_TICKET_BLOCK';
 //#endregion
 
 //#region ACTION CREATORS
@@ -53,6 +53,16 @@ export const sendMessage = (message, category) => ({
   meta: { category }
 });
 export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
+export const showSaveTicketForm = (data) => ({
+  type: CHAT_SAVE_TICKET_FORM,
+  payload: data,
+  meta: data
+});
+export const showCreateTicket = (data) => ({
+  type: CHAT_CREATE_TICKET_BLOCK,
+  payload: data,
+  meta: data
+})
 //#endregion
 
 //#region EPICS
@@ -69,25 +79,27 @@ export const chatMessagingEpic = (action$) =>
     switchMap((action) => {
       const { category } = action.payload;
       const chatService = new FakeChatService();
-      return listenForMessages(chatService).pipe(
-        map((message) => messageReceived(message, category)),
-        merge(
-          from(chatService.createChat(action.payload)).map((chatId) =>
-            saveChatId(chatId, category)
-          )
-        ),
-        merge(
-          action$.pipe(
-            ofType(CHAT_SEND_MESSAGE),
-            filter(({ meta }) => meta.category === category),
-            tap(({ payload }) => chatService.sendMessage(payload)),
-            map((action) => ({
-              ...action,
-              type: CHAT_SEND_MESSAGE_SUCCESS
-            }))
-          )
-        )
+
+      const messages$ = listenForMessages(chatService).map((message) =>
+        messageReceived(message, category)
       );
+
+      const createChat$ = from(chatService.createChat(action.payload)).pipe(
+        map((chatId) => saveChatId(chatId, category)),
+        tap(() => from(chatService.assignAgent()))
+      );
+
+      const sendMessage$ = action$.pipe(
+        ofType(CHAT_SEND_MESSAGE),
+        filter(({ meta }) => meta.category === category),
+        tap(({ payload }) => chatService.sendMessage(payload)),
+        map((action) => ({
+          ...action,
+          type: CHAT_SEND_MESSAGE_SUCCESS
+        }))
+      );
+
+      return messages$.merge(createChat$, sendMessage$);
     })
   );
 
@@ -141,29 +153,47 @@ const chatReducer = (state = chatInitialState, { type, payload }) => {
       return {
         ...state,
         messages: state.messages.concat([payload]),
-        typing: payload.origin === 'agent' ? undefined : state.typing
+        typing: payload.origin === 'agent' ? undefined : state.typing,
+        unanswered: payload.type === 'chat.noAgents' ? true : state.unanswered
       };
 
-    case CHAT_SEND_MESSAGE_SUCCESS:
-      if (payload.type === 'chat.block.transcript') {
-        const { name, email } = payload;
-        const transcriptIndex = _findLast(state.messages, [
-          'type',
-          'chat.block.transcript'
-        ]);
+    case CHAT_SEND_MESSAGE_SUCCESS: {
+      if (
+        ['chat.block.transcript', 'chat.block.saveTicket'].includes(
+          payload.type
+        )
+      ) {
+        const index = _findLast(state.messages, ['type', payload.type]);
         return {
           ...state,
           messages: Object.assign(state.messages.slice(), {
-            [transcriptIndex]: {
-              ...state.messages[transcriptIndex],
-              name,
-              email
+            [index]: {
+              ...state.messages[index],
+              ...payload
             }
           })
         };
       }
       return state;
-
+    }
+    case CHAT_SAVE_TICKET_FORM:
+      return {
+        ...state,
+        messages: state.messages.concat({
+          ...payload,
+          type: 'chat.block.saveTicket',
+          origin: 'system'
+        })
+      };
+    case CHAT_CREATE_TICKET_BLOCK:
+    return {
+      ...state,
+      messages: state.messages.concat({
+        ...payload,
+        type: 'chat.block.createTicket',
+        origin: 'system'
+      })
+    }
     default:
       return state;
   }
@@ -198,5 +228,9 @@ const getChat = createSelector(
 export const getChatId = createSelector(getChat, (chat) => chat.chatId);
 export const getMessages = createSelector(getChat, (chat) => chat.messages);
 export const getTypingState = createSelector(getChat, (chat) => chat.typing);
+export const isUnanswered = createSelector(
+  getChat,
+  (chat) => !!chat.unanswered
+);
 export const isMuted = createSelector(getChatState, (state) => state.mute);
 //#endregion

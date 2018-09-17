@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import {
   LayoutConfig,
@@ -11,75 +12,15 @@ import {
 import Button from '../form/Button';
 import translateFieldLayout from '../../utils/translateFieldLayout';
 
-const layoutsConfig = [
-  {
-    rules: [{ field: 'category', value: 'sales', op: 'eq' }],
-    fields: [
-      {
-        name: 'name',
-        label: 'Full Name',
-        type: 'text',
-        validation: ['required'],
-        placeholder: 'John Doe'
-      },
-      {
-        name: 'email',
-        label: 'Email',
-        type: 'text',
-        validation: ['required'],
-        placeholder: 'john.doe@company.com'
-      },
-      { name: 'budget', label: 'Budget', type: 'text' }
-    ]
-  },
-  {
-    rules: [{ field: 'category', value: 'support', op: 'eq' }],
-    fields: [
-      {
-        name: 'name',
-        label: 'Full Name',
-        type: 'text',
-        validation: ['required'],
-        placeholder: 'John Doe'
-      },
-      {
-        name: 'email',
-        label: 'Email',
-        type: 'text',
-        validation: ['required'],
-        placeholder: 'john.doe@company.com'
-      },
-      {
-        name: 'cloud_premise',
-        label: 'Cloud or On-Premise',
-        type: 'choice',
-        dataSource: {
-          getOptions: [
-            { value: 'cloud', label: 'Cloud' },
-            { value: 'on-premise', label: 'On-Premise' }
-          ]
-        }
-      }
-    ]
-  }
-];
-
-const layouts = new LayoutConfig(layoutsConfig);
-
 class ChatEnterForm extends PureComponent {
   static propTypes = {
     intl: PropTypes.object.isRequired
   };
 
   render() {
-    const { intl, ...props } = this.props;
-    const layouts = new LayoutConfig(
-      translateFieldLayout(layoutsConfig, intl.formatMessage)
-    );
-
     return (
       <Form>
-        <FieldLayout layouts={layouts} {...props} />
+        <FieldLayout {...this.props} />
         <Button width="full" size="medium" color="primary" type="submit">
           <FormattedMessage
             id="chat.enter_form.button"
@@ -91,9 +32,9 @@ class ChatEnterForm extends PureComponent {
   }
 }
 
-export default withFormik({
+const formEnhancer = withFormik({
   enableReinitialize: true,
-  mapPropsToValues: ({ category }) => {
+  mapPropsToValues: ({ category, layouts }) => {
     const layout = layouts.getMatchingLayout({ category });
     if (layout) {
       return { category, ...layout.getDefaultValues() };
@@ -101,8 +42,24 @@ export default withFormik({
     return { category };
   },
   handleSubmit: (values, { props, setSubmitting }) => {
-    setSubmitting(true);
-    props.createChat(values);
-    props.history.push(`${props.baseUrl}/new-message`);
+    // setSubmitting(true);
+    props.onSubmit(values);
   }
-})(injectIntl(ChatEnterForm));
+});
+
+const mapProps = (WrappedComponent) => ({ formConfig, ...props }) => (
+  <WrappedComponent
+    {...props}
+    layouts={
+      new LayoutConfig(
+        translateFieldLayout(formConfig, props.intl.formatMessage)
+      )
+    }
+  />
+);
+
+export default compose(
+  injectIntl,
+  mapProps,
+  formEnhancer
+)(ChatEnterForm);
