@@ -8,6 +8,8 @@ import MessageForm from './MessageForm';
 import TypingMessage from './TypingMessage';
 import TranscriptBlock from './TranscriptBlock';
 import RatingBlock from './RatingBlock';
+import SaveTicketBlock from './SaveTicketBlock';
+import CreateTicketBlock from './CreateTicketBlock';
 
 const transMessages = {
   agentAssigned: {
@@ -26,6 +28,17 @@ class Chat extends PureComponent {
     messages: PropTypes.array,
     onSendMessage: PropTypes.func.isRequired,
     typing: PropTypes.object
+  };
+
+  saveTicket = (values) => {
+    this.props.onSendMessage({
+      type: 'chat.block.saveTicket',
+      origin: 'user',
+      ...values,
+      messages: this.props.messages
+        .filter((m) => m.origin === 'user' && m.type === 'chat.message')
+        .map((m) => m.message)
+    });
   };
 
   render() {
@@ -68,12 +81,15 @@ class Chat extends PureComponent {
               );
             case 'chat.block.saveTicket':
               return (
-                <SystemMessage
+                <SaveTicketBlock
                   key={key}
                   {...message}
-                  message="Do you want to save a new ticket?"
+                  onSaveTicket={this.saveTicket}
                 />
               );
+            
+            case 'chat.block.createTicket':
+              return <CreateTicketBlock key={key} {...message} />;
 
             case 'chat.block.transcript':
               return (

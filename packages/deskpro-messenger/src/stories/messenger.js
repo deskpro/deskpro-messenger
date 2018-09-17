@@ -132,7 +132,27 @@ storiesOf('Messenger', module)
         screenType: 'ChatScreen',
         category: 'support',
         prompt: 'chat.prompt.support',
-        noAnswerBehavior: 'save_ticket'
+        noAnswerBehavior: 'save_ticket',
+        ticketFormConfig: [
+          {
+            fields: [
+              {
+                name: 'name',
+                label: 'Full Name',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'John Doe'
+              },
+              {
+                name: 'email',
+                label: 'Email',
+                type: 'text',
+                validation: ['required'],
+                placeholder: 'john.doe@company.com'
+              }
+            ]
+          }
+        ]
       };
     }
     if (boolean('Enable Ticket Form', true, 'Config')) {

@@ -15,7 +15,8 @@ import {
   getMessages,
   getTypingState,
   isUnanswered,
-  showSaveTicketForm
+  showSaveTicketForm,
+  showCreateTicket
 } from '../modules/chat';
 
 class ChatScreen extends PureComponent {
@@ -52,10 +53,15 @@ class ChatScreen extends PureComponent {
     if (!prevProps.isUnanswered && isUnanswered) {
       switch (this.props.noAnswerBehavior) {
         case 'save_ticket':
-          this.props.showSaveTicketForm({ category });
+          this.props.showSaveTicketForm({
+            category,
+            formConfig: this.props.ticketFormConfig
+          });
           break;
         case 'new_ticket':
-          this.props.history.push('/screens/newTicket');
+          this.props.showCreateTicket({
+            category
+          });
           break;
         default:
           break;
@@ -143,7 +149,7 @@ const mapStateToProps = (state, props) => ({
 export default compose(
   connect(
     mapStateToProps,
-    { createChat, sendMessage, showSaveTicketForm }
+    { createChat, sendMessage, showSaveTicketForm, showCreateTicket }
   ),
   injectIntl
 )(ChatScreen);
