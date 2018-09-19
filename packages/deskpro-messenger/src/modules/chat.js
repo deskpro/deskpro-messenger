@@ -15,7 +15,7 @@ import _findLast from 'lodash/findLast';
 import _mapValues from 'lodash/mapValues';
 
 import asset from '../utils/asset';
-import FakeChatService from '../services/FakeChatService';
+import ApiService from '../services/ApiService';
 
 const messengerOptions = window.parent.DESKPRO_MESSENGER_OPTIONS || {};
 const sounds = _mapValues(
@@ -62,7 +62,7 @@ export const showCreateTicket = (data) => ({
   type: CHAT_CREATE_TICKET_BLOCK,
   payload: data,
   meta: data
-})
+});
 //#endregion
 
 //#region EPICS
@@ -78,7 +78,7 @@ export const chatMessagingEpic = (action$) =>
     ofType(CHAT_START),
     switchMap((action) => {
       const { category } = action.payload;
-      const chatService = new FakeChatService();
+      const chatService = new ApiService();
 
       const messages$ = listenForMessages(chatService).map((message) =>
         messageReceived(message, category)
@@ -186,14 +186,14 @@ const chatReducer = (state = chatInitialState, { type, payload }) => {
         })
       };
     case CHAT_CREATE_TICKET_BLOCK:
-    return {
-      ...state,
-      messages: state.messages.concat({
-        ...payload,
-        type: 'chat.block.createTicket',
-        origin: 'system'
-      })
-    }
+      return {
+        ...state,
+        messages: state.messages.concat({
+          ...payload,
+          type: 'chat.block.createTicket',
+          origin: 'system'
+        })
+      };
     default:
       return state;
   }

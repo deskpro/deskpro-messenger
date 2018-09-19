@@ -134,4 +134,20 @@ export default class FakeChatService extends BaseChatService {
       name: 'Nick Green'
     });
   }
+
+  /**
+   * Loads user via API.
+   */
+  static async loadUser(visitorId) {
+    return {
+      visitorId,
+      guest: {
+        name: 'John Doe',
+        email: 'joe.doe@example.com'
+      },
+      chat: {
+        recentChats: []
+      }
+    };
+  }
 }

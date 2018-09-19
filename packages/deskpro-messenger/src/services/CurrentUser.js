@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import ApiService from './ApiService';
 
 const COOKIE_VID_NAME = 'dp__v'; // deskpro (dp) visitor (v)
 const LS_CACHE_KEY = 'dp__vd'; // deskpro (dp) visitor (v) data (d)
@@ -90,17 +91,7 @@ class CurrentUser {
    * @param {string} visitorId Visitor ID
    */
   async loadUser(visitorId) {
-    // TODO: user API service for that purpose.
-    return {
-      visitorId,
-      guest: {
-        name: null,
-        email: null
-      },
-      chat: {
-        recentChats: []
-      }
-    };
+    ApiService.loadUser(visitorId);
   }
 
   /**

@@ -92,4 +92,20 @@ export default class BaseChatService {
   async sendMessage(message) {
     this.onMessageReceived(message);
   }
+
+  /**
+   * Loads user via API.
+   */
+  static async loadUser(visitorId) {
+    return {
+      visitorId,
+      guest: {
+        name: 'John Doe',
+        email: 'joe.doe@example.com'
+      },
+      chat: {
+        recentChats: []
+      }
+    };
+  }
 }
