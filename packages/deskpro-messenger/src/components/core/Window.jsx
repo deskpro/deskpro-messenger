@@ -1,13 +1,14 @@
 import React, { Fragment, PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route, Link, Redirect } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { injectIntl } from 'react-intl';
 
 import Frame from './Frame';
 import { withConfig } from './ConfigContext';
 import ScreenRoute from './ScreenRoute';
 import MessengerShell from './MessengerShell';
 import MuteButton from '../../containers/MuteButton';
+import BackButton from '../../containers/BackButton';
 // import RandomImageFrame from '../poc/ImageFrame';
 // import LoremIpsumFrame from '../poc/ArticleFrame';
 
@@ -80,16 +81,7 @@ class MessengerWindow extends PureComponent {
           return (
             <Fragment>
               {screenName !== 'index' && (
-                <Link
-                  to={`/screens/index`}
-                  className="dpmsg-BackBtn dpmsg-LevelLeft"
-                >
-                  <i className="dpmsg-IconArrow iconArrow--left" />{' '}
-                  <FormattedMessage
-                    id="app.buttons.back"
-                    defaultMessage="back"
-                  />
-                </Link>
+                <BackButton screen={screen} screenName={screenName} />
               )}
               {!!screen && screen.screenType === 'ChatScreen' && <MuteButton />}
             </Fragment>

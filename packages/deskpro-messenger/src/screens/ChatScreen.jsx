@@ -10,7 +10,7 @@ import Block from '../components/core/Block';
 
 import {
   createChat,
-  getChatId,
+  getActiveChat,
   sendMessage,
   getMessages,
   getTypingState,
@@ -21,7 +21,7 @@ import {
 
 class ChatScreen extends PureComponent {
   static propTypes = {
-    chatId: PropTypes.string,
+    activeChat: PropTypes.string,
     messages: PropTypes.array,
     typing: PropTypes.object,
     preChatForm: PropTypes.array,
@@ -31,7 +31,7 @@ class ChatScreen extends PureComponent {
   };
 
   static defaultProps = {
-    chatId: null,
+    activeChat: null,
     messages: [],
     typing: null,
     preChatForm: [],
@@ -41,26 +41,37 @@ class ChatScreen extends PureComponent {
   };
 
   state = {
-    viewMode: this.props.preChatForm.length ? 'form' : 'chat',
+    viewMode:
+      !this.props.activeChat && this.props.preChatForm.length ? 'form' : 'chat',
+    // we will save message drafts here until the chat is created.
     messages: []
   };
 
   componentDidUpdate(prevProps) {
-    const { chatId, sendMessage, category, isUnanswered } = this.props;
-    if (!prevProps.chatId && chatId) {
+    const { activeChat, sendMessage, category, isUnanswered } = this.props;
+    if (!prevProps.activeChat && activeChat) {
+      // send draft messages.
       this.state.messages.forEach((message) => sendMessage(message, category));
+      this.setState({ messages: [] });
+    } else if (prevProps.activeChat && !activeChat) {
+      // reset the chat screen state when a chat is ended.
+      this.setState({
+        viewMode: this.props.preChatForm.length ? 'form' : 'chat'
+      });
     }
     if (!prevProps.isUnanswered && isUnanswered) {
       switch (this.props.noAnswerBehavior) {
         case 'save_ticket':
           this.props.showSaveTicketForm({
             category,
-            formConfig: this.props.ticketFormConfig
+            formConfig: this.props.ticketFormConfig,
+            chatId: activeChat
           });
           break;
         case 'new_ticket':
           this.props.showCreateTicket({
-            category
+            category,
+            chatId: activeChat
           });
           break;
         default:
@@ -70,7 +81,7 @@ class ChatScreen extends PureComponent {
   }
 
   handleSendMessage = (message) => {
-    const { chatId, category } = this.props;
+    const { activeChat, category } = this.props;
 
     if (message) {
       const messageModel =
@@ -82,7 +93,7 @@ class ChatScreen extends PureComponent {
             }
           : message;
 
-      if (!chatId) {
+      if (!activeChat) {
         this.setState(({ messages }) => ({
           messages: messages.concat([messageModel])
         }));
@@ -91,7 +102,7 @@ class ChatScreen extends PureComponent {
           this.props.createChat({ category });
         }
       } else {
-        this.props.sendMessage(messageModel, category);
+        this.props.sendMessage(messageModel);
       }
     }
   };
@@ -102,7 +113,7 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const { category, preChatForm, prompt, chatId, intl } = this.props;
+    const { category, preChatForm, prompt, activeChat, intl } = this.props;
     const { viewMode } = this.state;
 
     const capCategory = category[0].toUpperCase() + category.substring(1);
@@ -126,11 +137,11 @@ class ChatScreen extends PureComponent {
         )}
         {viewMode === 'chat' && (
           <Chat
-            messages={chatId ? this.props.messages : this.state.messages}
+            messages={activeChat ? this.props.messages : this.state.messages}
             category={this.props.category}
             onSendMessage={this.handleSendMessage}
             typing={this.props.typing}
-            chatId={chatId}
+            chatId={activeChat}
             prompt={prompt}
           />
         )}
@@ -140,7 +151,7 @@ class ChatScreen extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => ({
-  chatId: getChatId(state, props),
+  activeChat: getActiveChat(state, props),
   messages: getMessages(state, props),
   typing: getTypingState(state, props),
   isUnanswered: isUnanswered(state, props)

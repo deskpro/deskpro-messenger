@@ -25,17 +25,11 @@ const sleep = (time) =>
 
 export default class FakeChatService extends BaseChatService {
   polling = false;
-  chatId = null;
   agentAssigned = false;
 
   async createChat(data) {
-    if (this.chatId) {
-      throw new Error('Chat is already started');
-    }
-    this.chatId = _uniqueId('chat-');
     await super.createChat(data);
-
-    return await this.chatId;
+    return _uniqueId('chat-');
   }
 
   async hasAvailableAgents() {
@@ -76,6 +70,15 @@ export default class FakeChatService extends BaseChatService {
     });
   }
 
+  async onMessageReceived(message) {
+    super.onMessageReceived(message);
+    if (message.type === 'chat.ended') {
+      this.isRunning = false;
+      this.hasAvailableAgents = false;
+      this.hasUnasweredMessages = false;
+    }
+  }
+
   async sendMessage(message) {
     await super.sendMessage({
       ...message,
@@ -95,7 +98,7 @@ export default class FakeChatService extends BaseChatService {
         return;
       }
 
-      const lowerMessage = message.message.toLowerCase();
+      const lowerMessage = message.message.toLowerCase().trim();
       if (lowerMessage.includes('transcript')) {
         await sleep(NETWORK_LATENCY);
         this.onMessageReceived({
@@ -108,6 +111,12 @@ export default class FakeChatService extends BaseChatService {
           type: 'chat.block.rate',
           origin: 'system',
           name: 'Nick'
+        });
+      } else if (['end', 'stop'].includes(lowerMessage)) {
+        await sleep(NETWORK_LATENCY);
+        this.onMessageReceived({
+          type: 'chat.ended',
+          origin: 'system'
         });
       } else {
         await this.simulateAgentResponse();

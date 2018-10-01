@@ -1,6 +1,5 @@
 export default class BaseChatService {
   listeners = [];
-  chatId = null;
   isRunning = false;
 
   /**
@@ -49,9 +48,6 @@ export default class BaseChatService {
   async onMessageReceived(message) {
     if (typeof message === 'object') {
       this.listeners.forEach((callback) => callback(message));
-      if (message.type === 'chat.ended') {
-        this.chatId = null;
-      }
     } else {
       console.warn('Something went wrong. Message received: ', message);
     }
@@ -82,7 +78,6 @@ export default class BaseChatService {
 
     if (!this.listeners.length) {
       this.isRunning = false;
-      this.chatId = null;
     }
   }
 

@@ -204,6 +204,9 @@ export default produce(
         draft.chats[payload.chatId],
         action
       );
+      if (type === CHAT_MESSAGE_RECEIVED && payload.type === 'chat.ended') {
+        delete draft.activeChat;
+      }
     }
     return;
   },
