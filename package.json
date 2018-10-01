@@ -8,5 +8,8 @@
     "bootstrap": "lerna bootstrap",
     "lerna": "lerna",
     "test": "cd packages/deskpro-messenger && yarn test"
+  },
+  "dependencies": {
+    "js-cookie": "^2.2.0"
   }
 }
