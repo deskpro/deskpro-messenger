@@ -2,7 +2,7 @@ import _uniqueId from 'lodash/uniqueId';
 import _sample from 'lodash/sample';
 
 import asset from '../utils/asset';
-import BaseChatService from './BaseChatService';
+import BaseApiService from './BaseApiService';
 
 const NETWORK_LATENCY = 2000;
 
@@ -23,7 +23,7 @@ const sleep = (time) =>
     setTimeout(res, time);
   });
 
-export default class FakeChatService extends BaseChatService {
+export default class FakeChatService extends BaseApiService {
   polling = false;
   agentAssigned = false;
 
@@ -147,7 +147,7 @@ export default class FakeChatService extends BaseChatService {
   /**
    * Loads user via API.
    */
-  static async loadUser(visitorId) {
+  async loadUser(visitorId) {
     return {
       visitorId,
       guest: {

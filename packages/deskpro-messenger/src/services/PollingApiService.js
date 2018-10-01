@@ -1,4 +1,4 @@
-import BaseChatService from './BaseChatService';
+import BaseApiService from './BaseApiService';
 
 const POLLING_INTERVAL = 2000;
 
@@ -13,12 +13,12 @@ const apiCall = async (url, method, data) => {
   return response.json();
 };
 
-const sleep = time =>
-  new Promise(res => {
+const sleep = (time) =>
+  new Promise((res) => {
     setTimeout(res, time);
   });
 
-export default class PollingChatService extends BaseChatService {
+export default class PollingChatService extends BaseApiService {
   polling = false;
   chatId = null;
 

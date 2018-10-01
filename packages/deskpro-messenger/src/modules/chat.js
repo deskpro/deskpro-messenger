@@ -16,9 +16,8 @@ import _findLast from 'lodash/findLast';
 import _mapValues from 'lodash/mapValues';
 
 import asset from '../utils/asset';
-import ApiService from '../services/ApiService';
+import chatService from '../services/ApiService';
 
-const chatService = new ApiService();
 const spread = produce(Object.assign);
 
 const messengerOptions = window.parent.DESKPRO_MESSENGER_OPTIONS || {};

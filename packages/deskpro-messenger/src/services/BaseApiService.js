@@ -91,7 +91,7 @@ export default class BaseChatService {
   /**
    * Loads user via API.
    */
-  static async loadUser(visitorId) {
+  async loadUser(visitorId) {
     return {
       visitorId,
       guest: {

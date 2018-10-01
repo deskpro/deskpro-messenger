@@ -1,6 +1,8 @@
-import FakeChatService from './FakeChatService';
-import PollingChatService from './PollingChatService';
+import FakeApiService from './FakeApiService';
+import PollingApiService from './PollingApiService';
 
-export default (process.env.API_SERVICE === 'polling'
-  ? PollingChatService
-  : FakeChatService);
+const apiService = new (process.env.API_SERVICE === 'polling'
+  ? PollingApiService
+  : FakeApiService)();
+
+export default apiService;
