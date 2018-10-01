@@ -11,11 +11,15 @@ import {
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
 import { createSelector } from 'reselect';
+import { produce } from 'immer';
 import _findLast from 'lodash/findLast';
 import _mapValues from 'lodash/mapValues';
 
 import asset from '../utils/asset';
 import ApiService from '../services/ApiService';
+
+const chatService = new ApiService();
+const spread = produce(Object.assign);
 
 const messengerOptions = window.parent.DESKPRO_MESSENGER_OPTIONS || {};
 const sounds = _mapValues(
@@ -37,20 +41,17 @@ const CHAT_CREATE_TICKET_BLOCK = 'CHAT_CREATE_TICKET_BLOCK';
 
 //#region ACTION CREATORS
 export const createChat = (data) => ({ type: CHAT_START, payload: data });
-export const saveChatId = (chatId, category) => ({
+export const saveChatId = (chatId) => ({
   type: CHAT_SAVE_CHAT_ID,
-  payload: chatId,
-  meta: { category }
+  payload: chatId
 });
-export const messageReceived = (message, category) => ({
+export const messageReceived = (message) => ({
   type: CHAT_MESSAGE_RECEIVED,
-  payload: message,
-  meta: { category }
+  payload: message
 });
-export const sendMessage = (message, category) => ({
+export const sendMessage = (message) => ({
   type: CHAT_SEND_MESSAGE,
-  payload: message,
-  meta: { category }
+  payload: message
 });
 export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
 export const showSaveTicketForm = (data) => ({
@@ -66,44 +67,46 @@ export const showCreateTicket = (data) => ({
 //#endregion
 
 //#region EPICS
-const listenForMessages = (chatService) =>
+const listenForMessages = () =>
   new Observable((observer) => {
     const callback = (message) => observer.next(message);
     chatService.subscribe(callback);
     return () => chatService.unsubscribe(callback);
   });
 
-export const chatMessagingEpic = (action$) =>
+const createChatEpic = (action$) =>
   action$.pipe(
     ofType(CHAT_START),
-    switchMap((action) => {
-      const { category } = action.payload;
-      const chatService = new ApiService();
-
-      const messages$ = listenForMessages(chatService).map((message) =>
-        messageReceived(message, category)
-      );
-
-      const createChat$ = from(chatService.createChat(action.payload)).pipe(
-        map((chatId) => saveChatId(chatId, category)),
-        tap(() => from(chatService.assignAgent()))
-      );
-
-      const sendMessage$ = action$.pipe(
-        ofType(CHAT_SEND_MESSAGE),
-        filter(({ meta }) => meta.category === category),
-        tap(({ payload }) => chatService.sendMessage(payload)),
-        map((action) => ({
-          ...action,
-          type: CHAT_SEND_MESSAGE_SUCCESS
-        }))
-      );
-
-      return messages$.merge(createChat$, sendMessage$);
-    })
+    switchMap((action) => from(chatService.createChat(action.payload))),
+    map((chatId) => saveChatId(chatId)),
+    tap(() => from(chatService.assignAgent()))
   );
 
-export const soundEpic = (action$, state$) =>
+const listenForMessagesEpic = (action$, state$) =>
+  action$.pipe(
+    ofType(CHAT_START),
+    switchMap(listenForMessages),
+    withLatestFrom(state$),
+    map(([message, state]) =>
+      messageReceived({ ...message, chatId: getActiveChat(state) })
+    )
+  );
+
+const sendMessagesEpic = (action$, state$) =>
+  action$.pipe(
+    ofType(CHAT_SEND_MESSAGE),
+    withLatestFrom(state$),
+    tap(([{ payload }, state]) =>
+      chatService.sendMessage({ ...payload, chatId: getActiveChat(state) })
+    ),
+    map(([action, state]) => ({
+      ...action,
+      chatId: getActiveChat(state),
+      type: CHAT_SEND_MESSAGE_SUCCESS
+    }))
+  );
+
+const soundEpic = (action$, state$) =>
   action$.pipe(
     ofType(CHAT_MESSAGE_RECEIVED),
     withLatestFrom(state$),
@@ -120,110 +123,107 @@ export const soundEpic = (action$, state$) =>
     }),
     skip()
   );
-export const chatEpic = combineEpics(chatMessagingEpic, soundEpic);
+
+export const chatEpic = combineEpics(
+  listenForMessagesEpic,
+  createChatEpic,
+  sendMessagesEpic,
+  soundEpic
+);
 //#endregion
 
 //#region REDUCER
-const chatInitialState = { chatId: '', messages: [] };
-const chatReducer = (state = chatInitialState, { type, payload }) => {
-  switch (type) {
-    case CHAT_SAVE_CHAT_ID:
-      return { ...state, chatId: payload };
+const chatReducer = produce(
+  (draft, { type, payload }) => {
+    switch (type) {
+      case CHAT_MESSAGE_RECEIVED:
+        if (payload.type.startsWith('typing.')) {
+          draft.typing = payload.type === 'typing.start' ? payload : false;
+          return;
+        }
+        if (
+          payload.type.startsWith('chat.block.') &&
+          payload.origin === 'user'
+        ) {
+          const message = _findLast(
+            draft.messages,
+            (m) => m.type === payload.type && m.origin !== 'user'
+          );
+          const index = draft.messages.indexOf(message);
+          draft.messages[index] = payload;
+          return;
+        }
+        draft.messages.push(payload);
+        draft.typing = payload.origin === 'agent' ? undefined : draft.typing;
+        draft.unanswered =
+          payload.type === 'chat.noAgents' ? true : draft.unanswered;
+        return;
 
-    case CHAT_MESSAGE_RECEIVED:
-      if (payload.type.startsWith('typing.')) {
-        return {
-          ...state,
-          typing: payload.type === 'typing.start' ? payload : false
-        };
+      case CHAT_SEND_MESSAGE_SUCCESS: {
+        if (
+          ['chat.block.transcript', 'chat.block.saveTicket'].includes(
+            payload.type
+          )
+        ) {
+          const index = _findLast(draft.messages, ['type', payload.type]);
+          draft.messages[index] = spread(draft.messages[index], payload);
+        }
+        return;
       }
-      if (payload.type.startsWith('chat.block.') && payload.origin === 'user') {
-        const message = _findLast(
-          state.messages,
-          (m) => m.type === payload.type && m.origin !== 'user'
-        );
-        const index = state.messages.indexOf(message);
-        return {
-          ...state,
-          messages: Object.assign(state.messages.slice(), {
-            [index]: payload
-          })
-        };
-      }
-      return {
-        ...state,
-        messages: state.messages.concat([payload]),
-        typing: payload.origin === 'agent' ? undefined : state.typing,
-        unanswered: payload.type === 'chat.noAgents' ? true : state.unanswered
-      };
-
-    case CHAT_SEND_MESSAGE_SUCCESS: {
-      if (
-        ['chat.block.transcript', 'chat.block.saveTicket'].includes(
-          payload.type
-        )
-      ) {
-        const index = _findLast(state.messages, ['type', payload.type]);
-        return {
-          ...state,
-          messages: Object.assign(state.messages.slice(), {
-            [index]: {
-              ...state.messages[index],
-              ...payload
-            }
-          })
-        };
-      }
-      return state;
-    }
-    case CHAT_SAVE_TICKET_FORM:
-      return {
-        ...state,
-        messages: state.messages.concat({
+      case CHAT_SAVE_TICKET_FORM:
+        draft.messages.push({
           ...payload,
           type: 'chat.block.saveTicket',
           origin: 'system'
-        })
-      };
-    case CHAT_CREATE_TICKET_BLOCK:
-      return {
-        ...state,
-        messages: state.messages.concat({
+        });
+        return;
+      case CHAT_CREATE_TICKET_BLOCK:
+        draft.messages.push({
           ...payload,
           type: 'chat.block.createTicket',
           origin: 'system'
-        })
-      };
-    default:
-      return state;
-  }
-};
-const initialState = { chats: {}, mute: false };
-export default (state = initialState, action) => {
-  if (action.type === CHAT_TOGGLE_SOUND) {
-    return { ...state, mute: !state.mute };
-  } else if (action.meta && action.meta.category) {
-    const { category } = action.meta;
-    return {
-      ...state,
-      chats: {
-        ...state.chats,
-        [category]: chatReducer(state.chats[category], action)
-      }
-    };
-  } else {
-    return state;
-  }
-};
+        });
+        return;
+      default:
+        return;
+    }
+  },
+  { chatId: '', messages: [] }
+);
+
+export default produce(
+  (draft, action) => {
+    const { type, payload } = action;
+    if (type === CHAT_TOGGLE_SOUND) {
+      draft.mute = !draft.mute;
+    } else if (type === CHAT_SAVE_CHAT_ID) {
+      draft.chats[payload] = { chatId: payload, messages: [] };
+      draft.activeChat = payload;
+    } else if (payload && 'chatId' in payload) {
+      draft.chats[payload.chatId] = chatReducer(
+        draft.chats[payload.chatId],
+        action
+      );
+    }
+    return;
+  },
+  { chats: {}, mute: false }
+);
 //#endregion
 
 //#region SELECTORS
 const getChatState = (state) => state.chat;
 const getChats = createSelector(getChatState, (state) => state.chats || {});
+export const getActiveChat = createSelector(
+  getChatState,
+  (state) => state.activeChat
+);
 const getChat = createSelector(
   getChats,
-  (_, props) => props.category,
-  (chats, category) => chats[category] || {}
+  getActiveChat,
+  (_, props) => props.chatId,
+  (chats, activeChat, chatId) =>
+    chatId || activeChat ? chats[chatId || activeChat] : {}
 );
 export const getChatId = createSelector(getChat, (chat) => chat.chatId);
 export const getMessages = createSelector(getChat, (chat) => chat.messages);

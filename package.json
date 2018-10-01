@@ -10,6 +10,7 @@
     "test": "cd packages/deskpro-messenger && yarn test"
   },
   "dependencies": {
+    "immer": "^1.7.2",
     "js-cookie": "^2.2.0"
   }
 }
