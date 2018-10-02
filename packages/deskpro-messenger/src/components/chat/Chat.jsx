@@ -27,7 +27,8 @@ class Chat extends PureComponent {
     category: PropTypes.string,
     messages: PropTypes.array,
     onSendMessage: PropTypes.func.isRequired,
-    typing: PropTypes.object
+    typing: PropTypes.object,
+    user: PropTypes.object
   };
 
   saveTicket = (values) => {
@@ -42,7 +43,7 @@ class Chat extends PureComponent {
   };
 
   render() {
-    const { typing, messages, onSendMessage, intl, prompt } = this.props;
+    const { typing, messages, onSendMessage, intl, prompt, user } = this.props;
 
     return (
       <Fragment>
@@ -84,10 +85,11 @@ class Chat extends PureComponent {
                 <SaveTicketBlock
                   key={key}
                   {...message}
+                  user={user}
                   onSaveTicket={this.saveTicket}
                 />
               );
-            
+
             case 'chat.block.createTicket':
               return <CreateTicketBlock key={key} {...message} />;
 
