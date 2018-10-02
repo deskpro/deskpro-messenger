@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import apiService from './ApiService';
+import { setVisitor } from '../modules/guest';
 
 const COOKIE_VID_NAME = 'dp__v'; // deskpro (dp) visitor (v)
 const LS_CACHE_KEY = 'dp__vd'; // deskpro (dp) visitor (v) data (d)
@@ -32,18 +33,17 @@ class CurrentUser {
       }
     };
     Cookies.set(COOKIE_VID_NAME, state.visitorId);
-    CurrentUser.updateCache(state);
-    return this.store.dispatch({ type: 'SET_VISITOR', payload: state });
+    this.updateCache(state);
+    return this.store.dispatch(setVisitor(state));
   }
 
   async initKnownGuest(visitorId) {
-    const state = CurrentUser.getCache();
+    const state = this.getCache();
     if (this.isCacheValid(state)) {
-      return this.store.dispatch({ type: 'SET_VISITOR', payload: state });
+      return this.store.dispatch(setVisitor(state));
     }
     const userData = await this.loadUser(visitorId);
-    CurrentUser.updateCache(state);
-    return this.store.dispatch({ type: 'SET_VISITOR', payload: userData });
+    this.updateCache(userData);
   }
 
   isCacheValid(state) {
@@ -66,7 +66,7 @@ class CurrentUser {
   /**
    * Retrieves and parse cache from the localStorage.
    */
-  static getCache() {
+  getCache() {
     return JSON.parse(window.parent.localStorage[LS_CACHE_KEY] || '{}');
   }
 
@@ -75,14 +75,15 @@ class CurrentUser {
    *
    * @param {object} state State object
    */
-  static updateCache(state) {
-    const cache = CurrentUser.getCache();
+  updateCache(state) {
+    const cache = this.getCache();
     const newState = {
       visitorId: state.visitorId || cache.visitorId,
       guest: { ...(cache.guest || {}), ...(state.guest || {}) },
       chat: { ...(cache.chat || {}), ...(state.chat || {}) }
     };
     window.parent.localStorage[LS_CACHE_KEY] = JSON.stringify(newState);
+    this.store.dispatch(setVisitor(newState));
   }
 
   /**

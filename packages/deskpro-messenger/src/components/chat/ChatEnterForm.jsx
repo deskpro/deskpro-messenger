@@ -8,6 +8,8 @@ import {
   Form,
   withFormik
 } from '@deskpro/portal-components';
+import _omitBy from 'lodash/omitBy';
+import _isEmpty from 'lodash/isEmpty';
 // import Field from '../form/InputField';
 import Button from '../form/Button';
 import translateFieldLayout from '../../utils/translateFieldLayout';
@@ -34,12 +36,13 @@ class ChatEnterForm extends PureComponent {
 
 const formEnhancer = withFormik({
   enableReinitialize: true,
-  mapPropsToValues: ({ category, layouts }) => {
+  mapPropsToValues: ({ category, layouts, user }) => {
     const layout = layouts.getMatchingLayout({ category });
+    const userData = _omitBy(user, _isEmpty);
     if (layout) {
-      return { category, ...layout.getDefaultValues() };
+      return { category, ...layout.getDefaultValues(), ...userData };
     }
-    return { category };
+    return { category, ...userData };
   },
   handleSubmit: (values, { props, setSubmitting }) => {
     // setSubmitting(true);

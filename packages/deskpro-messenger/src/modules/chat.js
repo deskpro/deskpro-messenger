@@ -14,9 +14,12 @@ import { createSelector } from 'reselect';
 import { produce } from 'immer';
 import _findLast from 'lodash/findLast';
 import _mapValues from 'lodash/mapValues';
+import _pick from 'lodash/pick';
+import _isPlainObject from 'lodash/isPlainObject';
 
 import asset from '../utils/asset';
 import chatService from '../services/ApiService';
+import currentUser from '../services/CurrentUser';
 
 const spread = produce(Object.assign);
 
@@ -81,6 +84,18 @@ const createChatEpic = (action$) =>
     tap(() => from(chatService.assignAgent()))
   );
 
+const updateGuestEpic = (action$) =>
+  action$.pipe(
+    ofType(CHAT_START),
+    filter((action) => 'email' in action.payload),
+    tap((action) =>
+      currentUser.updateCache({
+        guest: _pick(action.payload, ['name', 'email'])
+      })
+    ),
+    skip()
+  );
+
 const listenForMessagesEpic = (action$, state$) =>
   action$.pipe(
     ofType(CHAT_START),
@@ -126,69 +141,65 @@ const soundEpic = (action$, state$) =>
 export const chatEpic = combineEpics(
   listenForMessagesEpic,
   createChatEpic,
+  updateGuestEpic,
   sendMessagesEpic,
   soundEpic
 );
 //#endregion
 
 //#region REDUCER
-const chatReducer = produce(
-  (draft, { type, payload }) => {
-    switch (type) {
-      case CHAT_MESSAGE_RECEIVED:
-        if (payload.type.startsWith('typing.')) {
-          draft.typing = payload.type === 'typing.start' ? payload : false;
-          return;
-        }
-        if (
-          payload.type.startsWith('chat.block.') &&
-          payload.origin === 'user'
-        ) {
-          const message = _findLast(
-            draft.messages,
-            (m) => m.type === payload.type && m.origin !== 'user'
-          );
-          const index = draft.messages.indexOf(message);
-          draft.messages[index] = payload;
-          return;
-        }
-        draft.messages.push(payload);
-        draft.typing = payload.origin === 'agent' ? undefined : draft.typing;
-        draft.unanswered =
-          payload.type === 'chat.noAgents' ? true : draft.unanswered;
-        return;
-
-      case CHAT_SEND_MESSAGE_SUCCESS: {
-        if (
-          ['chat.block.transcript', 'chat.block.saveTicket'].includes(
-            payload.type
-          )
-        ) {
-          const index = _findLast(draft.messages, ['type', payload.type]);
-          draft.messages[index] = spread(draft.messages[index], payload);
-        }
+const emptyChat = { messages: [] };
+const chatReducer = produce((draft, { type, payload }) => {
+  switch (type) {
+    case CHAT_MESSAGE_RECEIVED:
+      if (payload.type.startsWith('typing.')) {
+        draft.typing = payload.type === 'typing.start' ? payload : false;
         return;
       }
-      case CHAT_SAVE_TICKET_FORM:
-        draft.messages.push({
-          ...payload,
-          type: 'chat.block.saveTicket',
-          origin: 'system'
-        });
+      if (payload.type.startsWith('chat.block.') && payload.origin === 'user') {
+        const message = _findLast(
+          draft.messages,
+          (m) => m.type === payload.type && m.origin !== 'user'
+        );
+        const index = draft.messages.indexOf(message);
+        draft.messages[index] = payload;
         return;
-      case CHAT_CREATE_TICKET_BLOCK:
-        draft.messages.push({
-          ...payload,
-          type: 'chat.block.createTicket',
-          origin: 'system'
-        });
-        return;
-      default:
-        return;
+      }
+      draft.messages.push(payload);
+      draft.typing = payload.origin === 'agent' ? undefined : draft.typing;
+      draft.unanswered =
+        payload.type === 'chat.noAgents' ? true : draft.unanswered;
+      return;
+
+    case CHAT_SEND_MESSAGE_SUCCESS: {
+      if (
+        ['chat.block.transcript', 'chat.block.saveTicket'].includes(
+          payload.type
+        )
+      ) {
+        const index = _findLast(draft.messages, ['type', payload.type]);
+        draft.messages[index] = spread(draft.messages[index], payload);
+      }
+      return;
     }
-  },
-  { chatId: '', messages: [] }
-);
+    case CHAT_SAVE_TICKET_FORM:
+      draft.messages.push({
+        ...payload,
+        type: 'chat.block.saveTicket',
+        origin: 'system'
+      });
+      return;
+    case CHAT_CREATE_TICKET_BLOCK:
+      draft.messages.push({
+        ...payload,
+        type: 'chat.block.createTicket',
+        origin: 'system'
+      });
+      return;
+    default:
+      return;
+  }
+}, emptyChat);
 
 export default produce(
   (draft, action) => {
@@ -196,8 +207,19 @@ export default produce(
     if (type === CHAT_TOGGLE_SOUND) {
       draft.mute = !draft.mute;
     } else if (type === CHAT_SAVE_CHAT_ID) {
-      draft.chats[payload] = { chatId: payload, messages: [] };
+      draft.chats[payload] = { ...emptyChat };
       draft.activeChat = payload;
+    } else if (
+      type === 'SET_VISITOR' &&
+      _isPlainObject(payload.chat) &&
+      payload.chat.recentChats.length
+    ) {
+      payload.chat.recentChats.forEach(({ id, ...chat }) => {
+        draft.chats[chat.id] = spread(emptyChat, chat);
+        if (chat.status === 'active') {
+          draft.activeChat = chat.id;
+        }
+      });
     } else if (payload && 'chatId' in payload) {
       draft.chats[payload.chatId] = chatReducer(
         draft.chats[payload.chatId],

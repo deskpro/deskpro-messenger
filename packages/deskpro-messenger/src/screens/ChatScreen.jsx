@@ -18,9 +18,11 @@ import {
   showSaveTicketForm,
   showCreateTicket
 } from '../modules/chat';
+import { getUserData } from '../modules/guest';
 
 class ChatScreen extends PureComponent {
   static propTypes = {
+    user: PropTypes.object,
     activeChat: PropTypes.string,
     messages: PropTypes.array,
     typing: PropTypes.object,
@@ -113,7 +115,14 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const { category, preChatForm, prompt, activeChat, intl } = this.props;
+    const {
+      category,
+      preChatForm,
+      prompt,
+      activeChat,
+      intl,
+      user
+    } = this.props;
     const { viewMode } = this.state;
 
     const capCategory = category[0].toUpperCase() + category.substring(1);
@@ -130,6 +139,7 @@ class ChatScreen extends PureComponent {
       >
         {viewMode === 'form' && (
           <ChatEnterForm
+            user={user}
             category={category}
             onSubmit={this.submitPreChatForm}
             formConfig={preChatForm}
@@ -143,6 +153,7 @@ class ChatScreen extends PureComponent {
             typing={this.props.typing}
             chatId={activeChat}
             prompt={prompt}
+            user={user}
           />
         )}
       </Block>
@@ -151,6 +162,7 @@ class ChatScreen extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => ({
+  user: getUserData(state),
   activeChat: getActiveChat(state, props),
   messages: getMessages(state, props),
   typing: getTypingState(state, props),
