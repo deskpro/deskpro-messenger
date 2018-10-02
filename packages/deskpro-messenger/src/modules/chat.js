@@ -84,6 +84,32 @@ const createChatEpic = (action$) =>
     tap(() => from(chatService.assignAgent()))
   );
 
+const cacheNewChatEpic = (action$) =>
+  action$.pipe(
+    ofType(CHAT_SAVE_CHAT_ID),
+    tap(({ payload }) => {
+      const cache = currentUser.getCache();
+      cache.chat.recentChats.push({ id: payload, status: 'active' });
+      currentUser.updateCache(cache, false);
+    }),
+    skip()
+  );
+
+const deactivateChatEpic = (action$) =>
+  action$.pipe(
+    ofType(CHAT_MESSAGE_RECEIVED),
+    filter(({ payload }) => payload.type === 'chat.ended'),
+    tap(({ payload }) => {
+      const cache = currentUser.getCache();
+      cache.chat.recentChats = cache.chat.recentChats.map(
+        (chat) =>
+          chat.id === payload.chatId ? { ...chat, status: 'ended' } : chat
+      );
+      currentUser.updateCache(cache, false);
+    }),
+    skip()
+  );
+
 const updateGuestEpic = (action$) =>
   action$.pipe(
     ofType(CHAT_START, CHAT_SEND_MESSAGE),
@@ -143,6 +169,8 @@ export const chatEpic = combineEpics(
   createChatEpic,
   updateGuestEpic,
   sendMessagesEpic,
+  cacheNewChatEpic,
+  deactivateChatEpic,
   soundEpic
 );
 //#endregion
@@ -215,9 +243,12 @@ export default produce(
       payload.chat.recentChats.length
     ) {
       payload.chat.recentChats.forEach(({ id, ...chat }) => {
-        draft.chats[chat.id] = spread(emptyChat, chat);
+        draft.chats[id] = spread(
+          draft.chats[id] ? draft.chats[id] : emptyChat,
+          chat
+        );
         if (chat.status === 'active') {
-          draft.activeChat = chat.id;
+          draft.activeChat = id;
         }
       });
     } else if (payload && 'chatId' in payload) {

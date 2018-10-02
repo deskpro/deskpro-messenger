@@ -74,7 +74,6 @@ export default class FakeChatService extends BaseApiService {
     super.onMessageReceived(message);
     if (message.type === 'chat.ended') {
       this.isRunning = false;
-      this.hasAvailableAgents = false;
       this.hasUnasweredMessages = false;
     }
   }
@@ -112,7 +111,10 @@ export default class FakeChatService extends BaseApiService {
           origin: 'system',
           name: 'Nick'
         });
-      } else if (['end', 'stop'].includes(lowerMessage)) {
+      } else if (
+        ['end', 'stop'].includes(lowerMessage) ||
+        message.type === 'chat.block.saveTicket'
+      ) {
         await sleep(NETWORK_LATENCY);
         this.onMessageReceived({
           type: 'chat.ended',

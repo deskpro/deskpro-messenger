@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
 import apiService from './ApiService';
 import { setVisitor } from '../modules/guest';
+import _merge from 'lodash/merge';
+import _findIndex from 'lodash/findIndex';
 
 const COOKIE_VID_NAME = 'dp__v'; // deskpro (dp) visitor (v)
 const LS_CACHE_KEY = 'dp__vd'; // deskpro (dp) visitor (v) data (d)
@@ -75,15 +77,29 @@ class CurrentUser {
    *
    * @param {object} state State object
    */
-  updateCache(state) {
+  updateCache(state, shouldUpdateStore = true) {
     const cache = this.getCache();
-    const newState = {
-      visitorId: state.visitorId || cache.visitorId,
-      guest: { ...(cache.guest || {}), ...(state.guest || {}) },
-      chat: { ...(cache.chat || {}), ...(state.chat || {}) }
-    };
+    const newState = _merge(cache, state);
+    // merge recent chats separately by chat id.
+    if (state.chat && state.chat.recentChats) {
+      const chats =
+        cache.chat && cache.chat.recentChats
+          ? cache.chat.recentChats.slice()
+          : [];
+      state.chat.recentChats.forEach((newChat) => {
+        const idx = _findIndex(chats, ['id', newChat.id]);
+        if (idx !== -1) {
+          chats[idx] = _merge(chats[idx], newChat);
+        } else {
+          chats.push(newChat);
+        }
+      });
+      newState.chat.recentChats = chats;
+    }
     window.parent.localStorage[LS_CACHE_KEY] = JSON.stringify(newState);
-    this.store.dispatch(setVisitor(newState));
+    if (shouldUpdateStore) {
+      this.store.dispatch(setVisitor(newState));
+    }
   }
 
   /**
