@@ -21,6 +21,8 @@ class CurrentUser {
     } else {
       await this.initKnownGuest(cookieVid);
     }
+
+    return this.getCache();
   }
 
   async initNewVisitor() {
@@ -36,7 +38,6 @@ class CurrentUser {
     };
     Cookies.set(COOKIE_VID_NAME, state.visitorId);
     this.updateCache(state);
-    return this.store.dispatch(setVisitor(state));
   }
 
   async initKnownGuest(visitorId) {
@@ -48,6 +49,11 @@ class CurrentUser {
     this.updateCache(userData);
   }
 
+  getActiveChat() {
+    const cache = this.getCache();
+    return cache.chat.recentChats.find((c) => c.status === 'active');
+  }
+
   isCacheValid(state) {
     // empty cache
     if (!state || !state.visitorId) {
@@ -56,8 +62,7 @@ class CurrentUser {
     // the cache says we have an active chat.
     // we _always_ want to load fresh data when there
     // is an active chat.
-    const hasActiveChat =
-      state.chat.recentChats.filter((c) => c.status === 'active').length > 0;
+    const hasActiveChat = !!this.getActiveChat();
     if (hasActiveChat) {
       return false;
     }

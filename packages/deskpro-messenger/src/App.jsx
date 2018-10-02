@@ -11,6 +11,7 @@ import MessengerToggler from './components/core/MessengerToggler';
 import Greetings from './components/core/Greetings';
 import { ConfigProvider } from './components/core/ConfigContext';
 import MessengerAPI from './components/core/MessengerAPI';
+import currentUser from './services/CurrentUser';
 
 addLocaleData(enLocale);
 
@@ -24,11 +25,15 @@ class App extends PureComponent {
   };
 
   state = {
-    randomGreeting: Array.isArray(this.props.config.enabledGreetings)
-      ? _sample(this.props.config.enabledGreetings)
-      : undefined,
-    windowVisible: false
+    randomGreeting: this.getRandomGreeting(),
+    windowVisible: !!this.getRandomGreeting() || !!currentUser.getActiveChat()
   };
+
+  getRandomGreeting() {
+    return Array.isArray(this.props.config.enabledGreetings)
+      ? _sample(this.props.config.enabledGreetings)
+      : undefined;
+  }
 
   componentDidMount() {
     this.setState({ randomGreeting: undefined });
@@ -67,6 +72,13 @@ class App extends PureComponent {
   render() {
     const { config } = this.props;
     const { windowVisible, randomGreeting, translations } = this.state;
+    let redirect;
+    const activeChat = currentUser.getActiveChat();
+    if (activeChat) {
+      redirect = '/screens/supportChat';
+    } else if (!!randomGreeting) {
+      redirect = randomGreeting;
+    }
 
     return (
       <ConfigProvider value={config}>
@@ -84,7 +96,7 @@ class App extends PureComponent {
                   )}
                 />
                 <Route path="/greetings" component={Greetings} />
-                {!!randomGreeting && <Redirect to={randomGreeting} />}
+                {!!redirect && <Redirect to={redirect} />}
               </Switch>
               <Route
                 render={(props) => (

@@ -9,10 +9,10 @@ import currentUser from './services/CurrentUser';
 
 const store = createStore();
 
-currentUser.init(store).then(() =>
+currentUser.init(store).then((cache) =>
   ReactDOM.render(
     <Provider store={store}>
-      <App config={window.parent.DESKPRO_MESSENGER_OPTIONS} />
+      <App config={window.parent.DESKPRO_MESSENGER_OPTIONS} cache={cache} />
     </Provider>,
     window.parent.document.getElementById('deskpro-container')
   )
