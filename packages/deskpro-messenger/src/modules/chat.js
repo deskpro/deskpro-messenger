@@ -86,7 +86,7 @@ const createChatEpic = (action$) =>
 
 const updateGuestEpic = (action$) =>
   action$.pipe(
-    ofType(CHAT_START),
+    ofType(CHAT_START, CHAT_SEND_MESSAGE),
     filter((action) => 'email' in action.payload),
     tap((action) =>
       currentUser.updateCache({

@@ -92,7 +92,7 @@ class CurrentUser {
    * @param {string} visitorId Visitor ID
    */
   async loadUser(visitorId) {
-    apiService.loadUser(visitorId);
+    return apiService.loadUser(visitorId);
   }
 
   /**

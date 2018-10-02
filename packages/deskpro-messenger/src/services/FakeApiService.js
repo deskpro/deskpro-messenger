@@ -151,8 +151,8 @@ export default class FakeChatService extends BaseApiService {
     return {
       visitorId,
       guest: {
-        name: 'John Doe',
-        email: 'joe.doe@example.com'
+        name: null,
+        email: null
       },
       chat: {
         recentChats: []
