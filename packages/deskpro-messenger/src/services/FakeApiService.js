@@ -24,7 +24,6 @@ const sleep = (time) =>
   });
 
 export default class FakeChatService extends BaseApiService {
-  polling = false;
   agentAssigned = false;
 
   async createChat(data) {
