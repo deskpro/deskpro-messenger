@@ -24,16 +24,16 @@ class App extends PureComponent {
     config: {}
   };
 
-  state = {
-    randomGreeting: this.getRandomGreeting(),
-    windowVisible: !!this.getRandomGreeting() || !!currentUser.getActiveChat()
-  };
+  randomGreeting = Array.isArray(this.props.config.enabledGreetings)
+    ? _sample(this.props.config.enabledGreetings)
+    : undefined;
 
-  getRandomGreeting() {
-    return Array.isArray(this.props.config.enabledGreetings)
-      ? _sample(this.props.config.enabledGreetings)
-      : undefined;
-  }
+  state = {
+    randomGreeting: this.randomGreeting,
+    windowVisible:
+      (!!this.randomGreeting && this.randomGreeting.startsWith('/screen')) ||
+      !!currentUser.getActiveChat()
+  };
 
   componentDidMount() {
     this.setState({ randomGreeting: undefined });
