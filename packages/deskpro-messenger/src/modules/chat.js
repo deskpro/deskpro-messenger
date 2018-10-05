@@ -35,6 +35,7 @@ sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 //#region ACTION TYPES
 const CHAT_START = 'CHAT_START';
 const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
+const START_LISTENING = 'START_LISTENING';
 const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
 const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
 const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
@@ -50,6 +51,10 @@ export const saveChat = (payload, meta) => ({
   type: CHAT_SAVE_CHAT,
   payload,
   meta
+});
+export const startListeningMessages = () => ({
+  type: START_LISTENING,
+  payload: {}
 });
 export const messageReceived = (message) => ({
   type: CHAT_MESSAGE_RECEIVED,
@@ -78,7 +83,8 @@ const createChatEpic = (action$) =>
         mergeMap((chatId) => {
           // save new chat
           const streams = [
-            of(saveChat({ chatId, fromScreen: meta.fromScreen }, meta))
+            of(saveChat({ chatId, fromScreen: meta.fromScreen }, meta)),
+            of(startListeningMessages())
           ];
           if (meta.prompt) {
             // create prompt message for chat dialog
@@ -187,7 +193,7 @@ const updateGuestEpic = (action$) =>
 
 const listenForMessagesEpic = (action$, state$) =>
   action$.pipe(
-    ofType(CHAT_START),
+    ofType(START_LISTENING),
     switchMap(listenForMessages),
     withLatestFrom(state$),
     map(([message, state]) =>

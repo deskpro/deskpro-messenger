@@ -1,8 +1,10 @@
 import Cookies from 'js-cookie';
-import apiService from './ApiService';
-import { setVisitor } from '../modules/guest';
 import _merge from 'lodash/merge';
 import _findIndex from 'lodash/findIndex';
+
+import apiService from './ApiService';
+import { setVisitor } from '../modules/guest';
+import { startListeningMessages } from '../modules/chat';
 
 const COOKIE_VID_NAME = 'dp__v'; // deskpro (dp) visitor (v)
 const LS_CACHE_KEY = 'dp__vd'; // deskpro (dp) visitor (v) data (d)
@@ -47,6 +49,7 @@ class CurrentUser {
     }
     const userData = await this.loadUser(visitorId);
     this.updateCache(userData);
+    this.store.dispatch(startListeningMessages());
   }
 
   getActiveChat() {
