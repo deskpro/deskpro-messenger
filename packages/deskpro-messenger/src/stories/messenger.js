@@ -30,7 +30,7 @@ storiesOf('Messenger', module)
         blocks: [
           {
             blockType: 'StartChatBlock',
-            to: 'supportChat'
+            to: 'startSupportChat'
           }
         ]
       }
@@ -40,9 +40,9 @@ storiesOf('Messenger', module)
       screens.index.blocks.push({
         blockType: 'StartChatBlock',
         linkText: 'Start sales chat',
-        to: 'salesChat'
+        to: 'startSalesChat'
       });
-      screens.salesChat = {
+      screens.startSalesChat = {
         screenType: 'ChatScreen',
         category: 'sales',
         noAnswerBehavior: 'new_ticket',
@@ -126,9 +126,9 @@ storiesOf('Messenger', module)
       screens.index.blocks.push({
         blockType: 'StartChatBlock',
         linkText: 'Start support chat',
-        to: 'supportChat'
+        to: 'startSupportChat'
       });
-      screens.supportChat = {
+      screens.startSupportChat = {
         screenType: 'ChatScreen',
         category: 'support',
         prompt: 'chat.prompt.support',
