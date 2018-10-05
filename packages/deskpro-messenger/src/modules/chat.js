@@ -90,7 +90,7 @@ const createChatEpic = (action$) =>
       return from(chatService.createChat(payload)).pipe(
         mergeMap((chatId) => {
           // save new chat
-          const streams = [of(saveChat({ chatId, params: payload }, meta))];
+          const streams = [of(saveChat({ chatId, fromScreen: meta.fromScreen }, meta))];
           if (meta.prompt) {
             // create prompt message for chat dialog
             streams.push(
@@ -121,15 +121,15 @@ const createChatEpic = (action$) =>
 const cacheNewChatEpic = (action$) =>
   action$.pipe(
     ofType(CHAT_SAVE_CHAT),
-    tap(({ payload, meta }) => {
+    tap(({ payload: { chatId, ...payload }, meta }) => {
       const cache = currentUser.getCache();
       cache.chat.recentChats.push({
-        id: payload.chatId,
-        params: payload.params,
+        id: chatId,
+        ...payload,
         status: 'active'
       });
       currentUser.updateCache(cache, false);
-      meta.history.push(`/screens/active-chat/${payload.chatId}`);
+      meta.history.push(`/screens/active-chat/${chatId}`);
     }),
     skip()
   );
@@ -274,8 +274,9 @@ export default produce(
     if (type === CHAT_TOGGLE_SOUND) {
       draft.mute = !draft.mute;
     } else if (type === CHAT_SAVE_CHAT) {
-      draft.chats[payload.chatId] = { ...emptyChat, params: payload.params };
-      draft.activeChat = payload.chatId;
+      const { chatId, ...data } = payload;
+      draft.chats[chatId] = { ...emptyChat, data };
+      draft.activeChat = chatId;
     } else if (
       type === 'SET_VISITOR' &&
       _isPlainObject(payload.chat) &&
@@ -320,7 +321,7 @@ const getChat = createSelector(
   (chats, activeChat, chatId) =>
     chatId || activeChat ? chats[chatId || activeChat] : {}
 );
-export const getChatParams = createSelector(getChat, (chat) => chat.params);
+export const getChatData = createSelector(getChat, (chat) => chat.data);
 export const getMessages = createSelector(getChat, (chat) => chat.messages);
 export const getTypingState = createSelector(getChat, (chat) => chat.typing);
 export const isUnanswered = createSelector(

@@ -6,12 +6,13 @@ import { injectIntl } from 'react-intl';
 
 import Chat from '../components/chat/Chat';
 import Block from '../components/core/Block';
+import { withConfig } from '../components/core/ConfigContext';
 
 import {
   sendMessage,
   getMessages,
   getTypingState,
-  getChatParams,
+  getChatData,
   isUnanswered,
   showSaveTicketForm,
   showCreateTicket
@@ -26,30 +27,36 @@ class ChatScreen extends PureComponent {
         chatId: PropTypes.string.isRequired
       })
     }),
-    chatParams: PropTypes.shape({
-      category: PropTypes.string.isRequired
+    chatData: PropTypes.shape({
+      fromScreen: PropTypes.string.isRequired
+    }).isRequired,
+    chatConfig: PropTypes.shape({
+      category: PropTypes.string.isRequired,
+      noAnswerBehavior: PropTypes.oneOf(['save_ticket', 'new_ticket'])
     }).isRequired,
     messages: PropTypes.array,
     typing: PropTypes.object,
-    isUnanswered: PropTypes.bool,
-    noAnswerBehavior: PropTypes.oneOf(['save_ticket', 'new_ticket'])
+    isUnanswered: PropTypes.bool
   };
 
   static defaultProps = {
     messages: [],
     typing: null,
-    isUnanswered: false,
-    noAnswerBehavior: null
+    isUnanswered: false
   };
 
   componentDidUpdate(prevProps) {
-    const { match, category, isUnanswered } = this.props;
+    const {
+      match,
+      chatConfig: { category, noAnswerBehavior, ticketFormConfig },
+      isUnanswered
+    } = this.props;
     if (!prevProps.isUnanswered && isUnanswered) {
-      switch (this.props.noAnswerBehavior) {
+      switch (noAnswerBehavior) {
         case 'save_ticket':
           this.props.showSaveTicketForm({
             category,
-            formConfig: this.props.ticketFormConfig,
+            formConfig: ticketFormConfig,
             chatId: match.params.chatId
           });
           break;
@@ -81,7 +88,7 @@ class ChatScreen extends PureComponent {
 
   render() {
     const {
-      chatParams: { category },
+      chatConfig: { category },
       intl,
       user
     } = this.props;
@@ -111,16 +118,26 @@ class ChatScreen extends PureComponent {
 
 const mapStateToProps = (state, props) => ({
   user: getUserData(state),
-  chatParams: getChatParams(state, props),
+  chatData: getChatData(state, props),
   messages: getMessages(state, props),
   typing: getTypingState(state, props),
   isUnanswered: isUnanswered(state, props)
 });
 
+const mapProps = (WrappedComponent) => (props) => {
+  const chatConfig =
+    props.chatData && props.chatData.fromScreen
+      ? props.screens[props.chatData.fromScreen]
+      : {};
+  return <WrappedComponent {...props} chatConfig={chatConfig} />;
+};
+
 export default compose(
+  injectIntl,
+  withConfig,
   connect(
     mapStateToProps,
     { sendMessage, showSaveTicketForm, showCreateTicket }
   ),
-  injectIntl
+  mapProps
 )(ChatScreen);

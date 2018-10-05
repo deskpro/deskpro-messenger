@@ -33,14 +33,19 @@ class StartChatScreen extends PureComponent {
       })
     : null;
 
-  submitPreChatForm = (formValues) => {
-    const { createChat, history } = this.props;
-    createChat(formValues, { prompt: this.promptMessage, history });
+  createChat = (values, meta = {}) => {
+    const { createChat, screenName, history } = this.props;
+    createChat(values, {
+      prompt: this.promptMessage,
+      fromScreen: screenName,
+      history,
+      ...meta
+    });
   };
 
   onSendMessage = (message) => {
     if (message) {
-      const { category, createChat, history } = this.props;
+      const { category } = this.props;
 
       const messageModel =
         typeof message === 'string'
@@ -50,10 +55,7 @@ class StartChatScreen extends PureComponent {
               type: 'chat.message'
             }
           : message;
-      createChat(
-        { category },
-        { message: messageModel, prompt: this.promptMessage, history }
-      );
+      this.createChat({ category }, { message: messageModel });
     }
   };
 
@@ -77,7 +79,7 @@ class StartChatScreen extends PureComponent {
           <ChatEnterForm
             user={user}
             category={category}
-            onSubmit={this.submitPreChatForm}
+            onSubmit={this.createChat}
             formConfig={preChatForm}
           />
         )}
