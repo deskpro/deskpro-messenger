@@ -1,4 +1,4 @@
-import { Observable, from, of, merge } from 'rxjs';
+import { Observable, from, of, merge, empty } from 'rxjs';
 import { ofType, combineEpics } from 'redux-observable';
 import {
   withLatestFrom,
@@ -36,11 +36,8 @@ sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 const CHAT_START = 'CHAT_START';
 const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
 const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
-const CHAT_SEND_MESSAGE_SUCCESS = 'CHAT_SEND_MESSAGE_SUCCESS';
 const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
 const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
-const CHAT_SAVE_TICKET_FORM = 'CHAT_SAVE_TICKET_FORM';
-const CHAT_CREATE_TICKET_BLOCK = 'CHAT_CREATE_TICKET_BLOCK';
 //#endregion
 
 //#region ACTION CREATORS
@@ -63,16 +60,6 @@ export const sendMessage = (message) => ({
   payload: message
 });
 export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
-export const showSaveTicketForm = (data) => ({
-  type: CHAT_SAVE_TICKET_FORM,
-  payload: data,
-  meta: data
-});
-export const showCreateTicket = (data) => ({
-  type: CHAT_CREATE_TICKET_BLOCK,
-  payload: data,
-  meta: data
-});
 //#endregion
 
 //#region EPICS
@@ -90,7 +77,9 @@ const createChatEpic = (action$) =>
       return from(chatService.createChat(payload)).pipe(
         mergeMap((chatId) => {
           // save new chat
-          const streams = [of(saveChat({ chatId, fromScreen: meta.fromScreen }, meta))];
+          const streams = [
+            of(saveChat({ chatId, fromScreen: meta.fromScreen }, meta))
+          ];
           if (meta.prompt) {
             // create prompt message for chat dialog
             streams.push(
@@ -149,6 +138,41 @@ const deactivateChatEpic = (action$) =>
     skip()
   );
 
+const noChatAnswerEpic = (action$, state$, { config }) =>
+  action$.pipe(
+    ofType(CHAT_MESSAGE_RECEIVED),
+    filter(({ payload }) => payload.type === 'chat.noAgents'),
+    withLatestFrom(state$),
+    mergeMap(([_, state]) => {
+      const chatId = getActiveChat(state);
+      const screenName = getChatData(state).fromScreen;
+      const chatConfig =
+        screenName && config.screens[screenName]
+          ? config.screens[screenName]
+          : {};
+      switch (chatConfig.noAnswerBehavior) {
+        case 'save_ticket':
+          return of(
+            messageReceived({
+              chatId,
+              type: 'chat.block.saveTicket',
+              origin: 'system'
+            })
+          );
+        case 'new_ticket':
+          return of(
+            messageReceived({
+              chatId,
+              type: 'chat.block.createTicket',
+              origin: 'system'
+            })
+          );
+        default:
+          return empty();
+      }
+    })
+  );
+
 const updateGuestEpic = (action$) =>
   action$.pipe(
     ofType(CHAT_START, CHAT_SEND_MESSAGE),
@@ -178,11 +202,7 @@ const sendMessagesEpic = (action$, state$) =>
     tap(([{ payload }, state]) =>
       chatService.sendMessage({ ...payload, chatId: getActiveChat(state) })
     ),
-    map(([action, state]) => ({
-      ...action,
-      chatId: getActiveChat(state),
-      type: CHAT_SEND_MESSAGE_SUCCESS
-    }))
+    skip()
   );
 
 const soundEpic = (action$, state$) =>
@@ -209,6 +229,7 @@ export const chatEpic = combineEpics(
   updateGuestEpic,
   sendMessagesEpic,
   cacheNewChatEpic,
+  noChatAnswerEpic,
   deactivateChatEpic,
   soundEpic
 );
@@ -229,40 +250,13 @@ const chatReducer = produce((draft, { type, payload }) => {
           (m) => m.type === payload.type && m.origin !== 'user'
         );
         const index = draft.messages.indexOf(message);
-        draft.messages[index] = payload;
+        draft.messages[index] = spread(message, payload);
         return;
       }
       draft.messages.push(payload);
       draft.typing = payload.origin === 'agent' ? undefined : draft.typing;
-      draft.unanswered =
-        payload.type === 'chat.noAgents' ? true : draft.unanswered;
       return;
 
-    case CHAT_SEND_MESSAGE_SUCCESS: {
-      if (
-        ['chat.block.transcript', 'chat.block.saveTicket'].includes(
-          payload.type
-        )
-      ) {
-        const index = _findLast(draft.messages, ['type', payload.type]);
-        draft.messages[index] = spread(draft.messages[index], payload);
-      }
-      return;
-    }
-    case CHAT_SAVE_TICKET_FORM:
-      draft.messages.push({
-        ...payload,
-        type: 'chat.block.saveTicket',
-        origin: 'system'
-      });
-      return;
-    case CHAT_CREATE_TICKET_BLOCK:
-      draft.messages.push({
-        ...payload,
-        type: 'chat.block.createTicket',
-        origin: 'system'
-      });
-      return;
     default:
       return;
   }
@@ -282,12 +276,12 @@ export default produce(
       _isPlainObject(payload.chat) &&
       payload.chat.recentChats.length
     ) {
-      payload.chat.recentChats.forEach(({ id, ...chat }) => {
+      payload.chat.recentChats.forEach(({ id, status, ...data }) => {
         draft.chats[id] = spread(
           draft.chats[id] ? draft.chats[id] : emptyChat,
-          chat
+          { data }
         );
-        if (chat.status === 'active') {
+        if (status === 'active') {
           draft.activeChat = id;
         }
       });
@@ -316,7 +310,7 @@ export const getActiveChat = createSelector(
 const getChat = createSelector(
   getChats,
   getActiveChat,
-  (_, props) =>
+  (_, props = {}) =>
     props.match && props.match.params ? props.match.params.chatId : null,
   (chats, activeChat, chatId) =>
     chatId || activeChat ? chats[chatId || activeChat] : {}
@@ -324,9 +318,5 @@ const getChat = createSelector(
 export const getChatData = createSelector(getChat, (chat) => chat.data);
 export const getMessages = createSelector(getChat, (chat) => chat.messages);
 export const getTypingState = createSelector(getChat, (chat) => chat.typing);
-export const isUnanswered = createSelector(
-  getChat,
-  (chat) => !!chat.unanswered
-);
 export const isMuted = createSelector(getChatState, (state) => state.mute);
 //#endregion

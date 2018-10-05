@@ -42,7 +42,14 @@ class Chat extends PureComponent {
   };
 
   render() {
-    const { typing, messages, onSendMessage, intl, user } = this.props;
+    const {
+      typing,
+      messages,
+      onSendMessage,
+      intl,
+      user,
+      chatConfig
+    } = this.props;
 
     return (
       <Fragment>
@@ -79,6 +86,7 @@ class Chat extends PureComponent {
                   key={key}
                   {...message}
                   user={user}
+                  formConfig={chatConfig.ticketFormConfig}
                   onSaveTicket={this.saveTicket}
                 />
               );

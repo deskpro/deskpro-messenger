@@ -12,10 +12,7 @@ import {
   sendMessage,
   getMessages,
   getTypingState,
-  getChatData,
-  isUnanswered,
-  showSaveTicketForm,
-  showCreateTicket
+  getChatData
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 
@@ -35,42 +32,13 @@ class ChatScreen extends PureComponent {
       noAnswerBehavior: PropTypes.oneOf(['save_ticket', 'new_ticket'])
     }).isRequired,
     messages: PropTypes.array,
-    typing: PropTypes.object,
-    isUnanswered: PropTypes.bool
+    typing: PropTypes.object
   };
 
   static defaultProps = {
     messages: [],
-    typing: null,
-    isUnanswered: false
+    typing: null
   };
-
-  componentDidUpdate(prevProps) {
-    const {
-      match,
-      chatConfig: { category, noAnswerBehavior, ticketFormConfig },
-      isUnanswered
-    } = this.props;
-    if (!prevProps.isUnanswered && isUnanswered) {
-      switch (noAnswerBehavior) {
-        case 'save_ticket':
-          this.props.showSaveTicketForm({
-            category,
-            formConfig: ticketFormConfig,
-            chatId: match.params.chatId
-          });
-          break;
-        case 'new_ticket':
-          this.props.showCreateTicket({
-            category,
-            chatId: match.params.chatId
-          });
-          break;
-        default:
-          break;
-      }
-    }
-  }
 
   handleSendMessage = (message) => {
     if (message) {
@@ -87,12 +55,9 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const {
-      chatConfig: { category },
-      intl,
-      user
-    } = this.props;
+    const { chatConfig, intl, user } = this.props;
 
+    const { category } = chatConfig;
     const capCategory = category[0].toUpperCase() + category.substring(1);
 
     return (
@@ -110,6 +75,7 @@ class ChatScreen extends PureComponent {
           onSendMessage={this.handleSendMessage}
           typing={this.props.typing}
           user={user}
+          chatConfig={chatConfig}
         />
       </Block>
     );
@@ -120,8 +86,7 @@ const mapStateToProps = (state, props) => ({
   user: getUserData(state),
   chatData: getChatData(state, props),
   messages: getMessages(state, props),
-  typing: getTypingState(state, props),
-  isUnanswered: isUnanswered(state, props)
+  typing: getTypingState(state, props)
 });
 
 const mapProps = (WrappedComponent) => (props) => {
@@ -137,7 +102,7 @@ export default compose(
   withConfig,
   connect(
     mapStateToProps,
-    { sendMessage, showSaveTicketForm, showCreateTicket }
+    { sendMessage }
   ),
   mapProps
 )(ChatScreen);

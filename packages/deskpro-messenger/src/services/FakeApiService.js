@@ -77,6 +77,14 @@ export default class FakeChatService extends BaseApiService {
     }
   }
 
+  async endChat() {
+    await sleep(NETWORK_LATENCY);
+    this.onMessageReceived({
+      type: 'chat.ended',
+      origin: 'system'
+    });
+  }
+
   async sendMessage(message) {
     await super.sendMessage({
       ...message,
@@ -85,17 +93,13 @@ export default class FakeChatService extends BaseApiService {
     });
 
     await sleep(NETWORK_LATENCY / 2);
-    if (
+    if (message.type === 'chat.block.saveTicket' && message.origin === 'user') {
+      await this.endChat();
+    } else if (
       'type' in message &&
       message.type === 'chat.message' &&
       message.origin === 'user'
     ) {
-      // in case there is no agent yet, set flag to respond later and return.
-      if (!this.agentAssigned) {
-        this.hasUnasweredMessages = true;
-        return;
-      }
-
       const lowerMessage = message.message.toLowerCase().trim();
       if (lowerMessage.includes('transcript')) {
         await sleep(NETWORK_LATENCY);
@@ -110,16 +114,14 @@ export default class FakeChatService extends BaseApiService {
           origin: 'system',
           name: 'Nick'
         });
-      } else if (
-        ['end', 'stop'].includes(lowerMessage) ||
-        message.type === 'chat.block.saveTicket'
-      ) {
-        await sleep(NETWORK_LATENCY);
-        this.onMessageReceived({
-          type: 'chat.ended',
-          origin: 'system'
-        });
+      } else if (['end', 'stop'].includes(lowerMessage)) {
+        await this.endChat();
       } else {
+        // in case there is no agent yet, set flag to respond later and return.
+        if (!this.agentAssigned) {
+          this.hasUnasweredMessages = true;
+          return;
+        }
         await this.simulateAgentResponse();
       }
     }

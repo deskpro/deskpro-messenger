@@ -7,12 +7,13 @@ import './index.css';
 import createStore from './store';
 import currentUser from './services/CurrentUser';
 
-const store = createStore();
+const config = window.parent.DESKPRO_MESSENGER_OPTIONS;
+const store = createStore(undefined, config);
 
 currentUser.init(store).then((cache) =>
   ReactDOM.render(
     <Provider store={store}>
-      <App config={window.parent.DESKPRO_MESSENGER_OPTIONS} cache={cache} />
+      <App config={config} cache={cache} />
     </Provider>,
     window.parent.document.getElementById('deskpro-container')
   )
