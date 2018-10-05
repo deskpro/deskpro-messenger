@@ -5,15 +5,13 @@ import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 
 import Chat from '../components/chat/Chat';
-import ChatEnterForm from '../components/chat/ChatEnterForm';
 import Block from '../components/core/Block';
 
 import {
-  createChat,
-  getActiveChat,
   sendMessage,
   getMessages,
   getTypingState,
+  getChatParams,
   isUnanswered,
   showSaveTicketForm,
   showCreateTicket
@@ -23,57 +21,42 @@ import { getUserData } from '../modules/guest';
 class ChatScreen extends PureComponent {
   static propTypes = {
     user: PropTypes.object,
-    activeChat: PropTypes.string,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        chatId: PropTypes.string.isRequired
+      })
+    }),
+    chatParams: PropTypes.shape({
+      category: PropTypes.string.isRequired
+    }).isRequired,
     messages: PropTypes.array,
     typing: PropTypes.object,
-    preChatForm: PropTypes.array,
-    prompt: PropTypes.string,
     isUnanswered: PropTypes.bool,
     noAnswerBehavior: PropTypes.oneOf(['save_ticket', 'new_ticket'])
   };
 
   static defaultProps = {
-    activeChat: null,
     messages: [],
     typing: null,
-    preChatForm: [],
-    prompt: '',
     isUnanswered: false,
     noAnswerBehavior: null
   };
 
-  state = {
-    viewMode:
-      !this.props.activeChat && this.props.preChatForm.length ? 'form' : 'chat',
-    // we will save message drafts here until the chat is created.
-    messages: []
-  };
-
   componentDidUpdate(prevProps) {
-    const { activeChat, sendMessage, category, isUnanswered } = this.props;
-    if (!prevProps.activeChat && activeChat) {
-      // send draft messages.
-      this.state.messages.forEach((message) => sendMessage(message, category));
-      this.setState({ messages: [] });
-    } else if (prevProps.activeChat && !activeChat) {
-      // reset the chat screen state when a chat is ended.
-      this.setState({
-        viewMode: this.props.preChatForm.length ? 'form' : 'chat'
-      });
-    }
+    const { match, category, isUnanswered } = this.props;
     if (!prevProps.isUnanswered && isUnanswered) {
       switch (this.props.noAnswerBehavior) {
         case 'save_ticket':
           this.props.showSaveTicketForm({
             category,
             formConfig: this.props.ticketFormConfig,
-            chatId: activeChat
+            chatId: match.params.chatId
           });
           break;
         case 'new_ticket':
           this.props.showCreateTicket({
             category,
-            chatId: activeChat
+            chatId: match.params.chatId
           });
           break;
         default:
@@ -83,8 +66,6 @@ class ChatScreen extends PureComponent {
   }
 
   handleSendMessage = (message) => {
-    const { activeChat, category } = this.props;
-
     if (message) {
       const messageModel =
         typeof message === 'string'
@@ -94,36 +75,16 @@ class ChatScreen extends PureComponent {
               type: 'chat.message'
             }
           : message;
-
-      if (!activeChat) {
-        this.setState(({ messages }) => ({
-          messages: messages.concat([messageModel])
-        }));
-
-        if (!this.props.preChatForm.length && !this.state.messages.length) {
-          this.props.createChat({ category });
-        }
-      } else {
-        this.props.sendMessage(messageModel);
-      }
+      this.props.sendMessage(messageModel);
     }
-  };
-
-  submitPreChatForm = (formValues) => {
-    this.props.createChat(formValues);
-    this.setState({ viewMode: 'chat' });
   };
 
   render() {
     const {
-      category,
-      preChatForm,
-      prompt,
-      activeChat,
+      chatParams: { category },
       intl,
       user
     } = this.props;
-    const { viewMode } = this.state;
 
     const capCategory = category[0].toUpperCase() + category.substring(1);
 
@@ -137,25 +98,12 @@ class ChatScreen extends PureComponent {
           { category: capCategory }
         )}
       >
-        {viewMode === 'form' && (
-          <ChatEnterForm
-            user={user}
-            category={category}
-            onSubmit={this.submitPreChatForm}
-            formConfig={preChatForm}
-          />
-        )}
-        {viewMode === 'chat' && (
-          <Chat
-            messages={activeChat ? this.props.messages : this.state.messages}
-            category={this.props.category}
-            onSendMessage={this.handleSendMessage}
-            typing={this.props.typing}
-            chatId={activeChat}
-            prompt={prompt}
-            user={user}
-          />
-        )}
+        <Chat
+          messages={this.props.messages}
+          onSendMessage={this.handleSendMessage}
+          typing={this.props.typing}
+          user={user}
+        />
       </Block>
     );
   }
@@ -163,7 +111,7 @@ class ChatScreen extends PureComponent {
 
 const mapStateToProps = (state, props) => ({
   user: getUserData(state),
-  activeChat: getActiveChat(state, props),
+  chatParams: getChatParams(state, props),
   messages: getMessages(state, props),
   typing: getTypingState(state, props),
   isUnanswered: isUnanswered(state, props)
@@ -172,7 +120,7 @@ const mapStateToProps = (state, props) => ({
 export default compose(
   connect(
     mapStateToProps,
-    { createChat, sendMessage, showSaveTicketForm, showCreateTicket }
+    { sendMessage, showSaveTicketForm, showCreateTicket }
   ),
   injectIntl
 )(ChatScreen);

@@ -117,7 +117,15 @@ class MessengerWindow extends PureComponent {
                   screenName={screenName}
                 />
               ))
-              .concat([<Redirect key="index-redirect" to="/screens/index" />])}
+              .concat([
+                <ScreenRoute
+                  key="chatScreen"
+                  path="/screens/active-chat/:chatId"
+                  screenName="chatScreen"
+                  screen={{ screenType: 'ChatScreen' }}
+                />,
+                <Redirect key="index-redirect" to="/screens/index" />
+              ])}
           </Switch>
           {/*<div className="dpmsg-Block">
             <button onClick={this.toggleImageFrame}>Show Random Image</button>

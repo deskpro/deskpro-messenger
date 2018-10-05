@@ -11,7 +11,8 @@ class ScreenRoute extends React.PureComponent {
     screen: PropTypes.shape({
       screenType: PropTypes.string.isRequired
     }).isRequired,
-    screenName: PropTypes.string.isRequired
+    screenName: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired
   };
   component = makeLoadable({
     loader: () => import(`../../screens/${this.props.screen.screenType}`),
@@ -27,7 +28,7 @@ class ScreenRoute extends React.PureComponent {
     const Component = this.component;
 
     return (
-      <Route>
+      <Route path={this.props.path}>
         {(routeProps) => (
           <Component {...routeProps} {...screenProps} screenName={screenName} />
         )}

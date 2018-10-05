@@ -24,7 +24,6 @@ const transMessages = {
 
 class Chat extends PureComponent {
   static propTypes = {
-    category: PropTypes.string,
     messages: PropTypes.array,
     onSendMessage: PropTypes.func.isRequired,
     typing: PropTypes.object,
@@ -43,16 +42,10 @@ class Chat extends PureComponent {
   };
 
   render() {
-    const { typing, messages, onSendMessage, intl, prompt, user } = this.props;
+    const { typing, messages, onSendMessage, intl, user } = this.props;
 
     return (
       <Fragment>
-        {!!prompt && (
-          <MessageBubble
-            origin="system"
-            message={intl.formatMessage({ id: prompt, defaultMessage: prompt })}
-          />
-        )}
         {messages.map((message, index) => {
           const key = `${message.type}-${index}`;
           switch (message.type) {

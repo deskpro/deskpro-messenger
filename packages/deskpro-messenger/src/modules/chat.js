@@ -1,4 +1,4 @@
-import { Observable, from } from 'rxjs';
+import { Observable, from, of, merge } from 'rxjs';
 import { ofType, combineEpics } from 'redux-observable';
 import {
   withLatestFrom,
@@ -6,6 +6,8 @@ import {
   skip,
   filter,
   map,
+  mergeMap,
+  ignoreElements,
   switchMap
 } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
@@ -32,7 +34,7 @@ sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 
 //#region ACTION TYPES
 const CHAT_START = 'CHAT_START';
-const CHAT_SAVE_CHAT_ID = 'CHAT_SAVE_CHAT_ID';
+const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
 const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
 const CHAT_SEND_MESSAGE_SUCCESS = 'CHAT_SEND_MESSAGE_SUCCESS';
 const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
@@ -42,10 +44,15 @@ const CHAT_CREATE_TICKET_BLOCK = 'CHAT_CREATE_TICKET_BLOCK';
 //#endregion
 
 //#region ACTION CREATORS
-export const createChat = (data) => ({ type: CHAT_START, payload: data });
-export const saveChatId = (chatId) => ({
-  type: CHAT_SAVE_CHAT_ID,
-  payload: chatId
+export const createChat = (data, meta) => ({
+  type: CHAT_START,
+  payload: data,
+  meta
+});
+export const saveChat = (payload, meta) => ({
+  type: CHAT_SAVE_CHAT,
+  payload,
+  meta
 });
 export const messageReceived = (message) => ({
   type: CHAT_MESSAGE_RECEIVED,
@@ -79,18 +86,50 @@ const listenForMessages = () =>
 const createChatEpic = (action$) =>
   action$.pipe(
     ofType(CHAT_START),
-    switchMap((action) => from(chatService.createChat(action.payload))),
-    map((chatId) => saveChatId(chatId)),
-    tap(() => from(chatService.assignAgent()))
+    switchMap(({ payload, meta }) => {
+      return from(chatService.createChat(payload)).pipe(
+        mergeMap((chatId) => {
+          // save new chat
+          const streams = [of(saveChat({ chatId, params: payload }, meta))];
+          if (meta.prompt) {
+            // create prompt message for chat dialog
+            streams.push(
+              of(
+                messageReceived({
+                  type: 'chat.message',
+                  origin: 'system',
+                  message: meta.prompt,
+                  chatId
+                })
+              )
+            );
+          }
+          if (meta.message) {
+            // send user's first message.
+            streams.push(of(sendMessage(meta.message)));
+          }
+          // request an agent.
+          streams.push(
+            from(chatService.assignAgent(chatId)).pipe(ignoreElements())
+          );
+          return merge(...streams);
+        })
+      );
+    })
   );
 
 const cacheNewChatEpic = (action$) =>
   action$.pipe(
-    ofType(CHAT_SAVE_CHAT_ID),
-    tap(({ payload }) => {
+    ofType(CHAT_SAVE_CHAT),
+    tap(({ payload, meta }) => {
       const cache = currentUser.getCache();
-      cache.chat.recentChats.push({ id: payload, status: 'active' });
+      cache.chat.recentChats.push({
+        id: payload.chatId,
+        params: payload.params,
+        status: 'active'
+      });
       currentUser.updateCache(cache, false);
+      meta.history.push(`/screens/active-chat/${payload.chatId}`);
     }),
     skip()
   );
@@ -234,9 +273,9 @@ export default produce(
     const { type, payload } = action;
     if (type === CHAT_TOGGLE_SOUND) {
       draft.mute = !draft.mute;
-    } else if (type === CHAT_SAVE_CHAT_ID) {
-      draft.chats[payload] = { ...emptyChat };
-      draft.activeChat = payload;
+    } else if (type === CHAT_SAVE_CHAT) {
+      draft.chats[payload.chatId] = { ...emptyChat, params: payload.params };
+      draft.activeChat = payload.chatId;
     } else if (
       type === 'SET_VISITOR' &&
       _isPlainObject(payload.chat) &&
@@ -276,11 +315,12 @@ export const getActiveChat = createSelector(
 const getChat = createSelector(
   getChats,
   getActiveChat,
-  (_, props) => props.chatId,
+  (_, props) =>
+    props.match && props.match.params ? props.match.params.chatId : null,
   (chats, activeChat, chatId) =>
     chatId || activeChat ? chats[chatId || activeChat] : {}
 );
-export const getChatId = createSelector(getChat, (chat) => chat.chatId);
+export const getChatParams = createSelector(getChat, (chat) => chat.params);
 export const getMessages = createSelector(getChat, (chat) => chat.messages);
 export const getTypingState = createSelector(getChat, (chat) => chat.typing);
 export const isUnanswered = createSelector(

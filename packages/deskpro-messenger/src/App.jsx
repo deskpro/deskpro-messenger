@@ -75,7 +75,7 @@ class App extends PureComponent {
     let redirect;
     const activeChat = currentUser.getActiveChat();
     if (activeChat) {
-      redirect = '/screens/supportChat';
+      redirect = `/screens/active-chat/${activeChat.id}`;
     } else if (!!randomGreeting) {
       redirect = randomGreeting;
     }
