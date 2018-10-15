@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { storiesOf } from '@storybook/react';
 // import { action } from '@storybook/addon-actions';
@@ -10,12 +10,31 @@ import {
   select,
   color
 } from '@storybook/addon-knobs';
+import _isPlainObject from 'lodash/isPlainObject';
 
 import App from '../App';
 import '../index.css';
 
+import currentUser from '../services/CurrentUser';
 import createStore from '../store';
-const store = createStore();
+
+/**
+ * Workaround for async app starting.
+ */
+class InitCurrentUser extends PureComponent {
+  state = {};
+  componentDidMount() {
+    currentUser
+      .init(this.props.store)
+      .then((cache) => this.setState({ cache }));
+  }
+  render() {
+    if (_isPlainObject(this.state.cache)) {
+      return this.props.children(this.state.cache);
+    }
+    return null;
+  }
+}
 
 storiesOf('Messenger', module)
   .addDecorator(withKnobs)
@@ -43,7 +62,7 @@ storiesOf('Messenger', module)
         to: 'startSalesChat'
       });
       screens.startSalesChat = {
-        screenType: 'ChatScreen',
+        screenType: 'StartChatScreen',
         category: 'sales',
         noAnswerBehavior: 'new_ticket',
         preChatForm: [
@@ -129,7 +148,7 @@ storiesOf('Messenger', module)
         to: 'startSupportChat'
       });
       screens.startSupportChat = {
-        screenType: 'ChatScreen',
+        screenType: 'StartChatScreen',
         category: 'support',
         prompt: 'chat.prompt.support',
         noAnswerBehavior: 'save_ticket',
@@ -248,17 +267,21 @@ storiesOf('Messenger', module)
       '--color-background': color('Background Color', '#3d88f3', 'Theme')
     };
 
+    const config = {
+      locale: select('Locale', ['en-US', 'ru-RU'], 'en-US', 'i18n'),
+      screens,
+      greetings,
+      enabledGreetings,
+      themeVars
+    };
+
+    const store = createStore(undefined, config);
+
     return (
       <Provider store={store}>
-        <App
-          config={{
-            locale: select('Locale', ['en-US', 'ru-RU'], 'en-US', 'i18n'),
-            screens,
-            greetings,
-            enabledGreetings,
-            themeVars
-          }}
-        />
+        <InitCurrentUser store={store}>
+          {(cache) => <App config={config} cache={cache} />}
+        </InitCurrentUser>
       </Provider>
     );
   });
