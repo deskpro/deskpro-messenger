@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import _merge from 'lodash/merge';
 import _findIndex from 'lodash/findIndex';
+import _isPlainObject from 'lodash/isPlainObject';
 
 import apiService from './ApiService';
 import { setVisitor } from '../modules/guest';
@@ -54,7 +55,10 @@ class CurrentUser {
 
   getActiveChat() {
     const cache = this.getCache();
-    return cache.chat.recentChats.find((c) => c.status === 'active');
+    if (_isPlainObject(cache) && cache.chat) {
+      return cache.chat.recentChats.find((c) => c.status === 'active');
+    }
+    return null;
   }
 
   isCacheValid(state) {
