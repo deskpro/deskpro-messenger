@@ -10,6 +10,9 @@ install:
   - yarn bootstrap
 before_deploy:
   - yarn lerna run build-storybook
+env:
+  REACT_APP_API_SERVICE: 'polling'
+  REACT_APP_API_BASE: 'http://site35715.deskprodemo.com'
 deploy:
   - provider: pages
     skip_cleanup: true
