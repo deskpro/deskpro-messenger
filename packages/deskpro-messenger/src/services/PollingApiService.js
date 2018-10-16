@@ -1,6 +1,7 @@
+import axios from 'axios';
 import BaseApiService from './BaseApiService';
 
-const POLLING_INTERVAL = 2000;
+// const POLLING_INTERVAL = 2000;
 
 const rand = () => Math.round(Math.random() * 10);
 
@@ -9,6 +10,15 @@ const sleep = (time) =>
     setTimeout(res, time);
   });
 
+const apiClient = axios.create({
+  baseURL: process.env.REACT_APP_API_BASE,
+  headers: {
+    Accept: 'application/json',
+    'Cache-Control': 'no-cache',
+    'Content-Type': 'application/json; charset=utf-8'
+  }
+});
+
 export default class PollingChatService extends BaseApiService {
   polling = false;
 
@@ -16,9 +26,12 @@ export default class PollingChatService extends BaseApiService {
     if (this.isRunning) {
       throw new Error('Chat is already running');
     }
-    const response = await this.apiCall('/api/messenger/chat', 'POST', data);
-    console.log('create chat response', response);
-    const { id, access_token } = response.data;
+    const { department, ...chatValues } = data;
+    const response = await apiClient.post('/api/messenger/chat', {
+      ...chatValues,
+      chat_department: department
+    });
+    const { id, access_token } = response.data.data;
     const chatId = `${id}-${access_token}`;
     await super.createChat(data);
 
@@ -27,16 +40,16 @@ export default class PollingChatService extends BaseApiService {
 
   async startListening() {
     await super.startListening();
-    while (true) {
-      // const response = await apiCall('/api/messenger/chat');
-      // this.onMessageReceived(response);
-      // stop AJAX polling when polling become falsy.
-      if (!this.isRunning) {
-        break;
-      }
+    // while (true) {
+    //   // const response = await apiCall('/api/messenger/chat');
+    //   // this.onMessageReceived(response);
+    //   // stop AJAX polling when polling become falsy.
+    //   if (!this.isRunning) {
+    //     break;
+    //   }
 
-      await sleep(POLLING_INTERVAL);
-    }
+    //   await sleep(POLLING_INTERVAL);
+    // }
   }
 
   async hasAvailableAgents() {
@@ -87,31 +100,15 @@ export default class PollingChatService extends BaseApiService {
 
   async sendMessage(message) {
     await super.sendMessage(message);
-    return await this.apiCall(
-      `/api/messenger/chat/${message.chatId}`,
-      'POST',
+    return await apiClient.post(
+      `/api/messenger/chat/${message.chatId}/send`,
       message
     );
   }
 
   async getDepartments() {
-    return this.apiCall('/portal/api/chat_departments').then(
-      ({ data }) => data
-    );
-  }
-
-  async apiCall(url, method, data) {
-    const options = {
-      cors: true,
-      method: method || 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Cache-Control': 'no-cache',
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: data ? JSON.stringify(data) : undefined
-    };
-    const response = await fetch(process.env.REACT_APP_API_BASE + url, options);
-    return response.json();
+    return apiClient
+      .get('/portal/api/chat_departments')
+      .then(({ data }) => data.data);
   }
 }
