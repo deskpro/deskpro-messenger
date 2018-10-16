@@ -2,21 +2,6 @@ import BaseApiService from './BaseApiService';
 
 const POLLING_INTERVAL = 2000;
 
-const apiCall = async (url, method, data) => {
-  const options = {
-    cors: true,
-    method: method || 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Cache-Control': 'no-cache',
-      'Content-Type': 'application/json; charset=utf-8'
-    },
-    body: data ? JSON.stringify(data) : undefined
-  };
-  const response = await fetch(process.env.REACT_APP_API_BASE + url, options);
-  return response.json();
-};
-
 const rand = () => Math.round(Math.random() * 10);
 
 const sleep = (time) =>
@@ -31,7 +16,7 @@ export default class PollingChatService extends BaseApiService {
     if (this.isRunning) {
       throw new Error('Chat is already running');
     }
-    const response = await apiCall('/api/messenger/chat', 'POST', data);
+    const response = await this.apiCall('/api/messenger/chat', 'POST', data);
     console.log('create chat response', response);
     const { id, access_token } = response.data;
     const chatId = `${id}-${access_token}`;
@@ -102,10 +87,31 @@ export default class PollingChatService extends BaseApiService {
 
   async sendMessage(message) {
     await super.sendMessage(message);
-    return await apiCall(
+    return await this.apiCall(
       `/api/messenger/chat/${message.chatId}`,
       'POST',
       message
     );
+  }
+
+  async getDepartments() {
+    return this.apiCall('/portal/api/chat_departments').then(
+      ({ data }) => data
+    );
+  }
+
+  async apiCall(url, method, data) {
+    const options = {
+      cors: true,
+      method: method || 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Cache-Control': 'no-cache',
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: data ? JSON.stringify(data) : undefined
+    };
+    const response = await fetch(process.env.REACT_APP_API_BASE + url, options);
+    return response.json();
   }
 }

@@ -63,14 +63,14 @@ storiesOf('Messenger', module)
       });
       screens.startSalesChat = {
         screenType: 'StartChatScreen',
-        category: 'sales',
+        department: 4,
         noAnswerBehavior: 'new_ticket',
         preChatForm: [
           {
             rules: [
               {
-                field: 'category',
-                value: 'sales',
+                field: 'department',
+                value: 4,
                 op: 'eq'
               }
             ],
@@ -99,8 +99,8 @@ storiesOf('Messenger', module)
           {
             rules: [
               {
-                field: 'category',
-                value: 'support',
+                field: 'department',
+                value: 3,
                 op: 'eq'
               }
             ],
@@ -149,7 +149,7 @@ storiesOf('Messenger', module)
       });
       screens.startSupportChat = {
         screenType: 'StartChatScreen',
-        category: 'support',
+        department: 3,
         prompt: 'chat.prompt.support',
         noAnswerBehavior: 'save_ticket',
         ticketFormConfig: [

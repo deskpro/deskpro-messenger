@@ -1,8 +1,7 @@
 {
   "app.buttons.back": "назад",
   "app.title": "Будь на связи",
-  "chat.header.sales_title": "Чат по вопросам продаж",
-  "chat.header.support_title": "Чат поддержки",
+  "chat.header.title": "Чат",
   "chat.agent_assigned.message": "{name} присоединился к разговору.",
   "chat.no_agent_online": "Извините, все операторы заняты.",
   "chat.prompt.support": "Спасибо, что обратились к нам. Чем мы можем быть полезны вам?",

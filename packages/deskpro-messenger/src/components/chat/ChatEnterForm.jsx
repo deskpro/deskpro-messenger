@@ -36,13 +36,13 @@ class ChatEnterForm extends PureComponent {
 
 const formEnhancer = withFormik({
   enableReinitialize: true,
-  mapPropsToValues: ({ category, layouts, user }) => {
-    const layout = layouts.getMatchingLayout({ category });
+  mapPropsToValues: ({ department, layouts, user }) => {
+    const layout = layouts.getMatchingLayout({ department });
     const userData = _omitBy(user, _isEmpty);
     if (layout) {
-      return { category, ...layout.getDefaultValues(), ...userData };
+      return { department, ...layout.getDefaultValues(), ...userData };
     }
-    return { category, ...userData };
+    return { department, ...userData };
   },
   handleSubmit: (values, { props, setSubmitting }) => {
     // setSubmitting(true);

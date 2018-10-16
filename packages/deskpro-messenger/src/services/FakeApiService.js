@@ -162,4 +162,8 @@ export default class FakeChatService extends BaseApiService {
       }
     };
   }
+
+  async getDepartments() {
+    return [{ id: 3, title: 'Support' }, { id: 4, title: 'Sales' }];
+  }
 }

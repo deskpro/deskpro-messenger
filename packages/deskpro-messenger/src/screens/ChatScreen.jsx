@@ -15,6 +15,7 @@ import {
   getChatData
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
+import { getDepartments } from '../modules/departments';
 
 class ChatScreen extends PureComponent {
   static propTypes = {
@@ -28,9 +29,10 @@ class ChatScreen extends PureComponent {
       fromScreen: PropTypes.string.isRequired
     }).isRequired,
     chatConfig: PropTypes.shape({
-      category: PropTypes.string.isRequired,
+      department: PropTypes.string.isRequired,
       noAnswerBehavior: PropTypes.oneOf(['save_ticket', 'new_ticket'])
     }).isRequired,
+    departments: PropTypes.object.isRequired,
     messages: PropTypes.array,
     typing: PropTypes.object
   };
@@ -55,19 +57,19 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const { chatConfig, intl, user } = this.props;
-
-    const { category } = chatConfig;
-    const capCategory = category[0].toUpperCase() + category.substring(1);
+    const { departments, chatConfig, intl, user } = this.props;
+    const department = chatConfig.department
+      ? departments[chatConfig.department]
+      : {};
 
     return (
       <Block
         title={intl.formatMessage(
           {
-            id: `chat.header.${category}_title`,
-            defaultMessage: '{category} conversation'
+            id: `chat.header.title`,
+            defaultMessage: '{department} conversation'
           },
-          { category: capCategory }
+          { department: department.title }
         )}
       >
         <Chat
@@ -86,7 +88,8 @@ const mapStateToProps = (state, props) => ({
   user: getUserData(state),
   chatData: getChatData(state, props),
   messages: getMessages(state, props),
-  typing: getTypingState(state, props)
+  typing: getTypingState(state, props),
+  departments: getDepartments(state, props)
 });
 
 const mapProps = (WrappedComponent) => (props) => {

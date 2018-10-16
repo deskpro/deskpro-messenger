@@ -11,12 +11,14 @@ import Block from '../components/core/Block';
 import { createChat, sendMessage } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 import PromptMessage from '../components/chat/PromptMessage';
+import { getDepartments } from '../modules/departments';
 
 class StartChatScreen extends PureComponent {
   static propTypes = {
     user: PropTypes.object,
     preChatForm: PropTypes.array,
-    prompt: PropTypes.string
+    prompt: PropTypes.string,
+    departments: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -45,7 +47,7 @@ class StartChatScreen extends PureComponent {
 
   onSendMessage = (message) => {
     if (message) {
-      const { category } = this.props;
+      const { department } = this.props;
 
       const messageModel =
         typeof message === 'string'
@@ -55,30 +57,36 @@ class StartChatScreen extends PureComponent {
               type: 'chat.message'
             }
           : message;
-      this.createChat({ category }, { message: messageModel });
+      this.createChat({ department: department }, { message: messageModel });
     }
   };
 
   render() {
-    const { category, preChatForm, prompt, intl, user } = this.props;
+    const {
+      department,
+      departments,
+      preChatForm,
+      prompt,
+      intl,
+      user
+    } = this.props;
     const { viewMode } = this.state;
-
-    const capCategory = category[0].toUpperCase() + category.substring(1);
+    const dept = department ? departments[department] : {};
 
     return (
       <Block
         title={intl.formatMessage(
           {
-            id: `chat.header.${category}_title`,
-            defaultMessage: '{category} conversation'
+            id: `chat.header.title`,
+            defaultMessage: '{department} conversation'
           },
-          { category: capCategory }
+          { department: dept.title }
         )}
       >
         {viewMode === 'form' && (
           <ChatEnterForm
             user={user}
-            category={category}
+            department={department}
             onSubmit={this.createChat}
             formConfig={preChatForm}
           />
@@ -96,7 +104,8 @@ class StartChatScreen extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => ({
-  user: getUserData(state)
+  user: getUserData(state),
+  departments: getDepartments(state, props)
 });
 
 export default compose(
