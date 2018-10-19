@@ -14,8 +14,8 @@ export default produce(
   (draft, { type, payload }) => {
     switch (type) {
       case SET_VISITOR:
-        if (payload.visitorId) {
-          draft.visitorId = payload.visitorId;
+        if (payload.visitor_id) {
+          draft.visitorId = payload.visitor_id;
         }
         if (_isPlainObject(payload.guest)) {
           draft.name = payload.guest.name;

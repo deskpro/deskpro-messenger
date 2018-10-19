@@ -1,7 +1,7 @@
 import axios from 'axios';
 import BaseApiService from './BaseApiService';
 
-// const POLLING_INTERVAL = 2000;
+const POLLING_INTERVAL = 1000;
 
 const rand = () => Math.round(Math.random() * 10);
 
@@ -21,6 +21,15 @@ const apiClient = axios.create({
 
 export default class PollingChatService extends BaseApiService {
   polling = false;
+  _visitorId = null;
+
+  set visitorId(value) {
+    this._visitorId = value;
+    apiClient.defaults.headers.common['X-DESKPRO-VISITORID'] = value;
+  }
+  get visitorId() {
+    return this._visitorId;
+  }
 
   async createChat(data) {
     if (this.isRunning) {
@@ -40,16 +49,27 @@ export default class PollingChatService extends BaseApiService {
 
   async startListening() {
     await super.startListening();
-    // while (true) {
-    //   // const response = await apiCall('/api/messenger/chat');
-    //   // this.onMessageReceived(response);
-    //   // stop AJAX polling when polling become falsy.
-    //   if (!this.isRunning) {
-    //     break;
-    //   }
+    this.polling();
+  }
 
-    //   await sleep(POLLING_INTERVAL);
-    // }
+  async polling() {
+    while (true) {
+      const alerts = await apiClient(
+        `/api/messenger/user/action_alerts/${this.lastActionAlert || 0}`
+      ).then(({ data }) => data.data);
+      if (alerts.length) {
+        alerts.forEach((message) => {
+          this.onMessageReceived(message);
+          this.lastActionAlert = message.id;
+        });
+      }
+      // stop AJAX polling when polling become falsy.
+      if (!this.isRunning) {
+        break;
+      }
+
+      await sleep(POLLING_INTERVAL);
+    }
   }
 
   async hasAvailableAgents() {
@@ -109,6 +129,12 @@ export default class PollingChatService extends BaseApiService {
   async getDepartments() {
     return apiClient
       .get('/portal/api/chat_departments')
+      .then(({ data }) => data.data);
+  }
+
+  async loadUser(visitorId) {
+    return apiClient
+      .get(`/api/messenger/user/${visitorId}`)
       .then(({ data }) => data.data);
   }
 }

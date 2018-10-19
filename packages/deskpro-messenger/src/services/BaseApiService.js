@@ -93,14 +93,12 @@ export default class BaseChatService {
    */
   async loadUser(visitorId) {
     return {
-      visitorId,
+      visitor_id: visitorId,
       guest: {
         name: 'John Doe',
         email: 'joe.doe@example.com'
       },
-      chat: {
-        recentChats: []
-      }
+      chats: []
     };
   }
 }

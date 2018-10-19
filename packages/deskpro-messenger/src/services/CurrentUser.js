@@ -30,15 +30,14 @@ class CurrentUser {
 
   async initNewVisitor() {
     const state = {
-      visitorId: this.generateVisitorId(),
+      visitor_id: this.generateVisitorId(),
       guest: {
         name: null,
         email: null
       },
-      chat: {
-        recentChats: []
-      }
+      chats: []
     };
+    apiService.visitorId = state.visitor_id;
     Cookies.set(COOKIE_VID_NAME, state.visitorId);
     this.updateCache(state);
   }
@@ -46,24 +45,29 @@ class CurrentUser {
   async initKnownGuest(visitorId) {
     const state = this.getCache();
     if (this.isCacheValid(state)) {
+      apiService.visitorId = state.visitor_id;
       return this.store.dispatch(setVisitor(state));
     }
     const userData = await this.loadUser(visitorId);
+    apiService.visitorId = state.visitor_id;
+    if (userData.last_action_alert) {
+      apiService.lastActionAlert = userData.last_action_alert;
+    }
     this.updateCache(userData);
     this.store.dispatch(startListeningMessages());
   }
 
   getActiveChat() {
     const cache = this.getCache();
-    if (_isPlainObject(cache) && cache.chat) {
-      return cache.chat.recentChats.find((c) => c.status === 'active');
+    if (_isPlainObject(cache) && Array.isArray(cache.chats)) {
+      return cache.chats.find((c) => c.status === 'active');
     }
     return null;
   }
 
   isCacheValid(state) {
     // empty cache
-    if (!state || !state.visitorId) {
+    if (!state || !state.visitor_id) {
       return false;
     }
     // the cache says we have an active chat.
@@ -93,12 +97,9 @@ class CurrentUser {
     const cache = this.getCache();
     const newState = _merge(cache, state);
     // merge recent chats separately by chat id.
-    if (state.chat && state.chat.recentChats) {
-      const chats =
-        cache.chat && cache.chat.recentChats
-          ? cache.chat.recentChats.slice()
-          : [];
-      state.chat.recentChats.forEach((newChat) => {
+    if (Array.isArray(state.chats)) {
+      const chats = cache.chats.slice();
+      state.chats.forEach((newChat) => {
         const idx = _findIndex(chats, ['id', newChat.id]);
         if (idx !== -1) {
           chats[idx] = _merge(chats[idx], newChat);
@@ -106,7 +107,7 @@ class CurrentUser {
           chats.push(newChat);
         }
       });
-      newState.chat.recentChats = chats;
+      newState.chats = chats;
     }
     window.parent.localStorage[LS_CACHE_KEY] = JSON.stringify(newState);
     if (shouldUpdateStore) {

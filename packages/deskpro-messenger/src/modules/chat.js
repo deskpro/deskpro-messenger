@@ -17,7 +17,6 @@ import { produce } from 'immer';
 import _findLast from 'lodash/findLast';
 import _mapValues from 'lodash/mapValues';
 import _pick from 'lodash/pick';
-import _isPlainObject from 'lodash/isPlainObject';
 
 import asset from '../utils/asset';
 import chatService from '../services/ApiService';
@@ -118,7 +117,7 @@ const cacheNewChatEpic = (action$) =>
     ofType(CHAT_SAVE_CHAT),
     tap(({ payload: { chatId, ...payload }, meta }) => {
       const cache = currentUser.getCache();
-      cache.chat.recentChats.push({
+      cache.chats.push({
         id: chatId,
         ...payload,
         status: 'active'
@@ -135,7 +134,7 @@ const deactivateChatEpic = (action$) =>
     filter(({ payload }) => payload.type === 'chat.ended'),
     tap(({ payload }) => {
       const cache = currentUser.getCache();
-      cache.chat.recentChats = cache.chat.recentChats.map(
+      cache.chats = cache.chats.map(
         (chat) =>
           chat.id === payload.chatId ? { ...chat, status: 'ended' } : chat
       );
@@ -196,6 +195,9 @@ const listenForMessagesEpic = (action$, state$) =>
     ofType(START_LISTENING),
     switchMap(listenForMessages),
     withLatestFrom(state$),
+    tap(([message]) =>
+      currentUser.updateCache({ last_action_alert: message.id }, false)
+    ),
     map(([message, state]) =>
       messageReceived({ ...message, chatId: getActiveChat(state) })
     )
@@ -277,12 +279,8 @@ export default produce(
       const { chatId, ...data } = payload;
       draft.chats[chatId] = { ...emptyChat, data };
       draft.activeChat = chatId;
-    } else if (
-      type === 'SET_VISITOR' &&
-      _isPlainObject(payload.chat) &&
-      payload.chat.recentChats.length
-    ) {
-      payload.chat.recentChats.forEach(({ id, status, ...data }) => {
+    } else if (type === 'SET_VISITOR' && Array.isArray(payload.chats)) {
+      payload.chats.forEach(({ id, status, ...data }) => {
         draft.chats[id] = spread(
           draft.chats[id] ? draft.chats[id] : emptyChat,
           { data }

@@ -152,14 +152,13 @@ export default class FakeChatService extends BaseApiService {
    */
   async loadUser(visitorId) {
     return {
-      visitorId,
+      visitor_id: visitorId,
+      last_action_alert: 0,
       guest: {
         name: null,
         email: null
       },
-      chat: {
-        recentChats: []
-      }
+      chats: []
     };
   }
 
