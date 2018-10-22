@@ -19,6 +19,7 @@ import _mapValues from 'lodash/mapValues';
 import _pick from 'lodash/pick';
 
 import asset from '../utils/asset';
+import uuid from '../utils/uuid';
 import chatService from '../services/ApiService';
 import currentUser from '../services/CurrentUser';
 
@@ -208,7 +209,11 @@ const sendMessagesEpic = (action$, state$) =>
     ofType(CHAT_SEND_MESSAGE),
     withLatestFrom(state$),
     tap(([{ payload }, state]) =>
-      chatService.sendMessage({ ...payload, chatId: getActiveChat(state) })
+      chatService.sendMessage({
+        ...payload,
+        chatId: getActiveChat(state),
+        uuid: uuid()
+      })
     ),
     skip()
   );
@@ -260,6 +265,18 @@ const chatReducer = produce((draft, { type, payload }) => {
         const index = draft.messages.indexOf(message);
         draft.messages[index] = spread(message, payload);
         return;
+      }
+      if (payload.origin === 'user') {
+        const messageIdx = draft.messages.findIndex(
+          (m) => m.uuid === payload.uuid
+        );
+        if (messageIdx !== -1) {
+          draft.messages[messageIdx] = spread(
+            draft.messages[messageIdx],
+            payload
+          );
+          return;
+        }
       }
       draft.messages.push(payload);
       draft.typing = payload.origin === 'agent' ? undefined : draft.typing;
