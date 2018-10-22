@@ -6,11 +6,9 @@ import App from './App';
 import './index.css';
 import createStore from './store';
 import currentUser from './services/CurrentUser';
-import { loadDepartments } from './modules/departments';
 
 const config = window.parent.DESKPRO_MESSENGER_OPTIONS;
 const store = createStore(undefined, config);
-store.dispatch(loadDepartments());
 
 currentUser.init(store).then((cache) =>
   ReactDOM.render(

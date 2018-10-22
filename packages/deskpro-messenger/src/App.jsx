@@ -6,6 +6,7 @@ import { IntlProvider, addLocaleData } from 'react-intl';
 import enLocale from 'react-intl/locale-data/en';
 
 import enTranslations from './translations/en.json';
+import PreloadData from './containers/PreloadData';
 import Window from './components/core/Window';
 import MessengerToggler from './components/core/MessengerToggler';
 import Greetings from './components/core/Greetings';
@@ -86,38 +87,40 @@ class App extends PureComponent {
           locale={config.locale || 'en-US'}
           messages={translations || enTranslations}
         >
-          <MemoryRouter>
-            <Fragment>
-              <Switch>
+          <PreloadData>
+            <MemoryRouter>
+              <Fragment>
+                <Switch>
+                  <Route
+                    path="/screens"
+                    render={(props) => (
+                      <Window {...props} opened={windowVisible} />
+                    )}
+                  />
+                  <Route path="/greetings" component={Greetings} />
+                  {!!redirect && <Redirect to={redirect} />}
+                </Switch>
                 <Route
-                  path="/screens"
                   render={(props) => (
-                    <Window {...props} opened={windowVisible} />
+                    <MessengerToggler
+                      opened={windowVisible}
+                      onToggle={this.toggleWindow}
+                      {...props}
+                    />
                   )}
                 />
-                <Route path="/greetings" component={Greetings} />
-                {!!redirect && <Redirect to={redirect} />}
-              </Switch>
-              <Route
-                render={(props) => (
-                  <MessengerToggler
-                    opened={windowVisible}
-                    onToggle={this.toggleWindow}
-                    {...props}
-                  />
-                )}
-              />
-              <Route
-                render={(props) => (
-                  <MessengerAPI
-                    opened={windowVisible}
-                    onToggle={this.toggleWindow}
-                    {...props}
-                  />
-                )}
-              />
-            </Fragment>
-          </MemoryRouter>
+                <Route
+                  render={(props) => (
+                    <MessengerAPI
+                      opened={windowVisible}
+                      onToggle={this.toggleWindow}
+                      {...props}
+                    />
+                  )}
+                />
+              </Fragment>
+            </MemoryRouter>
+          </PreloadData>
         </IntlProvider>
       </ConfigProvider>
     );
