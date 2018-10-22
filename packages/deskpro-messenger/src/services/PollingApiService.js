@@ -49,18 +49,18 @@ export default class PollingChatService extends BaseApiService {
 
   async startListening() {
     await super.startListening();
-    this.polling();
+    this.listen();
   }
 
-  async polling() {
+  async listen() {
     while (true) {
       const alerts = await apiClient(
         `/api/messenger/user/action_alerts/${this.lastActionAlert || 0}`
-      ).then(({ data }) => data.data);
+      ).then(({ data }) => data);
       if (alerts.length) {
-        alerts.forEach((message) => {
-          this.onMessageReceived(message);
-          this.lastActionAlert = message.id;
+        alerts.forEach(({ data: message, ...alert }) => {
+          this.onMessageReceived({ ...alert, ...message });
+          this.lastActionAlert = alert.id;
         });
       }
       // stop AJAX polling when polling become falsy.
@@ -132,9 +132,7 @@ export default class PollingChatService extends BaseApiService {
       .then(({ data }) => data.data);
   }
 
-  async loadUser(visitorId) {
-    return apiClient
-      .get(`/api/messenger/user/${visitorId}`)
-      .then(({ data }) => data.data);
+  async loadUser() {
+    return apiClient.get(`/api/messenger/user`).then(({ data }) => data.data);
   }
 }

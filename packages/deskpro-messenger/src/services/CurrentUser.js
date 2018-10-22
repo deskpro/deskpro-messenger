@@ -44,12 +44,11 @@ class CurrentUser {
 
   async initKnownGuest(visitorId) {
     const state = this.getCache();
+    apiService.visitorId = state.visitor_id;
     if (this.isCacheValid(state)) {
-      apiService.visitorId = state.visitor_id;
       return this.store.dispatch(setVisitor(state));
     }
     const userData = await this.loadUser(visitorId);
-    apiService.visitorId = state.visitor_id;
     if (userData.last_action_alert) {
       apiService.lastActionAlert = userData.last_action_alert;
     }
