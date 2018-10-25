@@ -25,7 +25,7 @@ export default class PollingChatService extends BaseApiService {
 
   set visitorId(value) {
     this._visitorId = value;
-    apiClient.defaults.headers.common['X-DESKPRO-VISITORID'] = value;
+    apiClient.defaults.headers['X-DESKPRO-VISITORID'] = value;
   }
   get visitorId() {
     return this._visitorId;
@@ -127,8 +127,8 @@ export default class PollingChatService extends BaseApiService {
   }
 
   async getDepartments() {
-    return apiClient
-      .get('/portal/api/chat_departments')
+    return axios
+      .get(process.env.REACT_APP_API_BASE + 'portal/api/chat_departments')
       .then(({ data }) => data.data);
   }
 

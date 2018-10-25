@@ -29,7 +29,7 @@ class ChatScreen extends PureComponent {
       fromScreen: PropTypes.string.isRequired
     }).isRequired,
     chatConfig: PropTypes.shape({
-      department: PropTypes.string.isRequired,
+      department: PropTypes.number.isRequired,
       noAnswerBehavior: PropTypes.oneOf(['save_ticket', 'new_ticket'])
     }).isRequired,
     departments: PropTypes.object.isRequired,

@@ -10,7 +10,7 @@ import currentUser from './services/CurrentUser';
 const config = window.parent.DESKPRO_MESSENGER_OPTIONS;
 const store = createStore(undefined, config);
 
-currentUser.init(store).then((cache) =>
+currentUser.init(store, config).then((cache) =>
   ReactDOM.render(
     <Provider store={store}>
       <App config={config} cache={cache} />

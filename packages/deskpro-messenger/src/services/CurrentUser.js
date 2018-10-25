@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import _merge from 'lodash/merge';
 import _findIndex from 'lodash/findIndex';
 import _isPlainObject from 'lodash/isPlainObject';
@@ -7,7 +6,6 @@ import apiService from './ApiService';
 import { setVisitor } from '../modules/guest';
 import { startListeningMessages } from '../modules/chat';
 
-const COOKIE_VID_NAME = 'dp__v'; // deskpro (dp) visitor (v)
 const LS_CACHE_KEY = 'dp__vd'; // deskpro (dp) visitor (v) data (d)
 
 class CurrentUser {
@@ -15,14 +13,16 @@ class CurrentUser {
    * Initialize UserState.
    *
    * @param {object} store Redux store with dispatch()/getState() methods.
+   * @param {object} config The app configuration object (optional)
    */
-  async init(store) {
+  async init(store, config = {}) {
     this.store = store;
-    const cookieVid = Cookies.get(COOKIE_VID_NAME);
-    if (!cookieVid) {
+    this.config = config;
+    const cache = this.getCache();
+    if (!cache.visitor_id) {
       await this.initNewVisitor();
     } else {
-      await this.initKnownGuest(cookieVid);
+      await this.initKnownGuest(cache.visitor_id);
     }
 
     return this.getCache();
@@ -31,23 +31,18 @@ class CurrentUser {
   async initNewVisitor() {
     const state = {
       visitor_id: this.generateVisitorId(),
-      guest: {
+      guest: this.config.user || {
         name: null,
         email: null
       },
       chats: []
     };
     apiService.visitorId = state.visitor_id;
-    Cookies.set(COOKIE_VID_NAME, state.visitorId);
     this.updateCache(state);
   }
 
   async initKnownGuest(visitorId) {
-    const state = this.getCache();
-    apiService.visitorId = state.visitor_id;
-    if (this.isCacheValid(state)) {
-      return this.store.dispatch(setVisitor(state));
-    }
+    apiService.visitorId = visitorId;
     const userData = await this.loadUser(visitorId);
     if (userData.last_action_alert) {
       apiService.lastActionAlert = userData.last_action_alert;
@@ -62,22 +57,6 @@ class CurrentUser {
       return cache.chats.find((c) => c.status === 'active');
     }
     return null;
-  }
-
-  isCacheValid(state) {
-    // empty cache
-    if (!state || !state.visitor_id) {
-      return false;
-    }
-    // the cache says we have an active chat.
-    // we _always_ want to load fresh data when there
-    // is an active chat.
-    const hasActiveChat = !!this.getActiveChat();
-    if (hasActiveChat) {
-      return false;
-    }
-    // otherwise, theres no reason to update the cache at all
-    return true;
   }
 
   /**
