@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _pick from 'lodash/pick';
 import BaseApiService from './BaseApiService';
 
 const POLLING_INTERVAL = 1000;
@@ -18,6 +19,9 @@ const apiClient = axios.create({
     'Content-Type': 'application/json; charset=utf-8'
   }
 });
+
+const pickChat = (chat) =>
+  _pick(chat, ['id', 'access_token', 'department', 'status']);
 
 export default class PollingChatService extends BaseApiService {
   polling = false;
@@ -43,8 +47,7 @@ export default class PollingChatService extends BaseApiService {
 
     await super.createChat(data);
 
-    const { id, access_token, department } = response.data.data;
-    return { id, access_token, department };
+    return pickChat(response.data.data);
   }
 
   async startListening() {
@@ -141,7 +144,10 @@ export default class PollingChatService extends BaseApiService {
       if (data.last_action_alert) {
         this.lastActionAlert = data.last_action_alert;
       }
-      return data;
+      return {
+        ...data,
+        chats: (data.chats || []).map(pickChat)
+      };
     });
   }
 }

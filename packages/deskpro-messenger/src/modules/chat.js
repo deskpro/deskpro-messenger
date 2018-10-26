@@ -190,17 +190,11 @@ const updateGuestEpic = (action$) =>
     skip()
   );
 
-const listenForMessagesEpic = (action$, state$) =>
+const listenForMessagesEpic = (action$) =>
   action$.pipe(
     ofType(START_LISTENING),
     switchMap(listenForMessages),
-    withLatestFrom(state$),
-    tap(([message]) =>
-      currentUser.updateCache({ last_action_alert: message.id }, false)
-    ),
-    map(([message, state]) =>
-      messageReceived({ chat: getActiveChat(state), ...message })
-    )
+    map(messageReceived)
   );
 
 const sendMessagesEpic = (action$, state$) =>

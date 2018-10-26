@@ -44,9 +44,6 @@ class CurrentUser {
   async initKnownGuest(visitorId) {
     apiService.visitorId = visitorId;
     const userData = await this.loadUser(visitorId);
-    if (userData.last_action_alert) {
-      apiService.lastActionAlert = userData.last_action_alert;
-    }
     this.updateCache(userData);
     this.store.dispatch(startListeningMessages());
   }
