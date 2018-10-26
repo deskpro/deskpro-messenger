@@ -19,6 +19,10 @@ const transMessages = {
   noAgentOnline: {
     id: 'chat.no_agent_online',
     defaultMessage: 'Sorry, no one is online to accept your chat.'
+  },
+  chatEnded: {
+    id: 'chat.ended',
+    defaultMessage: 'Chat ended'
   }
 };
 
@@ -67,6 +71,13 @@ class Chat extends PureComponent {
                     transMessages.agentAssigned,
                     message
                   )}
+                />
+              );
+            case 'chat.ended':
+              return (
+                <SystemMessage
+                  {...message}
+                  message={intl.formatMessage(transMessages.chatEnded, message)}
                 />
               );
             case 'chat.noAgents':

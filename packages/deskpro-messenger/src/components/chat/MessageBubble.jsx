@@ -19,7 +19,10 @@ const MessageBubble = ({ avatar, origin, message, name }) => (
       </div>
     )}
     <div className="dpmsg-BubbleCol">
-      <span className="dpmsg-BubbleItem">{message}</span>
+      <div
+        className="dpmsg-BubbleItem"
+        dangerouslySetInnerHTML={{ __html: message }}
+      />
     </div>
   </div>
 );

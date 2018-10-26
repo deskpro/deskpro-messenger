@@ -35,15 +35,16 @@ export default class PollingChatService extends BaseApiService {
     if (this.isRunning) {
       throw new Error('Chat is already running');
     }
-    const { department, ...chatValues } = data;
+    const { department: chat_department, ...chatValues } = data;
     const response = await apiClient.post('/api/messenger/chat', {
       ...chatValues,
-      chat_department: department
+      chat_department
     });
 
     await super.createChat(data);
 
-    return response.data.data;
+    const { id, access_token, department } = response.data.data;
+    return { id, access_token, department };
   }
 
   async startListening() {
@@ -57,8 +58,14 @@ export default class PollingChatService extends BaseApiService {
         `/api/messenger/user/action_alerts/${this.lastActionAlert || 0}`
       ).then(({ data }) => data);
       if (alerts.length) {
-        alerts.forEach(({ data: message, ...alert }) => {
-          this.onMessageReceived({ ...alert, ...message });
+        alerts.forEach(({ data, ...alert }) => {
+          const message = {
+            ...data,
+            type: alert.type,
+            // set the single `chat` property to identify the chat ID the alert belongs to.
+            chat: data.chat ? data.chat : data.id
+          };
+          this.onMessageReceived(message);
           this.lastActionAlert = alert.id;
         });
       }
@@ -130,6 +137,11 @@ export default class PollingChatService extends BaseApiService {
   }
 
   async loadUser() {
-    return apiClient.get(`/api/messenger/user`).then(({ data }) => data);
+    return apiClient.get(`/api/messenger/user`).then(({ data }) => {
+      if (data.last_action_alert) {
+        this.lastActionAlert = data.last_action_alert;
+      }
+      return data;
+    });
   }
 }

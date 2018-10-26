@@ -54,7 +54,7 @@ class CurrentUser {
   getActiveChat() {
     const cache = this.getCache();
     if (_isPlainObject(cache) && Array.isArray(cache.chats)) {
-      return cache.chats.find((c) => c.status === 'active');
+      return cache.chats.find((c) => c.status === 'open');
     }
     return null;
   }

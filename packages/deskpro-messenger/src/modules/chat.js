@@ -120,7 +120,7 @@ const cacheNewChatEpic = (action$) =>
       const cache = currentUser.getCache();
       cache.chats.push({
         ...payload,
-        status: 'active'
+        status: 'open'
       });
       currentUser.updateCache(cache, false);
       meta.history.push(`/screens/active-chat/${payload.id}`);
@@ -136,7 +136,7 @@ const deactivateChatEpic = (action$) =>
       const cache = currentUser.getCache();
       cache.chats = cache.chats.map(
         (chat) =>
-          chat.id === payload.chatId ? { ...chat, status: 'ended' } : chat
+          chat.id === payload.chat ? { ...chat, status: 'ended' } : chat
       );
       currentUser.updateCache(cache, false);
     }),
@@ -307,7 +307,7 @@ export default produce(
           draft.chats[id] ? draft.chats[id] : emptyChat,
           { data: chat }
         );
-        if (chat.status === 'active') {
+        if (chat.status === 'open') {
           draft.activeChat = id;
         }
       });

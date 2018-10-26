@@ -4,6 +4,7 @@
   "chat.header.title": "{department} conversation",
   "chat.agent_assigned.message": "{name} joined the conversation.",
   "chat.no_agent_online": "Sorry, no one is online to accept your chat.",
+  "chat.ended": "Chat ended",
   "chat.prompt.support": "Thanks for starting a chat. How can we help you today?",
   "chat.rating_block.question_header": "Rate your conversation with {name}",
   "chat.rating_block.buttons.helpful": "Helpful",

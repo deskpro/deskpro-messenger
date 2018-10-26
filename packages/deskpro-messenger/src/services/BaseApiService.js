@@ -6,7 +6,7 @@ export default class BaseChatService {
    * Create Chat instance.
    *
    * @param {object} data Data required for the chat
-   *  — category (required) — Category of the chat: sales, support, etc
+   *  — department (required) — Department ID of the chat
    *  — name — Name of the user (required for the fake chat)
    *  — submitted values from the pre-chat form (if configured)
    *  — message (object) — first message (if there is no pre-chat form)
@@ -14,7 +14,6 @@ export default class BaseChatService {
    */
   async createChat(data = {}) {
     this.userData = data;
-    // await this.onMessageReceived(data.messages[0]);
     await this.startListening();
   }
 
