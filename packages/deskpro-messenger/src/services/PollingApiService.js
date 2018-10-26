@@ -40,11 +40,10 @@ export default class PollingChatService extends BaseApiService {
       ...chatValues,
       chat_department: department
     });
-    const { id, access_token } = response.data.data;
-    const chatId = `${id}-${access_token}`;
+
     await super.createChat(data);
 
-    return chatId;
+    return response.data.data;
   }
 
   async startListening() {
@@ -118,21 +117,19 @@ export default class PollingChatService extends BaseApiService {
     }
   }
 
-  async sendMessage(message) {
-    await super.sendMessage(message);
+  async sendMessage(message, chat) {
+    await super.sendMessage(message, chat);
     return await apiClient.post(
-      `/api/messenger/chat/${message.chatId}/send`,
+      `/api/messenger/chat/${chat.id}-${chat.access_token}/send`,
       message
     );
   }
 
-  async getDepartments() {
-    return axios
-      .get(process.env.REACT_APP_API_BASE + 'portal/api/chat_departments')
-      .then(({ data }) => data.data);
+  async getAppInfo() {
+    return apiClient.get('/api/messenger/user/info').then(({ data }) => data);
   }
 
   async loadUser() {
-    return apiClient.get(`/api/messenger/user`).then(({ data }) => data.data);
+    return apiClient.get(`/api/messenger/user`).then(({ data }) => data);
   }
 }

@@ -28,7 +28,7 @@ export default class FakeChatService extends BaseApiService {
 
   async createChat(data) {
     await super.createChat(data);
-    return _uniqueId('chat-');
+    return { id: _uniqueId('chat-') };
   }
 
   async hasAvailableAgents() {
@@ -85,12 +85,15 @@ export default class FakeChatService extends BaseApiService {
     });
   }
 
-  async sendMessage(message) {
-    await super.sendMessage({
-      ...message,
-      avatar: asset('img/docs/avatar.png'),
-      name: (this.userData || {}).name || 'John Doe'
-    });
+  async sendMessage(message, chat) {
+    await super.sendMessage(
+      {
+        ...message,
+        avatar: asset('img/docs/avatar.png'),
+        name: (this.userData || {}).name || 'John Doe'
+      },
+      chat
+    );
 
     await sleep(NETWORK_LATENCY / 2);
     if (message.type === 'chat.block.saveTicket' && message.origin === 'user') {
@@ -132,7 +135,7 @@ export default class FakeChatService extends BaseApiService {
    */
   async simulateAgentResponse() {
     this.onMessageReceived({
-      type: 'typing.start',
+      type: 'chat.typing.start',
       origin: 'agent',
       avatar: asset('img/dp-logo.svg'),
       name: 'Nick Green'
@@ -162,7 +165,13 @@ export default class FakeChatService extends BaseApiService {
     };
   }
 
-  async getDepartments() {
-    return [{ id: 3, title: 'Support' }, { id: 4, title: 'Sales' }];
+  async getAppInfo() {
+    return {
+      chat_departments: [
+        { id: 3, title: 'Support' },
+        { id: 4, title: 'Sales' }
+      ],
+      agents_online: []
+    };
   }
 }

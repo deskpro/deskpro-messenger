@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import _isEmpty from 'lodash/isEmpty';
 
-import { loadDepartments, getDepartments } from '../modules/departments';
+import { loadAppInfo, getDepartments } from '../modules/info';
 
 class PreloadData extends PureComponent {
   componentDidMount() {
@@ -22,5 +22,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(
   mapStateToProps,
-  { loadData: loadDepartments }
+  { loadData: loadAppInfo }
 )(PreloadData);

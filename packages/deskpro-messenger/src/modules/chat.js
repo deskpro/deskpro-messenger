@@ -80,10 +80,10 @@ const createChatEpic = (action$) =>
     ofType(CHAT_START),
     switchMap(({ payload, meta }) => {
       return from(chatService.createChat(payload)).pipe(
-        mergeMap((chatId) => {
+        mergeMap((chat) => {
           // save new chat
           const streams = [
-            of(saveChat({ chatId, fromScreen: meta.fromScreen }, meta)),
+            of(saveChat({ ...chat, fromScreen: meta.fromScreen }, meta)),
             of(startListeningMessages())
           ];
           if (meta.prompt) {
@@ -94,7 +94,7 @@ const createChatEpic = (action$) =>
                   type: 'chat.message',
                   origin: 'system',
                   message: meta.prompt,
-                  chatId
+                  chat: chat.id
                 })
               )
             );
@@ -105,7 +105,7 @@ const createChatEpic = (action$) =>
           }
           // request an agent.
           streams.push(
-            from(chatService.assignAgent(chatId)).pipe(ignoreElements())
+            from(chatService.assignAgent(chat.id)).pipe(ignoreElements())
           );
           return merge(...streams);
         })
@@ -116,15 +116,14 @@ const createChatEpic = (action$) =>
 const cacheNewChatEpic = (action$) =>
   action$.pipe(
     ofType(CHAT_SAVE_CHAT),
-    tap(({ payload: { chatId, ...payload }, meta }) => {
+    tap(({ payload, meta }) => {
       const cache = currentUser.getCache();
       cache.chats.push({
-        id: chatId,
         ...payload,
         status: 'active'
       });
       currentUser.updateCache(cache, false);
-      meta.history.push(`/screens/active-chat/${chatId}`);
+      meta.history.push(`/screens/active-chat/${payload.id}`);
     }),
     skip()
   );
@@ -200,7 +199,7 @@ const listenForMessagesEpic = (action$, state$) =>
       currentUser.updateCache({ last_action_alert: message.id }, false)
     ),
     map(([message, state]) =>
-      messageReceived({ ...message, chatId: getActiveChat(state) })
+      messageReceived({ chat: getActiveChat(state), ...message })
     )
   );
 
@@ -208,13 +207,19 @@ const sendMessagesEpic = (action$, state$) =>
   action$.pipe(
     ofType(CHAT_SEND_MESSAGE),
     withLatestFrom(state$),
-    tap(([{ payload }, state]) =>
-      chatService.sendMessage({
-        ...payload,
-        chatId: getActiveChat(state),
-        uuid: uuid()
-      })
-    ),
+    tap(([{ payload }, state]) => {
+      const chat = getChatData(state);
+      if (chat) {
+        chatService.sendMessage(
+          {
+            ...payload,
+            chat: chat.id,
+            uuid: uuid()
+          },
+          chat
+        );
+      }
+    }),
     skip()
   );
 
@@ -253,8 +258,8 @@ const emptyChat = { messages: [] };
 const chatReducer = produce((draft, { type, payload }) => {
   switch (type) {
     case CHAT_MESSAGE_RECEIVED:
-      if (payload.type.startsWith('typing.')) {
-        draft.typing = payload.type === 'typing.start' ? payload : false;
+      if (payload.type.startsWith('chat.typing.')) {
+        draft.typing = payload.type === 'chat.typing.start' ? payload : false;
         return;
       }
       if (payload.type.startsWith('chat.block.') && payload.origin === 'user') {
@@ -293,25 +298,25 @@ export default produce(
     if (type === CHAT_TOGGLE_SOUND) {
       draft.mute = !draft.mute;
     } else if (type === CHAT_SAVE_CHAT) {
-      const { chatId, ...data } = payload;
-      draft.chats[chatId] = { ...emptyChat, data };
-      draft.activeChat = chatId;
+      draft.chats[payload.id] = { ...emptyChat, data: payload };
+      draft.activeChat = payload.id;
     } else if (type === 'SET_VISITOR' && Array.isArray(payload.chats)) {
-      payload.chats.forEach(({ id, status, ...data }) => {
+      payload.chats.forEach((chat) => {
+        const id = chat.id;
         draft.chats[id] = spread(
           draft.chats[id] ? draft.chats[id] : emptyChat,
-          { data }
+          { data: chat }
         );
-        if (status === 'active') {
+        if (chat.status === 'active') {
           draft.activeChat = id;
         }
       });
-    } else if (payload && 'chatId' in payload) {
-      draft.chats[payload.chatId] = chatReducer(
-        draft.chats[payload.chatId],
+    } else if (type === CHAT_MESSAGE_RECEIVED) {
+      draft.chats[payload.chat] = chatReducer(
+        draft.chats[payload.chat],
         action
       );
-      if (type === CHAT_MESSAGE_RECEIVED && payload.type === 'chat.ended') {
+      if (payload.type === 'chat.ended') {
         delete draft.activeChat;
       }
     }

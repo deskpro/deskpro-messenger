@@ -15,7 +15,7 @@ import {
   getChatData
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
-import { getDepartments } from '../modules/departments';
+import { getDepartments } from '../modules/info';
 
 class ChatScreen extends PureComponent {
   static propTypes = {

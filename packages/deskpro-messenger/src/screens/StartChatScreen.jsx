@@ -11,7 +11,7 @@ import Block from '../components/core/Block';
 import { createChat, sendMessage } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 import PromptMessage from '../components/chat/PromptMessage';
-import { getDepartments } from '../modules/departments';
+import { getDepartments } from '../modules/info';
 
 class StartChatScreen extends PureComponent {
   static propTypes = {
