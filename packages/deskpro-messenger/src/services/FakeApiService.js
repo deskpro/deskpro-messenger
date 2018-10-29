@@ -25,48 +25,42 @@ const sleep = (time) =>
 
 export default class FakeChatService extends BaseApiService {
   agentAssigned = false;
+  // simulate "no available agents" one of 3 times.
+  hasAgentsOnline = rand() % 3 !== 0;
 
   async createChat(data) {
     await super.createChat(data);
-    return { id: _uniqueId('chat-') };
-  }
-
-  async hasAvailableAgents() {
-    await sleep(NETWORK_LATENCY);
-    // simulate "no available agents" one of 3 times.
-    const isAgentsAvailable = rand() % 3 !== 0;
-    return isAgentsAvailable;
-  }
-
-  async assignAgent() {
-    if (await this.hasAvailableAgents()) {
-      // one of 5 times do not assign an agent.
-      if (rand() % 5 !== 0) {
-        this.agentAssigned = true;
-
-        await sleep(NETWORK_LATENCY);
-        await this.onMessageReceived({
-          type: 'chat.agentAssigned',
-          origin: 'system',
-          name: 'Nick Green'
-        });
-
-        // simulate agent answer for the message sent before he has been assigned.
-        if (this.hasUnasweredMessages) {
-          this.hasUnasweredMessages = false;
-          await sleep(NETWORK_LATENCY);
-          await this.simulateAgentResponse();
-        }
-        return;
-      } else {
-        await sleep(NETWORK_LATENCY * 3);
-      }
+    const chatId = _uniqueId('chat-');
+    if (this.hasAgentsOnline) {
+      this.assignAgent(chatId);
     }
-    // no available agents or timeout.
-    await this.onMessageReceived({
-      type: 'chat.noAgents',
-      origin: 'system'
-    });
+    return { id: chatId };
+  }
+
+  async assignAgent(chatId) {
+    // one of 5 times do not assign an agent.
+    if (rand() % 5 !== 0) {
+      console.log('assignAgent');
+      await sleep(NETWORK_LATENCY);
+      await this.onMessageReceived({
+        type: 'chat.agentAssigned',
+        origin: 'system',
+        name: 'Nick Green',
+        chat: chatId
+      });
+      this.agentAssigned = true;
+
+      // simulate agent answer for the message sent before he has been assigned.
+      if (this.hasUnasweredMessages) {
+        this.hasUnasweredMessages = false;
+        await sleep(NETWORK_LATENCY);
+        await this.simulateAgentResponse(chatId);
+      }
+      return;
+    } else {
+      console.log('timeout');
+      // timeout
+    }
   }
 
   async onMessageReceived(message) {
@@ -74,14 +68,16 @@ export default class FakeChatService extends BaseApiService {
     if (message.type === 'chat.ended') {
       this.isRunning = false;
       this.hasUnasweredMessages = false;
+      this.agentAssigned = false;
     }
   }
 
-  async endChat() {
+  async endChat(chatId) {
     await sleep(NETWORK_LATENCY);
     this.onMessageReceived({
       type: 'chat.ended',
-      origin: 'system'
+      origin: 'system',
+      chat: chatId
     });
   }
 
@@ -108,24 +104,26 @@ export default class FakeChatService extends BaseApiService {
         await sleep(NETWORK_LATENCY);
         this.onMessageReceived({
           type: 'chat.block.transcript',
-          origin: 'system'
+          origin: 'system',
+          chat
         });
       } else if (lowerMessage.includes('rating')) {
         await sleep(NETWORK_LATENCY);
         this.onMessageReceived({
           type: 'chat.block.rate',
           origin: 'system',
-          name: 'Nick'
+          name: 'Nick',
+          chat
         });
       } else if (['end', 'stop'].includes(lowerMessage)) {
-        await this.endChat();
+        await this.endChat(chat);
       } else {
         // in case there is no agent yet, set flag to respond later and return.
         if (!this.agentAssigned) {
           this.hasUnasweredMessages = true;
           return;
         }
-        await this.simulateAgentResponse();
+        await this.simulateAgentResponse(chat);
       }
     }
   }
@@ -133,12 +131,13 @@ export default class FakeChatService extends BaseApiService {
   /**
    * Simulates agent response to the user's message.
    */
-  async simulateAgentResponse() {
+  async simulateAgentResponse(chat) {
     this.onMessageReceived({
       type: 'chat.typing.start',
       origin: 'agent',
       avatar: asset('img/dp-logo.svg'),
-      name: 'Nick Green'
+      name: 'Nick Green',
+      chat
     });
     await sleep(NETWORK_LATENCY * 2);
     this.onMessageReceived({
@@ -146,7 +145,8 @@ export default class FakeChatService extends BaseApiService {
       origin: 'agent',
       message: _sample(agentAnswers),
       avatar: asset('img/dp-logo.svg'),
-      name: 'Nick Green'
+      name: 'Nick Green',
+      chat
     });
   }
 
@@ -165,12 +165,13 @@ export default class FakeChatService extends BaseApiService {
   }
 
   async getAppInfo() {
+    console.log('has agents', this.hasAgentsOnline);
     return {
       chat_departments: [
         { id: 3, title: 'Support' },
         { id: 4, title: 'Sales' }
       ],
-      agents_online: []
+      agents_online: this.hasAgentsOnline ? [{ id: 23, name: 'John Doe' }] : []
     };
   }
 }

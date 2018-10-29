@@ -1,4 +1,4 @@
-import { Observable, from, of, merge, empty } from 'rxjs';
+import { Observable, from, of, merge, empty, race, interval } from 'rxjs';
 import { ofType, combineEpics } from 'redux-observable';
 import {
   withLatestFrom,
@@ -7,8 +7,9 @@ import {
   filter,
   map,
   mergeMap,
-  ignoreElements,
-  switchMap
+  switchMap,
+  take,
+  mapTo
 } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
@@ -20,6 +21,7 @@ import _pick from 'lodash/pick';
 
 import asset from '../utils/asset';
 import uuid from '../utils/uuid';
+import { hasAgentsAvailable } from './info';
 import chatService from '../services/ApiService';
 import currentUser from '../services/CurrentUser';
 
@@ -60,6 +62,12 @@ export const messageReceived = (message) => ({
   type: CHAT_MESSAGE_RECEIVED,
   payload: message
 });
+export const noAgentsMessage = (chat) =>
+  messageReceived({
+    type: 'chat.noAgents',
+    origin: 'system',
+    chat
+  });
 export const sendMessage = (message) => ({
   type: CHAT_SEND_MESSAGE,
   payload: message
@@ -75,12 +83,13 @@ const listenForMessages = () =>
     return () => chatService.unsubscribe(callback);
   });
 
-const createChatEpic = (action$) =>
+const createChatEpic = (action$, state$) =>
   action$.pipe(
     ofType(CHAT_START),
     switchMap(({ payload, meta }) => {
       return from(chatService.createChat(payload)).pipe(
-        mergeMap((chat) => {
+        withLatestFrom(state$),
+        mergeMap(([chat, state]) => {
           // save new chat
           const streams = [
             of(saveChat({ ...chat, fromScreen: meta.fromScreen }, meta)),
@@ -103,14 +112,38 @@ const createChatEpic = (action$) =>
             // send user's first message.
             streams.push(of(sendMessage(meta.message)));
           }
-          // request an agent.
-          streams.push(
-            from(chatService.assignAgent(chat.id)).pipe(ignoreElements())
-          );
+          if (!hasAgentsAvailable(state)) {
+            console.log('no agents available');
+            streams.push(of(noAgentsMessage(chat.id)));
+          }
           return merge(...streams);
         })
       );
     })
+  );
+
+const agentAssignementTimeout = (action$, _, { config }) =>
+  action$.pipe(
+    ofType(CHAT_SAVE_CHAT),
+    mergeMap(({ payload: chat }) =>
+      race(
+        action$.pipe(
+          ofType(CHAT_MESSAGE_RECEIVED),
+          filter(({ payload: message }) =>
+            ['chat.agentAssigned', 'chat.noAgents'].includes(message.type)
+          ),
+          mapTo(false)
+        ),
+        interval(config.chatTimeout || 3000).pipe(
+          take(1),
+          mapTo(true)
+        )
+      ).pipe(
+        switchMap(
+          (timedOut) => (timedOut ? of(noAgentsMessage(chat.id)) : empty())
+        )
+      )
+    )
   );
 
 const cacheNewChatEpic = (action$) =>
@@ -159,7 +192,7 @@ const noChatAnswerEpic = (action$, state$, { config }) =>
         case 'save_ticket':
           return of(
             messageReceived({
-              chatId,
+              chat: chatId,
               type: 'chat.block.saveTicket',
               origin: 'system'
             })
@@ -167,7 +200,7 @@ const noChatAnswerEpic = (action$, state$, { config }) =>
         case 'new_ticket':
           return of(
             messageReceived({
-              chatId,
+              chat: chatId,
               type: 'chat.block.createTicket',
               origin: 'system'
             })
@@ -243,7 +276,8 @@ export const chatEpic = combineEpics(
   cacheNewChatEpic,
   noChatAnswerEpic,
   deactivateChatEpic,
-  soundEpic
+  soundEpic,
+  agentAssignementTimeout
 );
 //#endregion
 
