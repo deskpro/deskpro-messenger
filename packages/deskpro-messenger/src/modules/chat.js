@@ -1,11 +1,10 @@
-import { Observable, from, of, merge, empty, race, interval } from 'rxjs';
+import { from, of, merge, empty, race, interval } from 'rxjs';
 import { ofType, combineEpics } from 'redux-observable';
 import {
   withLatestFrom,
   tap,
   skip,
   filter,
-  map,
   mergeMap,
   switchMap,
   take,
@@ -37,7 +36,6 @@ sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 //#region ACTION TYPES
 const CHAT_START = 'CHAT_START';
 const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
-const START_LISTENING = 'START_LISTENING';
 const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
 const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
 const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
@@ -53,10 +51,6 @@ export const saveChat = (payload, meta) => ({
   type: CHAT_SAVE_CHAT,
   payload,
   meta
-});
-export const startListeningMessages = () => ({
-  type: START_LISTENING,
-  payload: {}
 });
 export const messageReceived = (message) => ({
   type: CHAT_MESSAGE_RECEIVED,
@@ -76,13 +70,6 @@ export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
 //#endregion
 
 //#region EPICS
-const listenForMessages = () =>
-  new Observable((observer) => {
-    const callback = (message) => observer.next(message);
-    chatService.subscribe(callback);
-    return () => chatService.unsubscribe(callback);
-  });
-
 const createChatEpic = (action$, state$) =>
   action$.pipe(
     ofType(CHAT_START),
@@ -93,7 +80,6 @@ const createChatEpic = (action$, state$) =>
           // save new chat
           const streams = [
             of(saveChat({ ...chat, fromScreen: meta.fromScreen }, meta)),
-            of(startListeningMessages())
           ];
           if (meta.prompt) {
             // create prompt message for chat dialog
@@ -113,7 +99,6 @@ const createChatEpic = (action$, state$) =>
             streams.push(of(sendMessage(meta.message)));
           }
           if (!hasAgentsAvailable(state)) {
-            console.log('no agents available');
             streams.push(of(noAgentsMessage(chat.id)));
           }
           return merge(...streams);
@@ -223,13 +208,6 @@ const updateGuestEpic = (action$) =>
     skip()
   );
 
-const listenForMessagesEpic = (action$) =>
-  action$.pipe(
-    ofType(START_LISTENING),
-    switchMap(listenForMessages),
-    map(messageReceived)
-  );
-
 const sendMessagesEpic = (action$, state$) =>
   action$.pipe(
     ofType(CHAT_SEND_MESSAGE),
@@ -269,7 +247,6 @@ const soundEpic = (action$, state$) =>
   );
 
 export const chatEpic = combineEpics(
-  listenForMessagesEpic,
   createChatEpic,
   updateGuestEpic,
   sendMessagesEpic,

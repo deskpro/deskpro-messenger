@@ -4,7 +4,7 @@ import _isPlainObject from 'lodash/isPlainObject';
 
 import apiService from './ApiService';
 import { setVisitor } from '../modules/guest';
-import { startListeningMessages } from '../modules/chat';
+import { startListeningAlerts } from '../modules/alerts';
 
 const LS_CACHE_KEY = 'dp__vd'; // deskpro (dp) visitor (v) data (d)
 
@@ -25,6 +25,7 @@ class CurrentUser {
       await this.initKnownGuest(cache.visitor_id);
     }
 
+    this.store.dispatch(startListeningAlerts());
     return this.getCache();
   }
 
@@ -45,7 +46,6 @@ class CurrentUser {
     apiService.visitorId = visitorId;
     const userData = await this.loadUser(visitorId);
     this.updateCache(userData);
-    this.store.dispatch(startListeningMessages());
   }
 
   getActiveChat() {

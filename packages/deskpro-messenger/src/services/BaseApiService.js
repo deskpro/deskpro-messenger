@@ -14,32 +14,21 @@ export default class BaseChatService {
    */
   async createChat(data = {}) {
     this.userData = data;
-    await this.startListening();
   }
 
   /**
    * Starts listening for the incoming messages.
    */
   async startListening() {
-    if (this.isRunning) {
-      throw new Error('Chat is already started');
-    }
     this.isRunning = true;
-
-    return this.isRunning;
   }
 
   /**
-   * Check if there is available agents to be assigned to the chat.
+   * Stops listenning of the incoming messages.
    */
-  async hasAvailableAgents() {
-    return true;
+  async stopListening() {
+    this.isRunning = false;
   }
-
-  /**
-   * Request a agent to assign to the current chat.
-   */
-  async assignAgent() {}
 
   /**
    * Method to handle incoming message.
