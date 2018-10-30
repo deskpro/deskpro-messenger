@@ -58,7 +58,7 @@ class Chat extends PureComponent {
     return (
       <Fragment>
         {messages.map((message, index) => {
-          const key = `${message.type}-${index}`;
+          const key = message.uuid || `${message.type}-${index}`;
           switch (message.type) {
             case 'chat.message':
               return <MessageBubble key={key} {...message} />;
@@ -76,6 +76,7 @@ class Chat extends PureComponent {
             case 'chat.ended':
               return (
                 <SystemMessage
+                  key={key}
                   {...message}
                   message={intl.formatMessage(transMessages.chatEnded, message)}
                 />
