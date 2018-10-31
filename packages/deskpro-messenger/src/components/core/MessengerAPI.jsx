@@ -18,7 +18,7 @@ class MessengerAPI extends PureComponent {
     onToggle: PropTypes.func.isRequired
   };
 
-  handleMessage = event => {
+  handleMessage = (event) => {
     const { action, payload } = event.data;
 
     switch (action) {
@@ -33,6 +33,11 @@ class MessengerAPI extends PureComponent {
           this.props.history.push(path, { api: true, ...payload });
           !this.props.opened && this.props.onToggle();
         }
+        break;
+
+      case 'to':
+        this.props.history.push(payload, { api: true });
+        !this.props.opened && this.props.onToggle();
         break;
 
       default:
