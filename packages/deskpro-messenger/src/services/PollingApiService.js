@@ -47,7 +47,6 @@ export default class PollingChatService extends BaseApiService {
 
   async startListening() {
     await super.startListening();
-    console.log('start listening');
     this.listen();
   }
 
@@ -89,7 +88,8 @@ export default class PollingChatService extends BaseApiService {
     return apiClient.get('/api/messenger/user/info').then(({ data }) => data);
   }
 
-  async loadUser() {
+  async loadUser(visitorId) {
+    this.visitorId = visitorId;
     return apiClient.get(`/api/messenger/user`).then(({ data }) => {
       if (data.last_action_alert) {
         this.lastActionAlert = data.last_action_alert;

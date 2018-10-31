@@ -4,8 +4,8 @@ import { rootReducer, rootEpic } from './modules';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default (initialState = {}, config) => {
-  const epicMiddleware = createEpicMiddleware({ dependencies: { config } });
+export default (initialState = {}, dependencies) => {
+  const epicMiddleware = createEpicMiddleware({ dependencies });
   const store = createStore(
     rootReducer,
     initialState,

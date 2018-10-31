@@ -1,43 +1,39 @@
 import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { MemoryRouter, Switch, Route, Redirect } from 'react-router-dom';
-import _sample from 'lodash/sample';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import enLocale from 'react-intl/locale-data/en';
 
 import enTranslations from './translations/en.json';
-import PreloadData from './containers/PreloadData';
+import WithData from './containers/WithData';
 import Window from './components/core/Window';
 import MessengerToggler from './components/core/MessengerToggler';
 import Greetings from './components/core/Greetings';
 import { ConfigProvider } from './components/core/ConfigContext';
 import MessengerAPI from './components/core/MessengerAPI';
-import currentUser from './services/CurrentUser';
+import { appInit, appShutdown } from './modules/app';
 
 addLocaleData(enLocale);
 
 class App extends PureComponent {
   static propTypes = {
-    config: PropTypes.object
+    config: PropTypes.object,
+    appInit: PropTypes.func.isRequired,
+    appShutdown: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     config: {}
   };
 
-  randomGreeting = Array.isArray(this.props.config.enabledGreetings)
-    ? _sample(this.props.config.enabledGreetings)
-    : undefined;
-
   state = {
-    randomGreeting: this.randomGreeting,
-    windowVisible:
-      (!!this.randomGreeting && this.randomGreeting.startsWith('/screen')) ||
-      !!currentUser.getActiveChat()
+    windowVisible: false
   };
 
   componentDidMount() {
-    this.setState({ randomGreeting: undefined });
+    this.props.appInit();
     this.loadLocale();
   }
 
@@ -45,6 +41,10 @@ class App extends PureComponent {
     if (prevProps.config.locale !== this.props.config.locale) {
       this.loadLocale(true);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.appShutdown();
   }
 
   loadLocale = (force = false) => {
@@ -72,14 +72,7 @@ class App extends PureComponent {
 
   render() {
     const { config } = this.props;
-    const { windowVisible, randomGreeting, translations } = this.state;
-    let redirect;
-    const activeChat = currentUser.getActiveChat();
-    if (activeChat) {
-      redirect = `/screens/active-chat/${activeChat.id}`;
-    } else if (!!randomGreeting) {
-      redirect = randomGreeting;
-    }
+    const { windowVisible, translations } = this.state;
 
     return (
       <ConfigProvider value={config}>
@@ -87,44 +80,45 @@ class App extends PureComponent {
           locale={config.locale || 'en-US'}
           messages={translations || enTranslations}
         >
-          <PreloadData>
-            <MemoryRouter>
-              <Fragment>
-                <Switch>
-                  <Route
-                    path="/screens"
-                    render={(props) => (
-                      <Window {...props} opened={windowVisible} />
-                    )}
-                  />
-                  <Route path="/greetings" component={Greetings} />
-                  {!!redirect && <Redirect to={redirect} />}
-                </Switch>
-                <Route
-                  render={(props) => (
-                    <MessengerToggler
-                      opened={windowVisible}
-                      onToggle={this.toggleWindow}
-                      {...props}
-                    />
-                  )}
+          <WithData>
+            <Switch>
+              <Route
+                path="/screens"
+                render={(props) => <Window {...props} opened={windowVisible} />}
+              />
+              <Route path="/greetings" component={Greetings} />
+            </Switch>
+            <Route
+              render={(props) => (
+                <MessengerToggler
+                  opened={windowVisible}
+                  onToggle={this.toggleWindow}
+                  {...props}
                 />
-                <Route
-                  render={(props) => (
-                    <MessengerAPI
-                      opened={windowVisible}
-                      onToggle={this.toggleWindow}
-                      {...props}
-                    />
-                  )}
+              )}
+            />
+            <Route
+              render={(props) => (
+                <MessengerAPI
+                  opened={windowVisible}
+                  onToggle={this.toggleWindow}
+                  {...props}
                 />
-              </Fragment>
-            </MemoryRouter>
-          </PreloadData>
+              )}
+            />
+          </WithData>
         </IntlProvider>
       </ConfigProvider>
     );
   }
 }
 
-export default App;
+const enhancer = compose(
+  withRouter,
+  connect(
+    null,
+    { appInit, appShutdown }
+  )
+);
+
+export default enhancer(App);

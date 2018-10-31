@@ -1,7 +1,9 @@
 import { Observable } from 'rxjs';
 import { ofType } from 'redux-observable';
-import { map, tap, switchMap, takeUntil } from 'rxjs/operators';
+import { map, tap, switchMap, takeUntil, take } from 'rxjs/operators';
 
+import { APP_SHUTDOWN } from './app';
+import { SET_VISITOR } from './guest';
 import { messageReceived } from './chat';
 import apiService from '../services/ApiService';
 
@@ -31,7 +33,8 @@ const createAlertsObservable = () =>
 
 export const listenForAlertsEpic = (action$) =>
   action$.pipe(
-    ofType(START_LISTENING),
+    ofType(SET_VISITOR),
+    take(1),
     tap(() => {
       apiService.startListening();
     }),
@@ -40,11 +43,11 @@ export const listenForAlertsEpic = (action$) =>
       if (alert.type.startsWith('chat.')) {
         return messageReceived(alert);
       }
-      // TODO: handle other type of alerts if needed;
+      // TODO: handle other types of alerts if needed.
     }),
     takeUntil(
       action$.pipe(
-        ofType(STOP_LISTENING),
+        ofType(STOP_LISTENING, APP_SHUTDOWN),
         tap(() => {
           apiService.stopListening();
         })

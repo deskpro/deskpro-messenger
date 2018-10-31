@@ -16,13 +16,13 @@ import { createSelector } from 'reselect';
 import { produce } from 'immer';
 import _findLast from 'lodash/findLast';
 import _mapValues from 'lodash/mapValues';
-import _pick from 'lodash/pick';
 
 import asset from '../utils/asset';
 import uuid from '../utils/uuid';
 import { hasAgentsAvailable } from './info';
 import chatService from '../services/ApiService';
-import currentUser from '../services/CurrentUser';
+import cache from '../services/Cache';
+import { SET_VISITOR } from './guest';
 
 const spread = produce(Object.assign);
 
@@ -34,11 +34,11 @@ const sounds = _mapValues(
 sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 
 //#region ACTION TYPES
-const CHAT_START = 'CHAT_START';
-const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
-const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
-const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
-const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
+export const CHAT_START = 'CHAT_START';
+export const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
+export const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
+export const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
+export const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
 //#endregion
 
 //#region ACTION CREATORS
@@ -70,6 +70,14 @@ export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
 //#endregion
 
 //#region EPICS
+const cacheVisitorChatsEpic = (action$) =>
+  action$.pipe(
+    ofType(SET_VISITOR),
+    filter(({ payload }) => Array.isArray(payload.chats)),
+    tap(({ payload }) => cache.mergeArray('chats', payload.chats)),
+    skip()
+  );
+
 const createChatEpic = (action$, state$) =>
   action$.pipe(
     ofType(CHAT_START),
@@ -79,7 +87,7 @@ const createChatEpic = (action$, state$) =>
         mergeMap(([chat, state]) => {
           // save new chat
           const streams = [
-            of(saveChat({ ...chat, fromScreen: meta.fromScreen }, meta)),
+            of(saveChat({ ...chat, fromScreen: meta.fromScreen }, meta))
           ];
           if (meta.prompt) {
             // create prompt message for chat dialog
@@ -99,6 +107,7 @@ const createChatEpic = (action$, state$) =>
             streams.push(of(sendMessage(meta.message)));
           }
           if (!hasAgentsAvailable(state)) {
+            console.log('no agents online');
             streams.push(of(noAgentsMessage(chat.id)));
           }
           return merge(...streams);
@@ -117,10 +126,12 @@ const agentAssignementTimeout = (action$, _, { config }) =>
           filter(({ payload: message }) =>
             ['chat.agentAssigned', 'chat.noAgents'].includes(message.type)
           ),
+          tap(({ payload }) => console.log('no timeout', payload.type)),
           mapTo(false)
         ),
-        interval(config.chatTimeout || 3000).pipe(
+        interval(config.chatTimeout || 60 * 1000).pipe(
           take(1),
+          tap(() => console.log('timeout')),
           mapTo(true)
         )
       ).pipe(
@@ -135,12 +146,10 @@ const cacheNewChatEpic = (action$) =>
   action$.pipe(
     ofType(CHAT_SAVE_CHAT),
     tap(({ payload, meta }) => {
-      const cache = currentUser.getCache();
-      cache.chats.push({
+      cache.setValue(['chats', []], {
         ...payload,
         status: 'open'
       });
-      currentUser.updateCache(cache, false);
       meta.history.push(`/screens/active-chat/${payload.id}`);
     }),
     skip()
@@ -151,12 +160,7 @@ const deactivateChatEpic = (action$) =>
     ofType(CHAT_MESSAGE_RECEIVED),
     filter(({ payload }) => payload.type === 'chat.ended'),
     tap(({ payload }) => {
-      const cache = currentUser.getCache();
-      cache.chats = cache.chats.map(
-        (chat) =>
-          chat.id === payload.chat ? { ...chat, status: 'ended' } : chat
-      );
-      currentUser.updateCache(cache, false);
+      cache.setValue(['chats', ['id', payload.chat], 'status'], 'ended');
     }),
     skip()
   );
@@ -194,18 +198,6 @@ const noChatAnswerEpic = (action$, state$, { config }) =>
           return empty();
       }
     })
-  );
-
-const updateGuestEpic = (action$) =>
-  action$.pipe(
-    ofType(CHAT_START, CHAT_SEND_MESSAGE),
-    filter((action) => 'email' in action.payload),
-    tap((action) =>
-      currentUser.updateCache({
-        guest: _pick(action.payload, ['name', 'email'])
-      })
-    ),
-    skip()
   );
 
 const sendMessagesEpic = (action$, state$) =>
@@ -247,8 +239,8 @@ const soundEpic = (action$, state$) =>
   );
 
 export const chatEpic = combineEpics(
+  cacheVisitorChatsEpic,
   createChatEpic,
-  updateGuestEpic,
   sendMessagesEpic,
   cacheNewChatEpic,
   noChatAnswerEpic,

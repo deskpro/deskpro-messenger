@@ -4,6 +4,8 @@ import { switchMap, map } from 'rxjs/operators';
 import { produce } from 'immer';
 
 import apiService from '../services/ApiService';
+import { SET_VISITOR } from './guest';
+import { take } from 'rxjs/operators';
 
 //#region ACTION TYPES
 export const LOAD_APP_INFO = 'LOAD_APP_INFO';
@@ -24,7 +26,8 @@ export const appInfoLoaded = (data) => ({
 //#region EPICS
 export const loadAppInfoEpic = (action$) =>
   action$.pipe(
-    ofType(LOAD_APP_INFO),
+    ofType(SET_VISITOR),
+    take(1),
     switchMap(() => from(apiService.getAppInfo())),
     map(appInfoLoaded)
   );
