@@ -75,7 +75,15 @@ const cacheVisitorChatsEpic = (action$) =>
     ofType(SET_VISITOR),
     filter(({ payload }) => Array.isArray(payload.chats)),
     tap(({ payload }) => cache.mergeArray('chats', payload.chats)),
-    skip()
+    switchMap(({ payload }) => {
+      const activeChat = payload.chats.find((c) => c.status === 'open');
+      if (activeChat) {
+        return from(chatService.getChatHistory(activeChat)).pipe(
+          mergeMap((messages) => messages.map(messageReceived))
+        );
+      }
+      return empty();
+    })
   );
 
 const createChatEpic = (action$, state$) =>

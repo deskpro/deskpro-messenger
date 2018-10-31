@@ -71,9 +71,20 @@ export default class BaseChatService {
 
   /**
    * Send user's message to the chat.
+   * @param {object} message Message model
+   * @param {object} chat Chat model
    */
-  async sendMessage(message) {
+  async sendMessage(message, chat) {
     this.onMessageReceived(message);
+  }
+
+  /**
+   * Loads chat history.
+   * @param {object} chat Chat model
+   * @returns {Array}
+   */
+  async getChatHistory(chat) {
+    return [];
   }
 
   /**

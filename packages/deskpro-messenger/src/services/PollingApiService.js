@@ -87,6 +87,12 @@ export default class PollingChatService extends BaseApiService {
     );
   }
 
+  async getChatHistory(chat) {
+    return await apiClient
+      .get(`/api/messenger/chat/${chat.id}-${chat.access_token}/messages`)
+      .then(({ data }) => data.map((m) => ({ ...m, type: 'chat.message' })));
+  }
+
   async getAppInfo() {
     return apiClient.get('/api/messenger/user/info').then(({ data }) => data);
   }
