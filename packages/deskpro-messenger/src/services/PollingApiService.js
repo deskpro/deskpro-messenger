@@ -32,6 +32,9 @@ export default class PollingChatService extends BaseApiService {
   get visitorId() {
     return this._visitorId;
   }
+  set jwt(value) {
+    apiClient.defaults.headers['X-JWT-TOKEN'] = value;
+  }
 
   async createChat(data) {
     const { department: chat_department, ...chatValues } = data;

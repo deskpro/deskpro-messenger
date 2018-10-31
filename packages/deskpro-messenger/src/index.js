@@ -7,9 +7,13 @@ import { Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import createStore from './store';
+import apiService from './services/ApiService';
 
 const history = createHistory();
 const config = window.parent.DESKPRO_MESSENGER_OPTIONS;
+if (config.jwt) {
+  apiService.jwt = config.jwt;
+}
 const store = createStore(undefined, { config, history });
 
 ReactDOM.render(
