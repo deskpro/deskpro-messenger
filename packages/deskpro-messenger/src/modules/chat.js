@@ -8,6 +8,7 @@ import {
   mergeMap,
   switchMap,
   take,
+  map,
   mapTo
 } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
@@ -36,6 +37,7 @@ sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 //#region ACTION TYPES
 export const CHAT_START = 'CHAT_START';
 export const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
+export const CHAT_INIT_CHATS = 'CHAT_INIT_CHATS';
 export const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
 export const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
 export const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
@@ -51,6 +53,10 @@ export const saveChat = (payload, meta) => ({
   type: CHAT_SAVE_CHAT,
   payload,
   meta
+});
+export const initChats = (chats) => ({
+  type: CHAT_INIT_CHATS,
+  payload: chats
 });
 export const messageReceived = (message) => ({
   type: CHAT_MESSAGE_RECEIVED,
@@ -70,13 +76,18 @@ export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
 //#endregion
 
 //#region EPICS
-const cacheVisitorChatsEpic = (action$) =>
+const initChatsEpic = (action$) =>
   action$.pipe(
     ofType(SET_VISITOR),
     filter(({ payload }) => Array.isArray(payload.chats)),
     tap(({ payload }) => cache.mergeArray('chats', payload.chats)),
-    switchMap(({ payload }) => {
-      const activeChat = payload.chats.find((c) => c.status === 'open');
+    map(() => initChats(cache.getValue('chats') || []))
+  );
+const loadHistoryEpic = (action$) =>
+  action$.pipe(
+    ofType(CHAT_INIT_CHATS),
+    mergeMap(({ payload }) => {
+      const activeChat = payload.find((c) => c.status === 'open');
       if (activeChat) {
         return from(chatService.getChatHistory(activeChat)).pipe(
           mergeMap((messages) => messages.map(messageReceived))
@@ -85,7 +96,6 @@ const cacheVisitorChatsEpic = (action$) =>
       return empty();
     })
   );
-
 const createChatEpic = (action$, state$) =>
   action$.pipe(
     ofType(CHAT_START),
@@ -134,12 +144,10 @@ const agentAssignementTimeout = (action$, _, { config }) =>
           filter(({ payload: message }) =>
             ['chat.agentAssigned', 'chat.noAgents'].includes(message.type)
           ),
-          tap(({ payload }) => console.log('no timeout', payload.type)),
           mapTo(false)
         ),
         interval(config.chatTimeout || 60 * 1000).pipe(
           take(1),
-          tap(() => console.log('timeout')),
           mapTo(true)
         )
       ).pipe(
@@ -247,7 +255,8 @@ const soundEpic = (action$, state$) =>
   );
 
 export const chatEpic = combineEpics(
-  cacheVisitorChatsEpic,
+  initChatsEpic,
+  loadHistoryEpic,
   createChatEpic,
   sendMessagesEpic,
   cacheNewChatEpic,
@@ -305,8 +314,8 @@ export default produce(
     } else if (type === CHAT_SAVE_CHAT) {
       draft.chats[payload.id] = { ...emptyChat, data: payload };
       draft.activeChat = payload.id;
-    } else if (type === 'SET_VISITOR' && Array.isArray(payload.chats)) {
-      payload.chats.forEach((chat) => {
+    } else if (type === CHAT_INIT_CHATS) {
+      payload.forEach((chat) => {
         const id = chat.id;
         draft.chats[id] = spread(
           draft.chats[id] ? draft.chats[id] : emptyChat,
