@@ -1,8 +1,10 @@
 import { produce } from 'immer';
 import _isPlainObject from 'lodash/isPlainObject';
+import _get from 'lodash/get';
+import _pick from 'lodash/pick';
 import { from, of } from 'rxjs';
 import { ofType, combineEpics } from 'redux-observable';
-import { switchMap, filter, tap, map, skip } from 'rxjs/operators';
+import { switchMap, filter, tap, map } from 'rxjs/operators';
 
 import { APP_INIT } from './app';
 import { CHAT_START, CHAT_SEND_MESSAGE } from './chat';
@@ -25,7 +27,17 @@ const initVisitorEpic = (action$, _, { config }) =>
     switchMap(() => {
       const visitorId = cache.getValue('visitor_id');
       if (visitorId) {
-        return from(apiService.loadUser(visitorId));
+        return from(apiService.loadUser(visitorId)).pipe(
+          map((user) =>
+            produce(user, (draft) => {
+              draft.guest = {
+                name: cache.getValue('guest.name') || _get(config, 'user.name'),
+                email:
+                  cache.getValue('guest.email') || _get(config, 'user.email')
+              };
+            })
+          )
+        );
       } else {
         const visitorId = generateVisitorId();
         apiService.visitorId = visitorId;
@@ -53,7 +65,9 @@ const updateGuestEpic = (action$) =>
       cache.setValue('guest.name', action.payload.name);
       cache.setValue('guest.email', action.payload.email);
     }),
-    skip()
+    map((action) =>
+      setVisitor({ guest: _pick(action.payload, ['name', 'email']) })
+    )
   );
 
 export const guestEpic = combineEpics(initVisitorEpic, updateGuestEpic);
