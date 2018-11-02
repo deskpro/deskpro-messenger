@@ -64,7 +64,14 @@ export default class PollingChatService extends BaseApiService {
             ...data,
             type: alert.type,
             // set the single `chat` property to identify the chat ID the alert belongs to.
-            chat: data.chat ? data.chat : data.id
+            chat: data.chat || data.id,
+            uuid: data.uuid || alert.uuid,
+            message:
+              data.origin === 'system' &&
+              typeof data.message === 'string' &&
+              data.message.length
+                ? JSON.parse(data.message)
+                : data.message
           };
           this.onMessageReceived(message);
           this.lastActionAlert = alert.id;
@@ -90,7 +97,18 @@ export default class PollingChatService extends BaseApiService {
   async getChatHistory(chat) {
     return await apiClient
       .get(`/api/messenger/chat/${chat.id}-${chat.access_token}/messages`)
-      .then(({ data }) => data.map((m) => ({ ...m, type: 'chat.message' })));
+      .then(({ data }) =>
+        data.map((m) => {
+          if (m.origin === 'system') {
+            return {
+              ...m,
+              type: 'chat.system',
+              message: JSON.parse(m.message)
+            };
+          }
+          return { ...m, type: 'chat.message' };
+        })
+      );
   }
 
   async getAppInfo() {

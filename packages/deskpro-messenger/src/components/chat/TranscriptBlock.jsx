@@ -31,62 +31,61 @@ const transMessages = {
 class TranscriptBlock extends PureComponent {
   static propTypes = {
     onSend: PropTypes.func.isRequired,
-    message: PropTypes.shape({
-      type: PropTypes.string.isRequired,
+    user: PropTypes.shape({
       name: PropTypes.string,
       email: PropTypes.string
-    }).isRequired
+    })
   };
 
-  state = { view_mode: this.props.message.origin === 'user' ? 'final' : 'ask' };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (
-      prevState.view_mode !== 'final' &&
-      nextProps.message.origin === 'user'
-    ) {
-      return { view_mode: 'final' };
-    }
-    return null;
-  }
+  state = { viewMode: 'ask' };
 
   handleYesNo = (e) => {
     e.preventDefault();
     if (e.target.name === 'yes') {
-      this.setState({ view_mode: 'fields' });
+      const { user } = this.props;
+      if (user && user.email) {
+        this.setState({ viewMode: 'final' }, () => this.submit(user));
+      } else {
+        this.setState({ viewMode: 'fields' });
+      }
+    } else {
+      this.setState({ viewMode: 'hidden' });
     }
   };
 
   handleInputChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
+  submit = ({ name, email }) => {
+    this.props.onSend({
+      type: 'chat.transcript',
+      origin: 'user',
+      name,
+      email
+    });
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
     const { name, email } = this.state;
     if (name && email) {
-      this.props.onSend({
-        type: 'chat.block.transcript',
-        origin: 'user',
-        name,
-        email
-      });
+      this.submit(this.state);
     }
   };
 
   render() {
-    const { view_mode } = this.state;
-    const { origin } = this.props.message;
+    const { viewMode } = this.state;
     const { formatMessage } = this.props.intl;
 
     return (
       <ChatPrompt
         header={formatMessage(
-          transMessages[`${origin === 'user' ? 'answer' : 'question'}Header`]
+          transMessages[`${viewMode === 'final' ? 'answer' : 'question'}Header`]
         )}
         icon="Notes"
       >
-        {view_mode === 'ask' && this.renderYesNo()}
-        {view_mode === 'fields' && this.renderFields()}
-        {view_mode === 'final' && this.renderFinal()}
+        {viewMode === 'ask' && this.renderYesNo()}
+        {viewMode === 'fields' && this.renderFields()}
+        {viewMode === 'final' && this.renderFinal()}
       </ChatPrompt>
     );
   }
@@ -135,7 +134,11 @@ class TranscriptBlock extends PureComponent {
   }
 
   renderFinal() {
-    return <span className="dpmsg-PromptText">{this.props.message.email}</span>;
+    return (
+      <span className="dpmsg-PromptText">
+        {this.state.email || this.props.user.email}
+      </span>
+    );
   }
 }
 

@@ -40,6 +40,7 @@ export const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
 export const CHAT_INIT_CHATS = 'CHAT_INIT_CHATS';
 export const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
 export const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
+export const CHAT_HISTORY_LOADED = 'CHAT_HISTORY_LOADED';
 export const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
 //#endregion
 
@@ -62,15 +63,20 @@ export const messageReceived = (message) => ({
   type: CHAT_MESSAGE_RECEIVED,
   payload: message
 });
+export const chatHistoryLoaded = (messages) => ({
+  type: CHAT_HISTORY_LOADED,
+  payload: messages
+});
 export const noAgentsMessage = (chat) =>
   messageReceived({
     type: 'chat.noAgents',
     origin: 'system',
     chat
   });
-export const sendMessage = (message) => ({
+export const sendMessage = (message, chat) => ({
   type: CHAT_SEND_MESSAGE,
-  payload: message
+  payload: message,
+  meta: { chat }
 });
 export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
 //#endregion
@@ -90,7 +96,8 @@ const loadHistoryEpic = (action$) =>
       const activeChat = payload.find((c) => c.status === 'open');
       if (activeChat) {
         return from(chatService.getChatHistory(activeChat)).pipe(
-          mergeMap((messages) => messages.map(messageReceived))
+          filter((messages) => messages.length > 0),
+          map(chatHistoryLoaded)
         );
       }
       return empty();
@@ -122,7 +129,7 @@ const createChatEpic = (action$, state$) =>
           }
           if (meta.message) {
             // send user's first message.
-            streams.push(of(sendMessage(meta.message)));
+            streams.push(of(sendMessage(meta.message, chat)));
           }
           if (!hasAgentsAvailable(state)) {
             console.log('no agents online');
@@ -216,12 +223,10 @@ const noChatAnswerEpic = (action$, state$, { config }) =>
     })
   );
 
-const sendMessagesEpic = (action$, state$) =>
+const sendMessagesEpic = (action$) =>
   action$.pipe(
     ofType(CHAT_SEND_MESSAGE),
-    withLatestFrom(state$),
-    tap(([{ payload }, state]) => {
-      const chat = getChatData(state);
+    tap(({ payload, meta: { chat } }) => {
       if (chat) {
         chatService.sendMessage(
           {
@@ -285,7 +290,7 @@ const chatReducer = produce((draft, { type, payload }) => {
         draft.messages[index] = spread(message, payload);
         return;
       }
-      if (payload.origin === 'user') {
+      if (payload.type === 'chat.message' && payload.origin === 'user') {
         const messageIdx = draft.messages.findIndex(
           (m) => m.uuid === payload.uuid
         );
@@ -299,6 +304,9 @@ const chatReducer = produce((draft, { type, payload }) => {
       }
       draft.messages.push(payload);
       draft.typing = payload.origin === 'agent' ? undefined : draft.typing;
+      if (payload.type === 'chat.ended') {
+        draft.data.status = 'ended';
+      }
       return;
 
     default:
@@ -330,9 +338,14 @@ export default produce(
         draft.chats[payload.chat],
         action
       );
-      if (payload.type === 'chat.ended') {
+      if (payload.type === 'chat.ended' && payload.chat === draft.activeChat) {
         delete draft.activeChat;
       }
+    } else if (type === CHAT_HISTORY_LOADED) {
+      const chatId = payload[0].chat || draft.activeChat;
+      draft.chats[chatId].messages = payload.concat(
+        draft.chats[chatId].messages
+      );
     }
     return;
   },

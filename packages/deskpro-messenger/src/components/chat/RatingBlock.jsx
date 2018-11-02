@@ -28,34 +28,36 @@ const transMessages = {
 class RatingBlock extends PureComponent {
   static propTypes = {
     onSend: PropTypes.func.isRequired,
-    message: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      origin: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
-    }).isRequired
+    user: PropTypes.shape({
+      name: PropTypes.string,
+      email: PropTypes.string
+    })
   };
 
+  state = { rating: null };
+
   handleClick = (e) => {
-    this.props.onSend({
-      ...this.props.message,
-      origin: 'user',
-      rate: e.target.name === 'helpful'
+    const { name: rating } = e.target;
+    this.setState({ rating }, () => {
+      this.props.onSend({
+        type: 'chat.rating',
+        origin: 'user',
+        rate: rating === 'helpful'
+      });
     });
   };
 
   render() {
-    const { rate } = this.props.message;
+    const { rating } = this.state;
 
-    return typeof rate === 'undefined'
-      ? this.renderButtons()
-      : this.renderSmile();
+    return !!rating ? this.renderSmile() : this.renderButtons();
   }
 
   renderButtons() {
-    const { intl, message } = this.props;
+    const { intl } = this.props;
     return (
       <ChatPrompt
-        header={intl.formatMessage(transMessages.questionHeader, message)}
+        header={intl.formatMessage(transMessages.questionHeader, this.state)}
       >
         <div className="dpmsg-PromptContentEvaluation">
           <Button
@@ -80,7 +82,7 @@ class RatingBlock extends PureComponent {
   }
 
   renderSmile() {
-    const { rate } = this.props.message;
+    const { rating } = this.state;
     return (
       <ChatPrompt
         header={this.props.intl.formatMessage(transMessages.thankYouHeader)}
@@ -89,8 +91,8 @@ class RatingBlock extends PureComponent {
           <i
             className={classNames(
               {
-                'dpmsg-IconSmile': rate,
-                'dpmsg-IconSadSmile': !rate
+                'dpmsg-IconSmile': rating === 'helpful',
+                'dpmsg-IconSadSmile': rating === 'unhelpful'
               },
               'is-blue'
             )}

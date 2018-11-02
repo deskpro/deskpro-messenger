@@ -26,12 +26,25 @@ const transMessages = {
   }
 };
 
+const createTrans = ({ message, ...data }, type) => {
+  if (typeof message === 'object' && message.phrase_id) {
+    return [{ id: message.phrase_id }, message];
+  } else if (type in transMessages) {
+    return [transMessages[type], data];
+  }
+  return [];
+};
+
 class Chat extends PureComponent {
   static propTypes = {
     messages: PropTypes.array,
     onSendMessage: PropTypes.func.isRequired,
     typing: PropTypes.object,
-    user: PropTypes.object
+    user: PropTypes.object,
+    chat: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      status: PropTypes.string.isRequired
+    })
   };
 
   saveTicket = (values) => {
@@ -52,6 +65,7 @@ class Chat extends PureComponent {
       onSendMessage,
       intl,
       user,
+      chat,
       chatConfig
     } = this.props;
 
@@ -68,18 +82,31 @@ class Chat extends PureComponent {
                   key={key}
                   {...message}
                   message={intl.formatMessage(
-                    transMessages.agentAssigned,
-                    message
+                    ...createTrans(message, 'agentAssigned')
                   )}
                 />
               );
             case 'chat.ended':
               return (
-                <SystemMessage
-                  key={key}
-                  {...message}
-                  message={intl.formatMessage(transMessages.chatEnded, message)}
-                />
+                <Fragment>
+                  <SystemMessage
+                    key={key}
+                    {...message}
+                    message={intl.formatMessage(
+                      ...createTrans(message, 'chatEnded')
+                    )}
+                  />
+                  <TranscriptBlock
+                    key={`${key}-transcript`}
+                    onSend={onSendMessage}
+                    user={user}
+                  />
+                  <RatingBlock
+                    key={`${key}-rating`}
+                    onSend={onSendMessage}
+                    user={user}
+                  />
+                </Fragment>
               );
             case 'chat.noAgents':
               return (
@@ -87,8 +114,7 @@ class Chat extends PureComponent {
                   key={key}
                   {...message}
                   message={intl.formatMessage(
-                    transMessages.noAgentOnline,
-                    message
+                    ...createTrans(message, 'noAgentOnline')
                   )}
                 />
               );
@@ -106,28 +132,27 @@ class Chat extends PureComponent {
             case 'chat.block.createTicket':
               return <CreateTicketBlock key={key} {...message} />;
 
-            case 'chat.block.transcript':
-              return (
-                <TranscriptBlock
-                  key={key}
-                  onSend={onSendMessage}
-                  message={message}
-                />
-              );
-            case 'chat.block.rate':
-              return (
-                <RatingBlock
-                  key={key}
-                  onSend={onSendMessage}
-                  message={message}
-                />
-              );
-            default:
+            default: {
+              if (
+                message.origin === 'system' &&
+                message.message &&
+                message.message.phrase_id
+              ) {
+                return (
+                  <SystemMessage
+                    key={key}
+                    {...message}
+                    message={intl.formatMessage(...createTrans(message))}
+                  />
+                );
+              }
               return null;
+            }
           }
         })}
         {!!typing && <TypingMessage value={typing} />}
-        <MessageForm onSend={onSendMessage} />
+        {!!chat &&
+          chat.status !== 'ended' && <MessageForm onSend={onSendMessage} />}
       </Fragment>
     );
   }
