@@ -86,11 +86,26 @@ export default class PollingChatService extends BaseApiService {
     }
   }
 
-  async sendMessage(message, chat) {
-    await super.sendMessage(message, chat);
+  async sendToChat(data, chat) {
     return await apiClient.post(
       `/api/messenger/chat/${chat.id}-${chat.access_token}/send`,
-      message
+      data
+    );
+  }
+
+  async sendMessage(message, chat) {
+    await super.sendMessage(message, chat);
+    return this.sendToChat(message, chat);
+  }
+
+  async trackPage(data, chat) {
+    return this.sendToChat(
+      {
+        type: 'chat.track',
+        origin: 'user',
+        ...data
+      },
+      chat
     );
   }
 

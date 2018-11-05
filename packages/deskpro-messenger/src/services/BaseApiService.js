@@ -100,4 +100,13 @@ export default class BaseChatService {
       chats: []
     };
   }
+
+  /**
+   * Track page navigation.
+   * @param {object} data Object with `page_url` and `page_title` arguments.
+   * @param {object} chat Chat model.
+   */
+  async trackPage(data, chat) {
+    return { data, chat };
+  }
 }

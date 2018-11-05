@@ -9,7 +9,8 @@ import {
   switchMap,
   take,
   map,
-  mapTo
+  mapTo,
+  ignoreElements
 } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
@@ -95,9 +96,20 @@ const loadHistoryEpic = (action$) =>
     mergeMap(({ payload }) => {
       const activeChat = payload.find((c) => c.status === 'open');
       if (activeChat) {
-        return from(chatService.getChatHistory(activeChat)).pipe(
-          filter((messages) => messages.length > 0),
-          map(chatHistoryLoaded)
+        return merge(
+          from(chatService.getChatHistory(activeChat)).pipe(
+            filter((messages) => messages.length > 0),
+            map(chatHistoryLoaded)
+          ),
+          from(
+            chatService.trackPage(
+              {
+                page_url: window.parent.location.href,
+                page_title: window.parent.document.title
+              },
+              activeChat
+            )
+          ).pipe(ignoreElements())
         );
       }
       return empty();
