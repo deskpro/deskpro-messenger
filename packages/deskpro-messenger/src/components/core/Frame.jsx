@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import FrameComponent from 'react-frame-component';
 
 import { ConfigConsumer } from './ConfigContext';
 import asset from '../../utils/asset';
-let head;
+let baseHead;
 
 // in production env this the styles could be extracted only once when the app
 // is starting and then this styles could be loaded inside each frame.
@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
     const styleLink = loaderIframe.contentDocument.head.querySelector(
       'link[rel="stylesheet"]'
     ).href;
-    head = <link rel="stylesheet" href={styleLink} />;
+    baseHead = <link rel="stylesheet" href={styleLink} />;
   }
 }
 
@@ -38,12 +38,14 @@ const iFrameContainer =
 class Frame extends PureComponent {
   static propTypes = {
     themeVars: PropTypes.object,
-    style: PropTypes.object
+    style: PropTypes.object,
+    head: PropTypes.node
   };
 
   static defaultProps = {
     themeVars: {},
-    style: {}
+    style: {},
+    head: null
   };
 
   constructor(...args) {
@@ -57,13 +59,13 @@ class Frame extends PureComponent {
       const style = Array.from(document.head.querySelectorAll('style'))
         .map((el) => el.innerText)
         .join('\\n');
-      head = <style type="text/css">{style}</style>;
+      baseHead = <style type="text/css">{style}</style>;
     }
 
     this.el = window.parent.document.createElement('span');
 
     // TODO: replace with right styles inclusion.
-    head = <link rel="stylesheet" href={asset(`styles.css`)} />;
+    baseHead = <link rel="stylesheet" href={asset(`styles.css`)} />;
   }
 
   frame = React.createRef();
@@ -91,11 +93,16 @@ class Frame extends PureComponent {
   };
 
   render() {
-    const { children, style = {}, themeVars, ...props } = this.props;
+    const { children, style = {}, head, themeVars, ...props } = this.props;
 
     return ReactDOM.createPortal(
       <FrameComponent
-        head={head}
+        head={
+          <Fragment>
+            {head}
+            {baseHead}
+          </Fragment>
+        }
         frameBorder="0"
         scrolling="no"
         style={{ ...defaultIframeStyle, ...style }}

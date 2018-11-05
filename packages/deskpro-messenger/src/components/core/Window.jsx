@@ -27,6 +27,24 @@ const iframeStyle = {
   minHeight: '350px'
 };
 
+const extraStyles = (
+  <Fragment>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_editor.pkgd.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_style.min.css"
+    />
+  </Fragment>
+);
+
 const transMessages = {
   title: {
     id: 'app.title',
@@ -96,6 +114,7 @@ class MessengerWindow extends PureComponent {
 
     return (
       <Frame
+        head={extraStyles}
         style={{
           ...iframeStyle,
           height: this.state.iframeHeight,
