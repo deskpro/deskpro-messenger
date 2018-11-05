@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 import $ from 'jquery';
 import FroalaEditor from 'react-froala-wysiwyg';
+import apiService from '../../services/ApiService';
 window.$ = window.jQuery = $;
 
 /**
@@ -25,6 +26,7 @@ class MessageForm extends PureComponent {
   };
 
   state = { message: '' };
+  uploadedFiles = [];
 
   onFroalaInit = (_, editor) => {
     this.editor = editor;
@@ -53,7 +55,19 @@ class MessageForm extends PureComponent {
     return e;
   };
 
+  fileUploaded = (e, editor, response) => {
+    const { blob_id } = JSON.parse(response);
+    this.uploadedFiles.push(blob_id);
+  };
+
   froalaConfig = {
+    requestHeaders: {
+      'X-DESKPRO-VISITORID': apiService.visitorId
+    },
+    fileUploadMethod: 'POST',
+    fileUploadURL: `${
+      process.env.REACT_APP_API_BASE
+    }api/messenger/file/upload-file`,
     toolbarBottom: true,
     toolbarButtons: ['emoticons', 'insertFile', 'sendMessage'],
     shortcutsEnabled: ['bold', 'italic', 'underline'],
@@ -63,7 +77,8 @@ class MessageForm extends PureComponent {
     emoticonsUseImage: false,
     key: process.env.REACT_APP_FROALA_KEY,
     events: {
-      'froalaEditor.initialized': this.onFroalaInit
+      'froalaEditor.initialized': this.onFroalaInit,
+      'froalaEditor.file.uploaded': this.fileUploaded
     },
     pluginsEnabled: ['file', 'emoticons']
   };
@@ -72,9 +87,15 @@ class MessageForm extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault && e.preventDefault();
-    const { message } = this.state;
-    this.props.onSend(message);
-    this.setState({ message: '' });
+    if (!this.editor.core.isEmpty()) {
+      this.props.onSend({
+        message: this.state.message,
+        blobs: this.uploadedFiles
+      });
+      this.setState({ message: '' }, () => {
+        this.uploadedFiles = [];
+      });
+    }
   };
 
   render() {

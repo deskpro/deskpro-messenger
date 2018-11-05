@@ -44,14 +44,11 @@ class ChatScreen extends PureComponent {
 
   handleSendMessage = (message) => {
     if (message) {
-      const messageModel =
-        typeof message === 'string'
-          ? {
-              message,
-              origin: 'user',
-              type: 'chat.message'
-            }
-          : message;
+      const messageModel = {
+        origin: 'user',
+        type: 'chat.message',
+        ...(typeof message === 'string' ? { message } : message)
+      };
       this.props.sendMessage(messageModel, this.props.chatData);
     }
   };

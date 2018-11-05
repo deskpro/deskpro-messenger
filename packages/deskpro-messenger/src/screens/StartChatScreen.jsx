@@ -49,14 +49,11 @@ class StartChatScreen extends PureComponent {
     if (message) {
       const { department } = this.props;
 
-      const messageModel =
-        typeof message === 'string'
-          ? {
-              message,
-              origin: 'user',
-              type: 'chat.message'
-            }
-          : message;
+      const messageModel = {
+        origin: 'user',
+        type: 'chat.message',
+        ...(typeof message === 'string' ? { message } : message)
+      };
       this.createChat({ department: department }, { message: messageModel });
     }
   };

@@ -31,7 +31,7 @@ MessageBubble.propTypes = {
   avatar: PropTypes.string,
   origin: PropTypes.oneOf(['user', 'agent', 'system']).isRequired,
   message: PropTypes.string.isRequired,
-  author: PropTypes.string
+  name: PropTypes.string
 };
 
 export default MessageBubble;
