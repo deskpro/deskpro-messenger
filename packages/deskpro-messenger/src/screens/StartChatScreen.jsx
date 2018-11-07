@@ -36,23 +36,24 @@ class StartChatScreen extends PureComponent {
     : null;
 
   createChat = (values, meta = {}) => {
-    const { createChat, screenName } = this.props;
+    const { createChat, screenName, user } = this.props;
     createChat(values, {
       fromScreen: screenName,
+      ...user,
       ...meta
     });
   };
 
   onSendMessage = (message) => {
     if (message) {
-      const { department } = this.props;
+      const { department, user } = this.props;
 
       const messageModel = {
         origin: 'user',
         type: 'chat.message',
         ...(typeof message === 'string' ? { message } : message)
       };
-      this.createChat({ department: department }, { message: messageModel });
+      this.createChat({ department, ...user }, { message: messageModel });
     }
   };
 

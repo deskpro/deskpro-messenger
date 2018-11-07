@@ -96,5 +96,5 @@ export default produce(
 //#endregion
 
 //#region SELECTORS
-export const getUserData = (state) => state.guest;
+export const getUserData = (state) => _pick(state.guest, ['name', 'email']);
 //#endregion
