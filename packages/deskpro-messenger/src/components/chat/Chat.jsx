@@ -97,24 +97,15 @@ class Chat extends PureComponent {
               );
             case 'chat.ended':
               return (
-                <Fragment>
+                <Fragment key={key}>
                   <SystemMessage
-                    key={key}
                     {...message}
                     message={intl.formatMessage(
                       ...createTrans(message, 'chatEnded')
                     )}
                   />
-                  <TranscriptBlock
-                    key={`${key}-transcript`}
-                    onSend={onSendMessage}
-                    user={user}
-                  />
-                  <RatingBlock
-                    key={`${key}-rating`}
-                    onSend={onSendMessage}
-                    user={user}
-                  />
+                  <TranscriptBlock onSend={onSendMessage} user={user} />
+                  <RatingBlock onSend={onSendMessage} user={user} />
                 </Fragment>
               );
             case 'chat.noAgents':
