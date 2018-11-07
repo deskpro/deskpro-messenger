@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import asset from '../../utils/asset';
 
 const MessageBubble = ({ avatar, origin, message, name }) => (
   <div
@@ -9,13 +10,13 @@ const MessageBubble = ({ avatar, origin, message, name }) => (
       'is-outgoing': origin === 'user'
     })}
   >
-    {avatar && (
+    {origin !== 'system' && (
       <div
         className={classNames('dpmsg-AvatarCol', {
           'is-rounded': origin === 'user'
         })}
       >
-        <img src={avatar} alt={name} />
+        <img src={avatar || asset('img/docs/avatar-default.jpg')} alt={name} />
       </div>
     )}
     <div className="dpmsg-BubbleCol">
