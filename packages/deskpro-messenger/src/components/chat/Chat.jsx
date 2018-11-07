@@ -71,6 +71,15 @@ class Chat extends PureComponent {
 
     return (
       <Fragment>
+        {!!chatConfig.prompt && (
+          <MessageBubble
+            origin="system"
+            message={intl.formatMessage({
+              id: chatConfig.prompt,
+              defaultMessage: chatConfig.prompt
+            })}
+          />
+        )}
         {messages.map((message, index) => {
           const key = message.uuid || `${message.type}-${index}`;
           switch (message.type) {
@@ -151,8 +160,9 @@ class Chat extends PureComponent {
           }
         })}
         {!!typing && <TypingMessage value={typing} />}
-        {!!chat &&
-          chat.status !== 'ended' && <MessageForm onSend={onSendMessage} />}
+        {!!chat && chat.status !== 'ended' && (
+          <MessageForm onSend={onSendMessage} />
+        )}
       </Fragment>
     );
   }

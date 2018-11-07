@@ -36,11 +36,9 @@ class StartChatScreen extends PureComponent {
     : null;
 
   createChat = (values, meta = {}) => {
-    const { createChat, screenName, history } = this.props;
+    const { createChat, screenName } = this.props;
     createChat(values, {
-      prompt: this.promptMessage,
       fromScreen: screenName,
-      history,
       ...meta
     });
   };
@@ -59,14 +57,7 @@ class StartChatScreen extends PureComponent {
   };
 
   render() {
-    const {
-      department,
-      departments,
-      preChatForm,
-      prompt,
-      intl,
-      user
-    } = this.props;
+    const { department, departments, preChatForm, intl, user } = this.props;
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
 
@@ -88,13 +79,12 @@ class StartChatScreen extends PureComponent {
             formConfig={preChatForm}
           />
         )}
-        {viewMode === 'prompt' &&
-          prompt && (
-            <PromptMessage
-              prompt={this.promptMessage}
-              onSendMessage={this.onSendMessage}
-            />
-          )}
+        {viewMode === 'prompt' && (
+          <PromptMessage
+            prompt={this.promptMessage}
+            onSendMessage={this.onSendMessage}
+          />
+        )}
       </Block>
     );
   }

@@ -6,7 +6,7 @@ import MessageForm from './MessageForm';
 
 class PromptMessage extends PureComponent {
   static propTypes = {
-    prompt: PropTypes.string.isRequired,
+    prompt: PropTypes.string,
     onSendMessage: PropTypes.func.isRequired
   };
 
@@ -15,7 +15,7 @@ class PromptMessage extends PureComponent {
 
     return (
       <Fragment>
-        <MessageBubble origin="system" message={prompt} />
+        {!!prompt && <MessageBubble origin="system" message={prompt} />}
         <MessageForm onSend={onSendMessage} />
       </Fragment>
     );

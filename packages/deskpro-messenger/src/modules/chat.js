@@ -126,25 +126,11 @@ const createChatEpic = (action$, state$) =>
           const streams = [
             of(saveChat({ ...chat, fromScreen: meta.fromScreen }, meta))
           ];
-          if (meta.prompt) {
-            // create prompt message for chat dialog
-            streams.push(
-              of(
-                messageReceived({
-                  type: 'chat.message',
-                  origin: 'system',
-                  message: meta.prompt,
-                  chat: chat.id
-                })
-              )
-            );
-          }
           if (meta.message) {
             // send user's first message.
             streams.push(of(sendMessage(meta.message, chat)));
           }
           if (!hasAgentsAvailable(state)) {
-            console.log('no agents online');
             streams.push(of(noAgentsMessage(chat.id)));
           }
           return merge(...streams);
@@ -170,22 +156,22 @@ const agentAssignementTimeout = (action$, _, { config }) =>
           mapTo(true)
         )
       ).pipe(
-        switchMap(
-          (timedOut) => (timedOut ? of(noAgentsMessage(chat.id)) : empty())
+        switchMap((timedOut) =>
+          timedOut ? of(noAgentsMessage(chat.id)) : empty()
         )
       )
     )
   );
 
-const cacheNewChatEpic = (action$) =>
+const cacheNewChatEpic = (action$, _, { history }) =>
   action$.pipe(
     ofType(CHAT_SAVE_CHAT),
-    tap(({ payload, meta }) => {
+    tap(({ payload }) => {
       cache.setValue(['chats', []], {
         ...payload,
         status: 'open'
       });
-      meta.history.push(`/screens/active-chat/${payload.id}`);
+      history.push(`/screens/active-chat/${payload.id}`);
     }),
     skip()
   );
