@@ -12,7 +12,8 @@ before_deploy:
   - yarn lerna run build-storybook
 env:
   REACT_APP_API_SERVICE: 'polling'
-  REACT_APP_API_BASE: 'http://site35715.deskprodemo.com'
+  REACT_APP_API_BASE: 'http://site36000.deskprodemo.com'
+  REACT_APP_FROALA_KEY: 'MC1D2D1G2lG4J4A14A7D3D6F6C2C3F3gSXSE1LHAFJVCXCLS=='
 deploy:
   - provider: pages
     skip_cleanup: true

@@ -1,5 +1,7 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
+import { createMemoryHistory as createHistory } from 'history';
+import { Router } from 'react-router-dom';
 import { storiesOf } from '@storybook/react';
 // import { action } from '@storybook/addon-actions';
 // import { linkTo } from '@storybook/addon-links';
@@ -8,33 +10,16 @@ import {
   boolean,
   button,
   select,
-  color
+  color,
+  text
 } from '@storybook/addon-knobs';
 import _isPlainObject from 'lodash/isPlainObject';
 
 import App from '../App';
 import '../index.css';
 
-import currentUser from '../services/CurrentUser';
 import createStore from '../store';
-
-/**
- * Workaround for async app starting.
- */
-class InitCurrentUser extends PureComponent {
-  state = {};
-  componentDidMount() {
-    currentUser
-      .init(this.props.store)
-      .then((cache) => this.setState({ cache }));
-  }
-  render() {
-    if (_isPlainObject(this.state.cache)) {
-      return this.props.children(this.state.cache);
-    }
-    return null;
-  }
-}
+const history = createHistory();
 
 storiesOf('Messenger', module)
   .addDecorator(withKnobs)
@@ -272,16 +257,20 @@ storiesOf('Messenger', module)
       screens,
       greetings,
       enabledGreetings,
-      themeVars
+      themeVars,
+      user: {
+        name: text('User Name', 'Artem Berdyshev', 'Visitor'),
+        email: text('User Email', 'berdartem@gmail.com', 'Visitor')
+      }
     };
 
-    const store = createStore(undefined, config);
+    const store = createStore(undefined, { config, history });
 
     return (
       <Provider store={store}>
-        <InitCurrentUser store={store}>
-          {(cache) => <App config={config} cache={cache} />}
-        </InitCurrentUser>
+        <Router history={history}>
+          <App config={config} />
+        </Router>
       </Provider>
     );
   });
