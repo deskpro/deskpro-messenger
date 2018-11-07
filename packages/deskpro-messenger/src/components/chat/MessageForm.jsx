@@ -27,6 +27,7 @@ class MessageForm extends PureComponent {
 
   state = { message: '' };
   uploadedFiles = [];
+  froalaRef = React.createRef();
 
   onFroalaInit = (_, editor) => {
     this.editor = editor;
@@ -49,6 +50,7 @@ class MessageForm extends PureComponent {
       !(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
     ) {
       e.stopPropagation();
+      this.froalaRef.current.updateModel();
       this.handleSubmit(e);
       return false;
     }
@@ -87,7 +89,7 @@ class MessageForm extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault && e.preventDefault();
-    if (!this.editor.core.isEmpty()) {
+    if (this.state.message) {
       this.props.onSend({
         message: this.state.message,
         blobs: this.uploadedFiles
@@ -102,6 +104,7 @@ class MessageForm extends PureComponent {
     return (
       <div className="dpmsg-WrapTextarea">
         <FroalaEditor
+          ref={this.froalaRef}
           model={this.state.message}
           onModelChange={this.onChange}
           onManualControllerReady={this.onFroalaManualInit}
