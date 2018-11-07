@@ -1,7 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-import Loadable from 'react-loadable';
 
 import Frame from './Frame';
 import { withConfig } from './ConfigContext';
@@ -29,18 +28,27 @@ class Greetings extends PureComponent {
 
     return (
       <Frame style={frameStyles}>
-        <Switch>
-          {Object.entries(greetings).map(([greetingName, { greetingType }]) => (
-            <Route
-              key={greetingName}
-              path={`/greetings/${greetingName}`}
-              component={Loadable({
-                loader: () => import(`../../greetings/${greetingType}`),
-                loading: ({ error }) => (error ? <p>{error}</p> : '...')
-              })}
-            />
-          ))}
-        </Switch>
+        <Suspense
+          fallback={
+            <div className="dpmsg-Block">
+              <p>Loading...</p>
+            </div>
+          }
+        >
+          <Switch>
+            {Object.entries(greetings).map(
+              ([greetingName, { greetingType }]) => (
+                <Route
+                  key={greetingName}
+                  path={`/greetings/${greetingName}`}
+                  component={lazy(() =>
+                    import(`../../greetings/${greetingType}`)
+                  )}
+                />
+              )
+            )}
+          </Switch>
+        </Suspense>
       </Frame>
     );
   }
