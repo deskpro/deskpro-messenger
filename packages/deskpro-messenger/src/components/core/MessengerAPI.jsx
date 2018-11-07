@@ -1,5 +1,8 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { isWindowOpened, toggleWindow } from '../../modules/app';
 
 window.parent.DeskProMessenger = window.parent.DeskProMessenger || {};
 window.parent.DeskProMessenger.send = function(action, payload) {
@@ -15,7 +18,7 @@ class MessengerAPI extends PureComponent {
       pathname: PropTypes.string.isRequired
     }).isRequired,
     opened: PropTypes.bool,
-    onToggle: PropTypes.func.isRequired
+    toggleWindow: PropTypes.func.isRequired
   };
 
   handleMessage = (event) => {
@@ -31,13 +34,13 @@ class MessengerAPI extends PureComponent {
         }
         if (path) {
           this.props.history.push(path, { api: true, ...payload });
-          !this.props.opened && this.props.onToggle();
+          !this.props.opened && this.props.toggleWindow();
         }
         break;
 
       case 'to':
         this.props.history.push(payload, { api: true });
-        !this.props.opened && this.props.onToggle();
+        !this.props.opened && this.props.toggleWindow();
         break;
 
       default:
@@ -58,4 +61,7 @@ class MessengerAPI extends PureComponent {
   }
 }
 
-export default MessengerAPI;
+export default connect(
+  (state) => ({ opened: isWindowOpened(state) }),
+  { toggleWindow }
+)(MessengerAPI);

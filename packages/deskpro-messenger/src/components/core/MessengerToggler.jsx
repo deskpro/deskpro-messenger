@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 
 import Frame from './Frame';
+import { isWindowOpened, toggleWindow } from '../../modules/app';
 
 /*const buttonStyle = {
   width: '150px',
@@ -26,7 +28,7 @@ const iframeStyle = {
 class WidgetToggler extends PureComponent {
   static propTypes = {
     opened: PropTypes.bool,
-    onToggle: PropTypes.func.isRequired,
+    toggleWindow: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
     }).isRequired,
@@ -35,7 +37,7 @@ class WidgetToggler extends PureComponent {
     }).isRequired
   };
 
-  handleTogglerClick = e => {
+  handleTogglerClick = (e) => {
     e.preventDefault();
     if (
       !this.props.opened &&
@@ -43,7 +45,7 @@ class WidgetToggler extends PureComponent {
     ) {
       this.props.history.push(`/screens/index`);
     }
-    this.props.onToggle(e);
+    this.props.toggleWindow();
   };
 
   render() {
@@ -65,4 +67,7 @@ class WidgetToggler extends PureComponent {
   }
 }
 
-export default WidgetToggler;
+export default connect(
+  (state) => ({ opened: isWindowOpened(state) }),
+  { toggleWindow }
+)(WidgetToggler);

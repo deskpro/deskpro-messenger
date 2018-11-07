@@ -2,6 +2,7 @@ import React, { Fragment, PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 
 import Frame from './Frame';
 import { withConfig } from './ConfigContext';
@@ -9,6 +10,7 @@ import ScreenRoute from './ScreenRoute';
 import MessengerShell from './MessengerShell';
 import MuteButton from '../../containers/MuteButton';
 import BackButton from '../../containers/BackButton';
+import { isWindowOpened } from '../../modules/app';
 // import RandomImageFrame from '../poc/ImageFrame';
 // import LoremIpsumFrame from '../poc/ArticleFrame';
 
@@ -159,4 +161,8 @@ class MessengerWindow extends PureComponent {
   }
 }
 
-export default withConfig(injectIntl(MessengerWindow));
+export default withConfig(
+  injectIntl(
+    connect((state) => ({ opened: isWindowOpened(state) }))(MessengerWindow)
+  )
+);

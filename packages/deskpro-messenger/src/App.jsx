@@ -28,13 +28,11 @@ class App extends PureComponent {
     config: {}
   };
 
-  state = {
-    windowVisible: false
-  };
+  state = {};
 
   componentDidMount() {
-    this.props.appInit();
     this.loadLocale();
+    this.props.appInit();
   }
 
   componentDidUpdate(prevProps) {
@@ -66,13 +64,9 @@ class App extends PureComponent {
     }
   };
 
-  toggleWindow = () => {
-    this.setState({ windowVisible: !this.state.windowVisible });
-  };
-
   render() {
     const { config } = this.props;
-    const { windowVisible, translations } = this.state;
+    const { translations } = this.state;
 
     return (
       <ConfigProvider value={config}>
@@ -82,30 +76,11 @@ class App extends PureComponent {
         >
           <WithData>
             <Switch>
-              <Route
-                path="/screens"
-                render={(props) => <Window {...props} opened={windowVisible} />}
-              />
+              <Route path="/screens" component={Window} />
               <Route path="/greetings" component={Greetings} />
             </Switch>
-            <Route
-              render={(props) => (
-                <MessengerToggler
-                  opened={windowVisible}
-                  onToggle={this.toggleWindow}
-                  {...props}
-                />
-              )}
-            />
-            <Route
-              render={(props) => (
-                <MessengerAPI
-                  opened={windowVisible}
-                  onToggle={this.toggleWindow}
-                  {...props}
-                />
-              )}
-            />
+            <Route component={MessengerToggler} />
+            <Route component={MessengerAPI} />
           </WithData>
         </IntlProvider>
       </ConfigProvider>
