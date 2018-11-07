@@ -99,8 +99,7 @@
   background: transparent none repeat 0 0 / auto auto padding-box border-box scroll;
   border: none;
   border-collapse: collapse;
-  -o-border-image: none;
-     border-image: none;
+  border-image: none;
   border-radius: 0;
   border-spacing: 0;
   bottom: auto;
