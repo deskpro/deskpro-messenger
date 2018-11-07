@@ -28,6 +28,7 @@ const transMessages = {
 class RatingBlock extends PureComponent {
   static propTypes = {
     onSend: PropTypes.func.isRequired,
+    agent: PropTypes.object,
     user: PropTypes.shape({
       name: PropTypes.string,
       email: PropTypes.string
@@ -54,10 +55,10 @@ class RatingBlock extends PureComponent {
   }
 
   renderButtons() {
-    const { intl } = this.props;
+    const { intl, agent } = this.props;
     return (
       <ChatPrompt
-        header={intl.formatMessage(transMessages.questionHeader, this.state)}
+        header={intl.formatMessage(transMessages.questionHeader, agent)}
       >
         <div className="dpmsg-PromptContentEvaluation">
           <Button
@@ -82,10 +83,11 @@ class RatingBlock extends PureComponent {
   }
 
   renderSmile() {
+    const { intl, agent } = this.props;
     const { rating } = this.state;
     return (
       <ChatPrompt
-        header={this.props.intl.formatMessage(transMessages.thankYouHeader)}
+        header={intl.formatMessage(transMessages.thankYouHeader, agent)}
       >
         <div className="dpmsg-PromptContentEvaluation">
           <i

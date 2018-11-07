@@ -40,6 +40,7 @@ class Chat extends PureComponent {
     messages: PropTypes.array,
     onSendMessage: PropTypes.func.isRequired,
     typing: PropTypes.object,
+    agent: PropTypes.object,
     user: PropTypes.object,
     chat: PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -64,6 +65,7 @@ class Chat extends PureComponent {
       messages,
       onSendMessage,
       intl,
+      agent,
       user,
       chat,
       chatConfig
@@ -105,7 +107,7 @@ class Chat extends PureComponent {
                     )}
                   />
                   <TranscriptBlock onSend={onSendMessage} user={user} />
-                  <RatingBlock onSend={onSendMessage} user={user} />
+                  <RatingBlock onSend={onSendMessage} user={user} agent={agent} />
                 </Fragment>
               );
             case 'chat.noAgents':

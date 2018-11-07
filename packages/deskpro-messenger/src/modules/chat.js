@@ -18,6 +18,7 @@ import { createSelector } from 'reselect';
 import { produce } from 'immer';
 import _findLast from 'lodash/findLast';
 import _mapValues from 'lodash/mapValues';
+import _pick from 'lodash/pick';
 
 import asset from '../utils/asset';
 import uuid from '../utils/uuid';
@@ -300,6 +301,9 @@ const chatReducer = produce((draft, { type, payload }) => {
           return;
         }
       }
+      if (payload.type === 'chat.agentAssigned') {
+        draft.agent = _pick(payload, ['name', 'avatar']);
+      }
       draft.messages.push(payload);
       draft.typing = payload.origin === 'agent' ? undefined : draft.typing;
       if (payload.type === 'chat.ended') {
@@ -366,6 +370,7 @@ const getChat = createSelector(
   (chats, activeChat, chatId) =>
     chatId || activeChat ? chats[chatId || activeChat] : {}
 );
+export const getChatAgent = createSelector(getChat, chat => chat.agent || {});
 export const getChatData = createSelector(getChat, (chat) => chat.data);
 export const getMessages = createSelector(getChat, (chat) => chat.messages);
 export const getTypingState = createSelector(getChat, (chat) => chat.typing);

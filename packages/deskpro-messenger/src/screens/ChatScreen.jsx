@@ -12,13 +12,15 @@ import {
   sendMessage,
   getMessages,
   getTypingState,
-  getChatData
+  getChatData,
+  getChatAgent
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 import { getDepartments } from '../modules/info';
 
 class ChatScreen extends PureComponent {
   static propTypes = {
+    agent: PropTypes.object,
     user: PropTypes.object,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -54,7 +56,7 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const { departments, chatConfig, chatData, intl, user } = this.props;
+    const { departments, chatConfig, chatData, intl, user, agent } = this.props;
     const department = chatConfig.department
       ? departments[chatConfig.department]
       : {};
@@ -74,6 +76,7 @@ class ChatScreen extends PureComponent {
           onSendMessage={this.handleSendMessage}
           typing={this.props.typing}
           user={user}
+          agent={agent}
           chat={chatData}
           chatConfig={chatConfig}
         />
@@ -85,6 +88,7 @@ class ChatScreen extends PureComponent {
 const mapStateToProps = (state, props) => ({
   user: getUserData(state),
   chatData: getChatData(state, props),
+  agent: getChatAgent(state, props),
   messages: getMessages(state, props),
   typing: getTypingState(state, props),
   departments: getDepartments(state, props)

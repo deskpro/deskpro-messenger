@@ -41,9 +41,12 @@ class Greetings extends PureComponent {
                 <Route
                   key={greetingName}
                   path={`/greetings/${greetingName}`}
-                  component={lazy(() =>
-                    import(`../../greetings/${greetingType}`)
-                  )}
+                  render={(routerProps) =>
+                    React.createElement(
+                      lazy(() => import(`../../greetings/${greetingType}`)),
+                      routerProps
+                    )
+                  }
                 />
               )
             )}
