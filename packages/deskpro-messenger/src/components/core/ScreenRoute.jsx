@@ -1,10 +1,6 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import makeLoadable from 'react-loadable';
-
-const Loading = ({ error }) =>
-  error ? <div>Error: {error}</div> : <div>...</div>;
 
 class ScreenRoute extends React.PureComponent {
   static propTypes = {
@@ -14,10 +10,10 @@ class ScreenRoute extends React.PureComponent {
     screenName: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired
   };
-  component = makeLoadable({
-    loader: () => import(`../../screens/${this.props.screen.screenType}`),
-    loading: Loading
-  });
+
+  component = lazy(() =>
+    import(`../../screens/${this.props.screen.screenType}`)
+  );
 
   render() {
     const {
@@ -25,14 +21,17 @@ class ScreenRoute extends React.PureComponent {
       screenName
     } = this.props;
 
-    const Component = this.component;
-
     return (
-      <Route path={this.props.path}>
-        {(routeProps) => (
-          <Component {...routeProps} {...screenProps} screenName={screenName} />
-        )}
-      </Route>
+      <Route
+        path={this.props.path}
+        render={(routeProps) =>
+          React.createElement(this.component, {
+            ...routeProps,
+            ...screenProps,
+            screenName
+          })
+        }
+      />
     );
   }
 }

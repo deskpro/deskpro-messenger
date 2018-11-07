@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent, createRef } from 'react';
+import React, { Fragment, PureComponent, createRef, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
@@ -117,10 +117,10 @@ class MessengerWindow extends PureComponent {
     return (
       <Frame
         head={extraStyles}
+        hidden={!opened}
         style={{
           ...iframeStyle,
-          height: this.state.iframeHeight,
-          display: opened ? 'block' : 'none'
+          height: this.state.iframeHeight
         }}
       >
         <MessengerShell
@@ -128,26 +128,36 @@ class MessengerWindow extends PureComponent {
           ref={this.shellRef}
           title={intl.formatMessage(transMessages.title)}
         >
-          <Switch>
-            {Object.entries(this.props.screens)
-              .map(([screenName, screen]) => (
-                <ScreenRoute
-                  key={screenName}
-                  path={`/screens/${screenName}`}
-                  screen={screen}
-                  screenName={screenName}
-                />
-              ))
-              .concat([
-                <ScreenRoute
-                  key="chatScreen"
-                  path="/screens/active-chat/:chatId"
-                  screenName="chatScreen"
-                  screen={{ screenType: 'ChatScreen' }}
-                />,
-                <Redirect key="index-redirect" to="/screens/index" />
-              ])}
-          </Switch>
+          <div>
+            <Suspense
+              fallback={
+                <div className="dpmsg-Block">
+                  <p>Loading...</p>
+                </div>
+              }
+            >
+              <Switch>
+                {Object.entries(this.props.screens)
+                  .map(([screenName, screen]) => (
+                    <ScreenRoute
+                      key={screenName}
+                      path={`/screens/${screenName}`}
+                      screen={screen}
+                      screenName={screenName}
+                    />
+                  ))
+                  .concat([
+                    <ScreenRoute
+                      key="chatScreen"
+                      path="/screens/active-chat/:chatId"
+                      screenName="chatScreen"
+                      screen={{ screenType: 'ChatScreen' }}
+                    />,
+                    <Redirect key="index-redirect" to="/screens/index" />
+                  ])}
+              </Switch>
+            </Suspense>
+          </div>
           {/*<div className="dpmsg-Block">
             <button onClick={this.toggleImageFrame}>Show Random Image</button>
             <br />

@@ -28,8 +28,7 @@ export const loadAppInfoEpic = (action$) =>
   action$.pipe(
     ofType(SET_VISITOR),
     take(1),
-    switchMap(() => from(apiService.getAppInfo())),
-    map(appInfoLoaded)
+    switchMap(() => from(apiService.getAppInfo()).pipe(map(appInfoLoaded)))
   );
 //#endregion
 
