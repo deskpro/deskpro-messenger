@@ -74,7 +74,7 @@ class MessageForm extends PureComponent {
       process.env.REACT_APP_API_BASE
     }api/messenger/file/upload-file`,
     toolbarBottom: true,
-    toolbarButtons: ['emoticons', 'insertFile', 'sendMessage'],
+    toolbarButtons: ['emoticons', 'insertFile', 'insertImage', 'sendMessage'],
     shortcutsEnabled: ['bold', 'italic', 'underline'],
     enter: $.FroalaEditor.ENTER_BR,
     placeholderText: false,
@@ -83,9 +83,10 @@ class MessageForm extends PureComponent {
     key: process.env.REACT_APP_FROALA_KEY,
     events: {
       'froalaEditor.initialized': this.onFroalaInit,
-      'froalaEditor.file.uploaded': this.fileUploaded
+      'froalaEditor.file.uploaded': this.fileUploaded,
+      'froalaEditor.image.uploaded': this.fileUploaded
     },
-    pluginsEnabled: ['file', 'emoticons']
+    pluginsEnabled: ['file', 'image', 'emoticons']
   };
 
   onChange = (message) => this.setState({ message });
