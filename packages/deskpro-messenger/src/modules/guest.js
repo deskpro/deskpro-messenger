@@ -8,7 +8,6 @@ import { switchMap, filter, tap, map } from 'rxjs/operators';
 
 import { APP_INIT } from './app';
 import { CHAT_START, CHAT_SEND_MESSAGE } from './chat';
-import apiService from '../services/ApiService';
 import cache from '../services/Cache';
 import { generateVisitorId } from '../utils/visitorId';
 
@@ -21,13 +20,13 @@ export const setVisitor = (payload) => ({ type: SET_VISITOR, payload });
 //#endregion
 
 //#region EPICS
-const initVisitorEpic = (action$, _, { config }) =>
+const initVisitorEpic = (action$, _, { config, api }) =>
   action$.pipe(
     ofType(APP_INIT),
     switchMap(() => {
       const visitorId = cache.getValue('visitor_id');
       if (visitorId) {
-        return from(apiService.loadUser(visitorId)).pipe(
+        return from(api.loadUser(visitorId)).pipe(
           map((user) =>
             produce(user, (draft) => {
               draft.guest = {
@@ -40,7 +39,7 @@ const initVisitorEpic = (action$, _, { config }) =>
         );
       } else {
         const visitorId = generateVisitorId();
-        apiService.visitorId = visitorId;
+        api.visitorId = visitorId;
         return of({
           visitor_id: visitorId,
           guest: config.user || {

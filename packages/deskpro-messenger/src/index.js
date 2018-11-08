@@ -15,7 +15,7 @@ const config = window.parent.DESKPRO_MESSENGER_OPTIONS;
 if (config.jwt) {
   apiService.jwt = config.jwt;
 }
-const store = createStore(undefined, { config, history });
+const store = createStore(undefined, { config, history, api: apiService });
 
 ReactDOM.render(
   <Provider store={store}>

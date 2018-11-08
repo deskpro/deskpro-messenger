@@ -1,11 +1,9 @@
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, take } from 'rxjs/operators';
 import { produce } from 'immer';
 
-import apiService from '../services/ApiService';
 import { SET_VISITOR } from './guest';
-import { take } from 'rxjs/operators';
 
 //#region ACTION TYPES
 export const LOAD_APP_INFO = 'LOAD_APP_INFO';
@@ -24,11 +22,11 @@ export const appInfoLoaded = (data) => ({
 //#endregion
 
 //#region EPICS
-export const loadAppInfoEpic = (action$) =>
+export const loadAppInfoEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(SET_VISITOR),
     take(1),
-    switchMap(() => from(apiService.getAppInfo()).pipe(map(appInfoLoaded)))
+    switchMap(() => from(api.getAppInfo()).pipe(map(appInfoLoaded)))
   );
 //#endregion
 

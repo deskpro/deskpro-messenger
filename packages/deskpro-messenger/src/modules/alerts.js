@@ -5,7 +5,6 @@ import { map, tap, switchMap, takeUntil, take } from 'rxjs/operators';
 import { APP_SHUTDOWN } from './app';
 import { SET_VISITOR } from './guest';
 import { messageReceived } from './chat';
-import apiService from '../services/ApiService';
 
 //#region ACTION TYPES
 const START_LISTENING = 'START_LISTENING';
@@ -24,21 +23,21 @@ export const stopListeningAlerts = () => ({
 //#endregion
 
 //#region EPICS
-const createAlertsObservable = () =>
+const createAlertsObservable = (api) =>
   new Observable((observer) => {
     const callback = (message) => observer.next(message);
-    apiService.subscribe(callback);
-    return () => apiService.unsubscribe(callback);
+    api.subscribe(callback);
+    return () => api.unsubscribe(callback);
   });
 
-export const listenForAlertsEpic = (action$) =>
+export const listenForAlertsEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(SET_VISITOR),
     take(1),
     tap(() => {
-      apiService.startListening();
+      api.startListening();
     }),
-    switchMap(createAlertsObservable),
+    switchMap(() => createAlertsObservable(api)),
     map((alert) => {
       if (alert.type.startsWith('chat.')) {
         return messageReceived(alert);
@@ -49,7 +48,7 @@ export const listenForAlertsEpic = (action$) =>
       action$.pipe(
         ofType(STOP_LISTENING, APP_SHUTDOWN),
         tap(() => {
-          apiService.stopListening();
+          api.stopListening();
         })
       )
     )

@@ -23,7 +23,6 @@ import _pick from 'lodash/pick';
 import asset from '../utils/asset';
 import uuid from '../utils/uuid';
 import { hasAgentsAvailable } from './info';
-import chatService from '../services/ApiService';
 import cache from '../services/Cache';
 import { SET_VISITOR } from './guest';
 
@@ -91,19 +90,19 @@ const initChatsEpic = (action$) =>
     tap(({ payload }) => cache.mergeArray('chats', payload.chats)),
     map(() => initChats(cache.getValue('chats') || []))
   );
-const loadHistoryEpic = (action$) =>
+const loadHistoryEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(CHAT_INIT_CHATS),
     mergeMap(({ payload }) => {
       const activeChat = payload.find((c) => c.status === 'open');
       if (activeChat) {
         return merge(
-          from(chatService.getChatHistory(activeChat)).pipe(
+          from(api.getChatHistory(activeChat)).pipe(
             filter((messages) => messages.length > 0),
             map(chatHistoryLoaded)
           ),
           from(
-            chatService.trackPage(
+            api.trackPage(
               {
                 page_url: window.parent.location.href,
                 page_title: window.parent.document.title
@@ -116,11 +115,11 @@ const loadHistoryEpic = (action$) =>
       return empty();
     })
   );
-const createChatEpic = (action$, state$) =>
+const createChatEpic = (action$, state$, { api }) =>
   action$.pipe(
     ofType(CHAT_START),
     switchMap(({ payload, meta }) => {
-      return from(chatService.createChat(payload)).pipe(
+      return from(api.createChat(payload)).pipe(
         withLatestFrom(state$),
         mergeMap(([chat, state]) => {
           // save new chat
@@ -222,12 +221,12 @@ const noChatAnswerEpic = (action$, state$, { config }) =>
     })
   );
 
-const sendMessagesEpic = (action$) =>
+const sendMessagesEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(CHAT_SEND_MESSAGE),
     tap(({ payload, meta: { chat } }) => {
       if (chat) {
-        chatService.sendMessage(
+        api.sendMessage(
           {
             ...payload,
             chat: chat.id,
