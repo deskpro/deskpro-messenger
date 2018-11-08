@@ -1,8 +1,7 @@
 import _uniqueId from 'lodash/uniqueId';
 import _sample from 'lodash/sample';
 
-import asset from '../utils/asset';
-import BaseApiService from './BaseApiService';
+import asset from '../../utils/asset';
 
 const NETWORK_LATENCY = 2000;
 
@@ -23,18 +22,37 @@ const sleep = (time) =>
     setTimeout(res, time);
   });
 
-export default class FakeChatService extends BaseApiService {
+export default class FakeChatService {
   agentAssigned = false;
   // simulate "no available agents" one of 3 times.
   hasAgentsOnline = rand() % 3 !== 0;
 
+  /**
+   * Create Chat instance.
+   *
+   * @param {object} data Parameters of the chat.
+   *  — department (required) — Department ID of the chat
+   *  — name — Name of the user (required for the fake chat)
+   *  — submitted values from the pre-chat form (if configured)
+   *  — message (object) — first message (if there is no pre-chat form)
+   *  @returns {object} Chat model.
+   */
   async createChat(data) {
-    await super.createChat(data);
+    this.userData = data;
     const chatId = _uniqueId('chat-');
     if (this.hasAgentsOnline) {
       this.assignAgent(chatId);
     }
     return { id: chatId };
+  }
+
+  /**
+   * Loads chat history.
+   * @param {object} chat Chat model
+   * @returns {Array}
+   */
+  async getChatHistory(chat) {
+    return [];
   }
 
   async assignAgent(chatId) {
@@ -64,7 +82,7 @@ export default class FakeChatService extends BaseApiService {
   }
 
   async onMessageReceived(message) {
-    super.onMessageReceived(message);
+    // TODO: push to notifier
     if (message.type === 'chat.ended') {
       this.isRunning = false;
       this.hasUnasweredMessages = false;
@@ -81,8 +99,13 @@ export default class FakeChatService extends BaseApiService {
     });
   }
 
+  /**
+   * Send user's message to the chat.
+   * @param {object} message Message model
+   * @param {object} chat Chat model
+   */
   async sendMessage(message, chat) {
-    await super.sendMessage(
+    await this.onMessageReceived(
       {
         ...message,
         avatar: asset('img/docs/avatar.png'),
@@ -173,5 +196,14 @@ export default class FakeChatService extends BaseApiService {
       ],
       agents_online: this.hasAgentsOnline ? [{ id: 23, name: 'John Doe' }] : []
     };
+  }
+
+  /**
+   * Track page navigation.
+   * @param {object} data Object with `page_url` and `page_title` arguments.
+   * @param {object} chat Chat model.
+   */
+  async trackPage(data, chat) {
+    return { data, chat };
   }
 }

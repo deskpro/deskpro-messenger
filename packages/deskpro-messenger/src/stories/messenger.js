@@ -16,6 +16,7 @@ import {
 import _isPlainObject from 'lodash/isPlainObject';
 
 import App from '../App';
+import createApiService from '../services/api';
 import '../index.css';
 
 import createStore from '../store';
@@ -24,6 +25,10 @@ const history = createHistory();
 storiesOf('Messenger', module)
   .addDecorator(withKnobs)
   .add('Messenger', () => {
+    const api = createApiService(
+      select('API Type', ['real', 'fake'], 'real', 'API')
+    );
+
     const screens = {
       index: {
         screenType: 'Blocks',
@@ -264,7 +269,7 @@ storiesOf('Messenger', module)
       }
     };
 
-    const store = createStore(undefined, { config, history });
+    const store = createStore(undefined, { config, history, api });
 
     return (
       <Provider store={store}>

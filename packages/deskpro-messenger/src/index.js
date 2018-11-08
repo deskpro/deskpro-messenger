@@ -8,14 +8,15 @@ import { Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import createStore from './store';
-import apiService from './services/ApiService';
+import createApiService from './services/api';
 
 const history = createHistory();
+const api = createApiService();
 const config = window.parent.DESKPRO_MESSENGER_OPTIONS;
 if (config.jwt) {
-  apiService.jwt = config.jwt;
+  api.jwt = config.jwt;
 }
-const store = createStore(undefined, { config, history, api: apiService });
+const store = createStore(undefined, { config, history, api });
 
 ReactDOM.render(
   <Provider store={store}>

@@ -3,7 +3,7 @@ import { ofType } from 'redux-observable';
 import { map, tap, switchMap, takeUntil, take } from 'rxjs/operators';
 
 import { APP_SHUTDOWN } from './app';
-import { SET_VISITOR } from './guest';
+import { LOAD_APP_INFO_SUCCESS } from './info';
 import { messageReceived } from './chat';
 
 //#region ACTION TYPES
@@ -26,16 +26,16 @@ export const stopListeningAlerts = () => ({
 const createAlertsObservable = (api) =>
   new Observable((observer) => {
     const callback = (message) => observer.next(message);
-    api.subscribe(callback);
-    return () => api.unsubscribe(callback);
+    api.notifier.subscribe(callback);
+    return () => api.notifier.unsubscribe(callback);
   });
 
 export const listenForAlertsEpic = (action$, _, { api }) =>
   action$.pipe(
-    ofType(SET_VISITOR),
+    ofType(LOAD_APP_INFO_SUCCESS),
     take(1),
     tap(() => {
-      api.startListening();
+      api.notifier.startListening();
     }),
     switchMap(() => createAlertsObservable(api)),
     map((alert) => {
@@ -48,7 +48,7 @@ export const listenForAlertsEpic = (action$, _, { api }) =>
       action$.pipe(
         ofType(STOP_LISTENING, APP_SHUTDOWN),
         tap(() => {
-          api.stopListening();
+          api.notifier.stopListening();
         })
       )
     )
