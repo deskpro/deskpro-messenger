@@ -1,6 +1,6 @@
 import axios from 'axios';
 import _pick from 'lodash/pick';
-import createNotificationClient from '../notifications';
+import createNotificationStream from '../notifications';
 
 const apiClient = axios.create({
   baseURL: process.env.REACT_APP_API_BASE,
@@ -49,6 +49,21 @@ export default class ApiService {
     return pickChat(response.data.data);
   }
 
+  getAlertsStream() {
+    if (!this.alertsStream) {
+      if (!this.clientConfig) {
+        throw new Error('There is not config to create notification client');
+      }
+
+      this.alertsStream = createNotificationStream(
+        this.clientConfig,
+        apiClient,
+        this.visitorId
+      );
+    }
+    return this.alertsStream;
+  }
+
   async sendToChat(data, chat) {
     return await apiClient.post(
       `/api/messenger/chat/${chat.id}-${chat.access_token}/send`,
@@ -62,7 +77,7 @@ export default class ApiService {
    * @param {object} chat Chat model
    */
   async sendMessage(message, chat) {
-    await this.notifier.onNotificationReceived(message);
+    // await this.notifier.onNotificationReceived(message);
     return this.sendToChat(message, chat);
   }
 
@@ -107,11 +122,7 @@ export default class ApiService {
   async getAppInfo() {
     return apiClient.get('/api/messenger/user/info').then(({ data }) => {
       if (typeof data.client === 'object') {
-        this.notifier = createNotificationClient(
-          data.client,
-          apiClient,
-          this.visitorId
-        );
+        this.clientConfig = data.client;
       }
       return data;
     });
@@ -123,9 +134,6 @@ export default class ApiService {
   async loadUser(visitorId) {
     this.visitorId = visitorId;
     return apiClient.get(`/api/messenger/user`).then(({ data }) => {
-      if (data.last_action_alert) {
-        this.lastActionAlert = data.last_action_alert;
-      }
       return {
         ...data,
         chats: (data.chats || []).map(pickChat)
