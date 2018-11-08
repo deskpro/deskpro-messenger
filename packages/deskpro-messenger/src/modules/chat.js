@@ -40,6 +40,7 @@ export const CHAT_START = 'CHAT_START';
 export const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
 export const CHAT_INIT_CHATS = 'CHAT_INIT_CHATS';
 export const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
+export const CHAT_SEND_MESSAGE_SUCCESS = 'CHAT_SEND_MESSAGE_SUCCESS';
 export const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
 export const CHAT_HISTORY_LOADED = 'CHAT_HISTORY_LOADED';
 export const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
@@ -76,6 +77,11 @@ export const noAgentsMessage = (chat) =>
   });
 export const sendMessage = (message, chat) => ({
   type: CHAT_SEND_MESSAGE,
+  payload: message,
+  meta: { chat }
+});
+export const messageSent = (message, chat) => ({
+  type: CHAT_SEND_MESSAGE_SUCCESS,
   payload: message,
   meta: { chat }
 });
@@ -224,29 +230,34 @@ const noChatAnswerEpic = (action$, state$, { config }) =>
 const sendMessagesEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(CHAT_SEND_MESSAGE),
-    tap(({ payload, meta: { chat } }) => {
+    map(({ payload, meta: { chat } }) => {
       if (chat) {
-        api.sendMessage(
-          {
-            ...payload,
-            chat: chat.id,
-            uuid: uuid()
-          },
-          chat
-        );
+        const message = {
+          ...payload,
+          chat: chat.id,
+          uuid: uuid()
+        };
+        return [message, chat];
       }
+      throw new Error('Cannot send a message to the undefined chat.');
     }),
-    skip()
+    tap((args) => {
+      api.sendMessage(...args);
+    }),
+    map((args) => messageSent(...args))
   );
 
 const soundEpic = (action$, state$) =>
   action$.pipe(
-    ofType(CHAT_MESSAGE_RECEIVED),
+    ofType(CHAT_MESSAGE_RECEIVED, CHAT_SEND_MESSAGE_SUCCESS),
     withLatestFrom(state$),
     filter(
-      ([{ payload: message }, state]) =>
-        message.type === 'chat.message' &&
-        ['user', 'agent'].includes(message.origin) &&
+      ([{ type, payload: message }, state]) =>
+        ((type === CHAT_MESSAGE_RECEIVED &&
+          message.type === 'chat.message' &&
+          message.origin === 'agent') ||
+          (type === CHAT_SEND_MESSAGE_SUCCESS &&
+            message.type === 'chat.message')) &&
         !isMuted(state)
     ),
     tap(([{ payload: message }]) => {
@@ -274,6 +285,10 @@ export const chatEpic = combineEpics(
 const emptyChat = { messages: [] };
 const chatReducer = produce((draft, { type, payload }) => {
   switch (type) {
+    case CHAT_SEND_MESSAGE_SUCCESS:
+      draft.messages.push(payload);
+      return;
+
     case CHAT_MESSAGE_RECEIVED:
       if (payload.type.startsWith('chat.typing.')) {
         draft.typing = payload.type === 'chat.typing.start' ? payload : false;
@@ -334,7 +349,9 @@ export default produce(
           draft.activeChat = id;
         }
       });
-    } else if (type === CHAT_MESSAGE_RECEIVED) {
+    } else if (
+      [CHAT_MESSAGE_RECEIVED, CHAT_SEND_MESSAGE_SUCCESS].includes(type)
+    ) {
       draft.chats[payload.chat] = chatReducer(
         draft.chats[payload.chat],
         action
@@ -369,7 +386,7 @@ const getChat = createSelector(
   (chats, activeChat, chatId) =>
     chatId || activeChat ? chats[chatId || activeChat] : {}
 );
-export const getChatAgent = createSelector(getChat, chat => chat.agent || {});
+export const getChatAgent = createSelector(getChat, (chat) => chat.agent || {});
 export const getChatData = createSelector(getChat, (chat) => chat.data);
 export const getMessages = createSelector(getChat, (chat) => chat.messages);
 export const getTypingState = createSelector(getChat, (chat) => chat.typing);
