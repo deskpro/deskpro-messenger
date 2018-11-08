@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 import $ from 'jquery';
 import FroalaEditor from 'react-froala-wysiwyg';
-import apiService from '../../services/ApiService';
+
+import { withVisitorId } from '../../containers/withVisitorId';
+
 window.$ = window.jQuery = $;
 
 /**
@@ -22,6 +24,7 @@ const extendFroala = () => {
 
 class MessageForm extends PureComponent {
   static propTypes = {
+    visitorId: PropTypes.string.isRequired,
     onSend: PropTypes.func.isRequired
   };
 
@@ -64,7 +67,7 @@ class MessageForm extends PureComponent {
 
   froalaConfig = {
     requestHeaders: {
-      'X-DESKPRO-VISITORID': apiService.visitorId
+      'X-DESKPRO-VISITORID': this.props.visitorId
     },
     fileUploadMethod: 'POST',
     fileUploadURL: `${
@@ -115,4 +118,4 @@ class MessageForm extends PureComponent {
   }
 }
 
-export default MessageForm;
+export default withVisitorId(MessageForm);

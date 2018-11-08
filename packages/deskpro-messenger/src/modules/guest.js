@@ -5,6 +5,7 @@ import _pick from 'lodash/pick';
 import { from, of } from 'rxjs';
 import { ofType, combineEpics } from 'redux-observable';
 import { switchMap, filter, tap, map } from 'rxjs/operators';
+import { createSelector } from 'reselect';
 
 import { APP_INIT } from './app';
 import { CHAT_START, CHAT_SEND_MESSAGE } from './chat';
@@ -95,5 +96,12 @@ export default produce(
 //#endregion
 
 //#region SELECTORS
-export const getUserData = (state) => _pick(state.guest, ['name', 'email']);
+const getGuestState = (state) => state.guest;
+export const getUserData = createSelector(getGuestState, (guest) =>
+  _pick(guest, ['name', 'email'])
+);
+export const getVisitorId = createSelector(
+  getGuestState,
+  (guest) => guest.visitorId
+);
 //#endregion
