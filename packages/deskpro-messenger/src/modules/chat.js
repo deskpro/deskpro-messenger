@@ -352,10 +352,12 @@ export default produce(
     } else if (
       [CHAT_MESSAGE_RECEIVED, CHAT_SEND_MESSAGE_SUCCESS].includes(type)
     ) {
-      draft.chats[payload.chat] = chatReducer(
-        draft.chats[payload.chat],
-        action
-      );
+      if (payload.chat in draft.chats) {
+        draft.chats[payload.chat] = chatReducer(
+          draft.chats[payload.chat],
+          action
+        );
+      }
       if (payload.type === 'chat.ended' && payload.chat === draft.activeChat) {
         delete draft.activeChat;
       }
