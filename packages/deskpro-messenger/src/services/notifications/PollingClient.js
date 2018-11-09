@@ -13,7 +13,7 @@ export default class PollingClient extends AbstractClient {
    */
   constructor(options, apiClient, visitorId) {
     super(options, apiClient, visitorId);
-    this.lastActionAlert = options.lastAlert;
+    this.lastActionAlert = options.last_alert;
   }
 
   /**
