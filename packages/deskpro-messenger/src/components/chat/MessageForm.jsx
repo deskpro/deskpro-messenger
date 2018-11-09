@@ -30,6 +30,7 @@ class MessageForm extends PureComponent {
 
   state = { message: '' };
   uploadedFiles = [];
+  wrapperRef = React.createRef();
   froalaRef = React.createRef();
 
   onFroalaInit = (_, editor) => {
@@ -65,16 +66,29 @@ class MessageForm extends PureComponent {
     this.uploadedFiles.push(blob_id);
   };
 
+  updateImagePopupContainer = (e, editor) => {
+    // const image = editor.image.get();
+    console.log(e, editor);
+    const froala = this.editorControls.getEditor();
+    // editor.popups.setContainer('image.insert', $(this.wrapperRef.current));
+    froala('popups.setContainer', 'image.insert', $(this.wrapperRef.current));
+  };
+
   froalaConfig = {
     requestHeaders: {
       'X-DESKPRO-VISITORID': this.props.visitorId
     },
+    imageUploadMethod: 'POST',
+    imageUploadURL: `${
+      process.env.REACT_APP_API_BASE
+    }api/messenger/file/upload-file`,
     fileUploadMethod: 'POST',
     fileUploadURL: `${
       process.env.REACT_APP_API_BASE
     }api/messenger/file/upload-file`,
     toolbarBottom: true,
     toolbarButtons: ['emoticons', 'insertFile', 'insertImage', 'sendMessage'],
+    imageEditButtons: [],
     shortcutsEnabled: ['bold', 'italic', 'underline'],
     enter: $.FroalaEditor.ENTER_BR,
     placeholderText: false,
@@ -84,7 +98,9 @@ class MessageForm extends PureComponent {
     events: {
       'froalaEditor.initialized': this.onFroalaInit,
       'froalaEditor.file.uploaded': this.fileUploaded,
-      'froalaEditor.image.uploaded': this.fileUploaded
+      'froalaEditor.image.uploaded': this.fileUploaded,
+      'froalaEditor.popups.show.image.insert': this.updateImagePopupContainer,
+      'froalaEditor.popups.hide.image.insert': this.updateImagePopupContainer
     },
     pluginsEnabled: ['file', 'image', 'emoticons']
   };
@@ -106,7 +122,7 @@ class MessageForm extends PureComponent {
 
   render() {
     return (
-      <div className="dpmsg-WrapTextarea">
+      <div className="dpmsg-WrapTextarea" ref={this.wrapperRef}>
         <FroalaEditor
           ref={this.froalaRef}
           model={this.state.message}
