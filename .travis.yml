@@ -8,7 +8,7 @@ cache:
 install:
   - yarn
   - yarn bootstrap
-script: yarn build
+script: yarn lerna run build
 before_deploy:
   - yarn lerna run build-storybook
 env:
