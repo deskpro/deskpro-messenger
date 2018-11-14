@@ -1,12 +1,13 @@
 import React, { createContext } from 'react';
 
+export const ConfigContext = createContext({ screens: {} });
 export const {
   Consumer: ConfigConsumer,
   Provider: ConfigProvider
-} = createContext({ screens: {} });
+} = ConfigContext;
 
-export const withConfig = WrappedComponent => props => (
+export const withConfig = (WrappedComponent) => (props) => (
   <ConfigConsumer>
-    {context => <WrappedComponent {...props} {...context} />}
+    {(context) => <WrappedComponent {...props} {...context} />}
   </ConfigConsumer>
 );

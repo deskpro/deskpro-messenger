@@ -6,6 +6,7 @@ import 'froala-editor/js/froala_editor.pkgd.min.js';
 import $ from 'jquery';
 import FroalaEditor from 'react-froala-wysiwyg';
 
+import { ConfigContext } from '../core/ConfigContext';
 import { withFrameContext } from '../core/Frame';
 import { withVisitorId } from '../../containers/withVisitorId';
 
@@ -34,6 +35,8 @@ class MessageForm extends PureComponent {
     onSend: PropTypes.func.isRequired,
     frameContext: PropTypes.object.isRequired
   };
+
+  static contextType = ConfigContext;
 
   state = { message: '' };
   uploadedFiles = [];
@@ -78,13 +81,9 @@ class MessageForm extends PureComponent {
       'X-DESKPRO-VISITORID': this.props.visitorId
     },
     imageUploadMethod: 'POST',
-    imageUploadURL: `${
-      process.env.REACT_APP_API_BASE
-    }api/messenger/file/upload-file`,
+    imageUploadURL: `${this.context.helpdeskURL}api/messenger/file/upload-file`,
     fileUploadMethod: 'POST',
-    fileUploadURL: `${
-      process.env.REACT_APP_API_BASE
-    }api/messenger/file/upload-file`,
+    fileUploadURL: `${this.context.helpdeskURL}api/messenger/file/upload-file`,
     toolbarBottom: true,
     toolbarButtons: ['emoticons', 'insertFile', 'insertImage', 'sendMessage'],
     imageEditButtons: [],
@@ -93,7 +92,7 @@ class MessageForm extends PureComponent {
     placeholderText: false,
     charCounterCount: false,
     emoticonsUseImage: false,
-    key: process.env.REACT_APP_FROALA_KEY,
+    key: this.context.froalaKey,
     events: {
       'froalaEditor.initialized': this.onFroalaInit,
       'froalaEditor.file.uploaded': this.fileUploaded,

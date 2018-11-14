@@ -11,11 +11,12 @@ import createStore from './store';
 import createApiService from './services/api';
 
 const history = createHistory();
-const api = createApiService();
-const config = window.parent.DESKPRO_MESSENGER_OPTIONS;
-if (config.jwt) {
-  api.jwt = config.jwt;
-}
+const config = {
+  helpdeskURL: process.env.REACT_APP_API_BASE,
+  froalaKey: process.env.REACT_APP_FROALA_KEY,
+  ...window.parent.DESKPRO_MESSENGER_OPTIONS
+};
+const api = createApiService(config);
 const store = createStore(undefined, { config, history, api });
 
 ReactDOM.render(

@@ -2,15 +2,6 @@ import axios from 'axios';
 import _pick from 'lodash/pick';
 import createNotificationStream from '../notifications';
 
-const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE,
-  headers: {
-    Accept: 'application/json',
-    'Cache-Control': 'no-cache',
-    'Content-Type': 'application/json; charset=utf-8'
-  }
-});
-
 const pickChat = (chat) =>
   _pick(chat, ['id', 'access_token', 'department', 'status']);
 
@@ -18,15 +9,24 @@ export default class ApiService {
   polling = false;
   _visitorId = null;
 
+  constructor(config = {}) {
+    this.apiClient = axios.create({
+      baseURL: config.helpdeskURL,
+      headers: {
+        Accept: 'application/json',
+        'Cache-Control': 'no-cache',
+        'Content-Type': 'application/json; charset=utf-8',
+        'X-JWT-TOKEN': config.jwt
+      }
+    });
+  }
+
   set visitorId(value) {
     this._visitorId = value;
-    apiClient.defaults.headers['X-DESKPRO-VISITORID'] = value;
+    this.apiClient.defaults.headers['X-DESKPRO-VISITORID'] = value;
   }
   get visitorId() {
     return this._visitorId;
-  }
-  set jwt(value) {
-    apiClient.defaults.headers['X-JWT-TOKEN'] = value;
   }
 
   /**
@@ -41,7 +41,7 @@ export default class ApiService {
    */
   async createChat(data) {
     const { department: chat_department, ...chatValues } = data;
-    const response = await apiClient.post('/api/messenger/chat', {
+    const response = await this.apiClient.post('/api/messenger/chat', {
       ...chatValues,
       chat_department
     });
@@ -57,7 +57,7 @@ export default class ApiService {
 
       this.alertsStream = createNotificationStream(
         this.clientConfig,
-        apiClient,
+        this.apiClient,
         this.visitorId
       );
     }
@@ -65,7 +65,7 @@ export default class ApiService {
   }
 
   async sendToChat(data, chat) {
-    return await apiClient.post(
+    return await this.apiClient.post(
       `/api/messenger/chat/${chat.id}-${chat.access_token}/send`,
       data
     );
@@ -103,7 +103,7 @@ export default class ApiService {
    * @returns {Array}
    */
   async getChatHistory(chat) {
-    return await apiClient
+    return await this.apiClient
       .get(`/api/messenger/chat/${chat.id}-${chat.access_token}/messages`)
       .then(({ data }) =>
         data.map((m) => {
@@ -120,7 +120,7 @@ export default class ApiService {
   }
 
   async getAppInfo() {
-    return apiClient.get('/api/messenger/user/info').then(({ data }) => {
+    return this.apiClient.get('/api/messenger/user/info').then(({ data }) => {
       if (typeof data.client === 'object') {
         this.clientConfig = data.client;
       }
@@ -133,7 +133,7 @@ export default class ApiService {
    */
   async loadUser(visitorId) {
     this.visitorId = visitorId;
-    return apiClient.get(`/api/messenger/user`).then(({ data }) => {
+    return this.apiClient.get(`/api/messenger/user`).then(({ data }) => {
       return {
         ...data,
         chats: (data.chats || []).map(pickChat)
