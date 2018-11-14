@@ -1,11 +1,9 @@
 import { Observable } from 'rxjs';
 
-import PollingClient from './PollingClient';
-import PusherClient from './PusherClient';
-
 const clients = {
-  legacy: PollingClient,
-  pusher: PusherClient
+  legacy: () => import('./PollingClient'),
+  pusher: () => import('./PusherClient'),
+  deskpro: () => import('./DpClient')
 };
 
 const createNotificationClient = ({ type, options }, ...args) => {
@@ -14,10 +12,13 @@ const createNotificationClient = ({ type, options }, ...args) => {
   }
 
   return new Observable((observer) => {
-    const client = new clients[type](options, ...args);
+    let client;
     const callback = (message) => observer.next(message);
-    client.subscribe(callback);
-    client.startListening();
+    clients[type]().then(({ default: ClientClass }) => {
+      client = new ClientClass(options, ...args);
+      client.subscribe(callback);
+      client.startListening();
+    });
     return () => {
       client.unsubscribe(callback);
       client.stopListening();
