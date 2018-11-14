@@ -21,6 +21,10 @@ const extendFroala = () => {
     NAME: 'Attach',
     template: 'dpmsg'
   });
+  $.FroalaEditor.DefineIcon('insertImage', {
+    NAME: 'ImageUpload',
+    template: 'dpmsg'
+  });
   $.FroalaEditor.DefineIcon('sendMessage', { NAME: 'Send', template: 'dpmsg' });
 };
 
