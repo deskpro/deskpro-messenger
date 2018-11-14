@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+// import { FrameContextConsumer } from 'react-frame-component';
 // Import only JS files, styles are imported in Window.jsx inline into iframe.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 import $ from 'jquery';
 import FroalaEditor from 'react-froala-wysiwyg';
 
+import { withFrameContext } from '../core/Frame';
 import { withVisitorId } from '../../containers/withVisitorId';
 
 window.$ = window.jQuery = $;
@@ -25,7 +27,8 @@ const extendFroala = () => {
 class MessageForm extends PureComponent {
   static propTypes = {
     visitorId: PropTypes.string.isRequired,
-    onSend: PropTypes.func.isRequired
+    onSend: PropTypes.func.isRequired,
+    frameContext: PropTypes.object.isRequired
   };
 
   state = { message: '' };
@@ -66,14 +69,6 @@ class MessageForm extends PureComponent {
     this.uploadedFiles.push(blob_id);
   };
 
-  updateImagePopupContainer = (e, editor) => {
-    // const image = editor.image.get();
-    console.log(e, editor);
-    const froala = this.editorControls.getEditor();
-    // editor.popups.setContainer('image.insert', $(this.wrapperRef.current));
-    froala('popups.setContainer', 'image.insert', $(this.wrapperRef.current));
-  };
-
   froalaConfig = {
     requestHeaders: {
       'X-DESKPRO-VISITORID': this.props.visitorId
@@ -98,11 +93,10 @@ class MessageForm extends PureComponent {
     events: {
       'froalaEditor.initialized': this.onFroalaInit,
       'froalaEditor.file.uploaded': this.fileUploaded,
-      'froalaEditor.image.uploaded': this.fileUploaded,
-      'froalaEditor.popups.show.image.insert': this.updateImagePopupContainer,
-      'froalaEditor.popups.hide.image.insert': this.updateImagePopupContainer
+      'froalaEditor.image.uploaded': this.fileUploaded
     },
-    pluginsEnabled: ['file', 'image', 'emoticons']
+    pluginsEnabled: ['file', 'image', 'emoticons'],
+    scrollableContainer: $(this.props.frameContext.document).find('body')
   };
 
   onChange = (message) => this.setState({ message });
@@ -135,4 +129,4 @@ class MessageForm extends PureComponent {
   }
 }
 
-export default withVisitorId(MessageForm);
+export default withFrameContext(withVisitorId(MessageForm));

@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import FrameComponent from 'react-frame-component';
+import FrameComponent, { FrameContextConsumer } from 'react-frame-component';
 
 import { ConfigConsumer } from './ConfigContext';
 import asset from '../../utils/asset';
@@ -120,4 +120,10 @@ export default (props) => (
   <ConfigConsumer>
     {({ themeVars }) => <Frame themeVars={themeVars} {...props} />}
   </ConfigConsumer>
+);
+
+export const withFrameContext = (WrappedComponent) => (props) => (
+  <FrameContextConsumer>
+    {(context) => <WrappedComponent {...props} frameContext={context} />}
+  </FrameContextConsumer>
 );
