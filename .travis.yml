@@ -12,8 +12,9 @@ script: yarn lerna run build
 before_deploy:
   - yarn lerna run build-storybook
 env:
-  REACT_APP_API_BASE: 'http://site36042.deskprodemo.com'
-  REACT_APP_FROALA_KEY: 'MC1D2D1G2lG4J4A14A7D3D6F6C2C3F3gSXSE1LHAFJVCXCLS=='
+  global:
+    - REACT_APP_API_BASE='http://site36096.deskprodemo.com'
+    - REACT_APP_FROALA_KEY='MC1D2D1G2lG4J4A14A7D3D6F6C2C3F3gSXSE1LHAFJVCXCLS=='
 deploy:
   - provider: pages
     skip_cleanup: true
