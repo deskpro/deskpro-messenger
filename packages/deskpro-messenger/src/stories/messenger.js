@@ -25,10 +25,6 @@ const history = createHistory();
 storiesOf('Messenger', module)
   .addDecorator(withKnobs)
   .add('Messenger', () => {
-    const api = createApiService(
-      select('API Type', ['real', 'fake'], 'real', 'API')
-    );
-
     const screens = {
       index: {
         screenType: 'Blocks',
@@ -258,6 +254,8 @@ storiesOf('Messenger', module)
     };
 
     const config = {
+      helpdeskURL: process.env.STORYBOOK_API_BASE,
+      froalaKey: process.env.STORYBOOK_FROALA_KEY,
       locale: select('Locale', ['en-US', 'ru-RU'], 'en-US', 'i18n'),
       screens,
       greetings,
@@ -268,6 +266,11 @@ storiesOf('Messenger', module)
         email: text('User Email', 'berdartem@gmail.com', 'Visitor')
       }
     };
+
+    const api = createApiService(
+      config,
+      select('API Type', ['real', 'fake'], 'real', 'API')
+    );
 
     const store = createStore(undefined, { config, history, api });
 
