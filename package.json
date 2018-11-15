@@ -2,12 +2,11 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.2.1"
+    "lerna": "^3.3.0"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "lerna": "lerna",
     "test": "cd packages/deskpro-messenger && yarn test"
-  },
-  "dependencies": {}
+  }
 }
