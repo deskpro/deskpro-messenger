@@ -132,4 +132,4 @@ class MessageForm extends PureComponent {
   }
 }
 
-export default withFrameContext(withVisitorId(MessageForm));
+export default withVisitorId(withFrameContext(MessageForm));
