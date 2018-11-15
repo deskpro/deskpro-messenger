@@ -5,7 +5,8 @@ import { Colorpicker, Drawer, Heading, Label } from '@deskpro/react-components';
 
 class StyleSettings extends React.PureComponent {
   static propTypes = {
-    config: PropTypes.object
+    config: PropTypes.object,
+    handleChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -13,15 +14,23 @@ class StyleSettings extends React.PureComponent {
   };
 
   render() {
-    const { config } = this.props;
+    const { config, handleChange } = this.props;
     return (
       <Drawer>
         <Heading>Style</Heading>
         <Label>Background color</Label>
-        <Colorpicker value={config.getIn(['style'], ['backgroundColor'])} />
+        <Colorpicker
+          value={config.getIn(['themeVars'], ['--color-background'])}
+          name="themeVars.--color-background"
+          onChange={handleChange}
+        />
 
         <Label>Primary color</Label>
-        <Colorpicker value={config.getIn(['style'], ['primaryColor'])} />
+        <Colorpicker
+          value={config.getIn(['themeVars'], ['--color-primary'])}
+          name="themeVars.--color-primary"
+          onChange={handleChange}
+        />
       </Drawer>
     );
   }

@@ -6,6 +6,7 @@ import { Drawer, Heading, Toggle } from '@deskpro/react-components';
 class TicketSettings extends React.PureComponent {
   static propTypes = {
     config: PropTypes.object,
+    handleChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -13,12 +14,14 @@ class TicketSettings extends React.PureComponent {
   };
 
   render() {
-    const { config } = this.props;
+    const { config, handleChange } = this.props;
     return (
       <Drawer>
         <Heading>Ticket settings</Heading>
         <Toggle
           checked={config.get('enable_tickets')}
+          name="enable_tickets"
+          onChange={handleChange}
         >
           Enable new tickets
         </Toggle>

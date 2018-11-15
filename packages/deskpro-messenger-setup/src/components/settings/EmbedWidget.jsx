@@ -6,6 +6,7 @@ import { Drawer, Button, Heading, Textarea, Toggle } from '@deskpro/react-compon
 class EmbedWidget extends React.PureComponent {
   static propTypes = {
     config: PropTypes.object,
+    handleChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -13,12 +14,14 @@ class EmbedWidget extends React.PureComponent {
   };
 
   render() {
-    const { config } = this.props;
+    const { config, handleChange } = this.props;
     return (
       <Drawer>
         <Heading>Embed the messenger widget on your site</Heading>
         <Toggle
           checked={config.get('show_on_portal')}
+          name="show_on_portal"
+          onChange={handleChange}
         >
           Show the widget on the portal.
           When disabled, the widget won't show on the helpdesk itself (i.e. it only shows on your own website).
@@ -42,7 +45,7 @@ class EmbedWidget extends React.PureComponent {
             rows="10"
             value={config.get('authorize_domains')}
             autosize
-            onChange={this.handleChange}
+            onChange={handleChange}
           />
         </p>
       </Drawer>
