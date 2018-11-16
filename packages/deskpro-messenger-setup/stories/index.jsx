@@ -3,7 +3,9 @@ import App from '../src/App';
 import '../styles/style.css';
 
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import Immutable from 'immutable';
+import transformConfig from '../src/utils/transformConfig';
 
 const settings = {
   styles: {
@@ -65,12 +67,23 @@ class SetupStory extends React.Component {
     }
   };
 
+  export = () => {
+    this.props.onExport(transformConfig(this.state.settings));
+  };
+
   render() {
     const { settings } = this.state;
-    return <App settings={settings} handleChange={this.onChange} />;
+    return (
+      <div>
+        <App settings={settings} handleChange={this.onChange} />
+        <button type="button" onClick={this.export}>
+          Dump messenger config
+        </button>
+      </div>
+    );
   }
 }
 
 storiesOf('Setup', module).add('Setup screen', () => {
-  return <SetupStory />;
+  return <SetupStory onExport={action('messenger-config')} />;
 });
