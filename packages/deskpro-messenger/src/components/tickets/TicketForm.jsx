@@ -11,7 +11,7 @@ const TicketForm = (props) => (
     <FieldLayout {...props} />
     <Button width="full" size="medium" color="primary" type="submit">
       <FormattedMessage
-        id="tickets.create_form.button"
+        id="tickets.form.submit_button"
         defaultMessage="Save Ticket"
       />
     </Button>
@@ -20,12 +20,12 @@ const TicketForm = (props) => (
 
 const formEnhancer = withFormik({
   enableReinitialize: true,
-  mapPropsToValues: ({ layouts }) => {
-    const layout = layouts.getMatchingLayout({});
+  mapPropsToValues: ({ layouts, initialValues = {} }) => {
+    const layout = layouts.getMatchingLayout(initialValues);
     if (layout) {
-      return layout.getDefaultValues();
+      return { ...initialValues, ...layout.getDefaultValues() };
     }
-    return {};
+    return { ...initialValues };
   },
   handleSubmit: (values, { props, setSubmitting }) => {
     // setSubmitting(true);

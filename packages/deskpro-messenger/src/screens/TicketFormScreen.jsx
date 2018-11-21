@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import Block from '../components/core/Block';
 import TicketForm from '../components/tickets/TicketForm';
@@ -11,21 +11,43 @@ class TicketFormScreen extends PureComponent {
   static propTypes = {
     formConfig: PropTypes.array.isRequired,
     saveTicket: PropTypes.func.isRequired,
+    ticketDefaults: PropTypes.object,
     intl: PropTypes.object.isRequired
   };
 
+  static defaultProps = {
+    ticketDefaults: {}
+  };
+
+  state = { viewMode: 'form' };
+
+  onSubmit = (values) =>
+    this.setState({ viewMode: 'thanks' }, () => this.props.saveTicket(values));
+
   render() {
+    const { intl, formConfig, ticketDefaults } = this.props;
+    const { viewMode } = this.state;
+
     return (
       <Block
-        title={this.props.intl.formatMessage({
+        title={intl.formatMessage({
           id: `ticket_form.header`,
           defaultMessage: 'New Ticket'
         })}
       >
-        <TicketForm
-          formConfig={this.props.formConfig}
-          onSubmit={this.props.saveTicket}
-        />
+        {viewMode === 'form' && (
+          <TicketForm
+            initialValues={ticketDefaults}
+            formConfig={formConfig}
+            onSubmit={this.onSubmit}
+          />
+        )}
+        {viewMode === 'thanks' && (
+          <FormattedMessage
+            id="tickets.form.thanks"
+            defaultMessage="Thank you! We will answer you soon via email."
+          />
+        )}
       </Block>
     );
   }

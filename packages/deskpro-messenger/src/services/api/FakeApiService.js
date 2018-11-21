@@ -206,4 +206,12 @@ export default class FakeChatService {
   async trackPage(data, chat) {
     return { data, chat };
   }
+
+  /**
+   * Create ticket.
+   * @param {object} values Ticket values.
+   */
+  async createTicket(values) {
+    return values;
+  }
 }

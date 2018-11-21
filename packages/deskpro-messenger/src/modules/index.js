@@ -3,7 +3,7 @@ import { combineEpics } from 'redux-observable';
 
 import { listenForAlertsEpic } from './alerts';
 import chat, { chatEpic } from './chat';
-import tickets from './tickets';
+import tickets, { ticketEpics } from './tickets';
 import guest, { guestEpic } from './guest';
 import info, { loadAppInfoEpic } from './info';
 import app, { appEpic } from './app';
@@ -20,5 +20,6 @@ export const rootEpic = combineEpics(
   guestEpic,
   loadAppInfoEpic,
   listenForAlertsEpic,
-  chatEpic
+  chatEpic,
+  ticketEpics
 );

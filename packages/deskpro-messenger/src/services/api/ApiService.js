@@ -140,4 +140,12 @@ export default class ApiService {
       };
     });
   }
+
+  /**
+   * Create ticket.
+   * @param {object} values Ticket values.
+   */
+  async createTicket(values) {
+    return this.apiClient.post(`/api/messenger/ticket`, values);
+  }
 }
