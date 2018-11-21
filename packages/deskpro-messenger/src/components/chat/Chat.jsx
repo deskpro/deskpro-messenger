@@ -48,17 +48,6 @@ class Chat extends PureComponent {
     })
   };
 
-  saveTicket = (values) => {
-    this.props.onSendMessage({
-      type: 'chat.block.saveTicket',
-      origin: 'user',
-      ...values,
-      messages: this.props.messages
-        .filter((m) => m.origin === 'user' && m.type === 'chat.message')
-        .map((m) => m.message)
-    });
-  };
-
   render() {
     const {
       typing,
@@ -107,32 +96,38 @@ class Chat extends PureComponent {
                     )}
                   />
                   <TranscriptBlock onSend={onSendMessage} user={user} />
-                  <RatingBlock onSend={onSendMessage} user={user} agent={agent} />
+                  <RatingBlock
+                    onSend={onSendMessage}
+                    user={user}
+                    agent={agent}
+                  />
                 </Fragment>
               );
             case 'chat.noAgents':
               return (
-                <SystemMessage
-                  key={key}
-                  {...message}
-                  message={intl.formatMessage(
-                    ...createTrans(message, 'noAgentOnline')
+                <>
+                  <SystemMessage
+                    {...message}
+                    message={
+                      chatConfig.busyMessage ||
+                      intl.formatMessage(
+                        ...createTrans(message, 'noAgentOnline')
+                      )
+                    }
+                  />
+                  {chatConfig.noAnswerBehavior === 'save_ticket' && (
+                    <SaveTicketBlock
+                      user={user}
+                      ticketParams={chatConfig.ticketDefaults}
+                      formConfig={chatConfig.ticketFormConfig}
+                      onSend={onSendMessage}
+                    />
                   )}
-                />
+                  {chatConfig.noAnswerBehavior === 'create_ticket' && (
+                    <CreateTicketBlock />
+                  )}
+                </>
               );
-            case 'chat.block.saveTicket':
-              return (
-                <SaveTicketBlock
-                  key={key}
-                  {...message}
-                  user={user}
-                  formConfig={chatConfig.ticketFormConfig}
-                  onSaveTicket={this.saveTicket}
-                />
-              );
-
-            case 'chat.block.createTicket':
-              return <CreateTicketBlock key={key} {...message} />;
 
             default: {
               if (

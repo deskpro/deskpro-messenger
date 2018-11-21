@@ -92,6 +92,10 @@
           department: 3,
           prompt: 'chat.prompt.support',
           noAnswerBehavior: 'save_ticket',
+          ticketDefaults: {
+            department: 1,
+            subject: 'Unanswered chat from {name}',
+          },
           ticketFormConfig: [{
             fields: [{
                 name: 'name',

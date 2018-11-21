@@ -192,41 +192,6 @@ const deactivateChatEpic = (action$) =>
     skip()
   );
 
-const noChatAnswerEpic = (action$, state$, { config }) =>
-  action$.pipe(
-    ofType(CHAT_MESSAGE_RECEIVED),
-    filter(({ payload }) => payload.type === 'chat.noAgents'),
-    withLatestFrom(state$),
-    mergeMap(([_, state]) => {
-      const chatId = getActiveChat(state);
-      const screenName = getChatData(state).fromScreen;
-      const chatConfig =
-        screenName && config.screens[screenName]
-          ? config.screens[screenName]
-          : {};
-      switch (chatConfig.noAnswerBehavior) {
-        case 'save_ticket':
-          return of(
-            messageReceived({
-              chat: chatId,
-              type: 'chat.block.saveTicket',
-              origin: 'system'
-            })
-          );
-        case 'new_ticket':
-          return of(
-            messageReceived({
-              chat: chatId,
-              type: 'chat.block.createTicket',
-              origin: 'system'
-            })
-          );
-        default:
-          return empty();
-      }
-    })
-  );
-
 const sendMessagesEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(CHAT_SEND_MESSAGE),
@@ -274,7 +239,6 @@ export const chatEpic = combineEpics(
   createChatEpic,
   sendMessagesEpic,
   cacheNewChatEpic,
-  noChatAnswerEpic,
   deactivateChatEpic,
   soundEpic,
   agentAssignementTimeout

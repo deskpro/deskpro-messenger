@@ -36,19 +36,49 @@ class SaveTicketBlock extends PureComponent {
       formatMessage: PropTypes.func.isRequired
     }).isRequired,
     formConfig: PropTypes.array,
-    onSaveTicket: PropTypes.func.isRequired,
+    onSend: PropTypes.func.isRequired,
     user: PropTypes.shape({
       name: PropTypes.string,
       email: PropTypes.string
+    }),
+    ticketParams: PropTypes.shape({
+      department: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        .isRequired,
+      subject: PropTypes.string
     })
   };
+
+  state = { viewMode: 'ask' };
 
   static defaultProps = {
     user: { name: '', email: '' }
   };
 
+  handleSubmit = (values) => {
+    const { ticketParams, intl, onSend } = this.props;
+    this.setState({ viewMode: 'thanks' }, () =>
+      onSend({
+        type: 'chat.ticket.save',
+        origin: 'user',
+        ...values,
+        department_id: ticketParams.department,
+        subject: ticketParams.subject
+          ? intl.formatMessage(
+              {
+                id: ticketParams.subject,
+                defaultMessage: ticketParams.subject
+              },
+              values
+            )
+          : ticketParams.subject
+      })
+    );
+  };
+
+  handleCancel = () => this.setState({ viewMode: 'cancel' });
+
   renderFormOrQuestion() {
-    const { formConfig, intl, onSaveTicket, user } = this.props;
+    const { formConfig, intl, user } = this.props;
 
     if (user.email) {
       return (
@@ -57,7 +87,7 @@ class SaveTicketBlock extends PureComponent {
             width="limited"
             color="success"
             name="yes"
-            onClick={() => onSaveTicket(user)}
+            onClick={() => this.handleSubmit(user)}
           >
             {intl.formatMessage(transMessages.buttonYes)}
           </Button>
@@ -65,9 +95,7 @@ class SaveTicketBlock extends PureComponent {
             width="limited"
             color="danger"
             name="no"
-            onClick={() => {
-              console.warn('TODO: cancel ticket creation');
-            }}
+            onClick={this.handleCancel}
           >
             {intl.formatMessage(transMessages.buttonNo)}
           </Button>
@@ -80,19 +108,24 @@ class SaveTicketBlock extends PureComponent {
         <p className="dpmsg-PromptText">
           <FormattedMessage {...transMessages.intro} />
         </p>
-        <SaveTicketForm formConfig={formConfig} onSubmit={onSaveTicket} />
+        <SaveTicketForm formConfig={formConfig} onSubmit={this.handleSubmit} />
       </Fragment>
     );
   }
 
   render() {
-    const { intl, origin } = this.props;
+    const { intl } = this.props;
+    const { viewMode } = this.state;
+
+    if (viewMode === 'cancel') {
+      return null;
+    }
 
     return (
       <ChatPrompt header={intl.formatMessage(transMessages.header)}>
         <div className="dpmsg-GroupInputs">
-          {origin === 'system' && this.renderFormOrQuestion()}
-          {origin === 'user' && (
+          {viewMode === 'ask' && this.renderFormOrQuestion()}
+          {viewMode === 'thanks' && (
             <p className="dpmsg-PromptText">
               <FormattedMessage {...transMessages.thanks} />
             </p>
