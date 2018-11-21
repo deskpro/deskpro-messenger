@@ -88,16 +88,16 @@ class ChatSettings extends React.PureComponent {
         <Label>Department</Label>
         <Select
           options={this.departments}
-          value={config.getIn(['chat', 'department'])}
+          value={config.getIn(['chat', 'ticketDefaults', 'department'])}
           onChange={this.handleSelectChange}
-          name="chat.department"
+          name="chat.ticketDefaults.department"
         />
         <Label>Subject</Label>
         <Input
           type="text"
-          value={config.getIn(['chat', 'ticketSubject'])}
+          value={config.getIn(['chat', 'ticketDefaults', 'subject'])}
           placeholder="Missed chat from {name}"
-          name="chat.ticketSubject"
+          name="chat.ticketDefaults.subject"
         />
       </Drawer>
     );
