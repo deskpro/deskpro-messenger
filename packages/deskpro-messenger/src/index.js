@@ -9,7 +9,7 @@ import App from './App';
 import './index.css';
 import createStore from './store';
 import createApiService from './services/api';
-import cache from '../services/Cache';
+import cache from './services/Cache';
 
 const history = createHistory();
 const config = {
