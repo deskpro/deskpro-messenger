@@ -9,7 +9,6 @@ import { createSelector } from 'reselect';
 
 import { APP_INIT } from './app';
 import { CHAT_START, CHAT_SEND_MESSAGE } from './chat';
-import cache from '../services/Cache';
 import { generateVisitorId } from '../utils/visitorId';
 
 //#region ACTION TYPES
@@ -21,7 +20,7 @@ export const setVisitor = (payload) => ({ type: SET_VISITOR, payload });
 //#endregion
 
 //#region EPICS
-const initVisitorEpic = (action$, _, { config, api }) =>
+const initVisitorEpic = (action$, _, { config, api, cache }) =>
   action$.pipe(
     ofType(APP_INIT),
     switchMap(() => {
@@ -57,7 +56,7 @@ const initVisitorEpic = (action$, _, { config, api }) =>
     map(setVisitor)
   );
 
-const updateGuestEpic = (action$) =>
+const updateGuestEpic = (action$, _, { cache }) =>
   action$.pipe(
     ofType(CHAT_START, CHAT_SEND_MESSAGE),
     filter((action) => 'email' in action.payload),

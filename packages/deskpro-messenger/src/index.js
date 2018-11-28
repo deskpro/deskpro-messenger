@@ -9,6 +9,7 @@ import App from './App';
 import './index.css';
 import createStore from './store';
 import createApiService from './services/api';
+import cache from '../services/Cache';
 
 const history = createHistory();
 const config = {
@@ -17,7 +18,7 @@ const config = {
   ...window.parent.DESKPRO_MESSENGER_OPTIONS
 };
 const api = createApiService(config);
-const store = createStore(undefined, { config, history, api });
+const store = createStore(undefined, { config, history, api, cache });
 
 ReactDOM.render(
   <Provider store={store}>
