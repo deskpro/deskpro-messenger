@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RatingBlock /> should render correctly 1`] = `
+<div
+  className="dpmsg-MessagePrompt"
+>
+  <div
+    className="dpmsg-PromptHeader"
+  >
+    <span
+      className="dpmsg-PromptHeaderText"
+    >
+      chat.rating_block.question_header
+    </span>
+  </div>
+  <div
+    className="dpmsg-PromptContentEvaluation"
+  >
+    <button
+      className="dpmsg-Button Button-LimitedWidth Button--success"
+      name="helpful"
+      onClick={[Function]}
+    >
+      chat.rating_block.buttons.helpful
+    </button>
+    <button
+      className="dpmsg-Button Button-LimitedWidth Button--danger"
+      name="unhelpful"
+      onClick={[Function]}
+    >
+      chat.rating_block.buttons.unhelpful
+    </button>
+  </div>
+</div>
+`;
