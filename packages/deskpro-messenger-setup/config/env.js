@@ -1,8 +1,9 @@
-
+'use strict';
 
 const fs = require('fs');
 const path = require('path');
 const paths = require('./paths');
+const dotenv = require('dotenv');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
@@ -15,7 +16,7 @@ if (!NODE_ENV) {
 }
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
-var dotenvFiles = [
+const dotenvFiles = [
   `${paths.dotenv}.${NODE_ENV}.local`,
   `${paths.dotenv}.${NODE_ENV}`,
   // Don't include `.env.local` for `test` environment
@@ -27,16 +28,13 @@ var dotenvFiles = [
 
 // Load environment variables from .env* files. Suppress warnings using silent
 // if this file is missing. dotenv will never modify any environment variables
-// that have already been set.  Variable expansion is supported in .env files.
+// that have already been set.
 // https://github.com/motdotla/dotenv
-// https://github.com/motdotla/dotenv-expand
-dotenvFiles.forEach(dotenvFile => {
+dotenvFiles.forEach((dotenvFile) => {
   if (fs.existsSync(dotenvFile)) {
-    require('dotenv-expand')(
-      require('dotenv').config({
-        path: dotenvFile,
-      })
-    );
+    dotenv.config({
+      path: dotenvFile,
+    });
   }
 });
 
@@ -71,7 +69,7 @@ function getClientEnvironment(publicUrl) {
       {
         // Useful for determining whether we’re running in production mode.
         // Most importantly, it switches React into the correct mode.
-        NODE_ENV: process.env.NODE_ENV || 'development',
+        NODE_ENV:   process.env.NODE_ENV || 'development',
         // Useful for resolving the correct path to static assets in `public`.
         // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
         // This should only be used as an escape hatch. Normally you would put

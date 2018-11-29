@@ -1,3 +1,7 @@
+.messenger-settings {
+    width: 30%;
+    min-width: 400px;
+}
 .messenger-settings  input:not([type=checkbox]) {
     width: 100%;
 }

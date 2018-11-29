@@ -84,7 +84,7 @@ class ChatSettings extends React.PureComponent {
           onChange={handleChange}
         />
         <br />
-        <h4>Missed chat ticket properties</h4>
+        <u>Missed chat ticket properties</u>
         <Label>Department</Label>
         <Select
           options={this.departments}
