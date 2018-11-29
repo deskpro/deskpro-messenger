@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/messenger-setup",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": false,
   "author": "DeskPRO <team@deskpro.com>",
   "license": "BSD-3-Clause",
@@ -84,6 +84,12 @@
     "react": "^16.0",
     "react-dom": "^16.0"
   },
+  "files": [
+    "dist/index.js",
+    "dist/index.js.map",
+    "dist/style.css",
+    "dist/style.css.map"
+  ],
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
