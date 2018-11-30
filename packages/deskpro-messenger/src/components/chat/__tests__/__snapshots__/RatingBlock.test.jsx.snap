@@ -1,35 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<RatingBlock /> should render correctly 1`] = `
-<div
-  className="dpmsg-MessagePrompt"
->
+<DocumentFragment>
   <div
-    className="dpmsg-PromptHeader"
+    class="dpmsg-MessagePrompt"
   >
-    <span
-      className="dpmsg-PromptHeaderText"
+    <div
+      class="dpmsg-PromptHeader"
     >
-      chat.rating_block.question_header
-    </span>
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Rate your conversation with {name}
+      </span>
+    </div>
+    <div
+      class="dpmsg-PromptContentEvaluation"
+    >
+      <button
+        class="dpmsg-Button Button-LimitedWidth Button--success"
+        name="helpful"
+      >
+        Helpful
+      </button>
+      <button
+        class="dpmsg-Button Button-LimitedWidth Button--danger"
+        name="unhelpful"
+      >
+        Unhelpful
+      </button>
+    </div>
   </div>
+</DocumentFragment>
+`;
+
+exports[`<RatingBlock /> should send message and update state on rating selection 1`] = `
+<DocumentFragment>
   <div
-    className="dpmsg-PromptContentEvaluation"
+    class="dpmsg-MessagePrompt"
   >
-    <button
-      className="dpmsg-Button Button-LimitedWidth Button--success"
-      name="helpful"
-      onClick={[Function]}
+    <div
+      class="dpmsg-PromptHeader"
     >
-      chat.rating_block.buttons.helpful
-    </button>
-    <button
-      className="dpmsg-Button Button-LimitedWidth Button--danger"
-      name="unhelpful"
-      onClick={[Function]}
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Thank you for your feedback
+      </span>
+    </div>
+    <div
+      class="dpmsg-PromptContentEvaluation"
     >
-      chat.rating_block.buttons.unhelpful
-    </button>
+      <i
+        class="dpmsg-IconSmile is-blue"
+      />
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;

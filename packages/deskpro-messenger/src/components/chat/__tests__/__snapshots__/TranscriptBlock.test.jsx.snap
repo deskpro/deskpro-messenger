@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TranscriptBlock /> should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-MessagePrompt"
+  >
+    <div
+      class="dpmsg-PromptHeader"
+    >
+      <i
+        class="dpmsg-IconNotes"
+      />
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Would you like an email transcript?
+      </span>
+    </div>
+    <div
+      class="dpmsg-PromptContentAgree"
+    >
+      <button
+        class="dpmsg-PromptBtn is-agdee"
+        name="yes"
+      >
+        <span>
+          Yes
+        </span>
+      </button>
+      <button
+        class="dpmsg-PromptBtn is-disagree"
+        name="no"
+      >
+        <span>
+          No
+        </span>
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<TranscriptBlock /> should send user data without form submittion 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-MessagePrompt"
+  >
+    <div
+      class="dpmsg-PromptHeader"
+    >
+      <i
+        class="dpmsg-IconNotes"
+      />
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Your transcript is on it’s way to:
+      </span>
+    </div>
+    <span
+      class="dpmsg-PromptText"
+    >
+      john.doe@deskpro.com
+    </span>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<TranscriptBlock /> should show form for anon visitor 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-MessagePrompt"
+  >
+    <div
+      class="dpmsg-PromptHeader"
+    >
+      <i
+        class="dpmsg-IconNotes"
+      />
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Would you like an email transcript?
+      </span>
+    </div>
+    <div
+      class="dpmsg-GroupInputs"
+    >
+      <input
+        class="dpmsg-Input"
+        name="name"
+        placeholder="name"
+      />
+      <input
+        class="dpmsg-Input"
+        name="email"
+        placeholder="email"
+      />
+      <button
+        class="dpmsg-Button Button-FullWidth Button--medium"
+      >
+        <span>
+          Send Message
+        </span>
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
