@@ -1,9 +1,17 @@
 import React from 'react';
 import { render } from 'react-testing-library';
 import { IntlProvider } from 'react-intl';
+import { MemoryRouter } from 'react-router-dom';
 
-const customRender = (node, options) => {
-  return render(<IntlProvider locale="en-US">{node}</IntlProvider>, options);
+const customRender = (node, { translations = {}, ...options } = {}) => {
+  return render(
+    <MemoryRouter>
+      <IntlProvider locale="en-US" messages={translations}>
+        {node}
+      </IntlProvider>
+    </MemoryRouter>,
+    options
+  );
 };
 
 // re-export everything

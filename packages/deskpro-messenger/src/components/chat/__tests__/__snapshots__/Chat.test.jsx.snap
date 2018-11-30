@@ -1,0 +1,195 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Chat /> should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-MessageBubbleRow is-incoming"
+  >
+    <div
+      class="dpmsg-BubbleCol"
+    >
+      <div
+        class="dpmsg-BubbleItem"
+      >
+        Thank you for start a chat!
+      </div>
+    </div>
+  </div>
+  <div
+    class="dpmsg-MessageBubbleRow is-outgoing"
+  >
+    <div
+      class="dpmsg-AvatarCol is-rounded"
+    >
+      <img
+        alt="John Doe"
+        src="/assets/img/docs/avatar-default.jpg"
+      />
+    </div>
+    <div
+      class="dpmsg-BubbleCol"
+    >
+      <div
+        class="dpmsg-BubbleItem"
+      >
+        Hello World!
+      </div>
+    </div>
+  </div>
+  <span
+    class="dpmsg-BubbleNotification is-joined"
+  >
+    Sorry, no one is online to accept your chat.
+  </span>
+  <div
+    class="dpmsg-MessagePrompt"
+  >
+    <div
+      class="dpmsg-PromptHeader"
+    >
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Submit a ticket
+      </span>
+    </div>
+    <div
+      class="dpmsg-PromptText"
+    >
+      <span>
+        You can submit a ticket instead and one of our agents will reply to you via email as soon as possible.
+      </span>
+      <a
+        class="dpmsg-Button Button--primary"
+        href="/screens/newTicket"
+      >
+        <span>
+          Create Ticket
+        </span>
+      </a>
+    </div>
+  </div>
+  <span
+    class="dpmsg-BubbleNotification is-joined"
+  >
+    Agent Jon Snow joined the chat
+  </span>
+  <div
+    class="dpmsg-MessageBubbleRow is-incoming"
+  >
+    <div
+      class="dpmsg-AvatarCol"
+    >
+      <img
+        alt="Jon Snow"
+        src="/assets/img/docs/avatar-default.jpg"
+      />
+    </div>
+    <div
+      class="dpmsg-BubbleCol"
+    >
+      <div
+        class="dpmsg-BubbleItem"
+      >
+        How can I help you today?
+      </div>
+    </div>
+  </div>
+  <div
+    class="dpmsg-MessageBubbleRow is-outgoing"
+  >
+    <div
+      class="dpmsg-AvatarCol is-rounded"
+    >
+      <img
+        alt="John Doe"
+        src="/assets/img/docs/avatar-default.jpg"
+      />
+    </div>
+    <div
+      class="dpmsg-BubbleCol"
+    >
+      <div
+        class="dpmsg-BubbleItem"
+      >
+        Another message from the user
+      </div>
+    </div>
+  </div>
+  <span
+    class="dpmsg-BubbleNotification is-joined"
+  >
+    system message from history without translation
+  </span>
+  <span
+    class="dpmsg-BubbleNotification is-joined"
+  >
+    Chat ended
+  </span>
+  <div
+    class="dpmsg-MessagePrompt"
+  >
+    <div
+      class="dpmsg-PromptHeader"
+    >
+      <i
+        class="dpmsg-IconNotes"
+      />
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Would you like an email transcript?
+      </span>
+    </div>
+    <div
+      class="dpmsg-PromptContentAgree"
+    >
+      <button
+        class="dpmsg-PromptBtn is-agdee"
+        name="yes"
+      >
+        <span>
+          Yes
+        </span>
+      </button>
+      <button
+        class="dpmsg-PromptBtn is-disagree"
+        name="no"
+      >
+        <span>
+          No
+        </span>
+      </button>
+    </div>
+  </div>
+  <div
+    class="dpmsg-MessagePrompt"
+  >
+    <div
+      class="dpmsg-PromptHeader"
+    >
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Rate your conversation with Jon Snow
+      </span>
+    </div>
+    <div
+      class="dpmsg-PromptContentEvaluation"
+    >
+      <button
+        class="dpmsg-Button Button-LimitedWidth Button--success"
+        name="helpful"
+      >
+        Helpful
+      </button>
+      <button
+        class="dpmsg-Button Button-LimitedWidth Button--danger"
+        name="unhelpful"
+      >
+        Unhelpful
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
