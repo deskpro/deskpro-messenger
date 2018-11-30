@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Blocks /> should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-Block"
+  >
+    <div
+      class="dpmsg-BlockWrapper"
+    >
+      <div
+        class="dpmsg-BlockHeader"
+      >
+        Conversations
+      </div>
+      <a
+        class="dpmsg-Button Button-FullWidth Button--primary"
+        href="/screens/startChat"
+      >
+        Start new chat
+      </a>
+    </div>
+  </div>
+  <div
+    class="dpmsg-Block"
+  >
+    <div
+      class="dpmsg-BlockWrapper"
+    >
+      <div
+        class="dpmsg-BlockHeader"
+      >
+        Your Tickets
+      </div>
+      <a
+        href="/screens/tickets"
+      >
+        view all
+      </a>
+    </div>
+  </div>
+  <div
+    class="dpmsg-Block"
+  >
+    <div
+      class="dpmsg-BlockWrapper"
+    >
+      <div
+        class="dpmsg-BlockHeader"
+      >
+        tickets.create_form_block.header
+      </div>
+      <a
+        href="/screens/newTicket"
+      >
+        tickets.create_form_block.link_label
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;
