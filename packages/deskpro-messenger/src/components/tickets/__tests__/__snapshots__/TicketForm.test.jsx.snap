@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TicketForm /> should render correctly 1`] = `
+<DocumentFragment>
+  <form
+    class="dp-pc_form show-hover"
+  >
+    <span>
+      <div
+        class="dp-pc_field dp-pc_empty"
+      >
+        <input
+          class="dp-pc_input"
+          description=""
+          label="Subject"
+          name="subject"
+          placeholder="Subject"
+          type="text"
+          validation="required"
+          value=""
+          values="[object Object]"
+        />
+        <span
+          class="indicator"
+        />
+        <label
+          class="dp-pc_label"
+          for="field_1"
+        >
+          Subject
+        </label>
+        <div
+          class="divider"
+        />
+      </div>
+    </span>
+    <span>
+      <div
+        class="dp-pc_field dp-pc_empty"
+      >
+        <input
+          class="dp-pc_input"
+          description=""
+          label="Full Name"
+          name="name"
+          placeholder="John Doe"
+          type="text"
+          validation="required"
+          value=""
+          values="[object Object]"
+        />
+        <span
+          class="indicator"
+        />
+        <label
+          class="dp-pc_label"
+          for="field_2"
+        >
+          Full Name
+        </label>
+        <div
+          class="divider"
+        />
+      </div>
+    </span>
+    <span>
+      <div
+        class="dp-pc_field dp-pc_empty"
+      >
+        <input
+          class="dp-pc_input"
+          description=""
+          label="Email"
+          name="email"
+          placeholder="john.doe@company.com"
+          type="text"
+          validation="required"
+          value=""
+          values="[object Object]"
+        />
+        <span
+          class="indicator"
+        />
+        <label
+          class="dp-pc_label"
+          for="field_3"
+        >
+          Email
+        </label>
+        <div
+          class="divider"
+        />
+      </div>
+    </span>
+    <span>
+      <div
+        class="dp-pc_field dp-pc_empty"
+      >
+        <textarea
+          class="dp-pc_input"
+          component="textarea"
+          description=""
+          label="Message"
+          name="message"
+          placeholder="Enter you message here..."
+          style="height: 0px;"
+          type="textarea"
+          validation="required"
+          values="[object Object]"
+        />
+        <span
+          class="indicator"
+        />
+        <label
+          class="dp-pc_label"
+          for="field_4"
+        >
+          Message
+        </label>
+        <div
+          class="divider"
+        />
+      </div>
+    </span>
+    <button
+      class="dpmsg-Button Button-FullWidth Button--medium Button--primary"
+      type="submit"
+    >
+      <span>
+        Save Ticket
+      </span>
+    </button>
+  </form>
+</DocumentFragment>
+`;
