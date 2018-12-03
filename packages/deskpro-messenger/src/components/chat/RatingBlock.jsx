@@ -25,7 +25,7 @@ const transMessages = {
   }
 };
 
-class RatingBlock extends PureComponent {
+export class RatingBlock extends PureComponent {
   static propTypes = {
     onSend: PropTypes.func.isRequired,
     agent: PropTypes.object,

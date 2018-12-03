@@ -58,7 +58,6 @@ export default class FakeChatService {
   async assignAgent(chatId) {
     // one of 5 times do not assign an agent.
     if (rand() % 5 !== 0) {
-      console.log('assignAgent');
       await sleep(NETWORK_LATENCY);
       await this.onMessageReceived({
         type: 'chat.agentAssigned',
@@ -76,7 +75,6 @@ export default class FakeChatService {
       }
       return;
     } else {
-      console.log('timeout');
       // timeout
     }
   }
@@ -188,7 +186,6 @@ export default class FakeChatService {
   }
 
   async getAppInfo() {
-    console.log('has agents', this.hasAgentsOnline);
     return {
       chat_departments: [
         { id: 3, title: 'Support' },

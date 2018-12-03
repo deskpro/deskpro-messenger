@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SaveTicketBlock /> should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-MessagePrompt"
+  >
+    <div
+      class="dpmsg-PromptHeader"
+    >
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Do you want to save a new ticket?
+      </span>
+    </div>
+    <div
+      class="dpmsg-GroupInputs"
+    >
+      <p
+        class="dpmsg-PromptText"
+      >
+        <span>
+          Save your name and email address and one of our agents will get back to you as soon as possible.
+        </span>
+      </p>
+      <form
+        class="dp-pc_form show-hover"
+      >
+        <span>
+          <div
+            class="dp-pc_field dp-pc_empty"
+          >
+            <input
+              class="dp-pc_input"
+              description=""
+              label="Full Name"
+              name="name"
+              placeholder="John Doe"
+              type="text"
+              validation="required"
+              value=""
+              values="[object Object]"
+            />
+            <span
+              class="indicator"
+            />
+            <label
+              class="dp-pc_label"
+              for="field_1"
+            >
+              Full Name
+            </label>
+            <div
+              class="divider"
+            />
+          </div>
+        </span>
+        <span>
+          <div
+            class="dp-pc_field dp-pc_empty"
+          >
+            <input
+              class="dp-pc_input"
+              description=""
+              label="Email"
+              name="email"
+              placeholder="john.doe@company.com"
+              type="text"
+              validation="required"
+              value=""
+              values="[object Object]"
+            />
+            <span
+              class="indicator"
+            />
+            <label
+              class="dp-pc_label"
+              for="field_2"
+            >
+              Email
+            </label>
+            <div
+              class="divider"
+            />
+          </div>
+        </span>
+        <button
+          class="dpmsg-Button Button-FullWidth Button--medium Button--primary"
+          type="submit"
+        >
+          <span>
+            Save Ticket
+          </span>
+        </button>
+      </form>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<SaveTicketBlock /> should show form for anon visitor 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-MessagePrompt"
+  >
+    <div
+      class="dpmsg-PromptHeader"
+    >
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Do you want to save a new ticket?
+      </span>
+    </div>
+    <div
+      class="dpmsg-GroupInputs"
+    >
+      <p
+        class="dpmsg-PromptText"
+      >
+        <span>
+          An agent will get back to you as soon as possible
+        </span>
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;

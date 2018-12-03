@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Block /> should render correctly with title 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-Block"
+  >
+    <div
+      class="dpmsg-BlockWrapper"
+    >
+      <div
+        class="dpmsg-BlockHeader"
+      >
+        Some Title
+      </div>
+      <div>
+        Block Content
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<Block /> should render correctly without title 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-Block"
+  >
+    <div
+      class="dpmsg-BlockWrapper"
+    >
+      <div>
+        Block Content
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

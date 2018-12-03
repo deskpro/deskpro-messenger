@@ -23,7 +23,7 @@ import _pick from 'lodash/pick';
 import asset from '../utils/asset';
 import uuid from '../utils/uuid';
 import { hasAgentsAvailable } from './info';
-import cache from '../services/Cache';
+
 import { SET_VISITOR } from './guest';
 
 const spread = produce(Object.assign);
@@ -89,7 +89,7 @@ export const toggleSound = () => ({ type: CHAT_TOGGLE_SOUND });
 //#endregion
 
 //#region EPICS
-const initChatsEpic = (action$) =>
+const initChatsEpic = (action$, _, { cache }) =>
   action$.pipe(
     ofType(SET_VISITOR),
     filter(({ payload }) => Array.isArray(payload.chats)),
@@ -169,7 +169,7 @@ const agentAssignementTimeout = (action$, _, { config }) =>
     )
   );
 
-const cacheNewChatEpic = (action$, _, { history }) =>
+const cacheNewChatEpic = (action$, _, { history, cache }) =>
   action$.pipe(
     ofType(CHAT_SAVE_CHAT),
     tap(({ payload }) => {
@@ -182,7 +182,7 @@ const cacheNewChatEpic = (action$, _, { history }) =>
     skip()
   );
 
-const deactivateChatEpic = (action$) =>
+const deactivateChatEpic = (action$, _, { cache }) =>
   action$.pipe(
     ofType(CHAT_MESSAGE_RECEIVED),
     filter(({ payload }) => payload.type === 'chat.ended'),

@@ -1,5 +1,6 @@
 import { produce } from 'immer';
 import _isPlainObject from 'lodash/isPlainObject';
+import _isEmpty from 'lodash/isEmpty';
 import _get from 'lodash/get';
 import _pick from 'lodash/pick';
 import { from, of } from 'rxjs';
@@ -9,7 +10,6 @@ import { createSelector } from 'reselect';
 
 import { APP_INIT } from './app';
 import { CHAT_START, CHAT_SEND_MESSAGE } from './chat';
-import cache from '../services/Cache';
 import { generateVisitorId } from '../utils/visitorId';
 
 //#region ACTION TYPES
@@ -21,7 +21,7 @@ export const setVisitor = (payload) => ({ type: SET_VISITOR, payload });
 //#endregion
 
 //#region EPICS
-const initVisitorEpic = (action$, _, { config, api }) =>
+const initVisitorEpic = (action$, _, { config, api, cache }) =>
   action$.pipe(
     ofType(APP_INIT),
     switchMap(() => {
@@ -30,6 +30,7 @@ const initVisitorEpic = (action$, _, { config, api }) =>
         return from(api.loadUser(visitorId)).pipe(
           map((user) =>
             produce(user, (draft) => {
+              draft.visitor_id = visitorId;
               draft.guest = {
                 name: cache.getValue('guest.name') || _get(config, 'user.name'),
                 email:
@@ -57,7 +58,7 @@ const initVisitorEpic = (action$, _, { config, api }) =>
     map(setVisitor)
   );
 
-const updateGuestEpic = (action$) =>
+const updateGuestEpic = (action$, _, { cache }) =>
   action$.pipe(
     ofType(CHAT_START, CHAT_SEND_MESSAGE),
     filter((action) => 'email' in action.payload),
@@ -81,9 +82,9 @@ export default produce(
         if (payload.visitor_id) {
           draft.visitorId = payload.visitor_id;
         }
-        if (_isPlainObject(payload.guest)) {
-          draft.name = payload.guest.name;
-          draft.email = payload.guest.email;
+        if (_isPlainObject(payload.guest) && !_isEmpty(payload.guest)) {
+          draft.name = payload.guest.name || draft.name;
+          draft.email = payload.guest.email || draft.email;
         }
         return;
 

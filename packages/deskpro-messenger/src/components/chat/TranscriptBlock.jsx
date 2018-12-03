@@ -28,7 +28,7 @@ const transMessages = {
   }
 };
 
-class TranscriptBlock extends PureComponent {
+export class TranscriptBlock extends PureComponent {
   static propTypes = {
     onSend: PropTypes.func.isRequired,
     user: PropTypes.shape({
@@ -68,13 +68,17 @@ class TranscriptBlock extends PureComponent {
     e.preventDefault();
     const { name, email } = this.state;
     if (name && email) {
-      this.submit(this.state);
+      this.setState({ viewMode: 'final' }, () => this.submit(this.state));
     }
   };
 
   render() {
     const { viewMode } = this.state;
     const { formatMessage } = this.props.intl;
+
+    if (viewMode === 'hidden') {
+      return null;
+    }
 
     return (
       <ChatPrompt

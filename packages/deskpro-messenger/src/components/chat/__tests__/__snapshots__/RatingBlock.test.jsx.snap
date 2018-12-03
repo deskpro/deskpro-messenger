@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RatingBlock /> should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-MessagePrompt"
+  >
+    <div
+      class="dpmsg-PromptHeader"
+    >
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Rate your conversation with {name}
+      </span>
+    </div>
+    <div
+      class="dpmsg-PromptContentEvaluation"
+    >
+      <button
+        class="dpmsg-Button Button-LimitedWidth Button--success"
+        name="helpful"
+      >
+        Helpful
+      </button>
+      <button
+        class="dpmsg-Button Button-LimitedWidth Button--danger"
+        name="unhelpful"
+      >
+        Unhelpful
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<RatingBlock /> should send message and update state on rating selection 1`] = `
+<DocumentFragment>
+  <div
+    class="dpmsg-MessagePrompt"
+  >
+    <div
+      class="dpmsg-PromptHeader"
+    >
+      <span
+        class="dpmsg-PromptHeaderText"
+      >
+        Thank you for your feedback
+      </span>
+    </div>
+    <div
+      class="dpmsg-PromptContentEvaluation"
+    >
+      <i
+        class="dpmsg-IconSmile is-blue"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
