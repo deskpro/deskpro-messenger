@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> should render correctly as button 1`] = `
+<DocumentFragment>
+  <button
+    class="dpmsg-Button Button-FullWidth Button--primary"
+  >
+    Button Label
+  </button>
+</DocumentFragment>
+`;
+
+exports[`<Button /> should render correctly as link 1`] = `
+<DocumentFragment>
+  <a
+    class="dpmsg-Button Button--text Button--transparent"
+    href="/screens/index"
+  >
+    Button Label
+  </a>
+</DocumentFragment>
+`;
