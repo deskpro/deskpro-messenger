@@ -13,7 +13,7 @@ exports[`<Button /> should render correctly as button 1`] = `
 exports[`<Button /> should render correctly as link 1`] = `
 <DocumentFragment>
   <a
-    class="dpmsg-Button Button--text Button--transparent"
+    class="dpmsg-Button Button--text Button--medium Button--transparent"
     href="/screens/index"
   >
     Button Label

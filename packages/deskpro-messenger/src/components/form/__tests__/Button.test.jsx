@@ -20,7 +20,7 @@ describe('<Button />', () => {
 
   it('should render correctly as link', () => {
     const { getByText, asFragment } = render(
-      <Button width="middle" color="transparent" textOnly to="/screens/index">
+      <Button size="medium" color="transparent" textOnly to="/screens/index">
         Button Label
       </Button>
     );
