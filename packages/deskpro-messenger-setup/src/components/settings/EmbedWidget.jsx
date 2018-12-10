@@ -34,13 +34,13 @@ class EmbedWidget extends React.PureComponent {
         </Toggle>
 
         <h4>Publish on your website</h4>
-        <p>
+        <div>
           Add the messenger to your website by copy and pasting a line of HTML
           code.
-        </p>
+        </div>
         <Button size="medium">View instructions</Button>
         <br />
-        <p>
+        <div>
           For security reasons, you must specify the domains you will use the
           messenger on:
           <br />
@@ -53,7 +53,7 @@ class EmbedWidget extends React.PureComponent {
             autosize
             onChange={handleChange}
           />
-        </p>
+        </div>
       </Drawer>
     );
   }
