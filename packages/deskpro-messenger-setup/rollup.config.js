@@ -9,6 +9,26 @@ import postcssModulesValues from 'postcss-modules-values';
 
 module.exports = [
   {
+    input:  'styles/style.css',
+    output: {
+      file:   'dist/style.js',
+      format: 'umd',
+      name:   'reactComponentsStyle'
+    },
+    plugins: [
+      postcss({
+        parser:  false,
+        plugins: [
+          postcssImport()
+        ],
+        sourceMap: true,
+        path: 'dist/style.css',
+        extract: true,
+        extensions: ['.css']
+      }),
+    ]
+  },
+  {
     input:  'src/App.jsx',
     output: {
       file:      'dist/index.js',
@@ -36,7 +56,6 @@ module.exports = [
         extensions: ['.js', '.jsx']
       }),
       commonjs({
-        // exclude: ['node_modules/@deskpro/react-components/**'],
         namedExports: {
           'node_modules/@deskpro/react-components/dist/index.js': [
             'Button',
@@ -71,25 +90,5 @@ module.exports = [
       })
     ],
     external: ['react', 'react-dom']
-  },
-  {
-    input:  'styles/style.css',
-    output: {
-      file:   'dist/style.js',
-      format: 'umd',
-      name:   'reactComponentsStyle'
-    },
-    plugins: [
-      postcss({
-        parser:  false,
-        plugins: [
-          postcssImport()
-        ],
-        sourceMap: true,
-        path: 'dist/style.css',
-        extract: true,
-        extensions: ['.css']
-      }),
-    ]
   }
 ];
