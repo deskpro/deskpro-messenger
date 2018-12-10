@@ -4,6 +4,8 @@ import '@deskpro/react-components/dist/main.css';
 
 import Settings from './components/settings/Settings';
 import Preview from './components/preview/Preview';
+import transformConfig from "./utils/transformConfig";
+import style from '../styles/style.css';
 
 class App extends PureComponent {
   static = {
@@ -16,7 +18,7 @@ class App extends PureComponent {
     return (
       <div id="dp-messenger-setup">
         <Settings settings={settings} handleChange={handleChange} />
-        <Preview />
+        <Preview config={transformConfig(settings)}/>
       </div>
     );
   }
