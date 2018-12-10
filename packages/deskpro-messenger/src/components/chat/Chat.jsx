@@ -105,7 +105,7 @@ class Chat extends PureComponent {
               );
             case 'chat.noAgents':
               return (
-                <>
+                <div>
                   <SystemMessage
                     {...message}
                     message={
@@ -126,7 +126,7 @@ class Chat extends PureComponent {
                   {chatConfig.noAnswerBehavior === 'create_ticket' && (
                     <CreateTicketBlock />
                   )}
-                </>
+                </div>
               );
 
             default: {
