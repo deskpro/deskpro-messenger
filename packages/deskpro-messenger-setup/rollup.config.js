@@ -9,7 +9,7 @@ import postcssModulesValues from 'postcss-modules-values';
 
 module.exports = [
   {
-    input:  'styles/style.css',
+    input:  'styles/elements/settings.css',
     output: {
       file:   'dist/style.js',
       format: 'umd',

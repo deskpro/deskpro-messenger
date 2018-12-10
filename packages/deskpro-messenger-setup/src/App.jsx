@@ -5,7 +5,7 @@ import '@deskpro/react-components/dist/main.css';
 import Settings from './components/settings/Settings';
 import Preview from './components/preview/Preview';
 import transformConfig from "./utils/transformConfig";
-import style from '../styles/style.css';
+import style from '../styles/elements/settings.css';
 
 class App extends PureComponent {
   static = {

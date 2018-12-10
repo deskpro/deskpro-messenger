@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/messenger-setup",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": false,
   "author": "DeskPRO <team@deskpro.com>",
   "license": "BSD-3-Clause",
@@ -27,11 +27,12 @@
     "lint": "eslint . --cache --cache-location=.cache/eslint --ext .js,.jsx",
     "lint:fix": "npm run lint -- --fix",
     "test": "node scripts/test.js --env=jsdom",
-    "prepublishOnly": "npm test && npm run compile",
+    "prepublishOnly": "npm test --coverage && npm run build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "devDependencies": {
+    "@deskpro/js-utils": "^1.0.6",
     "@deskpro/react-components": "1.4.4-beta.0",
     "@storybook/addon-actions": "^4.0.7",
     "@storybook/react": "^4.0.7",
@@ -69,6 +70,7 @@
     "postcss-simple-vars": "^5.0.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-test-renderer": "^16.6.3",
     "rollup": "^0.67.0",
     "rollup-plugin-babel": "3.0.7",
     "rollup-plugin-commonjs": "^9.2.0",
@@ -97,8 +99,7 @@
       "<rootDir>/config/polyfills.js"
     ],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
+      "<rootDir>/tests/jest/**/?(*).js?(x)"
     ],
     "testEnvironment": "node",
     "testURL": "http://localhost",

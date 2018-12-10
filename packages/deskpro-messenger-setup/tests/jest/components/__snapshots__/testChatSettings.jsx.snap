@@ -1,0 +1,360 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
+<li
+  aria-expanded={true}
+  className="dp-list__element dp-column-drawer"
+  id="dp-column-drawer-1"
+  role="treeitem"
+>
+  <h1
+    aria-controls="dp-column-drawer-body-1"
+    aria-label="Click to close."
+    className="dp-heading"
+    onClick={[Function]}
+  >
+    Chat settings
+    <svg
+      aria-hidden={true}
+      aria-labelledby="svg-inline--fa-title-vvvvvvvvvvvv"
+      className="svg-inline--fa fa-caret-up fa-w-10 fa-sm dp-icon dp-column-drawer__arrow"
+      data-icon="caret-up"
+      data-prefix="fas"
+      onClick={[Function]}
+      role="img"
+      style={Object {}}
+      viewBox="0 0 320 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title
+        id="svg-inline--fa-title-vvvvvvvvvvvv"
+        style={Object {}}
+      >
+        Close
+      </title>
+      <path
+        d="M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z"
+        fill="currentColor"
+        style={Object {}}
+      />
+    </svg>
+  </h1>
+  <div
+    aria-hidden={false}
+    className="dp-column-drawer__body dp-column-drawer__body--opened"
+    id="dp-column-drawer-body-1"
+  >
+    <div
+      className="dp-input--toggle"
+    >
+      <input
+        checked={false}
+        className="right"
+        id={null}
+        name="chat.enabled"
+        onChange={[Function]}
+        type="checkbox"
+        value=""
+      />
+      <label
+        htmlFor={null}
+        onClick={[Function]}
+      >
+        Enable chat
+      </label>
+    </div>
+    <br />
+    Prompt the user to describe their problem before the chat starts:
+    <br />
+    <div
+      className="dp-input"
+    >
+      <input
+        id="id2"
+        name="chat.prompt"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        type="text"
+        value={undefined}
+      />
+    </div>
+    <h4>
+      Who can use chat
+    </h4>
+    <h4>
+      Pre-chat form
+    </h4>
+    <h4>
+      Unanswered chat
+    </h4>
+    If no agents are online to accept a chat, or when the user has waited for
+     
+    <div
+      className="dp-input small"
+    >
+      <input
+        id="id3"
+        name="chat.timeout"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        type="text"
+        value={undefined}
+      />
+    </div>
+     
+    seconds
+    <br />
+    <div
+      className="dp-select"
+    >
+      <div
+        className="css-10nd86i react-select"
+        id={undefined}
+        onKeyDown={[Function]}
+      >
+        <div
+          className="css-vj8t7z react-select__control"
+          onMouseDown={[Function]}
+          onTouchEnd={[Function]}
+        >
+          <div
+            className="css-1hwfws3 react-select__value-container react-select__value-container--has-value"
+          >
+            <div
+              className="css-xp4uvy react-select__single-value"
+            >
+              Just show busy message
+            </div>
+            <div
+              className="css-1g6gooi"
+            >
+              <div
+                className="react-select__input"
+                style={
+                  Object {
+                    "display": "inline-block",
+                  }
+                }
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-label={undefined}
+                  aria-labelledby={undefined}
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className={undefined}
+                  disabled={false}
+                  id="react-select-2-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  spellCheck="false"
+                  style={
+                    Object {
+                      "background": 0,
+                      "border": 0,
+                      "boxSizing": "content-box",
+                      "color": "inherit",
+                      "fontSize": "inherit",
+                      "opacity": 1,
+                      "outline": 0,
+                      "padding": 0,
+                      "width": "1px",
+                    }
+                  }
+                  tabIndex="0"
+                  type="text"
+                  value=""
+                />
+                <div
+                  style={
+                    Object {
+                      "height": 0,
+                      "left": 0,
+                      "overflow": "scroll",
+                      "position": "absolute",
+                      "top": 0,
+                      "visibility": "hidden",
+                      "whiteSpace": "pre",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-1wy0on6 react-select__indicators"
+          >
+            <span
+              className="css-d8oujb react-select__indicator-separator"
+            />
+            <div
+              className="react-select__dropdown-indicator"
+            />
+          </div>
+        </div>
+        <input
+          name="chat.noAnswerBehavior"
+          type="hidden"
+          value=""
+        />
+      </div>
+    </div>
+    <label
+      className="dp-input__label"
+      htmlFor=""
+    >
+      Busy message
+      
+    </label>
+    <div
+      className="dp-textarea"
+    >
+      <textarea
+        cols="40"
+        id=""
+        name="chat.busyMessage"
+        onChange={[Function]}
+        rows="10"
+        value=""
+      />
+    </div>
+    <br />
+    <u>
+      Missed chat ticket properties
+    </u>
+    <label
+      className="dp-input__label"
+      htmlFor=""
+    >
+      Department
+      
+    </label>
+    <div
+      className="dp-select"
+    >
+      <div
+        className="css-10nd86i react-select"
+        id={undefined}
+        onKeyDown={[Function]}
+      >
+        <div
+          className="css-vj8t7z react-select__control"
+          onMouseDown={[Function]}
+          onTouchEnd={[Function]}
+        >
+          <div
+            className="css-1hwfws3 react-select__value-container"
+          >
+            <div
+              className="css-1492t68 react-select__placeholder"
+            >
+              Please select
+            </div>
+            <div
+              className="css-1g6gooi"
+            >
+              <div
+                className="react-select__input"
+                style={
+                  Object {
+                    "display": "inline-block",
+                  }
+                }
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-label={undefined}
+                  aria-labelledby={undefined}
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className={undefined}
+                  disabled={false}
+                  id="react-select-3-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  spellCheck="false"
+                  style={
+                    Object {
+                      "background": 0,
+                      "border": 0,
+                      "boxSizing": "content-box",
+                      "color": "inherit",
+                      "fontSize": "inherit",
+                      "opacity": 1,
+                      "outline": 0,
+                      "padding": 0,
+                      "width": "1px",
+                    }
+                  }
+                  tabIndex="0"
+                  type="text"
+                  value=""
+                />
+                <div
+                  style={
+                    Object {
+                      "height": 0,
+                      "left": 0,
+                      "overflow": "scroll",
+                      "position": "absolute",
+                      "top": 0,
+                      "visibility": "hidden",
+                      "whiteSpace": "pre",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-1wy0on6 react-select__indicators"
+          >
+            <span
+              className="css-d8oujb react-select__indicator-separator"
+            />
+            <div
+              className="react-select__dropdown-indicator"
+            />
+          </div>
+        </div>
+        <input
+          name="chat.ticketDefaults.department"
+          type="hidden"
+          value=""
+        />
+      </div>
+    </div>
+    <label
+      className="dp-input__label"
+      htmlFor=""
+    >
+      Subject
+      
+    </label>
+    <div
+      className="dp-input"
+    >
+      <input
+        id="id4"
+        name="chat.ticketDefaults.subject"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Missed chat from {name}"
+        type="text"
+        value={undefined}
+      />
+    </div>
+  </div>
+</li>
+`;
