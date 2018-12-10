@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Map, fromJS } from 'immutable';
+import { fromJS } from 'immutable';
 import { Icon, ToggleableList } from '@deskpro/react-components';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import ChatSettings from './ChatSettings';
@@ -18,7 +18,7 @@ const dumpStyles = {
 
 class Settings extends React.Component {
   static propTypes = {
-    settings: PropTypes.instanceOf(Map),
+    settings: PropTypes.object,
     handleChange: PropTypes.func.isRequired
   };
 
