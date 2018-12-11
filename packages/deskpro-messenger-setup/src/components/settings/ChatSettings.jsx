@@ -14,7 +14,8 @@ import {
 class ChatSettings extends React.PureComponent {
   static propTypes = {
     config: PropTypes.object,
-    handleChange: PropTypes.func.isRequired
+    handleChange: PropTypes.func.isRequired,
+    chatDepartments: PropTypes.object,
   };
 
   static defaultProps = {
@@ -27,15 +28,17 @@ class ChatSettings extends React.PureComponent {
     { value: 'create_ticket', label: 'Direct the user to new ticket' }
   ];
 
-  departments = [{ value: 3, label: 'Sales' }, { value: 4, label: 'Support' }];
-
   handleSelectChange = (option, name) => {
     const value = typeof option === 'object' ? option.value : option;
     this.props.handleChange(value, name);
   };
 
   render() {
-    const { config, handleChange } = this.props;
+    const {
+      config,
+      handleChange,
+      chatDepartments
+    } = this.props;
     return (
       <Drawer>
         <Heading>Chat settings</Heading>
@@ -64,13 +67,14 @@ class ChatSettings extends React.PureComponent {
           className="small"
           type="text"
           value={config.getIn(['chat', 'timeout'])}
+          onChange={handleChange}
           name="chat.timeout"
         />{' '}
         seconds
         <br />
         <Select
           options={this.noAnswerOptions}
-          value={config.getIn(['chat', 'noAnswerBehavior']) || ''}
+          value={config.getIn(['chat', 'noAnswerBehavior'], '')}
           onChange={this.handleSelectChange}
           name="chat.noAnswerBehavior"
         />
@@ -87,7 +91,12 @@ class ChatSettings extends React.PureComponent {
         <u>Missed chat ticket properties</u>
         <Label>Department</Label>
         <Select
-          options={this.departments}
+          options={chatDepartments.toArray().map(dep => (
+            {
+              value: dep.get('id'),
+              label: dep.get('title')
+            }
+          ))}
           value={config.getIn(['chat', 'ticketDefaults', 'department'])}
           onChange={this.handleSelectChange}
           name="chat.ticketDefaults.department"
@@ -97,6 +106,7 @@ class ChatSettings extends React.PureComponent {
           type="text"
           value={config.getIn(['chat', 'ticketDefaults', 'subject'])}
           placeholder="Missed chat from {name}"
+          onChange={handleChange}
           name="chat.ticketDefaults.subject"
         />
       </Drawer>

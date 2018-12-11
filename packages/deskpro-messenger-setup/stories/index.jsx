@@ -22,7 +22,9 @@ const settings = {
     noAnswerBehavior: 'save_ticket',
     busyMessage:
       'It looks like all of our agents are busy at the moment. You can still send us a ticket below and we will get back to you as soon as possible',
-    department: 3,
+    ticketDefaults: {
+      department: 3,
+    },
     ticketSubject: 'Missed chat from {name}'
   },
   tickets: {
@@ -46,13 +48,21 @@ const settings = {
   }
 };
 
+const departments = [
+  { id: 3, title: 'Sales' }, { id: 4, title: 'Support' }
+];
+
 class SetupStory extends React.Component {
-  state = {
-    settings: Immutable.fromJS(settings)
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      settings: settings
+    };
+  }
 
   onChange = (value, name) => {
-    const { settings } = this.state;
+    const settings = Immutable.fromJS(this.state.settings);
 
     let config;
     if (typeof value === 'function') {
@@ -62,19 +72,24 @@ class SetupStory extends React.Component {
       config = settings.setIn(keyPath, value);
     }
     if (config) {
-      this.setState({ settings: config });
+      this.setState({ settings: config.toJS() });
     }
   };
 
   export = () => {
-    this.props.onExport(transformConfig(this.state.settings));
+    this.props.onExport(transformConfig(Immutable.fromJS(this.state.settings)));
   };
 
   render() {
     const { settings } = this.state;
     return (
       <div>
-        <App settings={settings} handleChange={this.onChange} />
+        <App
+          settings={Immutable.fromJS(settings)}
+          handleChange={this.onChange}
+          ticketDepartments={Immutable.fromJS(departments)}
+          chatDepartments={Immutable.fromJS(departments)}
+        />
         <button type="button" onClick={this.export}>
           Dump messenger config
         </button>
@@ -83,6 +98,8 @@ class SetupStory extends React.Component {
   }
 }
 
-storiesOf('Setup', module).add('Setup screen', () => {
-  return <SetupStory onExport={action('messenger-config')} />;
-});
+storiesOf('Setup', module)
+  .add('Setup screen', () => {
+    return <SetupStory onExport={action('messenger-config')} />;
+  }
+);

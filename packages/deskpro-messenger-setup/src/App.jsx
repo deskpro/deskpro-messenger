@@ -1,23 +1,35 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import '@deskpro/react-components/dist/main.css';
 
 import Settings from './components/settings/Settings';
 import Preview from './components/preview/Preview';
 import transformConfig from "./utils/transformConfig";
-import style from '../styles/elements/settings.css';
+import '../styles/elements/settings.css';
 
-class App extends PureComponent {
-  static = {
+class App extends React.Component {
+  static propTypes = {
     settings: PropTypes.object,
-    handleChange: PropTypes.func
+    handleChange: PropTypes.func,
+    chatDepartments: PropTypes.object,
+    ticketDepartments: PropTypes.object,
   };
 
   render() {
-    const { settings, handleChange } = this.props;
+    const {
+      settings,
+      handleChange,
+      chatDepartments,
+      ticketDepartments
+    } = this.props;
     return (
       <div id="dp-messenger-setup">
-        <Settings settings={settings} handleChange={handleChange} />
+        <Settings
+          settings={settings}
+          handleChange={handleChange}
+          chatDepartments={chatDepartments}
+          ticketDepartments={ticketDepartments}
+        />
         <Preview config={transformConfig(settings)}/>
       </div>
     );

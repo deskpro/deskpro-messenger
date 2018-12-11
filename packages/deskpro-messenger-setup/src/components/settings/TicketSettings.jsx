@@ -6,17 +6,20 @@ import { Drawer, Heading, Input, Label, Select, Toggle } from '@deskpro/react-co
 class TicketSettings extends React.PureComponent {
   static propTypes = {
     config: PropTypes.object,
-    handleChange: PropTypes.func.isRequired
+    handleChange: PropTypes.func.isRequired,
+    ticketDepartments: PropTypes.object,
   };
 
   static defaultProps = {
     config: Immutable.fromJS({})
   };
 
-  departments = [{ value: 3, label: 'Sales' }, { value: 4, label: 'Support' }];
-
   render() {
-    const { config, handleChange } = this.props;
+    const {
+      config,
+      handleChange,
+      ticketDepartments,
+    } = this.props;
     return (
       <Drawer>
         <Heading>Ticket settings</Heading>
@@ -29,7 +32,12 @@ class TicketSettings extends React.PureComponent {
         </Toggle>
         <Label>Department</Label>
         <Select
-          options={this.departments}
+          options={ticketDepartments.toArray().map(dep => (
+            {
+              value: dep.get('id'),
+              label: dep.get('title')
+            }
+          ))}
           value={config.getIn(['tickets', 'ticketDefaults', 'department'])}
           onChange={this.handleSelectChange}
           name="tickets.ticketDefaults.department"
@@ -39,6 +47,7 @@ class TicketSettings extends React.PureComponent {
           type="text"
           value={config.getIn(['tickets', 'ticketDefaults', 'subject'])}
           placeholder="Missed chat from {name}"
+          onChange={handleChange}
           name="tickets.ticketDefaults.subject"
         />
       </Drawer>

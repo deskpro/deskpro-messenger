@@ -1,4 +1,4 @@
-'use strict';
+
 
 const rejectionTracking = require('promise/lib/rejection-tracking');
 const es6Extensions = require('promise/lib/es6-extensions.js');

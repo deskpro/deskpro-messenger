@@ -9,17 +9,12 @@ import MessengerSettings from './MessengerSettings';
 import StyleSettings from './StyleSettings';
 import TicketSettings from './TicketSettings';
 
-const dumpStyles = {
-  height: '300px',
-  overflowY: 'auto',
-  border: '1px solid #eee',
-  padding: '10px'
-};
-
 class Settings extends React.Component {
   static propTypes = {
     settings: PropTypes.object,
-    handleChange: PropTypes.func.isRequired
+    handleChange: PropTypes.func.isRequired,
+    chatDepartments: PropTypes.object,
+    ticketDepartments: PropTypes.object,
   };
 
   static defaultProps = {
@@ -27,25 +22,41 @@ class Settings extends React.Component {
   };
 
   render() {
-    const { settings, handleChange } = this.props;
+    const {
+      settings,
+      handleChange,
+      chatDepartments,
+      ticketDepartments,
+    } = this.props;
     return (
       <div className="messenger-settings">
         <div>
           <Icon name={faCog} /> Site Widget & Chat
         </div>
         <ToggleableList on="click" toggle="opened">
-          <StyleSettings config={settings} handleChange={handleChange} />
-          <EmbedWidget config={settings} handleChange={handleChange} />
-          <ChatSettings config={settings} handleChange={handleChange} />
-          <TicketSettings config={settings} handleChange={handleChange} />
-          <MessengerSettings config={settings} handleChange={handleChange} />
+          <StyleSettings
+            config={settings}
+            handleChange={handleChange}
+          />
+          <EmbedWidget
+            config={settings}
+            handleChange={handleChange}
+          />
+          <ChatSettings
+            config={settings}
+            handleChange={handleChange}
+            chatDepartments={chatDepartments}
+          />
+          <TicketSettings
+            config={settings}
+            handleChange={handleChange}
+            ticketDepartments={ticketDepartments}
+          />
+          <MessengerSettings
+            config={settings}
+            handleChange={handleChange}
+          />
         </ToggleableList>
-        <div>
-          <h2>Settings:</h2>
-          <pre style={dumpStyles}>
-            {JSON.stringify(settings.toJS(), null, 2)}
-          </pre>
-        </div>
       </div>
     );
   }

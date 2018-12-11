@@ -9,7 +9,7 @@ import {
   Toggle
 } from '@deskpro/react-components';
 
-class MessengerSettings extends React.PureComponent {
+class MessengerSettings extends React.Component {
   static propTypes = {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired
@@ -25,7 +25,7 @@ class MessengerSettings extends React.PureComponent {
       <Drawer>
         <Heading>Messenger settings</Heading>
         <Toggle
-          checked={config.get('messenger.autoStart')}
+          checked={config.getIn(['messenger', 'autoStart'])}
           name="messenger.autoStart"
           onChange={handleChange}
         >
