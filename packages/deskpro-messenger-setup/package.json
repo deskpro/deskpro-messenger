@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/messenger-setup",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "private": false,
   "author": "DeskPRO <team@deskpro.com>",
   "license": "BSD-3-Clause",
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@deskpro/js-utils": "^1.0.6",
-    "@deskpro/react-components": "1.4.5-beta.2",
+    "@deskpro/react-components": "1.4.5-beta.4",
     "@storybook/addon-actions": "^4.0.7",
     "@storybook/addon-knobs": "^4.0.12",
     "@storybook/react": "^4.0.7",
