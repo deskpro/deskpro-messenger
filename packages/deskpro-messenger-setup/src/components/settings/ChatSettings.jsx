@@ -70,7 +70,7 @@ class ChatSettings extends React.PureComponent {
           ))}
           value={config.getIn(['chat', 'department'])}
           onChange={this.handleSelectChange}
-          name="chat.ticketDefaults.department"
+          name="chat.department"
         />
         <h4>Who can use chat</h4>
         <h4>Pre-chat form</h4>
