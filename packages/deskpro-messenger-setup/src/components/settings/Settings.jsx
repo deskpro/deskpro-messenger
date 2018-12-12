@@ -46,6 +46,7 @@ class Settings extends React.Component {
             config={settings}
             handleChange={handleChange}
             chatDepartments={chatDepartments}
+            ticketDepartments={ticketDepartments}
           />
           <TicketSettings
             config={settings}

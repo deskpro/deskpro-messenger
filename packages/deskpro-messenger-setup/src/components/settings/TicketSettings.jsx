@@ -14,6 +14,11 @@ class TicketSettings extends React.PureComponent {
     config: Immutable.fromJS({})
   };
 
+  handleSelectChange = (option, name) => {
+    const value = typeof option === 'object' ? option.value : option;
+    this.props.handleChange(value, name);
+  };
+
   render() {
     const {
       config,
@@ -38,17 +43,17 @@ class TicketSettings extends React.PureComponent {
               label: dep.get('title')
             }
           ))}
-          value={config.getIn(['tickets', 'ticketDefaults', 'department'])}
+          value={config.getIn(['tickets', 'department'])}
           onChange={this.handleSelectChange}
-          name="tickets.ticketDefaults.department"
+          name="tickets.department"
         />
         <Label>Subject</Label>
         <Input
           type="text"
-          value={config.getIn(['tickets', 'ticketDefaults', 'subject'])}
-          placeholder="Missed chat from {name}"
+          value={config.getIn(['tickets', 'subject'])}
+          placeholder="Ticket from {name}"
           onChange={handleChange}
-          name="tickets.ticketDefaults.subject"
+          name="tickets.subject"
         />
       </Drawer>
     );
