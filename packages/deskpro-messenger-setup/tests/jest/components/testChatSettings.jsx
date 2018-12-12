@@ -16,6 +16,7 @@ it('+++capturing Snapshot of BooleanInput with true set', () => {
   const renderedValue = renderer.create(
     <ChatSettings
       handleChange={noop}
+      ticketDepartments={Immutable.fromJS(departments)}
       chatDepartments={Immutable.fromJS(departments)}
     />
   ).toJSON();
