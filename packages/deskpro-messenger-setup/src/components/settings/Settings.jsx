@@ -27,7 +27,7 @@ class Settings extends React.Component {
       handleChange,
       chatDepartments,
       ticketDepartments,
-    } = this.props;
+    } = this.props;f
     return (
       <div className="messenger-settings">
         <div>
@@ -46,6 +46,7 @@ class Settings extends React.Component {
             config={settings}
             handleChange={handleChange}
             chatDepartments={chatDepartments}
+            ticketDepartments={ticketDepartments}
           />
           <TicketSettings
             config={settings}
