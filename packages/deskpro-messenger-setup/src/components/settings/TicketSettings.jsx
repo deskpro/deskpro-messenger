@@ -38,14 +38,14 @@ class TicketSettings extends React.PureComponent {
               label: dep.get('title')
             }
           ))}
-          value={config.getIn(['tickets', 'ticketDefaults', 'department'])}
+          value={config.getIn(['tickets', 'department'])}
           onChange={this.handleSelectChange}
           name="tickets.ticketDefaults.department"
         />
         <Label>Subject</Label>
         <Input
           type="text"
-          value={config.getIn(['tickets', 'ticketDefaults', 'subject'])}
+          value={config.getIn(['tickets', 'subject'])}
           placeholder="Missed chat from {name}"
           onChange={handleChange}
           name="tickets.ticketDefaults.subject"

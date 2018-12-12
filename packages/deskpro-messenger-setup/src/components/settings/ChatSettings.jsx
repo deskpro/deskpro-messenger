@@ -16,6 +16,7 @@ class ChatSettings extends React.PureComponent {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
     chatDepartments: PropTypes.object,
+    ticketDepartments: PropTypes.object
   };
 
   static defaultProps = {
@@ -37,7 +38,8 @@ class ChatSettings extends React.PureComponent {
     const {
       config,
       handleChange,
-      chatDepartments
+      chatDepartments,
+      ticketDepartments
     } = this.props;
     return (
       <Drawer>
@@ -57,6 +59,18 @@ class ChatSettings extends React.PureComponent {
           value={config.getIn(['chat', 'prompt'])}
           name="chat.prompt"
           onChange={handleChange}
+        />
+        <Label>Default chat department</Label>
+        <Select
+          options={chatDepartments.toArray().map(dep => (
+            {
+              value: dep.get('id'),
+              label: dep.get('title')
+            }
+          ))}
+          value={config.getIn(['chat', 'department'])}
+          onChange={this.handleSelectChange}
+          name="chat.ticketDefaults.department"
         />
         <h4>Who can use chat</h4>
         <h4>Pre-chat form</h4>
@@ -91,7 +105,7 @@ class ChatSettings extends React.PureComponent {
         <u>Missed chat ticket properties</u>
         <Label>Department</Label>
         <Select
-          options={chatDepartments.toArray().map(dep => (
+          options={ticketDepartments.toArray().map(dep => (
             {
               value: dep.get('id'),
               label: dep.get('title')
