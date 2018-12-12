@@ -23,6 +23,7 @@ class StyleSettings extends React.PureComponent {
           value={config.getIn(['styles', 'backgroundColor'])}
           name="styles.backgroundColor"
           onChange={handleChange}
+          format="hex"
         />
 
         <Label>Primary color</Label>
@@ -30,6 +31,7 @@ class StyleSettings extends React.PureComponent {
           value={config.getIn(['styles', 'primaryColor'])}
           name="styles.primaryColor"
           onChange={handleChange}
+          format="hex"
         />
       </Drawer>
     );
