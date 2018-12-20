@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/messenger",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "DeskPRO <support@deskpro.com>",
   "license": "BSD-3-Clause",
   "description": "DeskPRO embeddable messenger",
@@ -45,7 +45,7 @@
     "watch:css": "postcss -o public/assets/styles.css --verbose -m -w --env development styles/style.css",
     "build:css": "postcss --verbose --env production -m -o build/assets/styles.css styles/style.css",
     "postbuild": "node ./scripts/build-messenger.js",
-    "prepublish": "rm -rf dist && NODE_ENV=production babel src --out-dir dist --copy-files --ignore __tests__,test.js,__snapshots__",
+    "prepublishOnly": "rm -rf dist && NODE_ENV=production babel src --out-dir dist --copy-files --ignore __tests__,test.js,__snapshots__",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
