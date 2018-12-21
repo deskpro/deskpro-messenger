@@ -11,6 +11,7 @@ install:
 script: yarn lerna run build
 before_deploy:
   - yarn lerna run build-storybook
+  - cd packages/deskpro-messenger/build && zip -r ../../../messenger.zip ./
 env:
   global:
     - STORYBOOK_API_BASE='https://site36096.deskprodemo.com/'
@@ -23,3 +24,10 @@ deploy:
     local-dir: packages/deskpro-messenger/storybook-static
     on:
       branch: master
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: $GITHUB_TOKEN
+    file: messenger.zip
+    on:
+      tags: true
