@@ -9,18 +9,14 @@ try {
   let json = fs.readFileSync(buildFolder + '/asset-manifest.json');
 
   let assets = JSON.parse(json);
-  assets = Object.values(assets)
-    .map(fileName => {
-      // {HOST} will be replaced by the messenger loader.
-      switch (path.extname(fileName)) {
-        case '.css':
-          return `<link rel="stylesheet" href="{HOST}/${fileName}">`;
-        case '.js':
-          return `<script async src="{HOST}/${fileName}"></script>`;
-        default:
-          return '';
-      }
-    })
+  // {HOST} will be replaced by the messenger loader.
+  assets = assets.entrypoints.main.js
+    .map((fileName) => `<script async src="{HOST}/${fileName}"></script>`)
+    .concat(
+      assets.entrypoints.main.css.map(
+        (fileName) => `<link rel="stylesheet" href="{HOST}/${fileName}">`
+      )
+    )
     .join('');
   data = data.replace('<!-- INJECT ASSETS -->', assets);
 
