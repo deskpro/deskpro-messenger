@@ -21,11 +21,15 @@ class PathFixer {
           .forEach((file) => {
             const asset = compilation.assets[file];
             const input = asset.source();
-            let output = input.replace('__webpack_require__.p + "static/js/"', 'window.DESKPRO_MESSENGER_ASSET_URL');
-            output = output.replace(/Object\([^\)].*\)\("styles.css"\)/, 'window.DESKPRO_MESSENGER_ASSET_URL + "styles.css"')
-            const outputSource = new webpackSources.RawSource(output);
+            if (input.indexOf('__webpack_require__.p + "static/js/"') !== -1) {
+              let output         = input.replace('__webpack_require__.p + "static/js/"', 'window.parent.DESKPRO_MESSENGER_ASSET_URL');
+              const outputSource = new webpackSources.RawSource(output);
+              processedAssets.add(compilation.assets[file] = outputSource);
+            } else {
+              processedAssets.add(compilation.assets[file]);
+            }
 
-            processedAssets.add(compilation.assets[file] = outputSource);
+
           });
 
           callback();
