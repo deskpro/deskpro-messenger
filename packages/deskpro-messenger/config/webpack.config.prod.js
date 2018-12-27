@@ -8,6 +8,7 @@ const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const PathFixer = require('./plugins/PathFixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const safePostCssParser = require('postcss-safe-parser');
@@ -133,6 +134,7 @@ module.exports = {
   },
   optimization: {
     minimizer: [
+      new PathFixer(),
       new TerserPlugin({
         terserOptions: {
           parse: {
