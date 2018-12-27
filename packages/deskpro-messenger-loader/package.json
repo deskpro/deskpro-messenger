@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/messenger-loader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Loader for the Deskpro Messenger v2",
   "author": "DeskPRO <support@deskpro.com>",
   "license": "BSD-3-Clause",
@@ -10,8 +10,12 @@
   },
   "scripts": {
     "build": "webpack -c webpack.config.js",
+    "prepublishOnly": "yarn build",
     "start": "parcel public/index.html"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
