@@ -17,6 +17,7 @@ export default (settings) => {
       to: 'startChat'
     });
     screens.startChat = settings.get('chat').toJS();
+    screens.startChat.screenType = 'StartChatScreen';
     delete screens.startChat.enabled;
     if (screens.startChat.noAnswerBehavior === 'save_ticket') {
       screens.startChat.ticketFormConfig = [

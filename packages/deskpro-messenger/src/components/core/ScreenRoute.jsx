@@ -11,9 +11,22 @@ class ScreenRoute extends React.PureComponent {
     path: PropTypes.string.isRequired
   };
 
-  component = lazy(() =>
-    import(`../../screens/${this.props.screen.screenType}`)
-  );
+  component = lazy(() => {
+    const {
+      screen: { screenType },
+      screenName
+    } = this.props;
+
+    if (!screenType) {
+      throw Error(`Missing \`screenType\` for the screen '${screenName}'`);
+    }
+
+    return import(`../../screens/${screenType}`).catch(() =>
+      console.error(
+        `Unknown screen type \`${screenType}\` is specified for the \`${screenName}\`.`
+      )
+    );
+  });
 
   render() {
     const {
