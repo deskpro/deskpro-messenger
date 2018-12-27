@@ -53,6 +53,7 @@ export default (settings) => {
       to: 'newTicket'
     });
     screens.newTicket = settings.tickets;
+    screens.newTicket.screenType = 'TicketFormScreen';
     delete screens.newTicket.enabled;
   }
 
