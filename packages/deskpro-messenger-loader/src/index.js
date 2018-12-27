@@ -1,13 +1,16 @@
+import transformConfig from './transformConfig';
+
 function loadConfig(helpdeskUrl) {
-  // const configUrl = `${helpdeskUrl}/api/messenger/config.json`;
-  const configUrl = `${helpdeskUrl}config.json`;
+  const configUrl = `${helpdeskUrl}/api/messenger/service/setup`;
 
   return fetch(configUrl)
     .then((res) => res.json())
     .then((adminConfig) => {
+      const { bundleUrl } = adminConfig;
       const config = {
+        bundleUrl,
         helpdeskUrl,
-        ...adminConfig,
+        ...transformConfig(adminConfig),
         ...window.DESKPRO_MESSENGER_OPTIONS
       };
       window.DESKPRO_MESSENGER_OPTIONS = config;
@@ -40,7 +43,9 @@ function setupFrames(config) {
   const initialContent = `<!DOCTYPE html><html>
   <head></head>
   <body>
-    <script src="${config.bundleUrl}"></script>
+    <script src="${config.bundleUrl.runtime}"></script>
+    <script src="${config.bundleUrl.main}"></script>
+    <script src="${config.bundleUrl.lastChunk}"></script>
   </body></html>`;
   iframeDoc.open('text/html', 'replace');
   iframeDoc.write(initialContent);
