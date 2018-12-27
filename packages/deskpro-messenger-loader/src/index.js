@@ -1,7 +1,7 @@
 import transformConfig from './transformConfig';
 
-function loadConfig(helpdeskUrl) {
-  const configUrl = `${helpdeskUrl}/api/messenger/service/setup`;
+function loadConfig(helpdeskURL) {
+  const configUrl = `${helpdeskURL}/api/messenger/service/setup`;
 
   return fetch(configUrl)
     .then((res) => res.json())
@@ -9,7 +9,7 @@ function loadConfig(helpdeskUrl) {
       const { bundleUrl } = adminConfig;
       const config = {
         bundleUrl,
-        helpdeskUrl,
+        helpdeskURL,
         ...transformConfig(adminConfig),
         ...window.DESKPRO_MESSENGER_OPTIONS
       };
