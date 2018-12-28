@@ -1,9 +1,11 @@
 {
   "name": "@deskpro/messenger",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "DeskPRO <support@deskpro.com>",
   "license": "BSD-3-Clause",
   "description": "DeskPRO embeddable messenger",
+  "main": "build/messenger.js",
+  "module": "build/messenger.js",
   "files": [
     "build",
     "README.md"
@@ -47,7 +49,8 @@
     "test": "node scripts/test.js --env=jsdom",
     "storybook": "start-storybook -p 9009 -s public",
     "start-storybook": "npm-run-all -p watch:css storybook",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "@babel/core": "7.1.0",
