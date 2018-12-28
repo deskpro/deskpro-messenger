@@ -1,14 +1,11 @@
 {
   "name": "@deskpro/messenger",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "DeskPRO <support@deskpro.com>",
   "license": "BSD-3-Clause",
   "description": "DeskPRO embeddable messenger",
-  "main": "dist/messenger.js",
-  "module": "dist/messenger.js",
   "files": [
-    "dist",
-    "styles",
+    "build",
     "README.md"
   ],
   "repository": {
