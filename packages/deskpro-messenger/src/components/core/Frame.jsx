@@ -99,6 +99,7 @@ class Frame extends PureComponent {
       <FrameComponent
         head={
           <Fragment>
+            <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet" />
             {head}
             {baseHead}
           </Fragment>
