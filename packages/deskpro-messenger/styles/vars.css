@@ -1,5 +1,5 @@
 :root {
-  --font-family-sans-serif: Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family-sans-serif: Rubik, "Helvetica", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-family-base: var(--font-family-sans-serif);
 
@@ -41,6 +41,7 @@
   --cyan: #17a2b8;
 
   --color-primary: var(--blue);
+  --color-dark-primary: color-mod(var(--color-primary) blackness(20%));
   --color-secondary: #6e8293;
   --color-success: var(--green);
   --color-info: var(--cyan);
@@ -48,7 +49,7 @@
   --color-danger: var(--red);
 
   --link-color: var(--color-primary);
-  --link-hover-color: color-mod(var(--color-primary) blackness(50%));
+  --link-hover-color: var(--color-dark-primary);
 
   --border-radius: 0.25rem;
 

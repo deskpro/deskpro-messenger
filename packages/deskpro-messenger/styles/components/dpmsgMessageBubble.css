@@ -44,10 +44,6 @@
   padding: var(--sm-space);
 }
 
-.dpmsg-BubbleItem img {
-  max-width: 100%;
-}
-
 .is-incoming .dpmsg-BubbleItem {
   background-color: #f8fafc;
   border: var(--border);

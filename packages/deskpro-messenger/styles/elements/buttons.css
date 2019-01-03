@@ -22,7 +22,7 @@
 
   &.Button--transparent {
     background: transparent;
-    border: 1px solid #3d88f3;
+    border: 1px solid var(--color-primary);
     color: #5f768a;
     &:hover { background: var(--gray-100); }
   }
@@ -122,5 +122,20 @@
 
   &.Button-HalfWidth {
     width: calc(50% - var(--xs-space));
+  }
+}
+
+.is-light .dpmsg-Button {
+
+  &.Button--primary {
+    color: var(--text-dark);
+  }
+}
+
+a {
+  color: var(--color-primary);
+
+  &:hover {
+    color: var(--color-dark-primary);
   }
 }

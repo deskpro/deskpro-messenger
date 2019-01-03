@@ -60,7 +60,7 @@ module.exports = (ctx) => ({
         'caption-side': 'top',
         clear: 'none',
         clip: 'auto',
-        color: '#000',
+        color: '#5f768a',
         columns: 'auto',
         'column-count': 'auto',
         'column-fill': 'balance',

@@ -122,15 +122,15 @@
   justify-content: flex-end;
 }
 
-.is-blue .dpmsg-ScreenHeder {
-  background-image: linear-gradient(30deg, var(--blue) 0%, var(--blue) 22%, #4877b2 100%);
+.dpmsg-ScreenHeder {
+  background-image: linear-gradient(30deg, var(--color-primary) 0%, var(--color-primary) 22%, var(--color-dark-primary) 100%);
 }
 
-.is-blue .dpmsg-ScreenHederTitle {
+.dpmsg-ScreenHederTitle {
   color: var(--white);
 }
 
-.is-blue .dpmsg-ScreenHederText {
+.dpmsg-ScreenHederText {
   color: #f9f9f9;
 }
 
@@ -172,12 +172,12 @@
   font-size: var(--h1);
 }
 
-.is-blue .dpmsg-ScreenControls,
-.is-blue .dpmsg-ScreenControls a {
+.dpmsg-ScreenControls,
+.dpmsg-ScreenControls a {
   color: var(--white);
 }
 
-.is-blue .dpmsg-ScreenControls .dpmsg-IconArrow {
+.dpmsg-ScreenControls .dpmsg-IconArrow {
   background-image: url('data:image/svg+xml,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><style>.cls-1{fill:%23fff;}</style></defs><title>app_icons</title><path class="cls-1" d="M275,468.73a36.26,36.26,0,0,0,50.26,0l0,0L589.1,206a36.27,36.27,0,0,0-51.29-51.29L300.69,391.8,63.56,154.67A36.27,36.27,0,0,0,12.27,206Z"/></svg>');
 }
 

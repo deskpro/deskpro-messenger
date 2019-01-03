@@ -31,7 +31,7 @@
 }
 
 .dpmsg-BlockHeader::after {
-  background-color: var(--blue);
+  background-color: var(--color-primary);
   bottom: 0;
   content: "";
   display: block;

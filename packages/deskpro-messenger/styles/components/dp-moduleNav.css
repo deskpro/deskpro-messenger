@@ -1,0 +1,76 @@
+.dp-ModuleNav {
+  background-color: #eff0f0;
+  border-right: 2px solid #c4c9c9;
+  color: inherit;
+  display: block;
+  height: 100%;
+  width: 45px;
+}
+
+.dp-ModuleNav .is-borderBottom {
+  border-bottom: 2px solid #b8bebd;
+}
+
+.dp-ModuleNav .dp-ModuleNavList {
+  align-items: center;
+  display: flex;
+  height: 45px;
+  justify-content: center;
+  margin: 0 3px;
+}
+
+.dp-ModuleNav .dp-Icon {
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+}
+
+.dp-ModuleNav .dp-iconEmail {
+  background-size: 20px 15px;
+}
+
+.dp-ModuleNav .dp-iconChat {
+  background-size: 18px 18px;
+}
+
+.dp-ModuleNav .dp-iconAvatar {
+  background-size: 31px 31px;
+}
+
+.dp-ModuleNav .dp-iconLike {
+  background-size: 20px 21px;
+}
+
+.dp-ModuleNav .dp-iconLike {
+  background-size: 20px 21px;
+}
+
+.dp-ModuleNav .dp-iconAi {
+  background-size: 20px 18px;
+}
+
+.dp-ModuleNav .dp-iconApprov {
+  background-size: 20px 18px;
+}
+
+.dp-ModuleNav .dp-iconTrello {
+  background-size: 31px 31px;
+}
+
+.dp-ModuleNav .dp-iconSetting {
+  background-size: 18px 18px;
+}
+
+.dp-ModuleNav .dp-iconSetting {
+  background-size: 18px 18px;
+}
+
+.dp-ModuleNav .dp-iconMoney {
+  background-size: 18px 18px;
+}
+
+.dp-ModuleNav .dp-iconIntegration {
+  background-size: 23px 23px;
+}

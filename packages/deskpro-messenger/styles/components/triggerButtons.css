@@ -46,7 +46,7 @@
   width: 5.2em;
 
   &.is-blue {
-    background-color: var(--blue);
+    background-color: var(--color-primary);
 
     &:hover {
       filter: grayscale(50%);

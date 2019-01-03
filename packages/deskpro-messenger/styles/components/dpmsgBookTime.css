@@ -9,7 +9,7 @@
 }
 
 a.dpmsg-BlockHeader:hover span {
-  color: var(--blue);
+  color: var(--color-primary);
 }
 
 .dpmsg-BookTime .is-italic {
@@ -83,7 +83,7 @@ a.dpmsg-BlockHeader:hover span {
 
 .dpmsg-BookTime .dpmsg-Level.dpmsg-BookFooter {
   border-bottom: none;
-  color: var(--blue);
+  color: var(--color-primary);
   font-size: var(--h3);
   margin-top: 10px;
   padding-bottom: 0;
@@ -106,7 +106,7 @@ a.dpmsg-BlockHeader:hover span {
 
 .dpmsg-BookTime .Button-Time {
   background: transparent;
-  border: 1px solid var(--blue);
+  border: 1px solid var(--color-primary);
   color: var(--gray-500);
   display: inline-block;
   height: 37px;
@@ -163,10 +163,14 @@ a.dpmsg-BlockHeader:hover span {
 }
 
 .dpmsg-BookTimeLink {
-  color: var(--blue);
+  color: var(--color-primary);
   cursor: pointer;
   display: block;
   font-size: var(--h4);
   padding-top: 4px;
   text-align: center;
+
+  &:hover {
+    color: var(--color-dark-primary);
+  }
 }

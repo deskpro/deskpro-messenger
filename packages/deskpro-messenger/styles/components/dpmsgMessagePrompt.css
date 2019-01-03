@@ -42,18 +42,12 @@
 
 .dpmsg-PromptBtn.is-agdee {
   color: var(--color-success);
-
-  &:hover {
-    color: color-mod(var(--color-success) blackness(20%));
-  }
+  &:hover { color: color-mod(var(--color-success) blackness(20%)); }
 }
 
 .dpmsg-PromptBtn.is-disagree {
   color: var(--color-danger);
-
-  &:hover {
-    color: color-mod(var(--color-danger) blackness(20%));
-  }
+  &:hover { color: color-mod(var(--color-danger) blackness(20%)); }
 }
 
 .dpmsg-PromptContentEvaluation {

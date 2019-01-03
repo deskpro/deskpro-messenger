@@ -5,6 +5,7 @@ import FrameComponent, { FrameContextConsumer } from 'react-frame-component';
 
 import { ConfigConsumer } from './ConfigContext';
 import asset from '../../utils/asset';
+import { darker } from '../../utils/color';
 let baseHead;
 
 // in production env this the styles could be extracted only once when the app
@@ -88,6 +89,9 @@ class Frame extends PureComponent {
       const html = this.frame.current.getDoc().getElementsByTagName('html')[0];
       Object.entries(this.props.themeVars).forEach(([name, value]) => {
         html.style.setProperty(name, value);
+        if (name === '--color-primary') {
+          html.style.setProperty('--color-dark-primary', darker(value, 20));
+        }
       });
     }
   };
@@ -99,7 +103,10 @@ class Frame extends PureComponent {
       <FrameComponent
         head={
           <Fragment>
-            <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet" />
+            <link
+              href="https://fonts.googleapis.com/css?family=Rubik:400,400i,700,700i"
+              rel="stylesheet"
+            />
             {head}
             {baseHead}
           </Fragment>
