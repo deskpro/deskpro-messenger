@@ -2,7 +2,9 @@ import React, { PureComponent, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import { ConfigConsumer } from './ConfigContext';
 import asset from '../../utils/asset';
+import { isLightColor } from '../../utils/color';
 
 /* Heigh of the toggle button, its margins, and margins of the widget shell */
 const OUTER_ELEMENTS_HEIGHT = 102;
@@ -15,7 +17,7 @@ const getWidgetContentMaxHeight = () =>
 class MessengerShell extends PureComponent {
   static propTypes = {
     isMinimal: PropTypes.bool,
-    theme: PropTypes.oneOf(['blue', 'light']),
+    isLight: PropTypes.bool,
     title: PropTypes.string,
     introText: PropTypes.string,
     children: PropTypes.any,
@@ -24,7 +26,7 @@ class MessengerShell extends PureComponent {
 
   static defaultProps = {
     isMinimal: true,
-    theme: 'blue',
+    isLight: false,
     title: 'Get in touch',
     introText: ''
   };
@@ -32,7 +34,7 @@ class MessengerShell extends PureComponent {
   render() {
     const {
       isMinimal,
-      theme,
+      isLight,
       title,
       introText,
       children,
@@ -45,10 +47,8 @@ class MessengerShell extends PureComponent {
         <div
           className={classNames('dpmsg-Screen', {
             'is-minimal': isMinimal,
-            'is-blue': theme === 'blue',
-            'is-light': theme === 'light'
+            'is-light': isLight
           })}
-          style={{ height: 'auto' }}
         >
           <div className="dpmsg-ScreenHeder">
             <div className="dpmsg-ScreenControls dpmsg-Level">{controls}</div>
@@ -62,9 +62,7 @@ class MessengerShell extends PureComponent {
           </div>
           <div
             className="dpmsg-ScreenContent"
-            style={{
-              maxHeight: `${getWidgetContentMaxHeight()}px`
-            }}
+            style={{ maxHeight: `${getWidgetContentMaxHeight()}px` }}
           >
             {children}
           </div>
@@ -86,5 +84,16 @@ class MessengerShell extends PureComponent {
 }
 
 export default forwardRef((props, ref) => (
-  <MessengerShell {...props} forwardedRef={ref} />
+  <ConfigConsumer>
+    {({ themeVars }) => (
+      <MessengerShell
+        {...props}
+        forwardedRef={ref}
+        isLight={
+          !!themeVars['--color-primary'] &&
+          isLightColor(themeVars['--color-primary'])
+        }
+      />
+    )}
+  </ConfigConsumer>
 ));
