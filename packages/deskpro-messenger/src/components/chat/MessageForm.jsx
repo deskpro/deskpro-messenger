@@ -92,7 +92,7 @@ class MessageForm extends PureComponent {
     placeholderText: false,
     charCounterCount: false,
     emoticonsUseImage: false,
-    key: this.context.froalaKey,
+    key: 'MC1D2D1G2lG4J4A14A7D3D6F6C2C3F3gSXSE1LHAFJVCXCLS==',
     events: {
       'froalaEditor.initialized': this.onFroalaInit,
       'froalaEditor.file.uploaded': this.fileUploaded,
