@@ -67,6 +67,7 @@ typings/
 # production
 /build
 /dist
+/public/assets/styles.css*
 
 # Storybook
 /storybook-static
