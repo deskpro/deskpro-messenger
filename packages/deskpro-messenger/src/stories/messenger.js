@@ -254,7 +254,7 @@ storiesOf('Messenger', module)
     };
 
     const config = {
-      helpdeskURL: process.env.STORYBOOK_API_BASE,
+      helpdeskURL: text('Helpdesk Url', 'https://site36680.deskprodemo.com/', 'Config'),
       locale: select('Locale', ['en-US', 'ru-RU'], 'en-US', 'i18n'),
       screens,
       greetings,
