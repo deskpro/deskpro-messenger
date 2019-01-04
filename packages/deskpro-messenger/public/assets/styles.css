@@ -1344,7 +1344,7 @@ label {
 .dpmsg-GroupInputs .dpmsg-LabelInputText {
   padding-top: 4px;
 }
-.dpmsg-LabelInputText + .dpmsg-Input {
+.dpmsg-LabelInputText+.dpmsg-Input {
   margin-bottom: 4px;
 }
 .dpmsg-WrapInput .dpmsg-IconSearch {
@@ -1393,7 +1393,7 @@ label {
   transition: left var(--animation-speed);
   width: 12px;
 }
-.dpmsg-InputCheckbox:checked + .dpmsg-InputCustomCheckbox .dpmsg-InputCheckboxMarker::after {
+.dpmsg-InputCheckbox:checked+.dpmsg-InputCustomCheckbox .dpmsg-InputCheckboxMarker::after {
   left: 13px;
   -webkit-transition: left 0.2s;
   transition: left 0.2s;
@@ -1407,14 +1407,14 @@ label {
   -webkit-transition: color var(--animation-speed);
   transition: color var(--animation-speed);
 }
-.dpmsg-InputCheckbox:checked + .dpmsg-InputCustomCheckbox .dpmsg-InputCheckboxText.is-first {
+.dpmsg-InputCheckbox:checked+.dpmsg-InputCustomCheckbox .dpmsg-InputCheckboxText.is-first {
   color: #6e8293;
   -webkit-transition: color 0.2s;
   transition: color 0.2s;
   -webkit-transition: color var(--animation-speed);
   transition: color var(--animation-speed);
 }
-.dpmsg-InputCheckbox:checked + .dpmsg-InputCustomCheckbox .dpmsg-InputCheckboxText {
+.dpmsg-InputCheckbox:checked+.dpmsg-InputCustomCheckbox .dpmsg-InputCheckboxText {
   color: #3c87f3;
   -webkit-transition: color 0.2s;
   transition: color 0.2s;
@@ -1423,7 +1423,6 @@ label {
 }
 .dpmsg-WrapTextarea {
   background-color: #fff;
-  bottom: 0;
   display: block;
   margin-left: calc(8px * -1);
   margin-left: calc(var(--xs-space) * -1);
@@ -1432,9 +1431,9 @@ label {
   margin-top: 20px;
   padding: 0 8px 8px;
   padding: 0 var(--xs-space) var(--xs-space);
-  position: -webkit-sticky;
-  position: sticky;
-  top: auto;
+  /* position: sticky; */
+  /* top: auto; */
+  /* bottom: 0; */
   width: calc(100% + 8px + 8px);
   width: calc(100% + var(--xs-space) + var(--xs-space));
 }

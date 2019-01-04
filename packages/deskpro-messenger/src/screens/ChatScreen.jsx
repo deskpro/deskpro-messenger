@@ -70,6 +70,7 @@ class ChatScreen extends PureComponent {
           },
           { department: department.title }
         )}
+        className="Block--chat"
       >
         <Chat
           messages={this.props.messages}

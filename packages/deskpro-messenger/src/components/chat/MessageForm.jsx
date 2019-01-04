@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 // import { FrameContextConsumer } from 'react-frame-component';
 // Import only JS files, styles are imported in Window.jsx inline into iframe.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
@@ -33,7 +34,9 @@ class MessageForm extends PureComponent {
   static propTypes = {
     visitorId: PropTypes.string.isRequired,
     onSend: PropTypes.func.isRequired,
-    frameContext: PropTypes.object.isRequired
+    frameContext: PropTypes.object.isRequired,
+    className: PropTypes.string,
+    style: PropTypes.object
   };
 
   static contextType = ConfigContext;
@@ -118,8 +121,14 @@ class MessageForm extends PureComponent {
   };
 
   render() {
+    const { className, style } = this.props;
+
     return (
-      <div className="dpmsg-WrapTextarea" ref={this.wrapperRef}>
+      <div
+        className={classNames('dpmsg-WrapTextarea', className)}
+        ref={this.wrapperRef}
+        style={style}
+      >
         <FroalaEditor
           ref={this.froalaRef}
           model={this.state.message}

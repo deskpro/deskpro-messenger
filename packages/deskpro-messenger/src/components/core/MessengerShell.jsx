@@ -3,16 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { ConfigConsumer } from './ConfigContext';
+import ScreenContent from './ScreenContent';
 import asset from '../../utils/asset';
 import { isLightColor } from '../../utils/color';
-
-/* Heigh of the toggle button, its margins, and margins of the widget shell */
-const OUTER_ELEMENTS_HEIGHT = 102;
-/* Height of the widget header, footer and margins  */
-const INNER_ELEMENTS_HEIGHT = 185;
-
-const getWidgetContentMaxHeight = () =>
-  window.parent.innerHeight - OUTER_ELEMENTS_HEIGHT - INNER_ELEMENTS_HEIGHT;
 
 class MessengerShell extends PureComponent {
   static propTypes = {
@@ -60,12 +53,9 @@ class MessengerShell extends PureComponent {
               <span className="dpmsg-ScreenHederText">{introText}</span>
             )}
           </div>
-          <div
-            className="dpmsg-ScreenContent"
-            style={{ maxHeight: `${getWidgetContentMaxHeight()}px` }}
-          >
+          <ScreenContent>
             {children}
-          </div>
+          </ScreenContent>
           <div className="dpmsg-ScreenFooter">
             <span className="dpmsg-ScreenLine" />
             <span className="dpmsg-ScreenFooterText">Powered by</span>
