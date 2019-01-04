@@ -15,8 +15,9 @@ import {
 } from '@storybook/addon-knobs';
 import _isPlainObject from 'lodash/isPlainObject';
 
-import App from '../App';
+import Main from '../containers/Main';
 import createApiService from '../services/api';
+import cache from '../services/Cache';
 import '../index.css';
 
 import createStore from '../store';
@@ -254,7 +255,11 @@ storiesOf('Messenger', module)
     };
 
     const config = {
-      helpdeskURL: text('Helpdesk Url', 'https://site36680.deskprodemo.com/', 'Config'),
+      helpdeskURL: text(
+        'Helpdesk Url',
+        'https://site36680.deskprodemo.com/',
+        'Config'
+      ),
       locale: select('Locale', ['en-US', 'ru-RU'], 'en-US', 'i18n'),
       screens,
       greetings,
@@ -271,12 +276,12 @@ storiesOf('Messenger', module)
       select('API Type', ['real', 'fake'], 'real', 'API')
     );
 
-    const store = createStore(undefined, { config, history, api });
+    const store = createStore(undefined, { config, history, api, cache });
 
     return (
       <Provider store={store}>
         <Router history={history}>
-          <App config={config} />
+          <Main config={config} />
         </Router>
       </Provider>
     );
