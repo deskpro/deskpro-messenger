@@ -109,7 +109,7 @@
   caption-side: top;
   clear: none;
   clip: auto;
-  color: #5f768a;
+  color: #000;
   -webkit-columns: auto;
           columns: auto;
   -webkit-column-count: auto;
@@ -2101,4 +2101,4 @@ a:hover {
     white-space: pre;
     word-wrap: normal;
   }
-/*# sourceMappingURL=styles.css.map */
+/*# sourceMappingURL=styles.css.map */ */

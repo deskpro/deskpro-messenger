@@ -99,6 +99,7 @@ class Chat extends PureComponent {
 
     return (
       <div
+        className="dpmsg-ChatMessagesWrapper"
         style={{
           display: 'flex',
           flexDirection: 'column',
