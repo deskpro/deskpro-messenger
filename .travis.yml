@@ -14,7 +14,7 @@ before_deploy:
   - cd packages/deskpro-messenger/build && zip -r ../../../messenger.zip ./ && cd ../../../
 env:
   global:
-    - STORYBOOK_API_BASE='https://site36096.deskprodemo.com/'
+    - STORYBOOK_API_BASE='https://site36680.deskprodemo.com/'
     - STORYBOOK_FROALA_KEY='MC1D2D1G2lG4J4A14A7D3D6F6C2C3F3gSXSE1LHAFJVCXCLS=='
 deploy:
   - provider: pages
