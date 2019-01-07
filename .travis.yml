@@ -8,11 +8,11 @@ cache:
 install:
   - yarn
   - yarn bootstrap
+  - cd packages/deskpro-messenger && git submodules init && git submodules update && cd ../../
 script: yarn lerna run build
 before_deploy:
   - yarn lerna run build-storybook
   - cp packages/deskpro-messenger/build/assets/styles.css* packages/deskpro-messenger/storybook-static/assets/
-  - cd packages/deskpro-messenger/build && zip -r ../../../messenger.zip ./ && cd ../../../
 deploy:
   - provider: pages
     skip_cleanup: true
@@ -21,10 +21,3 @@ deploy:
     local-dir: packages/deskpro-messenger/storybook-static
     on:
       branch: master
-  - provider: releases
-    skip_cleanup: true
-    api_key:
-      secure: $GITHUB_TOKEN
-    file: messenger.zip
-    on:
-      tags: true

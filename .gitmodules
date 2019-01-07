@@ -1,0 +1,3 @@
+[submodule "packages/deskpro-messenger/styles"]
+	path = packages/deskpro-messenger/styles
+	url = git@github.com:deskpro/messenger-style.git
