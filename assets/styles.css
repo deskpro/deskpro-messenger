@@ -242,10 +242,11 @@
   --link-color: var(--color-primary);
   --link-hover-color: color-mod(var(--color-primary) blackness(50%));
 
+  /* 4px based on 16px document */
   --border-radius: 0.25rem;
+
   /* 4px based on 16px document */
   --border-radius-small: calc(var(--border-radius) * 0.5);
-  /* 4px based on 16px document */
 
   --animation-speed: 0.2s;
 
@@ -1578,27 +1579,27 @@ label {
 .fr-box.fr-basic.fr-bottom .fr-wrapper {
   background-color: #fff;
   border: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
   border-top: 2px solid #3d88f3;
   border-top: 2px solid var(--blue);
+  -webkit-box-shadow: none;
+          box-shadow: none;
   display: block;
 }
 .fr-box.fr-basic .fr-element {
   color: #5f768a;
   color: var(--gray-500);
+  cursor: text;
   font-size: 14px;
   font-size: var(--h1);
   max-height: 170px;
+  overflow-x: auto;
   padding: 13px;
   padding: var(--sm-space);
   padding-left: 0;
-  cursor: text;
   resize: none;
   white-space: pre;
   white-space: pre-wrap;
   word-wrap: break-word;
-  overflow-x: auto;
 }
 .fr-toolbar.fr-bottom {
   border: none;
@@ -1607,19 +1608,19 @@ label {
 }
 .fr-toolbar .fr-command.fr-btn {
   border: none;
+  height: auto;
   outline: none;
   width: auto;
-  height: auto;
 }
 .fr-toolbar .fr-command:hover {
   background-color: transparent;
 }
 .fr-toolbar .fr-command.fr-btn i {
-  font-size: .875rem;
+  cursor: inherit;
+  font-size: 0.875rem;
+  line-height: 1.2;
   margin: 0 17px 0 0;
   width: 22px;
-  line-height: 1.2;
-  cursor: inherit;
 }
 .fr-toolbar .fr-command.fr-btn[data-cmd="sendMessage"] {
   float: right;
@@ -1643,8 +1644,6 @@ label {
       -ms-flex-positive: 1;
           flex-grow: 1;
   margin-right: -10px;
-  min-height: 1px;
-  overflow: hidden;
   padding-right: 12px;
   position: relative;
 }
