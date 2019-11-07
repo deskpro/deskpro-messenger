@@ -64,9 +64,9 @@ class Frame extends PureComponent {
     }
 
     this.el = window.parent.document.createElement('span');
-
+    const assetsPath = asset(`styles.css`);
     // TODO: replace with right styles inclusion.
-    baseHead = <link rel="stylesheet" href={asset(`styles.css`)} />;
+    baseHead = <link rel="stylesheet" href={assetsPath} />;
   }
 
   frame = React.createRef();
