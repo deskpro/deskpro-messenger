@@ -18,7 +18,7 @@ function loadConfig(helpdeskURL) {
     });
 }
 
-function setupFrames(config) {
+async function setupFrames(config) {
   const iframe = document.createElement('iframe');
   iframe.setAttribute('frameborder', '0');
   iframe.setAttribute('scrolling', 'no');
@@ -40,12 +40,18 @@ function setupFrames(config) {
 
   const iframeDoc = iframe.contentDocument;
 
+
+  const response = await fetch(config.bundleUrl.manifest);
+  const manifest = await response.json();
+
+  const assets = manifest.entrypoints.main.js.map(fileName =>
+    `<script async src="${config.bundleUrl.isDev ? '' : config.bundleUrl.path}${fileName}"></script>`
+  ).join("\n");
+
   const initialContent = `<!DOCTYPE html><html>
   <head></head>
   <body>
-    <script src="${config.bundleUrl.runtime}"></script>
-    <script src="${config.bundleUrl.main}"></script>
-    <script src="${config.bundleUrl.lastChunk}"></script>
+    ${assets}
   </body></html>`;
   iframeDoc.open('text/html', 'replace');
   iframeDoc.write(initialContent);
