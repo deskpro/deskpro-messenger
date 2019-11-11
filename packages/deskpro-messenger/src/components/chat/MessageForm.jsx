@@ -84,9 +84,9 @@ class MessageForm extends PureComponent {
       'X-DESKPRO-VISITORID': this.props.visitorId
     },
     imageUploadMethod: 'POST',
-    imageUploadURL: `${this.context.helpdeskURL}api/messenger/file/upload-file`,
+    imageUploadURL: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
     fileUploadMethod: 'POST',
-    fileUploadURL: `${this.context.helpdeskURL}api/messenger/file/upload-file`,
+    fileUploadURL: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
     toolbarBottom: true,
     toolbarButtons: ['emoticons', 'insertFile', 'insertImage', 'sendMessage'],
     imageEditButtons: [],
