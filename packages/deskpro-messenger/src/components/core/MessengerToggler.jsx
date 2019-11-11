@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 import Frame from './Frame';
 import { isWindowOpened, toggleWindow } from '../../modules/app';
+import { ConfigConsumer } from './ConfigContext';
+import { darker } from '../../utils/color';
 
 /*const buttonStyle = {
   width: '150px',
@@ -53,7 +55,11 @@ class WidgetToggler extends PureComponent {
     return (
       <Frame style={iframeStyle}>
         <button
-          className={classNames(`dpmsg-TriggerBtn is-blue`)}
+          style={{
+            background: this.props.themeVars['--color-primary'],
+            border: `1px solid ${this.props.themeVars['--color-primary']}`
+          }}
+          className={classNames(`dpmsg-TriggerBtn color--primary`)}
           onClick={this.handleTogglerClick}
         >
           {opened ? (
@@ -67,7 +73,13 @@ class WidgetToggler extends PureComponent {
   }
 }
 
+const WidgetTogglerWithStyles = (props) => (
+  <ConfigConsumer>
+    {({ themeVars }) => <WidgetToggler themeVars={themeVars} {...props} />}
+  </ConfigConsumer>
+);
+
 export default connect(
   (state) => ({ opened: isWindowOpened(state) }),
   { toggleWindow }
-)(WidgetToggler);
+)(WidgetTogglerWithStyles);
