@@ -5,6 +5,8 @@
   "chat.agent_assigned.message": "{name} joined the conversation.",
   "chat.agent_unassigned.message": "{name} left the conversation.",
   "message_user-joined": "{name} joined the conversation.",
+  "message_user-left": "{name} left the conversation.",
+  "message_ended-by": "{name} has ended the conversation.",
   "message_assigned": "{name} assigned to the chat.",
   "message_unassigned": "{name} unassigned from the chat.",
   "chat.no_agent_online": "Sorry, no one is online to accept your chat.",
