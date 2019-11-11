@@ -44,14 +44,18 @@ const startupRedirectEpic = (action$, _, { history, config }) =>
     }),
     skip()
   );
-const autoOpenWindowEpic = (action$, _, { history }) =>
+const autoOpenWindowEpic = (action$, _, { history, config }) =>
   action$.pipe(
     ofType(LOAD_APP_INFO_SUCCESS),
     switchMap(() => {
-      if (history.location.pathname.startsWith(`/screens`)) {
+      // only for cases when we have no history (usually on start only), then history itself will work
+      if (history.location.pathname === '/') {
+        history.push(`/screens/index`);
+        return of(setWindowState(config.autoStart));
+      } else {
         return of(setWindowState(true));
       }
-      return empty();
+
     })
   );
 export const appEpic = combineEpics(startupRedirectEpic, autoOpenWindowEpic);

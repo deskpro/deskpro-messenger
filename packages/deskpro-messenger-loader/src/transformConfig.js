@@ -62,6 +62,7 @@ export default (settings) => {
     enabledGreetings.push('/screens/startChat');
   }
   return {
+    autoStart: settings.messenger.autoStart,
     screens,
     themeVars: {
       '--color-primary': settings.styles.primaryColor || '#3d88f3',
