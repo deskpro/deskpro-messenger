@@ -279,7 +279,7 @@ const chatReducer = produce((draft, { type, payload }) => {
           return;
         }
       }
-      if (payload.type === 'chat.agentAssigned') {
+      if (payload.type === 'chat.agentAssigned' || payload.type === 'chat.agentUnassigned') {
         draft.agent = _pick(payload, ['name', 'avatar']);
       }
       draft.messages.push(payload);

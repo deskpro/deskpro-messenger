@@ -18,6 +18,10 @@ const transMessages = {
     id: 'chat.agent_assigned.message',
     defaultMessage: `{name} joined the conversation.`
   },
+  agentUnassigned: {
+    id: 'chat.agent_unassigned.message',
+    defaultMessage: `{name} left the conversation.`
+  },
   noAgentOnline: {
     id: 'chat.no_agent_online',
     defaultMessage: 'Sorry, no one is online to accept your chat.'
@@ -131,12 +135,13 @@ class Chat extends PureComponent {
               case 'chat.message':
                 return <MessageBubble key={key} {...message} />;
               case 'chat.agentAssigned':
+              case 'chat.agentUnassigned':
                 return (
                   <SystemMessage
                     key={key}
                     {...message}
                     message={intl.formatMessage(
-                      ...createTrans(message, 'agentAssigned')
+                      ...createTrans(message, message.type === 'chat.agentAssigned' ? 'agentAssigned' : 'agentUnassigned')
                     )}
                   />
                 );

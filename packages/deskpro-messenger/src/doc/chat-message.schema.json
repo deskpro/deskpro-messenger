@@ -7,7 +7,7 @@
     "type": {
       "type": "string",
       "enum": [
-        "chat.message", "chat.agentAssigned", "chat.agentTimeout", "chat.userTimeout", "chat.ended", "typing.start", "typing.end", "chat.block.transcript", "chat.block.rating"
+        "chat.message", "chat.agentAssigned", "chat.agentUnassigned", "chat.agentTimeout", "chat.userTimeout", "chat.ended", "typing.start", "typing.end", "chat.block.transcript", "chat.block.rating"
       ],
       "description": "Type of the message"
     },
