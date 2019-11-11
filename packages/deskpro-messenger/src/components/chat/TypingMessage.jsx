@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const TypingMessage = ({ value }) => (
   <div className="dpmsg-MessageBubble">
-    <div className="dpmsg-MessageBubbleRow is-outgoing">
+    <div className="dpmsg-MessageBubbleRow is-incoming">
       {!!value.avatar && (
         <div className="dpmsg-AvatarCol is-rounded">
           <img src={value.avatar} alt={value.name} />
