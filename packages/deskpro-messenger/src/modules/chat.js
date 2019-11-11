@@ -157,7 +157,7 @@ const agentAssignementTimeout = (action$, _, { config }) =>
           ),
           mapTo(false)
         ),
-        interval(config.chatTimeout || 60 * 1000).pipe(
+        interval(config.screens.startChat.timeout || 60 * 1000).pipe(
           take(1),
           mapTo(true)
         )
