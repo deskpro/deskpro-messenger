@@ -26,7 +26,7 @@ const transMessages = {
 
 const blocksMapping = {
   StartChatBlock: injectIntl(({ to, intl, linkText, ...props }) => (
-    <Block title={intl.formatMessage(transMessages.startChatTitle)}>
+    <Block title={props.title || intl.formatMessage(transMessages.startChatTitle)}>
       <Button to={`/screens/${to}`} width="full" color="primary">
         {intl.formatMessage(
           linkText
