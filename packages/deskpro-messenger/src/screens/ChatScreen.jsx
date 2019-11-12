@@ -55,6 +55,14 @@ class ChatScreen extends PureComponent {
     }
   };
 
+  handleEndChat = () => {
+    const messageModel = {
+      origin: 'user',
+      type: 'chat.ended'
+    };
+    this.props.sendMessage(messageModel, this.props.chatData);
+  };
+
   render() {
     const { departments, chatConfig, chatData, intl, user, agent } = this.props;
     const department = chatConfig.department
@@ -75,6 +83,7 @@ class ChatScreen extends PureComponent {
         <Chat
           messages={this.props.messages}
           onSendMessage={this.handleSendMessage}
+          onEndChat={this.handleEndChat}
           typing={this.props.typing}
           user={user}
           agent={agent}

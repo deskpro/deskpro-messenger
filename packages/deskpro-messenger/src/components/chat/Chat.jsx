@@ -93,6 +93,7 @@ class Chat extends PureComponent {
       typing,
       messages,
       onSendMessage,
+      onEndChat,
       intl,
       agent,
       user,
@@ -209,7 +210,7 @@ class Chat extends PureComponent {
           {!!typing && <TypingMessage value={typing} />}
         </ScrollArea>
         {!!chat && chat.status !== 'ended' && (
-          <MessageForm onSend={onSendMessage} style={{ flex: '0 0 auto' }} />
+          <MessageForm onSend={onSendMessage} onEnd={onEndChat} style={{ flex: '0 0 auto' }} />
         )}
       </div>
     );
