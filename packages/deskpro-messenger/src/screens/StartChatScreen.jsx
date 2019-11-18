@@ -11,7 +11,7 @@ import Block from '../components/core/Block';
 import { createChat, sendMessage } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 import PromptMessage from '../components/chat/PromptMessage';
-import { getDepartments } from '../modules/info';
+import { getChatDepartments } from '../modules/info';
 
 class StartChatScreen extends PureComponent {
   static propTypes = {
@@ -93,7 +93,7 @@ class StartChatScreen extends PureComponent {
 
 const mapStateToProps = (state, props) => ({
   user: getUserData(state),
-  departments: getDepartments(state, props)
+  departments: getChatDepartments(state, props)
 });
 
 export default compose(

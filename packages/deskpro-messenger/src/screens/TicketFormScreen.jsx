@@ -2,17 +2,30 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import Immutable from 'immutable';
 
 import Block from '../components/core/Block';
-import TicketForm from '../components/tickets/TicketForm';
+import { TicketForm } from '@deskpro/portal-components';
 import { saveTicket } from '../modules/tickets';
+import { getTicketDepartments } from '../modules/info';
+
+function fromJSGreedy(js) {
+  return typeof js !== 'object' || js === null ? js :
+    Array.isArray(js) ?
+      Immutable.Seq(js).map(fromJSGreedy).toList() :
+      Immutable.Seq(js).map(fromJSGreedy).toMap();
+}
+
+const mapStateToProps = (state, props) => ({
+  departments: getTicketDepartments(state, props)
+});
 
 class TicketFormScreen extends PureComponent {
   static propTypes = {
-    formConfig: PropTypes.array.isRequired,
-    saveTicket: PropTypes.func.isRequired,
-    ticketDefaults: PropTypes.object,
-    intl: PropTypes.object.isRequired
+    formConfig:  PropTypes.array.isRequired,
+    saveTicket:  PropTypes.func.isRequired,
+    departments: PropTypes.object.isRequired,
+    intl:        PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -25,7 +38,7 @@ class TicketFormScreen extends PureComponent {
     this.setState({ viewMode: 'thanks' }, () => this.props.saveTicket(values));
 
   render() {
-    const { intl, formConfig, ticketDefaults } = this.props;
+    const { intl, formConfig, departments } = this.props;
     const { viewMode } = this.state;
 
     return (
@@ -37,9 +50,12 @@ class TicketFormScreen extends PureComponent {
       >
         {viewMode === 'form' && (
           <TicketForm
-            initialValues={ticketDefaults}
-            formConfig={formConfig}
             onSubmit={this.onSubmit}
+            deskproLayout={fromJSGreedy(formConfig)}
+            departments={fromJSGreedy(departments)}
+            department={7}
+            fileUploadUrl="http://deskpro5.local/en/dpblob"
+            csrfToken="123456"
           />
         )}
         {viewMode === 'thanks' && (
@@ -54,6 +70,6 @@ class TicketFormScreen extends PureComponent {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   { saveTicket }
 )(injectIntl(TicketFormScreen));

@@ -78,6 +78,7 @@ storiesOf('Chat Elements', module).add('Chat', () => (
         messages={messages}
         category="sales"
         onSendMessage={action('send-message')}
+        onEndChat={action('end-chat')}
       />
     </Block>
   </MessageShell>

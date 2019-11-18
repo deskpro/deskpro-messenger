@@ -10,13 +10,21 @@ class PromptMessage extends PureComponent {
     onSendMessage: PropTypes.func.isRequired
   };
 
+  handleEndChat = () => {
+    const messageModel = {
+      origin: 'user',
+      type: 'chat.ended'
+    };
+    this.props.sendMessage(messageModel, {});
+  };
+
   render() {
     const { prompt, onSendMessage } = this.props;
 
     return (
       <Fragment>
         {!!prompt && <MessageBubble origin="system" message={prompt} />}
-        <MessageForm onSend={onSendMessage} />
+        <MessageForm onSend={onSendMessage} onEnd={this.handleEndChat}/>
       </Fragment>
     );
   }

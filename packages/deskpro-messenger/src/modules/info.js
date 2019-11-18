@@ -35,7 +35,11 @@ export default produce(
   (draft, { type, payload }) => {
     switch (type) {
       case LOAD_APP_INFO_SUCCESS: {
-        draft.departments = payload.chat_departments.reduce(
+        draft.chatDepartments = payload.chat_departments.reduce(
+          (acc, d) => ({ ...acc, [d.id]: d }),
+          {}
+        );
+        draft.ticketDepartments = payload.ticket_departments.reduce(
           (acc, d) => ({ ...acc, [d.id]: d }),
           {}
         );
@@ -46,11 +50,12 @@ export default produce(
         return draft;
     }
   },
-  { departments: {}, agents: [] }
+  { chatDepartments: {}, ticketDepartments: {}, agents: [] }
 );
 //#endregion
 
 //#region SELECTORS
-export const getDepartments = (state) => state.info.departments;
+export const getChatDepartments = (state) => state.info.chatDepartments;
+export const getTicketDepartments = (state) => state.info.ticketDepartments;
 export const hasAgentsAvailable = (state) => state.info.agents.length;
 //#endregion

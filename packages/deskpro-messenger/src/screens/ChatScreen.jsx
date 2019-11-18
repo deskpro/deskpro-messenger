@@ -16,7 +16,7 @@ import {
   getChatAgent
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
-import { getDepartments } from '../modules/info';
+import { getChatDepartments } from '../modules/info';
 
 class ChatScreen extends PureComponent {
   static propTypes = {
@@ -101,7 +101,7 @@ const mapStateToProps = (state, props) => ({
   agent: getChatAgent(state, props),
   messages: getMessages(state, props),
   typing: getTypingState(state, props),
-  departments: getDepartments(state, props)
+  departments: getChatDepartments(state, props)
 });
 
 const mapProps = (WrappedComponent) => (props) => {
