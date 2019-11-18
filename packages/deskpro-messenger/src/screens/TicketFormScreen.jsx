@@ -38,8 +38,14 @@ class TicketFormScreen extends PureComponent {
     this.setState({ viewMode: 'thanks' }, () => this.props.saveTicket(values));
 
   render() {
-    const { intl, formConfig, departments } = this.props;
+    const { intl, formConfig, departments, department } = this.props;
     const { viewMode } = this.state;
+    const immutableLayout = fromJSGreedy(formConfig);
+    let useDepartment = department;
+    const layout = immutableLayout.find(d => d.get('department') === department);
+    if (!layout) {
+      useDepartment = 0;
+    }
 
     return (
       <Block
@@ -51,9 +57,9 @@ class TicketFormScreen extends PureComponent {
         {viewMode === 'form' && (
           <TicketForm
             onSubmit={this.onSubmit}
-            deskproLayout={fromJSGreedy(formConfig)}
+            deskproLayout={immutableLayout}
             departments={fromJSGreedy(departments)}
-            department={7}
+            department={useDepartment}
             fileUploadUrl="http://deskpro5.local/en/dpblob"
             csrfToken="123456"
           />
