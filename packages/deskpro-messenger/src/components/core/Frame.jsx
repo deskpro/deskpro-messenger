@@ -52,6 +52,8 @@ class Frame extends PureComponent {
   constructor(...args) {
     super(...args);
 
+    let extra;
+
     // in development mode styles are injected on the fly with HMR, so we need to
     // extract them on component rendering.
     if (process.env.NODE_ENV === 'development') {
@@ -59,15 +61,20 @@ class Frame extends PureComponent {
       // generated and inserted by webpack HMR.
       const style = Array.from(document.head.querySelectorAll('style'))
         .map((el) => el.innerText)
-        .join('\\n');
-      baseHead = <style type="text/css">{style}</style>;
+        .join('\n');
+      extra = <style type="text/css">{style}</style>;
     }
 
     this.el = window.parent.document.createElement('span');
     const assetsPath = asset(`styles.css`);
     // TODO: replace with right styles inclusion.
     baseHead = <link rel="stylesheet" href={assetsPath} />;
+
+    this.state ={
+      extra
+    };
   }
+
 
   frame = React.createRef();
 
@@ -93,11 +100,23 @@ class Frame extends PureComponent {
           html.style.setProperty('--color-dark-primary', darker(value, 20));
         }
       });
+      const style = Array.from(document.head.querySelectorAll('style'))
+        .map((el) => el.innerText)
+        .join('\n');
+      setTimeout(() => {
+        const extra = <style type="text/css">{style}</style>;
+        if (extra !== this.state.extra) {
+          this.setState({
+            extra
+          });
+        }
+      }, 100);
     }
   };
 
   render() {
     const { children, style = {}, head, themeVars, ...props } = this.props;
+    const { extra } = this.state;
 
     return ReactDOM.createPortal(
       <FrameComponent
@@ -109,6 +128,7 @@ class Frame extends PureComponent {
             />
             {head}
             {baseHead}
+            {extra}
           </Fragment>
         }
         frameBorder="0"
