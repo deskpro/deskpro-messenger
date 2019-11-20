@@ -58,7 +58,7 @@ class ChatScreen extends PureComponent {
   handleEndChat = () => {
     const messageModel = {
       origin: 'user',
-      type: 'chat.ended'
+      type: 'chat.end'
     };
     this.props.sendMessage(messageModel, this.props.chatData);
   };
