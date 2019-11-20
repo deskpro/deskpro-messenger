@@ -192,7 +192,7 @@ const deactivateChatEpic = (action$, _, { cache }) =>
     skip()
   );
 
-const sendMessagesEpic = (action$, _, { api }) =>
+const sendMessagesEpic = (action$, _, { api, cache }) =>
   action$.pipe(
     ofType(CHAT_SEND_MESSAGE),
     map(({ payload, meta: { chat } }) => {
