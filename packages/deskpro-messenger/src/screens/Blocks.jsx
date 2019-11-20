@@ -4,6 +4,8 @@ import { injectIntl } from 'react-intl';
 
 import Block from '../components/core/Block';
 import Button from '../components/form/Button';
+import { connect } from 'react-redux';
+import { hasAgentsAvailable } from '../modules/info';
 
 const transMessages = {
   startChatTitle: {
@@ -55,9 +57,12 @@ const blocksMapping = {
   ))
 };
 
-const Blocks = ({ blocks }) => (
+const Blocks = ({ blocks, agentsAvailable }) => (
   <Fragment>
     {blocks.map(({ blockType, ...props }, index) => {
+      if(blockType === 'StartChatBlock' && !agentsAvailable) {
+        return null;
+      }
       const Component = blocksMapping[blockType];
       return Component ? (
         <Component key={blockType + index} {...props} />
@@ -66,4 +71,4 @@ const Blocks = ({ blocks }) => (
   </Fragment>
 );
 
-export default Blocks;
+export default connect((state) => ({ agentsAvailable: hasAgentsAvailable(state) }))(Blocks);
