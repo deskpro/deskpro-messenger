@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom'
 
 import MessageBubble from './MessageBubble';
 import MessageForm from './MessageForm';
@@ -11,11 +12,7 @@ class PromptMessage extends PureComponent {
   };
 
   handleEndChat = () => {
-    const messageModel = {
-      origin: 'user',
-      type: 'chat.ended'
-    };
-    this.props.sendMessage(messageModel, {});
+    this.props.history.goBack();
   };
 
   render() {
@@ -30,4 +27,4 @@ class PromptMessage extends PureComponent {
   }
 }
 
-export default PromptMessage;
+export default withRouter(PromptMessage);
