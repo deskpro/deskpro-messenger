@@ -1,5 +1,5 @@
 import { ofType, combineEpics } from 'redux-observable';
-import { of, empty } from 'rxjs';
+import { of } from 'rxjs';
 import { take, tap, skip, switchMap } from 'rxjs/operators';
 import _sample from 'lodash/sample';
 import { produce } from 'immer';

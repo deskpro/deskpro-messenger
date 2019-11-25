@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import Frame from './Frame';
 import { isWindowOpened, toggleWindow } from '../../modules/app';
 import { ConfigConsumer } from './ConfigContext';
-import { darker } from '../../utils/color';
 
 /*const buttonStyle = {
   width: '150px',
