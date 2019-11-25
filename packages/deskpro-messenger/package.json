@@ -15,7 +15,7 @@
     "url": "https://github.com/deskpro/deskpro-messenger"
   },
   "dependencies": {
-    "@deskpro/portal-components": "^0.3.1",
+    "@deskpro/portal-components": "0.3.7",
     "axios": "^0.19.0-beta.1",
     "classnames": "^2.2.6",
     "contrast": "^1.0.1",
