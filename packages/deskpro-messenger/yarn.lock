@@ -891,6 +891,7 @@
 "@deskpro/react-datepicker-hijri@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@deskpro/react-datepicker-hijri/-/react-datepicker-hijri-1.5.0.tgz#3aaed995bc8d116856019c51b06be3f4e7a9898a"
+  integrity sha512-O3CcdED1NVVU+aY+2dPOufkQFBbzX8GR5qMH6T7gdY7P4Jcmpjcq6f7ofSVF6twhrobOsvh+k7N0tU0fK9vJvw==
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.6.0"
