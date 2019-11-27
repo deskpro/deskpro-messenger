@@ -862,14 +862,13 @@
   resolved "https://registry.yarnpkg.com/@deskpro/js-utils/-/js-utils-1.0.7.tgz#cc1b97be3af31ec53882da5a6a7239c45e36ef42"
   integrity sha512-XqPLn1hXCUCCFZbNRpxp8CqGBKrT3obMHvtTWAITDUfSurJKisF9HxtzJ23Lzc/Mq9PqTOfpHaCqAjWKJuHtUA==
 
-"@deskpro/portal-components@0.3.7":
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.3.7.tgz#1a7d94e219b551c359c42e552c10dc01b477d6eb"
-  integrity sha512-NTesr1RxrJc04yO7tcokRNUx8+YBC/gVz56T93QBZqPhrE3DjQv/6Cqrl10qTFvPtWTaWWwWryPYrRGoDKnfWQ==
+"@deskpro/portal-components@0.3.11":
+  version "0.3.11"
+  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.3.11.tgz#062bf3af53d7bb4282f225da46e05103ba2c9851"
+  integrity sha512-y883ZK51VvIi2acHWOW3TN9/U+h0bKnPGgcpHJl1Gk/X11iXtjguKwecaWGndj7Hx3O6DCKNknPwEpWiJk8Cpw==
   dependencies:
     "@deskpro/js-utils" "1.0.7"
     "@deskpro/react-datepicker-hijri" "^1.5.0"
-    "@storybook/addon-knobs" "^3.4.3"
     classnames "^2.2.5"
     emotion "^9.2.6"
     es6-promise "^4.2.4"
@@ -973,7 +972,7 @@
     react-inspector "^2.2.2"
     uuid "^3.2.1"
 
-"@storybook/addon-knobs@^3.4.3", "@storybook/addon-knobs@^3.4.8":
+"@storybook/addon-knobs@^3.4.8":
   version "3.4.10"
   resolved "https://registry.yarnpkg.com/@storybook/addon-knobs/-/addon-knobs-3.4.10.tgz#57a5639758aa77e7c697acc3b31e728cffc260ac"
   dependencies:
