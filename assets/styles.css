@@ -2470,7 +2470,7 @@
     color: #5f768a;
     color: #5f768a;
     color: var(--text-color);
-    margin-left: -10px;
+    padding: 10px;
   }.dp-pc_field .dp-pc_file-upload .dp-pc_file-upload__dropzone {
       border: 2px dashed #dce4eb;
       border: 2px dashed #dce4eb;
