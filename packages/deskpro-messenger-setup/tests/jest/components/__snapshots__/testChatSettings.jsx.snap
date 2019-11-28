@@ -2,23 +2,18 @@
 
 exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
 <li
-  aria-expanded={true}
   className="dp-list__element dp-column-drawer"
-  id="dp-column-drawer-1"
-  role="treeitem"
+  data-dp-toggle-id={0}
 >
   <h1
-    aria-controls="dp-column-drawer-body-1"
-    aria-label="Click to close."
     className="dp-heading"
     onClick={[Function]}
   >
-    Chat settings
+    Chat settings  
     <svg
       aria-hidden={true}
-      aria-labelledby="svg-inline--fa-title-vvvvvvvvvvvv"
-      className="svg-inline--fa fa-caret-up fa-w-10 fa-sm dp-icon dp-column-drawer__arrow"
-      data-icon="caret-up"
+      className="svg-inline--fa fa-caret-down fa-w-10 fa-sm dp-icon dp-column-drawer__arrow"
+      data-icon="caret-down"
       data-prefix="fas"
       onClick={[Function]}
       role="img"
@@ -26,24 +21,17 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
       viewBox="0 0 320 512"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <title
-        id="svg-inline--fa-title-vvvvvvvvvvvv"
-        style={Object {}}
-      >
-        Close
-      </title>
       <path
-        d="M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z"
+        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
         fill="currentColor"
         style={Object {}}
       />
     </svg>
   </h1>
-  <div
-    aria-hidden={false}
-    className="dp-column-drawer__body dp-column-drawer__body--opened"
-    id="dp-column-drawer-body-1"
+  <section
+    className="dp-section dp-section--hidden"
   >
+    
     <div
       className="dp-input--toggle"
     >
@@ -70,7 +58,7 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
       className="dp-input"
     >
       <input
-        id="id2"
+        id="id1"
         name="chat.prompt"
         onBlur={[Function]}
         onChange={[Function]}
@@ -90,25 +78,25 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
       className="dp-select"
     >
       <div
-        className="css-10nd86i react-select"
+        className="react-select css-2b097c-container"
         id={undefined}
         onKeyDown={[Function]}
       >
         <div
-          className="css-vj8t7z react-select__control"
+          className="react-select__control css-yk16xz-control"
           onMouseDown={[Function]}
           onTouchEnd={[Function]}
         >
           <div
-            className="css-1hwfws3 react-select__value-container"
+            className="react-select__value-container css-1hwfws3"
           >
             <div
-              className="css-1492t68 react-select__placeholder"
+              className="react-select__placeholder css-1wa3eu0-placeholder"
             >
               Please select
             </div>
             <div
-              className="css-1g6gooi"
+              className="css-w8afj7-Input"
             >
               <div
                 className="react-select__input"
@@ -139,6 +127,7 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
                       "boxSizing": "content-box",
                       "color": "inherit",
                       "fontSize": "inherit",
+                      "label": "input",
                       "opacity": 1,
                       "outline": 0,
                       "padding": 0,
@@ -168,10 +157,10 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
             </div>
           </div>
           <div
-            className="css-1wy0on6 react-select__indicators"
+            className="react-select__indicators css-1g48xl4-IndicatorsContainer"
           >
             <span
-              className="css-d8oujb react-select__indicator-separator"
+              className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
             />
             <div
               className="react-select__dropdown-indicator"
@@ -200,7 +189,7 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
       className="dp-input small"
     >
       <input
-        id="id3"
+        id="id2"
         name="chat.timeout"
         onBlur={[Function]}
         onChange={[Function]}
@@ -216,25 +205,25 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
       className="dp-select"
     >
       <div
-        className="css-10nd86i react-select"
+        className="react-select css-2b097c-container"
         id={undefined}
         onKeyDown={[Function]}
       >
         <div
-          className="css-vj8t7z react-select__control"
+          className="react-select__control css-yk16xz-control"
           onMouseDown={[Function]}
           onTouchEnd={[Function]}
         >
           <div
-            className="css-1hwfws3 react-select__value-container react-select__value-container--has-value"
+            className="react-select__value-container react-select__value-container--has-value css-1hwfws3"
           >
             <div
-              className="css-xp4uvy react-select__single-value"
+              className="react-select__single-value css-1uccc91-singleValue"
             >
               Just show busy message
             </div>
             <div
-              className="css-1g6gooi"
+              className="css-w8afj7-Input"
             >
               <div
                 className="react-select__input"
@@ -265,6 +254,7 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
                       "boxSizing": "content-box",
                       "color": "inherit",
                       "fontSize": "inherit",
+                      "label": "input",
                       "opacity": 1,
                       "outline": 0,
                       "padding": 0,
@@ -294,10 +284,10 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
             </div>
           </div>
           <div
-            className="css-1wy0on6 react-select__indicators"
+            className="react-select__indicators css-1g48xl4-IndicatorsContainer"
           >
             <span
-              className="css-d8oujb react-select__indicator-separator"
+              className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
             />
             <div
               className="react-select__dropdown-indicator"
@@ -345,25 +335,25 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
       className="dp-select"
     >
       <div
-        className="css-10nd86i react-select"
+        className="react-select css-2b097c-container"
         id={undefined}
         onKeyDown={[Function]}
       >
         <div
-          className="css-vj8t7z react-select__control"
+          className="react-select__control css-yk16xz-control"
           onMouseDown={[Function]}
           onTouchEnd={[Function]}
         >
           <div
-            className="css-1hwfws3 react-select__value-container"
+            className="react-select__value-container css-1hwfws3"
           >
             <div
-              className="css-1492t68 react-select__placeholder"
+              className="react-select__placeholder css-1wa3eu0-placeholder"
             >
               Please select
             </div>
             <div
-              className="css-1g6gooi"
+              className="css-w8afj7-Input"
             >
               <div
                 className="react-select__input"
@@ -394,6 +384,7 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
                       "boxSizing": "content-box",
                       "color": "inherit",
                       "fontSize": "inherit",
+                      "label": "input",
                       "opacity": 1,
                       "outline": 0,
                       "padding": 0,
@@ -423,10 +414,10 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
             </div>
           </div>
           <div
-            className="css-1wy0on6 react-select__indicators"
+            className="react-select__indicators css-1g48xl4-IndicatorsContainer"
           >
             <span
-              className="css-d8oujb react-select__indicator-separator"
+              className="react-select__indicator-separator css-1okebmr-indicatorSeparator"
             />
             <div
               className="react-select__dropdown-indicator"
@@ -451,7 +442,7 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
       className="dp-input"
     >
       <input
-        id="id4"
+        id="id3"
         name="chat.ticketDefaults.subject"
         onBlur={[Function]}
         onChange={[Function]}
@@ -461,6 +452,6 @@ exports[`+++capturing Snapshot of BooleanInput with true set 1`] = `
         value={undefined}
       />
     </div>
-  </div>
+  </section>
 </li>
 `;

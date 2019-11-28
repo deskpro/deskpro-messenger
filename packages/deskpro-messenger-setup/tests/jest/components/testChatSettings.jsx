@@ -16,6 +16,8 @@ it('+++capturing Snapshot of BooleanInput with true set', () => {
   const renderedValue = renderer.create(
     <ChatSettings
       handleChange={noop}
+      onClick={noop}
+      data-dp-toggle-id={0}
       ticketDepartments={Immutable.fromJS(departments)}
       chatDepartments={Immutable.fromJS(departments)}
     />
