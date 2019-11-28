@@ -22,7 +22,6 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
     "build": "rollup -c --environment INCLUDE_DEPS,BUILD:production",
     "lint": "eslint . --cache --cache-location=.cache/eslint --ext .js,.jsx",
     "lint:fix": "npm run lint -- --fix",
@@ -33,7 +32,7 @@
   },
   "devDependencies": {
     "@deskpro/js-utils": "^1.0.6",
-    "@deskpro/react-components": "1.4.5-beta.4",
+    "@deskpro/react-components": "1.4.7",
     "@storybook/addon-actions": "^4.0.7",
     "@storybook/addon-knobs": "^4.0.12",
     "@storybook/react": "^4.0.7",
