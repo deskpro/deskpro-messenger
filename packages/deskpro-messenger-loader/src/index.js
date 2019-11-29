@@ -18,7 +18,7 @@ function loadConfig(helpdeskURL) {
     });
 }
 
-async function setupFrames(config) {
+function setupFrames(config, manifest) {
   const iframe = document.createElement('iframe');
   iframe.setAttribute('frameborder', '0');
   iframe.setAttribute('scrolling', 'no');
@@ -41,15 +41,18 @@ async function setupFrames(config) {
   const iframeDoc = iframe.contentDocument;
 
 
-  const response = await fetch(config.bundleUrl.manifest);
-  const manifest = await response.json();
+
 
   const assets = manifest.entrypoints.main.js.map(fileName =>
     `<script async src="${config.bundleUrl.isDev ? '' : config.bundleUrl.path}${fileName}"></script>`
   ).join("\n");
 
   const initialContent = `<!DOCTYPE html><html>
-  <head></head>
+  <head>
+    <script>
+      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+    </script>
+  </head>
   <body>
     ${assets}
   </body></html>`;
@@ -61,8 +64,14 @@ async function setupFrames(config) {
 function init() {
   const scriptTag = document.getElementById('dp-messenger-loader');
   const hdUrl = scriptTag.dataset.helpdeskUrl;
+  return loadConfig(hdUrl).then((config) => {
+    fetch(config.bundleUrl.manifest)
+      .then((res) => res.json())
+      .then((manifest) => {
+        setupFrames(config, manifest);
+      });
 
-  return loadConfig(hdUrl).then(setupFrames);
+  });
 }
 
 (function() {
