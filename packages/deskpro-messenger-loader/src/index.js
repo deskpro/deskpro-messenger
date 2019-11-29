@@ -49,9 +49,9 @@ function setupFrames(config, manifest) {
 
   const initialContent = `<!DOCTYPE html><html>
   <head>
-    <script>
+    {config.bundleUrl.isDev ? '<script>
       window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
-    </script>
+    </script>' : '' }
   </head>
   <body>
     ${assets}
