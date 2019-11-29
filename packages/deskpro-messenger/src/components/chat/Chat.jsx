@@ -9,6 +9,7 @@ import MessageForm from './MessageForm';
 import TypingMessage from './TypingMessage';
 import TranscriptBlock from './TranscriptBlock';
 import RatingBlock from './RatingBlock';
+import ChatEndBlock from './ChatEndBlock';
 import SaveTicketBlock from './SaveTicketBlock';
 import CreateTicketBlock from './CreateTicketBlock';
 import { withScreenContentSize } from '../core/ScreenContent';
@@ -60,6 +61,13 @@ class Chat extends PureComponent {
 
   scrollArea = React.createRef();
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      endChatBlock: false
+    }
+  }
+
   componentDidMount() {
     if (this.props.messages.length && this.scrollArea.current) {
       this.scrollToBottom(true);
@@ -76,6 +84,14 @@ class Chat extends PureComponent {
       this.scrollToBottom(changedSize);
     }
   }
+
+  onEndChat = () => {
+    this.setState({endChatBlock: true});
+  };
+
+  onResume = () => {
+    this.setState({endChatBlock: false});
+  };
 
   scrollToBottom(refresh) {
     if (refresh && this.scrollArea.current) {
@@ -101,6 +117,8 @@ class Chat extends PureComponent {
       chatConfig,
       contentSize: { height, maxHeight }
     } = this.props;
+
+    const { endChatBlock } = this.state;
 
     return (
       <div
@@ -208,9 +226,12 @@ class Chat extends PureComponent {
             }
           })}
           {!!typing && <TypingMessage value={typing} />}
+          {!!chat && chat.status !== 'ended' && endChatBlock && (
+            <ChatEndBlock onResume={this.onResume} onEnd={onEndChat} />
+          )}
         </ScrollArea>
         {!!chat && chat.status !== 'ended' && (
-          <MessageForm onSend={onSendMessage} onEnd={onEndChat} style={{ flex: '0 0 auto' }} />
+          <MessageForm onSend={onSendMessage} onEnd={this.onEndChat} style={{ flex: '0 0 auto' }} />
         )}
       </div>
     );
