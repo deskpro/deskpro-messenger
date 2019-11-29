@@ -11,6 +11,8 @@ import { ConfigContext } from '../core/ConfigContext';
 import { withFrameContext } from '../core/Frame';
 import { withVisitorId } from '../../containers/withVisitorId';
 
+window.$ = window.jQuery = $;
+
 /**
  * Extends Froala editor.
  */

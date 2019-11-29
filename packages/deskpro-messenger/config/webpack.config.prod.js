@@ -444,12 +444,6 @@ module.exports = {
         minifyURLs: true,
       },
     }),
-    new webpack.ProvidePlugin({
-      $:      'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-      'window.$': 'jquery',
-    }),
     // Inlines the webpack runtime script. This script is too small to warrant
     // a network request.
     shouldInlineRuntimeChunk &&
