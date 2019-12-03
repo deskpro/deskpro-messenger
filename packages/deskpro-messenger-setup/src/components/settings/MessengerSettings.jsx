@@ -42,6 +42,18 @@ class MessengerSettings extends React.Component {
             Automatically open the messenger on page load
           </Toggle>
           <br />
+          <span style={{ display: config.getIn(['messenger', 'autoStart']) ? 'block' : 'none' }}>
+          Delay proactive chat by
+          <Input
+            className="small"
+            type="number"
+            value={config.getIn(['messenger', 'autoStartTimeout'])}
+            onChange={handleChange}
+            name="messenger.autoStartTimeout"
+          />{' '}
+          seconds
+          <br />
+          </span>
           <Label>Greeting</Label>
           <Input
             type="text"
