@@ -63,6 +63,7 @@ export default (settings) => {
   }
   return {
     autoStart: settings.messenger.autoStart,
+    autoStartTimeout: settings.messenger.autoStartTimeout,
     screens,
     themeVars: {
       '--color-primary': settings.styles.primaryColor || '#3d88f3',
