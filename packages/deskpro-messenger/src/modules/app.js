@@ -1,6 +1,6 @@
 import { ofType, combineEpics } from 'redux-observable';
 import { of } from 'rxjs';
-import { take, tap, skip, switchMap } from 'rxjs/operators';
+import { take, tap, skip, switchMap, delay } from 'rxjs/operators';
 import _sample from 'lodash/sample';
 import { produce } from 'immer';
 
@@ -47,10 +47,10 @@ const startupRedirectEpic = (action$, _, { history, config }) =>
 const autoOpenWindowEpic = (action$, _, { history, config }) =>
   action$.pipe(
     ofType(LOAD_APP_INFO_SUCCESS),
+    delay(config.autoStart ? config.autoStartTimeout * 1000 : 0),
     switchMap(() => {
       // only for cases when we have no history (usually on start only), then history itself will work
       if (history.location.pathname === '/') {
-        history.push(`/screens/index`);
         return of(setWindowState(config.autoStart));
       } else {
         return of(setWindowState(true));
