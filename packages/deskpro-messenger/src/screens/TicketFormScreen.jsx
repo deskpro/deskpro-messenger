@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Immutable from 'immutable';
 
 import Block from '../components/core/Block';
 import { TicketForm } from '@deskpro/portal-components';
-import { saveTicket } from '../modules/tickets';
+import { getTicketSavedState, getTicketSavingState, saveTicket, newTicket } from '../modules/tickets';
 import { getTicketDepartments } from '../modules/info';
 
 function fromJSGreedy(js) {
@@ -16,30 +16,40 @@ function fromJSGreedy(js) {
       Immutable.Seq(js).map(fromJSGreedy).toMap();
 }
 
-const mapStateToProps = (state, props) => ({
-  departments: getTicketDepartments(state, props)
-});
+const mapStateToProps = (state, props) => {
+  return {
+    departments: getTicketDepartments(state, props),
+    ticketSaved: getTicketSavedState(state),
+    ticketSaving: getTicketSavingState(state)
+  };
+};
 
-class TicketFormScreen extends PureComponent {
+class TicketFormScreen extends React.Component {
   static propTypes = {
-    formConfig:  PropTypes.array.isRequired,
-    saveTicket:  PropTypes.func.isRequired,
-    departments: PropTypes.object.isRequired,
-    intl:        PropTypes.object.isRequired
+    formConfig:   PropTypes.array.isRequired,
+    saveTicket:   PropTypes.func.isRequired,
+    neticket:     PropTypes.func.isRequired,
+    departments:  PropTypes.object.isRequired,
+    intl:         PropTypes.object.isRequired,
+    ticketSaved:  PropTypes.bool,
+    ticketSaving: PropTypes.bool
   };
 
   static defaultProps = {
-    ticketDefaults: {}
+    ticketSaved: false,
+    ticketSaving: false,
   };
 
-  state = { viewMode: 'form' };
-
   onSubmit = (values) =>
-    this.setState({ viewMode: 'thanks' }, () => this.props.saveTicket(values));
+    this.props.saveTicket(values);
+
+  componentDidMount() {
+    this.props.newTicket();
+  }
 
   render() {
-    const { intl, formConfig, departments, department } = this.props;
-    const { viewMode } = this.state;
+    const { intl, formConfig, departments, department, ticketSaved, ticketSaving } = this.props;
+
     const immutableLayout = fromJSGreedy(formConfig);
     let useDepartment = department;
     const layout = immutableLayout.find(d => d.get('department') === department);
@@ -54,7 +64,7 @@ class TicketFormScreen extends PureComponent {
           defaultMessage: 'New Ticket'
         })}
       >
-        {viewMode === 'form' && (
+        {!ticketSaving && !ticketSaved && (
           <TicketForm
             onSubmit={this.onSubmit}
             deskproLayout={immutableLayout}
@@ -64,10 +74,16 @@ class TicketFormScreen extends PureComponent {
             csrfToken="123456"
           />
         )}
-        {viewMode === 'thanks' && (
+        {ticketSaved && !ticketSaving && (
           <FormattedMessage
             id="tickets.form.thanks"
             defaultMessage="Thank you! We will answer you soon via email."
+          />
+        )}
+        {ticketSaving && (
+          <FormattedMessage
+            id="tickets.form.saving"
+            defaultMessage="We're saving your ticket. Please wait"
           />
         )}
       </Block>
@@ -77,5 +93,5 @@ class TicketFormScreen extends PureComponent {
 
 export default connect(
   mapStateToProps,
-  { saveTicket }
+  { saveTicket, newTicket }
 )(injectIntl(TicketFormScreen));
