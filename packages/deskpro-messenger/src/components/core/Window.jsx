@@ -11,16 +11,6 @@ import MessengerShell from './MessengerShell';
 import MuteButton from '../../containers/MuteButton';
 import BackButton from '../../containers/BackButton';
 import { isWindowOpened } from '../../modules/app';
-// import RandomImageFrame from '../poc/ImageFrame';
-// import LoremIpsumFrame from '../poc/ArticleFrame';
-
-/*const windowStyle = {
-  height: '300px',
-  width: '200px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center'
-};*/
 
 const iframeStyle = {
   bottom: 'calc(60px + 14px + 14px)',
@@ -85,12 +75,6 @@ class MessengerWindow extends PureComponent {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
-
-  toggleImageFrame = () =>
-    this.setState({ imageVisible: !this.state.imageVisible });
-
-  toggleLoremIpsum = () =>
-    this.setState({ articleVisible: !this.state.articleVisible });
 
   renderToolbar = () => {
     return (
@@ -158,13 +142,6 @@ class MessengerWindow extends PureComponent {
               </Switch>
             </Suspense>
           </div>
-          {/*<div className="dpmsg-Block">
-            <button onClick={this.toggleImageFrame}>Show Random Image</button>
-            <br />
-            <button onClick={this.toggleLoremIpsum}>Show Lorem Ipsum</button>
-            {this.state.imageVisible && <RandomImageFrame />}
-            {this.state.articleVisible && <LoremIpsumFrame />}
-              </div>*/}
         </MessengerShell>
       </Frame>
     );

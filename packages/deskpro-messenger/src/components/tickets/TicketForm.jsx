@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'redux';
-import { FieldLayout, Form, withFormik, TicketForm } from '@deskpro/portal-components';
+import { FieldLayout, Form, withFormik } from '@deskpro/portal-components';
 import { FormattedMessage } from 'react-intl';
 
 import Button from '../form/Button';
@@ -28,7 +28,7 @@ const formEnhancer = withFormik({
     return { ...initialValues };
   },
   handleSubmit: (values, { props, setSubmitting }) => {
-    // setSubmitting(true);
+    setSubmitting(true);
     props.onSubmit(values);
   }
 });
