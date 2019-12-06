@@ -1,9 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import * as Yup from 'yup'
 
 import Button from '../form/Button';
 import ChatPrompt from '../ui/ChatPrompt';
+
+const schema = Yup.object().shape({
+  name:  Yup.string(),
+  email: Yup.string().email()
+});
 
 const transMessages = {
   questionHeader: {
@@ -37,7 +43,12 @@ export class TranscriptBlock extends PureComponent {
     })
   };
 
-  state = { viewMode: 'ask' };
+  constructor(props) {
+    super(props);
+    const { user } = this.props;
+    this.state = { viewMode: 'ask', ...user, errors: {} }
+  }
+
 
   handleYesNo = (e) => {
     e.preventDefault();
@@ -53,7 +64,20 @@ export class TranscriptBlock extends PureComponent {
     }
   };
 
-  handleInputChange = (e) => this.setState({ [e.target.name]: e.target.value });
+  handleInputChange = (e) => {
+    let errors = {};
+    const shape = {
+      name:  this.state.name,
+      email: this.state.email
+    };
+    shape[e.target.name] = e.target.value;
+    try {
+      schema.validateSync(shape);
+    } catch (e) {
+      errors = { [e.path]: e.errors };
+    }
+    this.setState({ ...shape, errors });
+  };
 
   submit = ({ name, email }) => {
     this.props.onSend({
@@ -66,8 +90,8 @@ export class TranscriptBlock extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email } = this.state;
-    if (name && email) {
+    const { name, email, errors} = this.state;
+    if (name && email && !errors.email && !errors.name ) {
       this.setState({ viewMode: 'final' }, () => this.submit(this.state));
     }
   };
@@ -130,6 +154,7 @@ export class TranscriptBlock extends PureComponent {
           name="email"
           onChange={this.handleInputChange}
         />
+        {this.state.errors.email ? <span className="dpmsg-InputError">{ this.state.errors.email.join(', ')}</span> : null}
         <Button width="full" size="medium" onClick={this.handleSubmit}>
           <FormattedMessage {...transMessages.sendButton} />
         </Button>
