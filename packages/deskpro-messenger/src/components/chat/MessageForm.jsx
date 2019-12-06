@@ -119,7 +119,13 @@ class MessageForm extends PureComponent {
     scrollableContainer: $(this.props.frameContext.document).find('body')
   };
 
-  onChange = (message) => this.setState({ message });
+  handleTyping = (message) => {
+    this.props.onSend({
+      message: message
+    }, 'chat.typing.start');
+  };
+
+  onChange = (message) => this.setState({ message }, () => this.handleTyping(message));
 
   handleSubmit = (e) => {
     e.preventDefault && e.preventDefault();

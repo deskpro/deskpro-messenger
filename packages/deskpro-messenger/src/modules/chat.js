@@ -255,7 +255,7 @@ const chatReducer = produce((draft, { type, payload }) => {
 
     case CHAT_MESSAGE_RECEIVED:
       if (payload.type.startsWith('chat.typing.')) {
-        draft.typing = payload.type === 'chat.typing.start' ? payload : false;
+        draft.typing = payload.type === 'chat.typing.start' && payload.origin === 'agent' ? payload : false;
         return;
       }
       if (payload.type.startsWith('chat.block.') && payload.origin === 'user') {

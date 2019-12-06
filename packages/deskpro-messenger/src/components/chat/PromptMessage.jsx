@@ -21,7 +21,7 @@ class PromptMessage extends PureComponent {
     return (
       <Fragment>
         {!!prompt && <MessageBubble origin="system" message={prompt} />}
-        <MessageForm onSend={onSendMessage} onEnd={this.handleEndChat}/>
+        <MessageForm onSend={onSendMessage}/>
       </Fragment>
     );
   }
