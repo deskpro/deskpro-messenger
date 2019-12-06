@@ -29,7 +29,7 @@ const transMessages = {
 const blocksMapping = {
   StartChatBlock: injectIntl(({ to, intl, linkText, ...props }) => (
     <Block title={props.title || intl.formatMessage(transMessages.startChatTitle)}>
-      <Button to={`/screens/${to}`} width="full" color="primary">
+      <Button title={props.description || intl.formatMessage(transMessages.startChatTitle)} to={`/screens/${to}`} width="full" color="primary">
         {intl.formatMessage(
           linkText
             ? { id: linkText, defaultMessage: linkText }
@@ -39,18 +39,18 @@ const blocksMapping = {
       </Button>
     </Block>
   )),
-  TicketsBlock: injectIntl(({ intl }) => (
+  TicketsBlock: injectIntl(({ intl, ...props }) => (
     <Block title={intl.formatMessage(transMessages.ticketsTitle)}>
-      <Link to="/screens/tickets">
+      <Link title='Browse your tickets' to="/screens/tickets">
         {intl.formatMessage(transMessages.ticketsViewAllLink)}
       </Link>
     </Block>
   )),
-  ScreenLink: injectIntl(({ to, intl, label, blockTitle }) => (
+  ScreenLink: injectIntl(({ to, intl, label, blockTitle, ...props }) => (
     <Block
       title={intl.formatMessage({ id: blockTitle, defaultMessage: blockTitle })}
     >
-      <Link to={`/screens/${to}`}>
+      <Link title={props.description || ''} to={`/screens/${to}`}>
         {intl.formatMessage({ id: label, defaultMessage: label })}
       </Link>
     </Block>
