@@ -57,6 +57,7 @@
 .dpmsg-ConfirmDateMeeting,
 .dpmsg-BookTimeLink,
 .dpmsg-WrapInput,
+.dpmsg-InputError,
 .dpmsg-Input,
 .dpmsg-GroupInputs,
 .dpmsg-LabelInputText,
@@ -1124,6 +1125,12 @@
   }.dpmsg-WrapInput {
   display: block;
   position: relative;
+}.dpmsg-InputError {
+  font-size: 12px;
+  margin-left: 10px;
+  bottom: 5px;
+  left: 11px;
+  color: #f16c7c;;
 }.dpmsg-Input {
   background-color: #f8fafc;
   border: 2px solid #dce4eb;
