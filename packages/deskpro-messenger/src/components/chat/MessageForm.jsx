@@ -18,7 +18,6 @@ window.$ = window.jQuery = $;
  */
 const extendFroala = () => {
   $.FroalaEditor.ICON_TEMPLATES['dpmsg'] = '<i class="dpmsg-Icon[NAME]"></i>';
-  $.FroalaEditor.ICON_TEMPLATES['dpchat'] = '<i class="dpmsg-Icon[NAME]"><span>[TITLE]</span></i>';
   $.FroalaEditor.DefineIcon('emoticons', { NAME: 'Smile', template: 'dpmsg' });
   $.FroalaEditor.DefineIcon('insertFile', {
     NAME: 'Attach',
@@ -29,14 +28,12 @@ const extendFroala = () => {
     template: 'dpmsg'
   });
   $.FroalaEditor.DefineIcon('sendMessage', { NAME: 'Send', template: 'dpmsg' });
-  $.FroalaEditor.DefineIcon('endChat', { TITLE: 'End chat', NAME: 'ChatEnd', template: 'dpchat' });
 };
 
 class MessageForm extends PureComponent {
   static propTypes = {
     visitorId: PropTypes.string.isRequired,
     onSend: PropTypes.func.isRequired,
-    onEnd: PropTypes.func.isRequired,
     frameContext: PropTypes.object.isRequired,
     className: PropTypes.string,
     style: PropTypes.object
@@ -61,11 +58,6 @@ class MessageForm extends PureComponent {
     $.FroalaEditor.RegisterCommand('sendMessage', {
       title: 'Send Message',
       callback: this.handleSubmit
-    });
-    $.FroalaEditor.RegisterCommand('endChat', {
-      title: 'End Chat',
-      icon: 'endChat',
-      callback: this.handleEndChat
     });
     this.editorControls.initialize();
   };
@@ -97,7 +89,7 @@ class MessageForm extends PureComponent {
     fileUploadMethod: 'POST',
     fileUploadURL: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
     toolbarBottom: true,
-    toolbarButtons: ['sendMessage', 'emoticons', 'insertFile', 'insertImage', 'endChat'],
+    toolbarButtons: ['sendMessage', 'emoticons', 'insertFile', 'insertImage'],
     imageEditButtons: [],
     shortcutsEnabled: ['bold', 'italic', 'underline'],
     enter: $.FroalaEditor.ENTER_BR,
@@ -115,11 +107,6 @@ class MessageForm extends PureComponent {
   };
 
   onChange = (message) => this.setState({ message });
-
-  handleEndChat = (e) => {
-    e.preventDefault && e.preventDefault();
-    this.props.onEnd();
-  };
 
   handleSubmit = (e) => {
     e.preventDefault && e.preventDefault();
