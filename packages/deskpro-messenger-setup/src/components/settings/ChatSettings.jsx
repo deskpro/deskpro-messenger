@@ -96,7 +96,9 @@ class ChatSettings extends React.PureComponent {
           for{' '}
           <Input
             className="small"
-            type="text"
+            type="number"
+            min={0}
+            max={9999}
             value={config.getIn(['chat', 'timeout'])}
             onChange={this.ensurePositiveTimeout}
             name="chat.timeout"
