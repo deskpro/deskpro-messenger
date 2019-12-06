@@ -33,7 +33,7 @@ const startupRedirectEpic = (action$, _, { history, config }) =>
       if (Array.isArray(payload.chats)) {
         const activeChat = payload.chats.find((c) => c.status === 'open');
         if (activeChat) {
-          history.replace(`/screens/active-chat/${activeChat.id}`);
+          history.push(`/screens/active-chat/${activeChat.id}`);
         } else if (Array.isArray(config.enabledGreetings)) {
           const randomGreeting = _sample(config.enabledGreetings);
           if (randomGreeting) {
@@ -51,6 +51,7 @@ const autoOpenWindowEpic = (action$, _, { history, config }) =>
     switchMap(() => {
       // only for cases when we have no history (usually on start only), then history itself will work
       if (history.location.pathname === '/') {
+        history.push(`/screens/index`);
         return of(setWindowState(config.autoStart));
       } else {
         return of(setWindowState(true));
