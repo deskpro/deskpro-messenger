@@ -80,6 +80,17 @@ class MessageForm extends PureComponent {
     this.uploadedFiles.push(blob_id);
   };
 
+  fileError = (event, editor, error, response) => {
+    const { errors } = JSON.parse(response);
+    const err = [];
+    for (let [_, error] of Object.entries(errors)) {
+      err.push(error);
+    }
+    let $popup = editor.popups.get('file.insert') || editor.popups.get('file.insert');
+    let $layer = $popup.find('.fr-layer');
+    $layer.find('h3').text(err.join(' '));
+  };
+
   froalaConfig = {
     requestHeaders: {
       'X-DESKPRO-VISITORID': this.props.visitorId
@@ -100,7 +111,9 @@ class MessageForm extends PureComponent {
     events: {
       'froalaEditor.initialized': this.onFroalaInit,
       'froalaEditor.file.uploaded': this.fileUploaded,
-      'froalaEditor.image.uploaded': this.fileUploaded
+      'froalaEditor.image.uploaded': this.fileUploaded,
+      'froalaEditor.file.error': this.fileError,
+      'froalaEditor.image.error': this.fileError
     },
     pluginsEnabled: ['file', 'image', 'emoticons'],
     scrollableContainer: $(this.props.frameContext.document).find('body')
