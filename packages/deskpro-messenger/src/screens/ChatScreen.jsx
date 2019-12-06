@@ -55,6 +55,11 @@ class ChatScreen extends PureComponent {
     }
   };
 
+  onEndClick = (e) => {
+    e.preventDefault() && e.stopPropagation();
+    this.handleEndChat();
+  };
+
   handleEndChat = () => {
     const messageModel = {
       origin: 'user',
@@ -80,6 +85,9 @@ class ChatScreen extends PureComponent {
         )}
         className="Block--chat"
       >
+        <div className="dpmsg-endChatButton">
+          <span onClick={this.onEndClick}>End chat</span>
+        </div>
         <Chat
           messages={this.props.messages}
           onSendMessage={this.handleSendMessage}
