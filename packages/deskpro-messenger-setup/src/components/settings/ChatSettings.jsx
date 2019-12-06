@@ -27,6 +27,13 @@ class ChatSettings extends React.PureComponent {
     this.props.handleChange(value, name);
   };
 
+  ensureTimeoutIsPositive = (value, name) => {
+    if (value < 0) {
+      value = 0;
+    }
+    this.props.handleChange(value, name);
+  };
+
   render() {
     const {
       config,
@@ -91,7 +98,7 @@ class ChatSettings extends React.PureComponent {
             className="small"
             type="text"
             value={config.getIn(['chat', 'timeout'])}
-            onChange={handleChange}
+            onChange={this.ensurePositiveTimeout}
             name="chat.timeout"
           />{' '}
           seconds

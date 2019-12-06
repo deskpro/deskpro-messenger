@@ -15,7 +15,6 @@ class MessengerSettings extends React.Component {
   };
 
   ensureTimeoutIsPositive = (value, name) => {
-    console.log(value);
     if (value < 0) {
       value = 0;
     }
