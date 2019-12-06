@@ -14,6 +14,14 @@ class MessengerSettings extends React.Component {
     config: Immutable.fromJS({})
   };
 
+  ensureTimeoutIsPositive = (value, name) => {
+    console.log(value);
+    if (value < 0) {
+      value = 0;
+    }
+    this.props.handleChange(value, name);
+  };
+
   render() {
     const { config, handleChange, opened, onClick } = this.props;
     const drawerProps = {
@@ -47,10 +55,12 @@ class MessengerSettings extends React.Component {
           <Input
             className="small"
             type="number"
+            min={0}
+            max={9999}
             value={config.getIn(['messenger', 'autoStartTimeout'])}
-            onChange={handleChange}
+            onChange={this.ensureTimeoutIsPositive}
             name="messenger.autoStartTimeout"
-          />{' '}
+          />
           seconds
           <br />
           </span>
