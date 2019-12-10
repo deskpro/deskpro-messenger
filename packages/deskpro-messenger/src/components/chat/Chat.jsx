@@ -46,9 +46,12 @@ class Chat extends PureComponent {
   static propTypes = {
     messages: PropTypes.array,
     onSendMessage: PropTypes.func.isRequired,
+    onEndChat: PropTypes.func.isRequired,
+    onCancelEndChat: PropTypes.func.isRequired,
     typing: PropTypes.object,
     agent: PropTypes.object,
     user: PropTypes.object,
+    endChatBlock: PropTypes.bool.isRequired,
     chat: PropTypes.shape({
       id: PropTypes.number.isRequired,
       status: PropTypes.string.isRequired
@@ -60,13 +63,6 @@ class Chat extends PureComponent {
   };
 
   scrollArea = React.createRef();
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      endChatBlock: false
-    }
-  }
 
   componentDidMount() {
     if (this.props.messages.length && this.scrollArea.current) {
@@ -85,14 +81,6 @@ class Chat extends PureComponent {
     }
   }
 
-  onEndChat = () => {
-    this.setState({endChatBlock: true});
-  };
-
-  onResume = () => {
-    this.setState({endChatBlock: false});
-  };
-
   scrollToBottom(refresh) {
     if (refresh && this.scrollArea.current) {
       this.scrollArea.current.setSizesToState();
@@ -110,15 +98,15 @@ class Chat extends PureComponent {
       messages,
       onSendMessage,
       onEndChat,
+      onCancelEndChat,
       intl,
       agent,
       user,
       chat,
       chatConfig,
+      endChatBlock,
       contentSize: { height, maxHeight }
     } = this.props;
-
-    const { endChatBlock } = this.state;
 
     return (
       <div
@@ -227,7 +215,7 @@ class Chat extends PureComponent {
           })}
           {!!typing && <TypingMessage value={typing} />}
           {!!chat && chat.status !== 'ended' && endChatBlock && (
-            <ChatEndBlock onResume={this.onResume} onEnd={onEndChat} />
+            <ChatEndBlock onCancelEnd={onCancelEndChat} onEnd={onEndChat} />
           )}
         </ScrollArea>
         {!!chat && chat.status !== 'ended' && (

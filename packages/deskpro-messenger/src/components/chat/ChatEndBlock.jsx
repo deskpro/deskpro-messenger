@@ -22,7 +22,8 @@ const transMessages = {
 
 export class ChatEndBlock extends PureComponent {
   static propTypes = {
-    onEnd: PropTypes.func.isRequired
+    onEnd: PropTypes.func.isRequired,
+    onCancelEnd: PropTypes.func.isRequired
   };
 
   state = { rating: null };
@@ -32,9 +33,9 @@ export class ChatEndBlock extends PureComponent {
     this.props.onEnd();
   };
 
-  handleResume = (e) => {
+  onCancelEnd = (e) => {
     e.preventDefault() && e.stopPropagation();
-    this.props.onResume();
+    this.props.onCancelEnd();
   };
 
   render() {
@@ -56,7 +57,7 @@ export class ChatEndBlock extends PureComponent {
             width="limited"
             color="danger"
             name="no"
-            onClick={this.handleResume}
+            onClick={this.onCancelEnd}
           >
             {intl.formatMessage(transMessages.buttonNo)}
           </Button>

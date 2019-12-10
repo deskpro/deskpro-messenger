@@ -44,6 +44,10 @@ class ChatScreen extends PureComponent {
     typing: null
   };
 
+  state = {
+    endChatBlock: false
+  };
+
   handleSendMessage = (message, type = 'chat.message') => {
     if (message) {
       const messageModel = {
@@ -55,9 +59,12 @@ class ChatScreen extends PureComponent {
     }
   };
 
-  onEndClick = (e) => {
-    e.preventDefault() && e.stopPropagation();
-    this.handleEndChat();
+  onEndClick = () => {
+    this.setState({endChatBlock: true});
+  };
+
+  onCancelEndChat = () => {
+    this.setState({ endChatBlock: false });
   };
 
   handleEndChat = () => {
@@ -92,6 +99,8 @@ class ChatScreen extends PureComponent {
           messages={this.props.messages}
           onSendMessage={this.handleSendMessage}
           onEndChat={this.handleEndChat}
+          onCancelEndChat={this.onCancelEndChat}
+          endChatBlock={this.state.endChatBlock}
           typing={this.props.typing}
           user={user}
           agent={agent}
