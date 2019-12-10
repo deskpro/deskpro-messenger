@@ -61,7 +61,6 @@ export default (state = { ticketSaving: false, ticketSaved: false, errors: {} },
     case TICKET_SAVE_NEW_SUCCESS:
       return { ...state, ticketSaving: false, ticketSaved: true, errors: {} };
     case TICKET_SAVE_NEW_ERROR:
-      console.log(payload);
       return { ...state, ticketSaving: false, ticketSaved: false, errors: payload };
     default:
       return state;
