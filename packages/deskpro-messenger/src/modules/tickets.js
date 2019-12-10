@@ -13,16 +13,38 @@ export const saveTicket = (data) => ({ type: TICKET_SAVE_NEW, payload: data });
 export const newTicket  = () => ({ type: TICKET_NEW_OPEN });
 //#endregion
 
+const flattenErrors = (errors = {}, field, key) => {
+  if(field.errors) {
+    errors[key] = field.errors
+      .map(error => error.message)
+      .filter((item, pos, self) => self.indexOf(item) === pos)
+      .join(' ');
+  } else if (field.fields) {
+    Object.keys(field.fields).forEach((k) => {
+      flattenErrors(errors, field.fields[k], k);
+    });
+  }
+};
+
 //#region EPICS
 export const createTicketEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(TICKET_SAVE_NEW),
     mergeMap(async ({ payload }) => {
+      const flatErrors = {};
       try {
         await api.createTicket(payload);
         return { type: TICKET_SAVE_NEW_SUCCESS }
       } catch (e) {
-        return { type: TICKET_SAVE_NEW_ERROR }
+        if (e.response.status === 400) {
+          const { errors } = e.response.data;
+          if (errors) {
+            Object.keys(errors.fields).forEach((key) => {
+              flattenErrors(flatErrors, errors.fields[key], key);
+            });
+          }
+        }
+        return { type: TICKET_SAVE_NEW_ERROR, payload: flatErrors }
       }
     }),
   );
@@ -30,16 +52,17 @@ export const createTicketEpic = (action$, _, { api }) =>
 export const ticketEpics = combineEpics(createTicketEpic);
 
 //#region REDUCER
-export default (state = { ticketSaving: false, ticketSaved: false }, { type, payload }) => {
+export default (state = { ticketSaving: false, ticketSaved: false, errors: {} }, { type, payload }) => {
   switch (type) {
     case TICKET_NEW_OPEN:
       return { ...state, ticketSaving: false, ticketSaved: false };
     case TICKET_SAVE_NEW:
       return { ...state, ticketSaving: true };
     case TICKET_SAVE_NEW_SUCCESS:
-      return { ...state, ticketSaving: false, ticketSaved: true };
+      return { ...state, ticketSaving: false, ticketSaved: true, errors: {} };
     case TICKET_SAVE_NEW_ERROR:
-      return { ...state, ticketSaving: false, ticketSaved: false };
+      console.log(payload);
+      return { ...state, ticketSaving: false, ticketSaved: false, errors: payload };
     default:
       return state;
   }
@@ -49,4 +72,5 @@ export default (state = { ticketSaving: false, ticketSaved: false }, { type, pay
 //#region SELECTORS
 export const getTicketSavingState = (state) => state.tickets.ticketSaving;
 export const getTicketSavedState  = (state) => state.tickets.ticketSaved;
+export const getErrors  = (state) => state.tickets.errors;
 //#endregion

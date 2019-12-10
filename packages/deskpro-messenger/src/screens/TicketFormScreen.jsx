@@ -6,7 +6,7 @@ import Immutable from 'immutable';
 
 import Block from '../components/core/Block';
 import { TicketForm } from '@deskpro/portal-components';
-import { getTicketSavedState, getTicketSavingState, saveTicket, newTicket } from '../modules/tickets';
+import { getTicketSavedState, getTicketSavingState, getErrors, saveTicket, newTicket } from '../modules/tickets';
 import { getTicketDepartments } from '../modules/info';
 
 function fromJSGreedy(js) {
@@ -18,9 +18,10 @@ function fromJSGreedy(js) {
 
 const mapStateToProps = (state, props) => {
   return {
-    departments: getTicketDepartments(state, props),
-    ticketSaved: getTicketSavedState(state),
-    ticketSaving: getTicketSavingState(state)
+    departments:  getTicketDepartments(state, props),
+    ticketSaved:  getTicketSavedState(state),
+    ticketSaving: getTicketSavingState(state),
+    errors:       getErrors(state)
   };
 };
 
@@ -28,7 +29,7 @@ class TicketFormScreen extends React.Component {
   static propTypes = {
     formConfig:   PropTypes.array.isRequired,
     saveTicket:   PropTypes.func.isRequired,
-    neticket:     PropTypes.func.isRequired,
+    newTicket:    PropTypes.func.isRequired,
     departments:  PropTypes.object.isRequired,
     intl:         PropTypes.object.isRequired,
     ticketSaved:  PropTypes.bool,
@@ -48,8 +49,7 @@ class TicketFormScreen extends React.Component {
   }
 
   render() {
-    const { intl, formConfig, departments, department, ticketSaved, ticketSaving } = this.props;
-
+    const { intl, formConfig, departments, department, ticketSaved, ticketSaving, errors } = this.props;
     const immutableLayout = fromJSGreedy(formConfig);
     let useDepartment = department;
     const layout = immutableLayout.find(d => d.get('department') === department);
@@ -64,8 +64,15 @@ class TicketFormScreen extends React.Component {
           defaultMessage: 'New Ticket'
         })}
       >
-        {!ticketSaving && !ticketSaved && (
+        {ticketSaving && (
+          <FormattedMessage
+            id="tickets.form.saving"
+            defaultMessage="We're saving your ticket. Please wait"
+          />
+        )}
+        {!ticketSaved && (
           <TicketForm
+            errors={errors}
             onSubmit={this.onSubmit}
             deskproLayout={immutableLayout}
             departments={fromJSGreedy(departments)}
@@ -80,12 +87,7 @@ class TicketFormScreen extends React.Component {
             defaultMessage="Thank you! We will answer you soon via email."
           />
         )}
-        {ticketSaving && (
-          <FormattedMessage
-            id="tickets.form.saving"
-            defaultMessage="We're saving your ticket. Please wait"
-          />
-        )}
+
       </Block>
     );
   }
