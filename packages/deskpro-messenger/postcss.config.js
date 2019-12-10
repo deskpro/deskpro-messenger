@@ -119,6 +119,7 @@ module.exports = (ctx) => ({
       },
       rulesMatcher: 'suit'
     }),
+    require('postcss-color-mod-function'),
     require('postcss-extend-rule')({
       onFunctionalSelector: 'warn',
       onRecursiveExtend: 'throw',
