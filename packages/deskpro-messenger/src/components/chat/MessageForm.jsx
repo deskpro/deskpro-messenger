@@ -76,19 +76,30 @@ class MessageForm extends PureComponent {
   };
 
   fileUploaded = (e, editor, response) => {
+    console.log(response);
     const { blob_id } = JSON.parse(response);
     this.uploadedFiles.push(blob_id);
   };
 
   fileError = (event, editor, error, response) => {
-    const { errors } = JSON.parse(response);
     const err = [];
-    for (let [_, error] of Object.entries(errors)) {
-      err.push(error);
+    if (!response && error) {
+      err.push(error.message);
+    } else {
+      try {
+        const { errors } = JSON.parse(response);
+        for (let [_, error] of Object.entries(errors)) {
+          err.push(error);
+        }
+      } catch (e) {
+        err.push(e.message);
+      }
+      let $popup = editor.popups.get('file.insert') || editor.popups.get('file.insert');
+      let $layer = $popup.find('.fr-layer');
+      $layer.find('h3').text(err.join(' '));
     }
-    let $popup = editor.popups.get('file.insert') || editor.popups.get('file.insert');
-    let $layer = $popup.find('.fr-layer');
-    $layer.find('h3').text(err.join(' '));
+
+
   };
 
   froalaConfig = {
