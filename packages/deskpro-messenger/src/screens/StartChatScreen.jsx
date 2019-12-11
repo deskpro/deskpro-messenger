@@ -45,7 +45,7 @@ class StartChatScreen extends PureComponent {
   };
 
   onSendMessage = (message, type = 'chat.message') => {
-    if (message && type == 'chat.message') {
+    if (message && type === 'chat.message') {
       const { department, user } = this.props;
 
       const messageModel = {
