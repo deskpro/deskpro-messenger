@@ -88,17 +88,18 @@ class MessageForm extends PureComponent {
     } else {
       try {
         const { errors } = JSON.parse(response);
-        for (let [_, error] of Object.entries(errors)) {
+        for (let [, error] of Object.entries(errors)) {
           err.push(error);
         }
       } catch (e) {
         err.push(e.message);
       }
-      let $popup = editor.popups.get('file.insert') || editor.popups.get('file.insert');
-      let $layer = $popup.find('.fr-layer');
+    }
+    if(err.length > 0) {
+      const $popup = editor.popups.get('file.insert') || editor.popups.get('file.insert');
+      const $layer = $popup.find('.fr-layer');
       $layer.find('h3').text(err.join(' '));
     }
-
 
   };
 
