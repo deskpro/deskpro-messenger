@@ -67,6 +67,7 @@ export default (settings) => {
     screens,
     themeVars: {
       '--color-primary': settings.styles.primaryColor || '#3d88f3',
+      '--brand-primary': settings.styles.primaryColor || '#3d88f3',
       '--color-background': settings.styles.backgroundColor || '#3d88f3'
     },
     greetings: {},
