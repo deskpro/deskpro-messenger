@@ -869,10 +869,10 @@
   resolved "https://registry.yarnpkg.com/@deskpro/js-utils/-/js-utils-1.0.7.tgz#cc1b97be3af31ec53882da5a6a7239c45e36ef42"
   integrity sha512-XqPLn1hXCUCCFZbNRpxp8CqGBKrT3obMHvtTWAITDUfSurJKisF9HxtzJ23Lzc/Mq9PqTOfpHaCqAjWKJuHtUA==
 
-"@deskpro/portal-components@0.3.15":
-  version "0.3.15"
-  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.3.15.tgz#f5c3f95a2ac218d6d1585ae672f88ee6741dfa7b"
-  integrity sha512-oiPBRO1aKHZQJlXhdG49srGxdV754Jg6LmHq7yknit12CrvIJSnicZsaEtvS1jhuRK3aFUrI57FsOgPozYiNvQ==
+"@deskpro/portal-components@0.3.23":
+  version "0.3.23"
+  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.3.23.tgz#6e9e63907b15a89b85493e69497def992a21b9a7"
+  integrity sha512-5Bjr2jgOy6bfCH7uerFpgf78+V8hth5k9lVy/9QhDov63ErbHh25d84nH7YBCMuhQCOUuaUZkp1mhGMTdyl3sQ==
   dependencies:
     "@deskpro/js-utils" "1.0.7"
     "@deskpro/react-datepicker-hijri" "^1.5.0"
@@ -885,6 +885,7 @@
     lodash "4.17.13"
     moment "^2.22.1"
     moment-hijri "^2.0.1"
+    postcss-color-mod-function "^3.0.3"
     raw-loader "^0.5.1"
     react-dropzone "10.1.10"
     react-select "^2.0.0"

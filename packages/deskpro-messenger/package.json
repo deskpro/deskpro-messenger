@@ -15,7 +15,7 @@
     "url": "https://github.com/deskpro/deskpro-messenger"
   },
   "dependencies": {
-    "@deskpro/portal-components": "0.3.15",
+    "@deskpro/portal-components": "0.3.23",
     "@deskpro/react-datepicker-hijri": "^1.5.0",
     "axios": "^0.19.0-beta.1",
     "classnames": "^2.2.6",
