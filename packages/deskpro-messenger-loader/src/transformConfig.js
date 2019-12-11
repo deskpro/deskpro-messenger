@@ -68,7 +68,8 @@ export default (settings) => {
     themeVars: {
       '--color-primary': settings.styles.primaryColor || '#3d88f3',
       '--brand-primary': settings.styles.primaryColor || '#3d88f3',
-      '--color-background': settings.styles.backgroundColor || '#3d88f3'
+      '--brand-secondary': settings.styles.backgroundColor || '#a9b0b0',
+      '--color-background': settings.styles.backgroundColor || '#a9b0b0'
     },
     greetings: {},
     enabledGreetings
