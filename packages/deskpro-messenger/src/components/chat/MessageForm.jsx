@@ -7,7 +7,7 @@ import 'froala-editor/js/froala_editor.pkgd.min.js';
 import $ from 'jquery';
 import FroalaEditor from 'react-froala-wysiwyg';
 
-import { ConfigContext } from '../core/ConfigContext';
+import { ConfigContext, withConfig } from '../core/ConfigContext';
 import { withFrameContext } from '../core/Frame';
 import { withVisitorId } from '../../containers/withVisitorId';
 
@@ -36,7 +36,8 @@ class MessageForm extends PureComponent {
     onSend: PropTypes.func.isRequired,
     frameContext: PropTypes.object.isRequired,
     className: PropTypes.string,
-    style: PropTypes.object
+    style: PropTypes.object,
+    maxFileSize: PropTypes.number.isRequired,
   };
 
   static contextType = ConfigContext;
@@ -76,7 +77,6 @@ class MessageForm extends PureComponent {
   };
 
   fileUploaded = (e, editor, response) => {
-    console.log(response);
     const { blob_id } = JSON.parse(response);
     this.uploadedFiles.push(blob_id);
   };
@@ -111,6 +111,7 @@ class MessageForm extends PureComponent {
     imageUploadURL: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
     fileUploadMethod: 'POST',
     fileUploadURL: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
+    fileMaxSize: this.props.maxFileSize || (1024*1024*10),
     toolbarBottom: true,
     toolbarButtons: ['sendMessage', 'emoticons', 'insertFile', 'insertImage'],
     imageEditButtons: [],
@@ -173,4 +174,4 @@ class MessageForm extends PureComponent {
   }
 }
 
-export default withVisitorId(withFrameContext(MessageForm));
+export default withVisitorId(withFrameContext(withConfig(MessageForm)));

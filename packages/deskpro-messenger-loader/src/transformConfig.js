@@ -64,6 +64,7 @@ export default (settings) => {
   return {
     autoStart: settings.messenger.autoStart,
     autoStartTimeout: settings.messenger.autoStartTimeout,
+    maxFileSize: settings.messenger.maxFileSize,
     screens,
     themeVars: {
       '--color-primary': settings.styles.primaryColor || '#3d88f3',

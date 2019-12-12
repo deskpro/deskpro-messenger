@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 
 import MessageBubble from './MessageBubble';
 import MessageForm from './MessageForm';
+import { withConfig } from '../core/ConfigContext';
 
 class PromptMessage extends PureComponent {
   static propTypes = {
@@ -27,4 +28,4 @@ class PromptMessage extends PureComponent {
   }
 }
 
-export default withRouter(PromptMessage);
+export default withRouter(withConfig(PromptMessage));
