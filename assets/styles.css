@@ -2022,7 +2022,11 @@
     font-size: 18px;
     box-shadow: none;
     padding: 0 11px 0 12px;
-  }.dp-pc_field textarea ~ .dp-pc_label .react-select__placeholder, .dp-pc_field .react-select__control .react-select__placeholder {
+  }.dp-pc_field textarea ~ .dp-pc_label:hover, .dp-pc_field .react-select__control:hover {
+      border-color: #3d88f3;
+      border-color: #3d88f3;
+      border-color: var(--brand-primary);
+     }.dp-pc_field textarea ~ .dp-pc_label .react-select__placeholder, .dp-pc_field .react-select__control .react-select__placeholder {
       color: #a9b0b0;
       color: #a9b0b0;
       color: var(--placeholder-color);
@@ -2125,6 +2129,8 @@
         background-color: #a9b0b0;
         background-color: #a9b0b0;
         background-color: var(--brand-secondary);
+      }.dp-pc_field .react-select__menu .react-select__option.react-select__option--is-back {
+       padding-left: 25px;
       }.dp-pc_field .react-select__menu .react-select__option--arrow {
       position: absolute;
       right: 15px;
@@ -2151,6 +2157,30 @@
                 transform: rotate(45deg);
         -webkit-transition: 0.2s ease all;
         transition: 0.2s ease all;
+      }.dp-pc_field .react-select__menu .react-select__option--back-arrow {
+      position: absolute;
+      left: 10px;
+      top: 9px;
+    }.dp-pc_field .react-select__menu .react-select__option--back-arrow:before,
+      .dp-pc_field .react-select__menu .react-select__option--back-arrow:after {
+         position: absolute;
+         left: 0;
+         top: 0;
+         content: ' ';
+         height: 12px;
+         width: 2px;
+         background-color: #3d88f3;
+         background-color: #3d88f3;
+         background-color: var(--brand-primary);
+      }.dp-pc_field .react-select__menu .react-select__option--back-arrow:before {
+         -webkit-transform: rotate(45deg);
+                 transform: rotate(45deg);
+         -webkit-transition: 0.2s ease all;
+         transition: 0.2s ease all;
+      }.dp-pc_field .react-select__menu .react-select__option--back-arrow:after {
+         top: 7px;
+         -webkit-transform: rotate(-45deg);
+                 transform: rotate(-45deg);
       }.dp-pc_field .react-select__is-focused ~ .indicator:before,
   .dp-pc_field .react-select__is-focused ~ .indicator:after {
     height: 50%;
