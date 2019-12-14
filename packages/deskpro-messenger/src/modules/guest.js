@@ -104,4 +104,8 @@ export const getVisitorId = createSelector(
   getGuestState,
   (guest) => guest.visitorId
 );
+export const getUser = createSelector(
+  getGuestState,
+  (guest) => Object.assign({}, { name: guest.name, email: guest.email } )
+);
 //#endregion

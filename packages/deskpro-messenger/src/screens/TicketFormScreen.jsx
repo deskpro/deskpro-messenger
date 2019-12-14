@@ -8,6 +8,7 @@ import Block from '../components/core/Block';
 import { TicketForm } from '@deskpro/portal-components';
 import { getTicketSavedState, getTicketSavingState, getErrors, saveTicket, newTicket } from '../modules/tickets';
 import { getTicketDepartments } from '../modules/info';
+import { getUser } from '../modules/guest';
 
 function fromJSGreedy(js) {
   return typeof js !== 'object' || js === null ? js :
@@ -21,6 +22,7 @@ const mapStateToProps = (state, props) => {
     departments:  getTicketDepartments(state, props),
     ticketSaved:  getTicketSavedState(state),
     ticketSaving: getTicketSavingState(state),
+    user:         getUser(state),
     errors:       getErrors(state)
   };
 };
@@ -32,6 +34,7 @@ class TicketFormScreen extends React.Component {
     newTicket:    PropTypes.func.isRequired,
     departments:  PropTypes.object.isRequired,
     intl:         PropTypes.object.isRequired,
+    user:         PropTypes.object,
     ticketSaved:  PropTypes.bool,
     ticketSaving: PropTypes.bool
   };
@@ -39,6 +42,7 @@ class TicketFormScreen extends React.Component {
   static defaultProps = {
     ticketSaved: false,
     ticketSaving: false,
+    user: {name: '', email: ''}
   };
 
   onSubmit = (values) =>
@@ -49,7 +53,7 @@ class TicketFormScreen extends React.Component {
   }
 
   render() {
-    const { intl, formConfig, departments, department, ticketSaved, ticketSaving, errors } = this.props;
+    const { intl, formConfig, departments, department, ticketSaved, ticketSaving, errors, user } = this.props;
     const immutableLayout = fromJSGreedy(formConfig);
     let useDepartment = department;
     const layout = immutableLayout.find(d => d.get('department') === department);
@@ -73,6 +77,7 @@ class TicketFormScreen extends React.Component {
         {!ticketSaved && (
           <TicketForm
             errors={errors}
+            initialValues={{ person: user }}
             onSubmit={this.onSubmit}
             deskproLayout={immutableLayout}
             departments={fromJSGreedy(departments)}
