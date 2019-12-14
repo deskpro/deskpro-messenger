@@ -55,11 +55,6 @@ class TicketFormScreen extends React.Component {
   render() {
     const { intl, formConfig, departments, department, ticketSaved, ticketSaving, errors, user } = this.props;
     const immutableLayout = fromJSGreedy(formConfig);
-    let useDepartment = department;
-    const layout = immutableLayout.find(d => d.get('department') === department);
-    if (!layout) {
-      useDepartment = 0;
-    }
 
     return (
       <Block
@@ -81,7 +76,7 @@ class TicketFormScreen extends React.Component {
             onSubmit={this.onSubmit}
             deskproLayout={immutableLayout}
             departments={fromJSGreedy(departments)}
-            department={useDepartment}
+            department={department}
             fileUploadUrl="http://deskpro5.local/en/dpblob"
             csrfToken="123456"
           />
