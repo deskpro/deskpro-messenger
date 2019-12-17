@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import Immutable from 'immutable';
+import { fromJSGreedy } from '../utils/common';
 
 import Block from '../components/core/Block';
 import { TicketForm } from '@deskpro/portal-components';
@@ -10,12 +10,6 @@ import { getTicketSavedState, getTicketSavingState, getErrors, saveTicket, newTi
 import { getTicketDepartments } from '../modules/info';
 import { getUser } from '../modules/guest';
 
-function fromJSGreedy(js) {
-  return typeof js !== 'object' || js === null ? js :
-    Array.isArray(js) ?
-      Immutable.Seq(js).map(fromJSGreedy).toList() :
-      Immutable.Seq(js).map(fromJSGreedy).toMap();
-}
 
 const mapStateToProps = (state, props) => {
   return {
@@ -87,7 +81,6 @@ class TicketFormScreen extends React.Component {
             defaultMessage="Thank you! We will answer you soon via email."
           />
         )}
-
       </Block>
     );
   }

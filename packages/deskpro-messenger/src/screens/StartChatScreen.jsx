@@ -5,13 +5,14 @@ import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 
 // import Chat from '../components/chat/Chat';
-import ChatEnterForm from '../components/chat/ChatEnterForm';
 import Block from '../components/core/Block';
-
 import { createChat, sendMessage } from '../modules/chat';
-import { getUserData } from '../modules/guest';
+import { getUser,  } from '../modules/guest';
 import PromptMessage from '../components/chat/PromptMessage';
 import { getChatDepartments } from '../modules/info';
+import { fromJSGreedy } from '../utils/common';
+import { TicketForm } from '@deskpro/portal-components';
+
 
 class StartChatScreen extends PureComponent {
   static propTypes = {
@@ -27,7 +28,7 @@ class StartChatScreen extends PureComponent {
     prompt: ''
   };
 
-  state = { viewMode: this.props.preChatForm.length ? 'form' : 'prompt' };
+  state = { viewMode: this.props.preChatForm.length > 0 ? 'form' : 'prompt' };
   promptMessage = this.props.prompt
     ? this.props.intl.formatMessage({
         id: this.props.prompt,
@@ -36,6 +37,7 @@ class StartChatScreen extends PureComponent {
     : null;
 
   createChat = (values, meta = {}) => {
+    console.log(values);
     const { createChat, screenName, user } = this.props;
     createChat(values, {
       fromScreen: screenName,
@@ -59,6 +61,7 @@ class StartChatScreen extends PureComponent {
 
   render() {
     const { department, departments, preChatForm, intl, user } = this.props;
+    const immutableLayout = fromJSGreedy(preChatForm);
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
 
@@ -73,11 +76,15 @@ class StartChatScreen extends PureComponent {
         )}
       >
         {viewMode === 'form' && (
-          <ChatEnterForm
-            user={user}
+          <TicketForm
+            initialValues={{ person: user }}
+            deskproLayout={immutableLayout}
+            departments={fromJSGreedy(departments)}
+            fileUploadUrl="http://deskpro5.local/en/dpblob"
+            csrfToken="123456"
+            departmentPropName="chat_department"
             department={department}
             onSubmit={this.createChat}
-            formConfig={preChatForm}
           />
         )}
         {viewMode === 'prompt' && (
@@ -92,7 +99,7 @@ class StartChatScreen extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => ({
-  user: getUserData(state),
+  user: getUser(state),
   departments: getChatDepartments(state, props)
 });
 

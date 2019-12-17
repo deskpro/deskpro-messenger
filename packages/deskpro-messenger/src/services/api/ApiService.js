@@ -41,10 +41,7 @@ export default class ApiService {
    */
   async createChat(data) {
     const { department: chat_department, ...chatValues } = data;
-    const response = await this.apiClient.post('/api/messenger/chat', {
-      ...chatValues,
-      chat_department
-    });
+    const response = await this.apiClient.post('/api/messenger/chat', chatValues);
 
     return pickChat(response.data.data);
   }
