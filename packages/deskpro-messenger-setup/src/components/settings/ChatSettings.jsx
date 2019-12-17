@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Heading, Icon, Input, Label, ListElement, Section, Select, Textarea, Toggle } from '@deskpro/react-components';
+import { Heading, Icon, Input, Label, ListElement, Section, Select, Textarea, Toggle, Checkbox } from '@deskpro/react-components';
 
 class ChatSettings extends React.PureComponent {
   static propTypes = {
@@ -91,6 +91,19 @@ class ChatSettings extends React.PureComponent {
           />
           <h4>Who can use chat</h4>
           <h4>Pre-chat form</h4>
+          <Toggle
+            checked={config.getIn(['chat', 'preChatForm', 'enabled'])}
+            name="chat.preChatForm.enabled"
+            onChange={handleChange}
+          >
+            Ask information before chat commences
+          </Toggle>
+          <span style={{ display: config.getIn(['chat', 'preChatForm', 'enabled']) ? 'block' : 'none' }}>
+            Require users to provide their name and email address as well as adding custom fields or require departments.
+            <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox> <Checkbox name="chat.preChatForm.isNameRequired" onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameRequired'])}>Required?</Checkbox>
+            <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailEnabled'])} name="chat.preChatForm.isEmailEnabled">Email</Checkbox><Checkbox name="chat.preChatForm.isEmailRequired" onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailRequired'])}>Required?</Checkbox>
+            <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable'])} name="chat.preChatForm.isDepartmentSelectable">Department</Checkbox>
+          </span>
           <h4>Unanswered chat</h4>
           If no agents are online to accept a chat, or when the user has waited
           for{' '}
