@@ -13,6 +13,7 @@ class App extends React.Component {
     handleChange: PropTypes.func,
     chatDepartments: PropTypes.object,
     ticketDepartments: PropTypes.object,
+    chatCustomFields: PropTypes.object,
   };
 
   render() {
@@ -20,6 +21,7 @@ class App extends React.Component {
       settings,
       handleChange,
       chatDepartments,
+      chatCustomFields,
       ticketDepartments
     } = this.props;
     return (
@@ -29,6 +31,7 @@ class App extends React.Component {
           handleChange={handleChange}
           chatDepartments={chatDepartments}
           ticketDepartments={ticketDepartments}
+          chatCustomFields={chatCustomFields}
         />
         <Preview config={transformConfig(settings)}/>
       </div>

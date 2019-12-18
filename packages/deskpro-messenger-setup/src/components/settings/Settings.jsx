@@ -15,6 +15,7 @@ class Settings extends React.Component {
     handleChange: PropTypes.func.isRequired,
     chatDepartments: PropTypes.object,
     ticketDepartments: PropTypes.object,
+    chatCustomFields: PropTypes.object,
   };
 
   static defaultProps = {
@@ -26,6 +27,7 @@ class Settings extends React.Component {
       settings,
       handleChange,
       chatDepartments,
+      chatCustomFields,
       ticketDepartments,
     } = this.props;
 
@@ -52,6 +54,7 @@ class Settings extends React.Component {
             handleChange={handleChange}
             chatDepartments={chatDepartments}
             ticketDepartments={ticketDepartments}
+            chatCustomFields={chatCustomFields}
           />
           <TicketSettings
             id="ticket"
