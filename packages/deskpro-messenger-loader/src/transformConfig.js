@@ -20,17 +20,6 @@ export default (settings) => {
     screens.startChat.screenType = 'StartChatScreen';
     delete screens.startChat.enabled;
 
-    if(screens.startChat.preChatForm.enabled) {
-      const config = {
-        department: 0,
-        fields: screens.startChat.preChatForm.fields
-      };
-      config.fields.push({field_type: 'text', required: screens.startChat.preChatForm.isNameRequired, field_id: 'name'});
-      config.fields.push({field_type: 'email', required: screens.startChat.preChatForm.isEmailRequired, field_id: 'email'});
-      config.fields.push({field_type: 'department', required: true, field_id: 'chat_department', is_hidden: !screens.startChat.preChatForm.isDepartmentSelectable});
-      screens.startChat.preChatForm = [config];
-    }
-
     if (screens.startChat.noAnswerBehavior === 'save_ticket') {
       screens.startChat.ticketFormConfig = [
         {
