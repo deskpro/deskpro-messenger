@@ -37,7 +37,6 @@ class StartChatScreen extends PureComponent {
     : null;
 
   createChat = (values, meta = {}) => {
-    console.log(values);
     const { createChat, screenName, user } = this.props;
     createChat(values, {
       fromScreen: screenName,

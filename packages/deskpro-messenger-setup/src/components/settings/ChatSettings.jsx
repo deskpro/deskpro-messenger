@@ -27,6 +27,11 @@ class ChatSettings extends React.PureComponent {
     this.props.handleChange(value, name);
   };
 
+  handleCheckboxChange = (checked, value, name) => {
+    this.props.handleChange({id: value, enabled: checked}, name)
+
+  };
+
   ensureTimeoutIsPositive = (value, name) => {
     if (value < 0) {
       value = 0;
@@ -112,10 +117,18 @@ class ChatSettings extends React.PureComponent {
             <div>
               <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable'])} name="chat.preChatForm.isDepartmentSelectable">Department</Checkbox>
             </div>
-            {chatCustomFields.map((f) =>
+            {chatCustomFields.toArray().map((f) =>
               <div>
-                <Checkbox key={`chat_custom_field_${f.get('id')}.enabled`} onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'fields', f.get('id')])} name={`chat.preChatForm.fields.${f.get('id')}.enabled`}>{f.get('title')}</Checkbox>
-                <Checkbox key={`chat_custom_field_${f.get('id')}.required`} onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'fields', f.get('id')])} name={`chat.preChatForm.fields.${f.get('id')}.required`}>Required? (change)</Checkbox>
+                <Checkbox
+                  key={`chat_custom_field_${f.get('id')}_enabled`}
+                  onChange={this.handleCheckboxChange}
+                  checked={config.getIn(['chat', 'preChatForm', 'fields', f.get('id'), 'enabled'])}
+                  name={`chat.preChatForm.fields.${f.get('id')}`}
+                  value={f.get('id')}
+                >
+                  {f.get('title')}
+                </Checkbox>
+                <Checkbox key={`chat_custom_field_${f.get('id')}_required`} onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'fields', f.get('id'), 'required'])} name={`chat.preChatForm.fields.${f.get('id')}.required`}>Required? (change)</Checkbox>
               </div>
             )}
           </span>
