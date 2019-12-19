@@ -53,6 +53,7 @@ class ChatSettings extends React.PureComponent {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
       className: 'dp-column-drawer'
     };
+
     return (
       <ListElement {...drawerProps}>
         <Heading onClick={onClick}>
@@ -122,13 +123,13 @@ class ChatSettings extends React.PureComponent {
                 <Checkbox
                   key={`chat_custom_field_${f.get('id')}_enabled`}
                   onChange={this.handleCheckboxChange}
-                  checked={config.getIn(['chat', 'preChatForm', 'fields', f.get('id'), 'enabled'])}
+                  checked={config.getIn(['chat', 'preChatForm', 'fields', `${f.get('id')}`, 'enabled'])}
                   name={`chat.preChatForm.fields.${f.get('id')}`}
                   value={f.get('id')}
                 >
                   {f.get('title')}
                 </Checkbox>
-                <Checkbox key={`chat_custom_field_${f.get('id')}_required`} onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'fields', f.get('id'), 'required'])} name={`chat.preChatForm.fields.${f.get('id')}.required`}>Required? (change)</Checkbox>
+                <Checkbox key={`chat_custom_field_${f.get('id')}_required`} onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'fields', `${f.get('id')}`, 'required'])} name={`chat.preChatForm.fields.${f.get('id')}.required`}>Required? (change)</Checkbox>
               </div>
             )}
           </span>
