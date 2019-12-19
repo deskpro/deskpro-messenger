@@ -38,7 +38,15 @@ class StartChatScreen extends PureComponent {
 
   createChat = (values, meta = {}) => {
     const { createChat, screenName, user } = this.props;
-    createChat(values, {
+    const postData = { fields: {} };
+    for(const [key, value] of Object.entries(values)) {
+      if(key.match(/^chat_field/)) {
+        postData.fields[key.split('_').splice(-1, 1).join('')] = value;
+      } else {
+        postData[key] = value;
+      }
+    }
+    createChat(postData, {
       fromScreen: screenName,
       ...user,
       ...meta
