@@ -11,3 +11,19 @@
 .messenger-settings .dp-input.small {
     width: 50px;
 }
+
+.dp_m_chat_field_wrapper {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.dp_m_chat_field_wrapper .dp_m_chat_field_enabled_wrapper {
+    padding: 10px 50px 0 10px;
+    background-color: #fcfcfc;
+    border: 1px solid #e3e3e3;
+    min-width: 200px;
+}
+
+.dp_m_chat_field_wrapper .dp_m_chat_field_required_wrapper {
+    padding: 10px 0 0 10px;
+}

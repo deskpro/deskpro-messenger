@@ -107,29 +107,43 @@ class ChatSettings extends React.PureComponent {
           </Toggle>
           <span style={{ display: config.getIn(['chat', 'preChatForm', 'enabled']) ? 'block' : 'none' }}>
             Require users to provide their name and email address as well as adding custom fields or require departments.
-            <div>
-              <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox>
-              <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameRequired'])} name="chat.preChatForm.isNameRequired" >Required?</Checkbox>
+            <div className="dp_m_chat_field_wrapper">
+              <div className="dp_m_chat_field_enabled_wrapper">
+                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox>
+              </div>
+              <div className="dp_m_chat_field_required_wrapper">
+                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameRequired'])} name="chat.preChatForm.isNameRequired" >Required?</Checkbox>
+              </div>
             </div>
-            <div>
-              <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailEnabled'])} name="chat.preChatForm.isEmailEnabled">Email</Checkbox>
-              <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailRequired'])} name="chat.preChatForm.isEmailRequired">Required?</Checkbox>
+            <div className="dp_m_chat_field_wrapper">
+              <div className="dp_m_chat_field_enabled_wrapper">
+                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailEnabled'])} name="chat.preChatForm.isEmailEnabled">Email</Checkbox>
+                </div>
+              <div className="dp_m_chat_field_required_wrapper">
+                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailRequired'])} name="chat.preChatForm.isEmailRequired">Required?</Checkbox>
+              </div>
             </div>
-            <div>
-              <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable'])} name="chat.preChatForm.isDepartmentSelectable">Department</Checkbox>
+            <div className="dp_m_chat_field_wrapper">
+              <div className="dp_m_chat_field_enabled_wrapper">
+                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable'])} name="chat.preChatForm.isDepartmentSelectable">Department</Checkbox>
+              </div>
             </div>
             {chatCustomFields.toArray().map((f) =>
-              <div>
-                <Checkbox
-                  key={`chat_custom_field_${f.get('id')}_enabled`}
-                  onChange={this.handleCheckboxChange}
-                  checked={config.getIn(['chat', 'preChatForm', 'fields', `${f.get('id')}`, 'enabled'])}
-                  name={`chat.preChatForm.fields.${f.get('id')}`}
-                  value={f.get('id')}
-                >
-                  {f.get('title')}
-                </Checkbox>
-                <Checkbox key={`chat_custom_field_${f.get('id')}_required`} onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'fields', `${f.get('id')}`, 'required'])} name={`chat.preChatForm.fields.${f.get('id')}.required`}>Required? (change)</Checkbox>
+              <div className="dp_m_chat_field_wrapper">
+                <div className="dp_m_chat_field_enabled_wrapper">
+                  <Checkbox
+                    key={`chat_custom_field_${f.get('id')}_enabled`}
+                    onChange={this.handleCheckboxChange}
+                    checked={config.getIn(['chat', 'preChatForm', 'fields', `${f.get('id')}`, 'enabled'])}
+                    name={`chat.preChatForm.fields.${f.get('id')}`}
+                    value={f.get('id')}
+                  >
+                    {f.get('title')}
+                  </Checkbox>
+                </div>
+                <div className="dp_m_chat_field_required_wrapper">
+                  <Checkbox key={`chat_custom_field_${f.get('id')}_required`} onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'fields', `${f.get('id')}`, 'required'])} name={`chat.preChatForm.fields.${f.get('id')}.required`}>Required? (change)</Checkbox>
+                </div>
               </div>
             )}
           </span>
