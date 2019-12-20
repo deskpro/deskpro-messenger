@@ -24,6 +24,7 @@ const mapStateToProps = (state, props) => {
 class TicketFormScreen extends React.Component {
   static propTypes = {
     formConfig:   PropTypes.array.isRequired,
+    uploadTo:     PropTypes.string.isRequired,
     saveTicket:   PropTypes.func.isRequired,
     newTicket:    PropTypes.func.isRequired,
     departments:  PropTypes.object.isRequired,
@@ -43,11 +44,12 @@ class TicketFormScreen extends React.Component {
     this.props.saveTicket(values);
 
   componentDidMount() {
+    console.log(this.props);
     this.props.newTicket();
   }
 
   render() {
-    const { intl, formConfig, departments, department, ticketSaved, ticketSaving, errors, user } = this.props;
+    const { intl, formConfig, uploadTo, departments, department, ticketSaved, ticketSaving, errors, user } = this.props;
     const immutableLayout = fromJSGreedy(formConfig);
 
     return (
@@ -71,8 +73,8 @@ class TicketFormScreen extends React.Component {
             deskproLayout={immutableLayout}
             departments={fromJSGreedy(departments)}
             department={department}
-            fileUploadUrl="http://deskpro5.local/en/dpblob"
-            csrfToken="123456"
+            fileUploadUrl={uploadTo}
+            csrfToken="not_used"
           />
         )}
         {ticketSaved && !ticketSaving && (
