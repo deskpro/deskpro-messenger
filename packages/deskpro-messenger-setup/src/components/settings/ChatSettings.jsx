@@ -3,6 +3,93 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { Heading, Icon, Input, Label, ListElement, Section, Select, Textarea, Toggle, Checkbox } from '@deskpro/react-components';
+import arrayMove from 'array-move';
+import { SortableElement, SortableContainer } from 'react-sortable-hoc';
+
+class CustomFieldCheckBox extends React.Component
+{
+  static propTypes = {
+    field: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    handleCheckboxChange: PropTypes.func.isRequired,
+  };
+
+  render() {
+    const { field, config, handleChange, handleCheckboxChange } = this.props;
+    return (
+      <div className="dp_m_chat_field_wrapper">
+        <div className="dp_m_chat_field_enabled_wrapper">
+          <Checkbox
+            key={`chat_custom_field_${field.get('id')}_enabled`}
+            onChange={handleCheckboxChange}
+            checked={config.getIn(['chat', 'preChatForm', 'fields', `${field.get('id')}`, 'enabled'])}
+            name={`chat.preChatForm.fields.${field.get('id')}`}
+            value={field.get('id')}
+          >
+            {field.get('title')}
+            <i className={'fas fa-bars'} />
+          </Checkbox>
+        </div>
+        <div className="dp_m_chat_field_required_wrapper">
+          <Checkbox
+            key={`chat_custom_field_${field.get('id')}_required`}
+            onChange={(checked, value, name) => handleChange(checked, name)}
+            checked={config.getIn(['chat', 'preChatForm', 'fields', `${field.get('id')}`, 'required'])}
+            name={`chat.preChatForm.fields.${field.get('id')}.required`}>
+            Required? (<a href={`#/chat/fields/${field.get('id')}`}>change</a>)
+          </Checkbox>
+        </div>
+      </div>
+    );
+  }
+}
+
+const SortableItem = SortableElement(CustomFieldCheckBox);
+
+const SortableList = SortableContainer((props) => {
+  const {items, config, handleChange, handleCheckboxChange} = props;
+  return (
+    <div>
+      {items.map((value, index) => (
+        <SortableItem key={`item-${value}`} index={index} field={value} config={config} handleChange={handleChange} handleCheckboxChange={handleCheckboxChange} />
+      ))}
+    </div>
+  );
+});
+
+class SortableComponent extends React.Component {
+
+  state = {
+    items: [],
+  };
+
+  static getDerivedStateFromProps(props) {
+    const { fields, config } = props;
+    return {
+      items: fields.sort((a, b) => config.getIn(['chat', 'preChatForm', 'fields', `${a.get('id')}`, 'displayOrder']) - config.getIn(['chat', 'preChatForm', 'fields', `${b.get('id')}`, 'displayOrder']))
+    };
+  }
+
+  onSortEnd = ({newIndex, oldIndex}) => {
+    const newItems = arrayMove(this.state.items, oldIndex, newIndex).map((f, i) => f.set('displayOrder', i*10));
+    newItems.forEach((f, i) => this.props.handleChange({displayOrder: i*10}, `chat.preChatForm.fields.${f.get('id')}`));
+  };
+
+  render() {
+    const { handleChange, handleCheckboxChange, config } = this.props;
+
+    return <SortableList
+      items={this.state.items}
+      onSortEnd={this.onSortEnd}
+      config={config}
+      handleChange={handleChange}
+      pressDelay={100}
+      handleCheckboxChange={handleCheckboxChange}
+    />;
+  }
+}
+
 
 class ChatSettings extends React.PureComponent {
   static propTypes = {
@@ -128,30 +215,12 @@ class ChatSettings extends React.PureComponent {
                 <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable'])} name="chat.preChatForm.isDepartmentSelectable">Department</Checkbox>
               </div>
             </div>
-            {chatCustomFields.toArray().map((f) =>
-              <div className="dp_m_chat_field_wrapper">
-                <div className="dp_m_chat_field_enabled_wrapper">
-                  <Checkbox
-                    key={`chat_custom_field_${f.get('id')}_enabled`}
-                    onChange={this.handleCheckboxChange}
-                    checked={config.getIn(['chat', 'preChatForm', 'fields', `${f.get('id')}`, 'enabled'])}
-                    name={`chat.preChatForm.fields.${f.get('id')}`}
-                    value={f.get('id')}
-                  >
-                    {f.get('title')}
-                  </Checkbox>
-                </div>
-                <div className="dp_m_chat_field_required_wrapper">
-                  <Checkbox
-                    key={`chat_custom_field_${f.get('id')}_required`}
-                    onChange={(checked, value, name) => handleChange(checked, name)}
-                    checked={config.getIn(['chat', 'preChatForm', 'fields', `${f.get('id')}`, 'required'])}
-                    name={`chat.preChatForm.fields.${f.get('id')}.required`}>
-                    Required? (<a href={`#/chat/fields/${f.get('id')}`}>change</a>)
-                  </Checkbox>
-                </div>
-              </div>
-            )}
+            <SortableComponent
+              fields={chatCustomFields.toArray()}
+              config={config}
+              handleChange={handleChange}
+              handleCheckboxChange={this.handleCheckboxChange}
+            />
           </span>
           <h4>Unanswered chat</h4>
           If no agents are online to accept a chat, or when the user has waited

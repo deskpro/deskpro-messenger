@@ -18,10 +18,19 @@
 }
 
 .dp_m_chat_field_wrapper .dp_m_chat_field_enabled_wrapper {
-    padding: 10px 50px 0 10px;
+    padding: 10px 0 0 10px;
     background-color: #fcfcfc;
     border: 1px solid #e3e3e3;
     min-width: 200px;
+}
+
+.dp_m_chat_field_wrapper .dp_m_chat_field_enabled_wrapper i.fas.fa-bars{
+    cursor: move;
+    position: absolute;
+    right: 0;
+    top: -2px;
+    font-size: 18px;
+    color: #ccc;
 }
 
 .dp_m_chat_field_wrapper .dp_m_chat_field_required_wrapper {
