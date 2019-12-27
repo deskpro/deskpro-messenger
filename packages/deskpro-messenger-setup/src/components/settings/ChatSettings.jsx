@@ -142,7 +142,13 @@ class ChatSettings extends React.PureComponent {
                   </Checkbox>
                 </div>
                 <div className="dp_m_chat_field_required_wrapper">
-                  <Checkbox key={`chat_custom_field_${f.get('id')}_required`} onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'fields', `${f.get('id')}`, 'required'])} name={`chat.preChatForm.fields.${f.get('id')}.required`}>Required? (change)</Checkbox>
+                  <Checkbox
+                    key={`chat_custom_field_${f.get('id')}_required`}
+                    onChange={(checked, value, name) => handleChange(checked, name)}
+                    checked={config.getIn(['chat', 'preChatForm', 'fields', `${f.get('id')}`, 'required'])}
+                    name={`chat.preChatForm.fields.${f.get('id')}.required`}>
+                    Required? (<a href={`#/chat/fields/${f.get('id')}`}>change</a>)
+                  </Checkbox>
                 </div>
               </div>
             )}
