@@ -44,7 +44,6 @@ class TicketFormScreen extends React.Component {
     this.props.saveTicket(values);
 
   componentDidMount() {
-    console.log(this.props);
     this.props.newTicket();
   }
 
