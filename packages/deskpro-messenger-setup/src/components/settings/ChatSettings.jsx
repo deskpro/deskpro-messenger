@@ -116,7 +116,6 @@ class ChatSettings extends React.PureComponent {
 
   handleCheckboxChange = (checked, value, name) => {
     this.props.handleChange({id: value, enabled: checked}, name)
-
   };
 
   ensureTimeoutIsPositive = (value, name) => {
@@ -193,7 +192,20 @@ class ChatSettings extends React.PureComponent {
             Ask information before chat commences
           </Toggle>
           <span style={{ display: config.getIn(['chat', 'preChatForm', 'enabled']) ? 'block' : 'none' }}>
-            Require users to provide their name and email address as well as adding custom fields or require departments.
+            <div>
+              Require users to provide their name and email address as well as adding custom fields or require departments.
+            </div>
+            <Toggle
+              checked={config.getIn(['chat', 'preChatForm', 'brandMessage'])}
+              name="chat.preChatForm.brandMessage"
+              onChange={handleChange}
+            >
+              Brand message
+            </Toggle>
+            <div className="dp_m_chat_brand_message" style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessage']) ? 'block' : 'none' }}>
+              Welcome to Deskpro. Please fill out the details below so we can direct you to the right person as quickly as possible.
+            </div>
+            <h4>Show fields:</h4>
             <div className="dp_m_chat_field_wrapper">
               <div className="dp_m_chat_field_enabled_wrapper">
                 <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox>
@@ -213,6 +225,9 @@ class ChatSettings extends React.PureComponent {
             <div className="dp_m_chat_field_wrapper">
               <div className="dp_m_chat_field_enabled_wrapper">
                 <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable'])} name="chat.preChatForm.isDepartmentSelectable">Department</Checkbox>
+              </div>
+              <div style={{ display: config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable']) ? 'none' : 'block' }} className="dp_m_chat_field_required_wrapper">
+                Default department will be applied automatically
               </div>
             </div>
             <SortableComponent

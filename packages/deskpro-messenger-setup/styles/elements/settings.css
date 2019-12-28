@@ -36,3 +36,12 @@
 .dp_m_chat_field_wrapper .dp_m_chat_field_required_wrapper {
     padding: 10px 0 0 10px;
 }
+
+.dp_m_chat_brand_message {
+    margin: 7px;
+    padding: 7px;
+    color: #8b9293;
+    background-color: #eff0f0;
+    border: 1px solid #a9b0b0;
+    min-height: 70px;
+}
