@@ -62,7 +62,7 @@ class StartChatScreen extends PureComponent {
         type: 'chat.message',
         ...(typeof message === 'string' ? { message } : message)
       };
-      this.createChat({ department, ...user }, { message: messageModel });
+      this.createChat({ chat_department: department, ...user }, { message: messageModel });
     }
   };
 
