@@ -67,7 +67,7 @@ class StartChatScreen extends PureComponent {
   };
 
   render() {
-    const { department, departments, preChatForm, intl, user } = this.props;
+    const { department, departments, preChatForm, intl, user, uploadTo, brandMessageEnabled } = this.props;
     const immutableLayout = fromJSGreedy(preChatForm);
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
@@ -83,16 +83,21 @@ class StartChatScreen extends PureComponent {
         )}
       >
         {viewMode === 'form' && (
-          <TicketForm
-            initialValues={{ person: user }}
-            deskproLayout={immutableLayout}
-            departments={fromJSGreedy(departments)}
-            fileUploadUrl="http://deskpro5.local/en/dpblob"
-            csrfToken="123456"
-            departmentPropName="chat_department"
-            department={department}
-            onSubmit={this.createChat}
-          />
+          [
+            brandMessageEnabled && <div className="dpmsg-StartChatScreen-BrandMessage">
+              Welcome to Deskpro. Please fill out the details below so we can direct you to the right person as quickly as possible.
+          </div>,
+            <TicketForm
+              initialValues={{ person: user }}
+              deskproLayout={immutableLayout}
+              departments={fromJSGreedy(departments)}
+              fileUploadUrl={uploadTo}
+              csrfToken="not_used"
+              departmentPropName="chat_department"
+              department={department}
+              onSubmit={this.createChat}
+            />
+          ]
         )}
         {viewMode === 'prompt' && (
           <PromptMessage

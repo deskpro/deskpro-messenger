@@ -196,13 +196,13 @@ class ChatSettings extends React.PureComponent {
               Require users to provide their name and email address as well as adding custom fields or require departments.
             </div>
             <Toggle
-              checked={config.getIn(['chat', 'preChatForm', 'brandMessage'])}
-              name="chat.preChatForm.brandMessage"
+              checked={config.getIn(['chat', 'preChatForm', 'brandMessageEnabled'])}
+              name="chat.preChatForm.brandMessageEnabled"
               onChange={handleChange}
             >
               Brand message
             </Toggle>
-            <div className="dp_m_chat_brand_message" style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessage']) ? 'block' : 'none' }}>
+            <div className="dp_m_chat_brand_message" style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessageEnabled']) ? 'block' : 'none' }}>
               Welcome to Deskpro. Please fill out the details below so we can direct you to the right person as quickly as possible.
             </div>
             <h4>Show fields:</h4>
