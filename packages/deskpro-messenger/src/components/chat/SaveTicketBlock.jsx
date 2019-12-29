@@ -82,7 +82,7 @@ class SaveTicketBlock extends PureComponent {
 
     if (user.email) {
       return (
-        <Fragment>
+        <div className="dpmsg-PromptContentEvaluation">
           <Button
             width="limited"
             color="success"
@@ -99,7 +99,7 @@ class SaveTicketBlock extends PureComponent {
           >
             {intl.formatMessage(transMessages.buttonNo)}
           </Button>
-        </Fragment>
+        </div>
       );
     }
 
