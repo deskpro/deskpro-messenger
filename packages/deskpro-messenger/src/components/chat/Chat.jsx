@@ -184,6 +184,7 @@ class Chat extends PureComponent {
                     {chatConfig.noAnswerBehavior === 'save_ticket' && (
                       <SaveTicketBlock
                         user={user}
+                        uploadTo={chatConfig.uploadTo}
                         ticketParams={chatConfig.ticketDefaults}
                         formConfig={chatConfig.ticketFormConfig}
                         onSend={onSendMessage}

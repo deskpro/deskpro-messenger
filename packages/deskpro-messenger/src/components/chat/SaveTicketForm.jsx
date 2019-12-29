@@ -1,39 +1,51 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { compose } from 'redux';
-import { FieldLayout, Form, withFormik } from '@deskpro/portal-components';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import { fromJSGreedy } from '../../utils/common';
+import { TicketForm } from '@deskpro/portal-components';
+import { connect } from 'react-redux';
+import { getUser } from '../../modules/guest';
+import PropTypes from 'prop-types';
 
-import Button from '../form/Button';
-import withTranslatedLayout from '../core/TranslatedLayoutHOC';
+class SaveTicketForm extends PureComponent {
 
-const SaveTicketForm = (props) => (
-  <Form>
-    <FieldLayout {...props} />
-    <Button width="full" size="medium" color="primary" type="submit">
-      <FormattedMessage
-        id="chat.save_ticket_form.button"
-        defaultMessage="Save Ticket"
-      />
-    </Button>
-  </Form>
-);
+  static propTypes = {
+    user: PropTypes.object,
+    formConfig: PropTypes.array,
+    department: PropTypes.number.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+  };
 
-const formEnhancer = withFormik({
-  enableReinitialize: true,
-  mapPropsToValues: ({ layouts }) => {
-    const layout = layouts.getMatchingLayout({});
-    if (layout) {
-      return layout.getDefaultValues();
-    }
-    return {};
-  },
-  handleSubmit: (values, { props, setSubmitting }) => {
-    // setSubmitting(true);
-    props.onSubmit(values);
+  static defaultProps = {
+    user: {},
+    formConfig: [],
+  };
+
+  render() {
+    const { department, formConfig, user, uploadTo, onSubmit } = this.props;
+    const immutableLayout = fromJSGreedy(formConfig);
+
+    return (<TicketForm
+      initialValues={{ person: user }}
+      deskproLayout={immutableLayout}
+      departments={fromJSGreedy([])}
+      fileUploadUrl={uploadTo}
+      csrfToken="not_used"
+      departmentPropName="department"
+      department={department}
+      onSubmit={onSubmit}
+    />);
   }
+}
+
+const mapStateToProps = (state) => ({
+  user: getUser(state),
 });
 
+
 export default compose(
-  withTranslatedLayout,
-  formEnhancer
+  connect(
+    mapStateToProps
+  ),
+  injectIntl
 )(SaveTicketForm);

@@ -78,7 +78,7 @@ class SaveTicketBlock extends PureComponent {
   handleCancel = () => this.setState({ viewMode: 'cancel' });
 
   renderFormOrQuestion() {
-    const { formConfig, intl, user } = this.props;
+    const { formConfig, intl, user, ticketParams, uploadTo } = this.props;
 
     if (user.email) {
       return (
@@ -108,7 +108,12 @@ class SaveTicketBlock extends PureComponent {
         <p className="dpmsg-PromptText">
           <FormattedMessage {...transMessages.intro} />
         </p>
-        <SaveTicketForm formConfig={formConfig} onSubmit={this.handleSubmit} />
+        <SaveTicketForm
+          uploadTo={uploadTo}
+          department={ticketParams.department}
+          formConfig={formConfig}
+          onSubmit={this.handleSubmit}
+        />
       </Fragment>
     );
   }
