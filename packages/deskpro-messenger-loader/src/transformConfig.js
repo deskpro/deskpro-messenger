@@ -23,19 +23,18 @@ export default (settings) => {
     if (screens.startChat.noAnswerBehavior === 'save_ticket') {
       screens.startChat.ticketFormConfig = [
         {
+          department: 0,
           fields: [
             {
-              name: 'name',
-              label: 'Full Name',
-              type: 'text',
-              validation: ['required'],
+              field_id: 'name',
+              field_type: 'text',
+              required: true,
               placeholder: 'John Doe'
             },
             {
-              name: 'email',
-              label: 'Email',
-              type: 'text',
-              validation: ['required'],
+              field_id: 'email',
+              field_type: 'email',
+              required: true,
               placeholder: 'john.doe@company.com'
             }
           ]
