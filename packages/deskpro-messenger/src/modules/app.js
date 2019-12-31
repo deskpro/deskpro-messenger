@@ -30,7 +30,7 @@ const startupRedirectEpic = (action$, _, { history, config }) =>
     ofType(SET_VISITOR),
     take(1),
     tap(({ payload }) => {
-      if (Array.isArray(payload.chats)) {
+      if (config.screens.startChat && Array.isArray(payload.chats)) {
         const activeChat = payload.chats.find((c) => c.status === 'open');
         if (activeChat) {
           history.push(`/screens/active-chat/${activeChat.id}`);
@@ -50,13 +50,14 @@ const autoOpenWindowEpic = (action$, _, { history, config }) =>
     delay(config.autoStart ? config.autoStartTimeout * 1000 : 0),
     switchMap(() => {
       // only for cases when we have no history (usually on start only), then history itself will work
-      if (history.location.pathname === '/') {
-        history.push(`/screens/index`);
-        return of(setWindowState(config.autoStart));
-      } else {
-        return of(setWindowState(true));
+      if(config.screens.startChat || config.screens.newTicket) {
+        if (history.location.pathname === '/') {
+          history.push(`/screens/index`);
+          return of(setWindowState(config.autoStart));
+        } else {
+          return of(setWindowState(true));
+        }
       }
-
     })
   );
 export const appEpic = combineEpics(startupRedirectEpic, autoOpenWindowEpic);

@@ -79,7 +79,7 @@ class Main extends PureComponent {
               <Route path="/screens" component={Window} />
               <Route path="/greetings" component={Greetings} />
             </Switch>
-            <Route component={MessengerToggler} />
+            { (config.screens.newTicket || config.screens.startChat) && <Route component={MessengerToggler} /> }
             <Route component={MessengerAPI} />
           </WithData>
         </IntlProvider>
