@@ -9,6 +9,7 @@ import enLocale from 'react-intl/locale-data/en';
 import enTranslations from '../translations/en.json';
 import WithData from './WithData';
 import Window from '../components/core/Window';
+import { hasAgentsAvailable } from '../modules/info';
 import MessengerToggler from '../components/core/MessengerToggler';
 import Greetings from '../components/core/Greetings';
 import { ConfigProvider } from '../components/core/ConfigContext';
@@ -65,7 +66,7 @@ class Main extends PureComponent {
   };
 
   render() {
-    const { config } = this.props;
+    const { config, agentsAvailable } = this.props;
     const { translations } = this.state;
 
     return (
@@ -79,7 +80,7 @@ class Main extends PureComponent {
               <Route path="/screens" component={Window} />
               <Route path="/greetings" component={Greetings} />
             </Switch>
-            { (config.screens.newTicket || config.screens.startChat) && <Route component={MessengerToggler} /> }
+            { (config.screens.newTicket || (config.screens.startChat && agentsAvailable)) && <Route component={MessengerToggler} /> }
             <Route component={MessengerAPI} />
           </WithData>
         </IntlProvider>
@@ -91,7 +92,7 @@ class Main extends PureComponent {
 const enhancer = compose(
   withRouter,
   connect(
-    null,
+    (state) => ({ agentsAvailable: hasAgentsAvailable(state) }),
     { appInit, appShutdown }
   )
 );

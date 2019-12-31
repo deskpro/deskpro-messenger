@@ -48,9 +48,9 @@ const autoOpenWindowEpic = (action$, _, { history, config }) =>
   action$.pipe(
     ofType(LOAD_APP_INFO_SUCCESS),
     delay(config.autoStart ? config.autoStartTimeout * 1000 : 0),
-    switchMap(() => {
+    switchMap((payload) => {
       // only for cases when we have no history (usually on start only), then history itself will work
-      if(config.screens.startChat || config.screens.newTicket) {
+      if((config.screens.startChat && payload.agents_online.length > 0) || config.screens.newTicket) {
         if (history.location.pathname === '/') {
           history.push(`/screens/index`);
           return of(setWindowState(config.autoStart));
