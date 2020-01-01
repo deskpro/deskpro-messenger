@@ -57,6 +57,16 @@ export default produce(
           case 'user_chat.agents_online':
             draft.agents = payload.data;
             return;
+          case 'agent.update_status':
+            if (payload.data.online) {
+              draft.agents.push(payload.data.agent_id);
+            } else {
+              const agentIndex = draft.agents.indexOf(payload.data.agent_id);
+              if (agentIndex !== -1) {
+                draft.agents.splice(agentIndex, 1);
+              }
+            }
+            return;
           default:
             return;
         }
