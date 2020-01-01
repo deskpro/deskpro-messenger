@@ -45,6 +45,9 @@ export default class PusherClient extends AbstractClient {
       const alert = this.transformNotification(data);
       this.onNotificationReceived(alert);
     });
+    this.client.on(`user_public-action_alert`, (data) => {
+      this.onNotificationReceived(data);
+    });
   }
 
   /**

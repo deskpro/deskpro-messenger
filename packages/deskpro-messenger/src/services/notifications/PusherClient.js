@@ -46,6 +46,10 @@ export default class PusherClient extends AbstractClient {
       const alert = this.transformNotification(data);
       this.onNotificationReceived(alert);
     });
+    this.publicChannel = this.socket.subscribe('user_public');
+    this.publicChannel.bind('action_alert', (data) => {
+      this.onNotificationReceived(data);
+    });
   }
 
   /**
@@ -54,5 +58,6 @@ export default class PusherClient extends AbstractClient {
   async stopListening() {
     await super.stopListening();
     this.socket.unsubscribe(this.channelName);
+    this.socket.unsubscribe('user_public');
   }
 }

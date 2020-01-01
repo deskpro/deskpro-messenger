@@ -4,10 +4,12 @@ import { switchMap, map, take } from 'rxjs/operators';
 import { produce } from 'immer';
 
 import { SET_VISITOR } from './guest';
+import { CHAT_MESSAGE_RECEIVED } from './chat';
 
 //#region ACTION TYPES
 export const LOAD_APP_INFO = 'LOAD_APP_INFO';
 export const LOAD_APP_INFO_SUCCESS = 'LOAD_APP_INFO_SUCCESS';
+export const ALERT_RECEIVED = 'ALERT_RECEIVED';
 //#endregion
 
 //#region ACTIONS
@@ -18,6 +20,10 @@ export const loadAppInfo = () => ({
 export const appInfoLoaded = (data) => ({
   type: LOAD_APP_INFO_SUCCESS,
   payload: data
+});
+export const alertReceived = (alert) => ({
+  type: ALERT_RECEIVED,
+  payload: alert
 });
 //#endregion
 
@@ -45,6 +51,15 @@ export default produce(
         );
         draft.agents = payload.agents_online;
         return;
+      }
+      case ALERT_RECEIVED: {
+        switch (payload.type) {
+          case 'user_chat.agents_online':
+            draft.agents = payload.data;
+            return;
+          default:
+            return;
+        }
       }
       default:
         return draft;
