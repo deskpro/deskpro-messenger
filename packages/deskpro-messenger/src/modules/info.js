@@ -4,7 +4,6 @@ import { switchMap, map, take } from 'rxjs/operators';
 import { produce } from 'immer';
 
 import { SET_VISITOR } from './guest';
-import { CHAT_MESSAGE_RECEIVED } from './chat';
 
 //#region ACTION TYPES
 export const LOAD_APP_INFO = 'LOAD_APP_INFO';
