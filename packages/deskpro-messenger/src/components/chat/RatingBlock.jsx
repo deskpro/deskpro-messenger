@@ -43,7 +43,7 @@ export class RatingBlock extends PureComponent {
       this.props.onSend({
         type: 'chat.rating',
         origin: 'user',
-        rate: 0 + (rating === 'helpful')
+        rate: rating === 'helpful'
       });
     });
   };
