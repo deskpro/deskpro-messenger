@@ -2009,6 +2009,7 @@
 
   
 
+
   .dp-pc_field .react-select__control {
     border: 1.5px solid #d3d6d7;
     border: 1.5px solid #d3d6d7;
@@ -2201,7 +2202,6 @@
         border: 2px solid #dce4eb;
         border: 2px solid #dce4eb;
         border: 2px solid var(--checkbox-border);
-        margin-top: 15px;
       }.dp-pc_field .react-select__control .react-select__multi-value__label {
       position: static;
       font-size: 12px;
@@ -2725,7 +2725,9 @@
       color: #d3d6d7;
       color: #d3d6d7;
       color: var(--grey-light);
-    }.dp-pc_form .dp-pc_field .dp-pc_file-upload__dropzone {
+    }.dp-pc_field.dp-pc_multi-select .react-select__control {
+  height: inherit;
+}.dp-pc_form .dp-pc_field .dp-pc_file-upload__dropzone {
   margin-top: 45px;
 }.dp-pc_form.show-hover .dp-pc_likert .dp-pc_likert_input:hover .dp-pc_likert_number {
       background-color: #3d88f3;
