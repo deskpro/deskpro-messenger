@@ -100,7 +100,13 @@ const loadHistoryEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(CHAT_INIT_CHATS),
     mergeMap(({ payload }) => {
-      const activeChat = payload.find((c) => c.status === 'open');
+      // this should be rewritten (also search for CHAT_INIT_CHATS)
+      let activeChat = null;
+      payload.sort((a,b) => a.id - b.id).forEach((chat) => {
+        if(chat.status === 'open') {
+          activeChat = chat;
+        }
+      });
       if (activeChat) {
         return merge(
           from(api.getChatHistory(activeChat)).pipe(
@@ -303,7 +309,7 @@ export default produce(
       draft.chats[payload.id] = { ...emptyChat, data: payload };
       draft.activeChat = payload.id;
     } else if (type === CHAT_INIT_CHATS) {
-      payload.forEach((chat) => {
+      payload.sort((a,b) => a.id - b.id).forEach((chat) => {
         const id = chat.id;
         draft.chats[id] = spread(
           draft.chats[id] ? draft.chats[id] : emptyChat,
