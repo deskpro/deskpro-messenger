@@ -6,6 +6,7 @@ import Block from '../components/core/Block';
 import Button from '../components/form/Button';
 import { connect } from 'react-redux';
 import { hasAgentsAvailable } from '../modules/info';
+import { getActiveChat } from '../modules/chat';
 
 const transMessages = {
   startChatTitle: {
@@ -15,6 +16,14 @@ const transMessages = {
   startChatLink: {
     id: 'blocks.start_chat.link',
     defaultMessage: 'Start Chat'
+  },
+  continueChatTitle: {
+    id: 'blocks.continue_chat.ttle',
+    defaultMessage: 'Continue existing chat'
+  },
+  continueChatLink: {
+    id: 'blocks.continue_chat.link',
+    defaultMessage: 'Continue'
   },
   ticketsTitle: {
     id: 'blocks.tickets.title',
@@ -27,18 +36,26 @@ const transMessages = {
 };
 
 const blocksMapping = {
-  StartChatBlock: injectIntl(({ to, intl, linkText, ...props }) => (
-    <Block title={props.title || intl.formatMessage(transMessages.startChatTitle)}>
-      <Button title={props.description || intl.formatMessage(transMessages.startChatTitle)} to={`/screens/${to}`} width="full" color="primary">
-        {intl.formatMessage(
-          linkText
-            ? { id: linkText, defaultMessage: linkText }
-            : transMessages.startChatLink,
-          props
-        )}
-      </Button>
-    </Block>
-  )),
+  StartChatBlock: injectIntl(({ to, intl, linkText, activeChat, ...props }) => {
+    let title = '';
+    let link = '';
+    let description = '';
+    if(activeChat) {
+      link = intl.formatMessage(transMessages.continueChatLink, props);
+      title = description = intl.formatMessage(transMessages.continueChatTitle, props);
+    } else {
+      link = intl.formatMessage(linkText ? { id: linkText, defaultMessage: linkText } : transMessages.startChatLink, props);
+      title = props.title || intl.formatMessage(transMessages.startChatTitle);
+      description = props.description || intl.formatMessage(transMessages.startChatTitle);
+    }
+    return (
+      <Block title={title}>
+        <Button title={description} to={`/screens/${to}`} width="full" color="primary">
+          {link}
+        </Button>
+      </Block>
+    )
+  }),
   TicketsBlock: injectIntl(({ intl, ...props }) => (
     <Block title={intl.formatMessage(transMessages.ticketsTitle)}>
       <Link title='Browse your tickets' to="/screens/tickets">
@@ -57,11 +74,16 @@ const blocksMapping = {
   ))
 };
 
-const Blocks = ({ blocks, agentsAvailable }) => (
+const Blocks = ({ blocks, agentsAvailable, activeChat }) => (
   <Fragment>
     {blocks.map(({ blockType, ...props }, index) => {
       if(blockType === 'StartChatBlock' && !agentsAvailable) {
         return null;
+      }
+      if(blockType === 'StartChatBlock' && activeChat) {
+        console.log(props);
+        props.to = `active-chat/${activeChat}`;
+        props.activeChat = activeChat;
       }
       const Component = blocksMapping[blockType];
       return Component ? (
@@ -71,4 +93,4 @@ const Blocks = ({ blocks, agentsAvailable }) => (
   </Fragment>
 );
 
-export default connect((state) => ({ agentsAvailable: hasAgentsAvailable(state) }))(Blocks);
+export default connect((state) => ({ agentsAvailable: hasAgentsAvailable(state), activeChat: getActiveChat(state) }))(Blocks);
