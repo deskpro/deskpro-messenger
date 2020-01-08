@@ -13,6 +13,7 @@ import ChatEndBlock from './ChatEndBlock';
 import SaveTicketBlock from './SaveTicketBlock';
 import CreateTicketBlock from './CreateTicketBlock';
 import { withScreenContentSize } from '../core/ScreenContent';
+import { withFrameContext } from '../core/Frame';
 
 const transMessages = {
   agentAssigned: {
@@ -105,7 +106,8 @@ class Chat extends PureComponent {
       chat,
       chatConfig,
       endChatBlock,
-      contentSize: { height, maxHeight }
+      contentSize: { height, maxHeight },
+      frameContext
     } = this.props;
 
     return (
@@ -126,12 +128,15 @@ class Chat extends PureComponent {
             minHeight: height >= maxHeight ? '1px' : undefined
           }}
           ref={this.scrollArea}
+          stopScrollPropagation={true}
+          contentWindow={frameContext.window}
+          ownerDocument={frameContext.document}
         >
           {!!chatConfig.prompt && (
             <MessageBubble
               origin="system"
               message={intl.formatMessage({
-                id: chatConfig.prompt,
+                id: 'chat.welcome_bubble.message',
                 defaultMessage: chatConfig.prompt
               })}
             />
@@ -227,4 +232,4 @@ class Chat extends PureComponent {
   }
 }
 
-export default injectIntl(withScreenContentSize(Chat));
+export default injectIntl(withFrameContext(withScreenContentSize(Chat)));

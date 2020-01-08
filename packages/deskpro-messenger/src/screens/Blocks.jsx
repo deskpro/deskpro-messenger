@@ -18,7 +18,7 @@ const transMessages = {
     defaultMessage: 'Start Chat'
   },
   continueChatTitle: {
-    id: 'blocks.continue_chat.ttle',
+    id: 'blocks.continue_chat.title',
     defaultMessage: 'Continue existing chat'
   },
   continueChatLink: {
@@ -81,7 +81,6 @@ const Blocks = ({ blocks, agentsAvailable, activeChat }) => (
         return null;
       }
       if(blockType === 'StartChatBlock' && activeChat) {
-        console.log(props);
         props.to = `active-chat/${activeChat}`;
         props.activeChat = activeChat;
       }

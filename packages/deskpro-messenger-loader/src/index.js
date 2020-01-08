@@ -40,9 +40,6 @@ function setupFrames(config, manifest) {
 
   const iframeDoc = iframe.contentDocument;
 
-
-
-
   const assets = manifest.entrypoints.main.js.map(fileName =>
     `<script async src="${config.bundleUrl.isDev ? '' : config.bundleUrl.path}${fileName}"></script>`
   ).join("\n");
