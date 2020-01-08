@@ -1,12 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { getActiveChat } from '../modules/chat';
-
-const BackButton = ({ screenName, hasActiveChat }) => {
-  if (screenName === 'index' || hasActiveChat) {
+export default ({ screenName }) => {
+  if (screenName === 'index') {
     return <span className="dpmsg-LevelLevel" />;
   }
   return (
@@ -16,7 +13,3 @@ const BackButton = ({ screenName, hasActiveChat }) => {
     </Link>
   );
 };
-
-export default connect((state) => ({ hasActiveChat: !!getActiveChat(state) }))(
-  BackButton
-);
