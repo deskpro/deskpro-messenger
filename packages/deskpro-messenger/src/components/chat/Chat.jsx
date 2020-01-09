@@ -76,7 +76,7 @@ class Chat extends PureComponent {
       prevProps.contentSize.height !== this.props.contentSize.height;
     if (
       prevProps.messages.length !== this.props.messages.length ||
-      changedSize
+      changedSize || prevProps.endChatBlock !== this.props.endChatBlock
     ) {
       this.scrollToBottom(changedSize);
     }
