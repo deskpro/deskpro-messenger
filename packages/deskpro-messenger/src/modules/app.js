@@ -11,6 +11,7 @@ import { LOAD_APP_INFO_SUCCESS } from './info';
 export const APP_INIT = 'APP_INIT';
 export const APP_SHUTDOWN = 'APP_SHUTDOWN';
 export const TOGGLE_WINDOW = 'TOGGLE_WINDOW';
+export const OPEN_WINDOW_ONCE = 'OPEN_WINDOW_ONCE'; // will be handled just once
 export const SET_WINDOW_STATE = 'SET_WINDOW_STATE';
 //#endregion
 
@@ -18,6 +19,7 @@ export const SET_WINDOW_STATE = 'SET_WINDOW_STATE';
 export const appInit = () => ({ type: APP_INIT, payload: {} });
 export const appShutdown = () => ({ type: APP_SHUTDOWN, payload: {} });
 export const toggleWindow = () => ({ type: TOGGLE_WINDOW });
+export const openWindowOnce = () => ({ type: OPEN_WINDOW_ONCE });
 export const setWindowState = (payload) => ({
   type: SET_WINDOW_STATE,
   payload

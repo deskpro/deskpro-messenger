@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import AbstractClient from './AbstractClient';
 
-export default class PusherClient extends AbstractClient {
+export default class DpClient extends AbstractClient {
   /**
    * Creates instance of the client.
    * @param {object} options Options for the client.

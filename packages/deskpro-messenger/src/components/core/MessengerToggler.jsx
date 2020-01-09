@@ -4,19 +4,8 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 
 import Frame from './Frame';
-import { isWindowOpened, toggleWindow } from '../../modules/app';
+import { isWindowOpened, toggleWindow, openWindowOnce } from '../../modules/app';
 import { ConfigConsumer } from './ConfigContext';
-
-/*const buttonStyle = {
-  width: '150px',
-  alignSelf: 'flex-end',
-  border: '1px solid',
-  borderRadius: '2px',
-  padding: '5px',
-  fontSize: '14px',
-  outline: 'none',
-  backgroundColor: '#ddd'
-};*/
 
 const iframeStyle = {
   position: 'fixed',
@@ -30,6 +19,7 @@ class WidgetToggler extends PureComponent {
   static propTypes = {
     opened: PropTypes.bool,
     toggleWindow: PropTypes.func.isRequired,
+    openWindowOnce: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
     }).isRequired,
@@ -41,10 +31,12 @@ class WidgetToggler extends PureComponent {
   handleTogglerClick = (e) => {
     e.preventDefault();
     if (
-      !this.props.opened &&
-      !this.props.location.pathname.startsWith('/screens')
+      !this.props.opened
     ) {
-      this.props.history.push(`/screens/index`);
+      this.props.openWindowOnce();
+      if (!this.props.location.pathname.startsWith('/screens')) {
+        this.props.history.push(`/screens/index`);
+      }
     }
     this.props.toggleWindow();
   };
@@ -80,5 +72,5 @@ const WidgetTogglerWithStyles = (props) => (
 
 export default connect(
   (state) => ({ opened: isWindowOpened(state) }),
-  { toggleWindow }
+  { toggleWindow, openWindowOnce }
 )(WidgetTogglerWithStyles);

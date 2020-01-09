@@ -1,13 +1,13 @@
 import { ofType } from 'redux-observable';
-import { map, switchMap, takeUntil, take } from 'rxjs/operators';
+import { map, switchMap, take, takeUntil } from 'rxjs/operators';
 
-import { APP_SHUTDOWN } from './app';
-import { LOAD_APP_INFO_SUCCESS, alertReceived } from './info';
-import { messageReceived } from './chat';
+import { APP_SHUTDOWN, OPEN_WINDOW_ONCE } from './app';
+import { alertReceived } from './info';
+import { CHAT_START, messageReceived } from './chat';
 
 export const listenForAlertsEpic = (action$, _, { api }) =>
   action$.pipe(
-    ofType(LOAD_APP_INFO_SUCCESS),
+    ofType(OPEN_WINDOW_ONCE, CHAT_START),
     take(1),
     switchMap(() => {
       return api.getAlertsStream().pipe(

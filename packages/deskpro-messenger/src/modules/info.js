@@ -48,7 +48,7 @@ export default produce(
           (acc, d) => ({ ...acc, [d.id]: d }),
           {}
         );
-        draft.agents = payload.agents_online;
+        draft.agents = payload.agents_online.map((a) => a.id);
         return;
       }
       case ALERT_RECEIVED: {
