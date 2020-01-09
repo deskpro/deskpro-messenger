@@ -48,21 +48,24 @@ export default produce(
           (acc, d) => ({ ...acc, [d.id]: d }),
           {}
         );
-        draft.agents = payload.agents_online.map((a) => a.id);
+        payload.agents_online.forEach((a) => draft.agents[a.id] = a);
+        draft.agents_online = payload.agents_online.map((a) => a.id);
         return;
       }
       case ALERT_RECEIVED: {
         switch (payload.type) {
           case 'user_chat.agents_online':
             draft.agents = payload.data;
+            draft.agents_online = payload.data.map((a) => a.id);
             return;
           case 'agent.update_status':
+            draft.agents[payload.data.agent.id] = payload.data.agent;
             if (payload.data.online) {
-              draft.agents.push(payload.data.agent_id);
+              draft.agents_online.push(payload.data.agent.id);
             } else {
-              const agentIndex = draft.agents.indexOf(payload.data.agent_id);
+              const agentIndex = draft.agents_online.indexOf(payload.data.agent.id);
               if (agentIndex !== -1) {
-                draft.agents.splice(agentIndex, 1);
+                draft.agents_online.splice(agentIndex, 1);
               }
             }
             return;
@@ -74,12 +77,12 @@ export default produce(
         return draft;
     }
   },
-  { chatDepartments: {}, ticketDepartments: {}, agents: [] }
+  { chatDepartments: {}, ticketDepartments: {}, agents: {}, agents_online: [] }
 );
 //#endregion
 
 //#region SELECTORS
 export const getChatDepartments = (state) => state.info.chatDepartments;
 export const getTicketDepartments = (state) => state.info.ticketDepartments;
-export const hasAgentsAvailable = (state) => state.info.agents.length;
+export const hasAgentsAvailable = (state) => state.info.agents_online.length;
 //#endregion
