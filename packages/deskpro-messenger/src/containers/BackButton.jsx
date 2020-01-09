@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 export default ({ screenName }) => {
-  console.log(screenName);
   if (screenName === 'index') {
     return <span className="dpmsg-LevelLevel" />;
   }
