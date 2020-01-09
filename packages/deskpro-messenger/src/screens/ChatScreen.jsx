@@ -92,9 +92,9 @@ class ChatScreen extends PureComponent {
         )}
         className="Block--chat"
       >
-        <div className="dpmsg-endChatButton">
+        {chatData.status !== 'ended' && (<div className="dpmsg-endChatButton">
           <span onClick={this.onEndClick}>End chat</span>
-        </div>
+        </div>)}
         <Chat
           messages={this.props.messages}
           onSendMessage={this.handleSendMessage}
