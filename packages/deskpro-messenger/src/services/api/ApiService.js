@@ -145,4 +145,15 @@ export default class ApiService {
   async createTicket(values) {
     return this.apiClient.post(`/api/messenger/ticket`, values);
   }
+
+  /**
+   * Do a quick search
+   *
+   * @param {string} query a search query.
+   *
+   *  @returns {array} array of results
+   */
+  async quickSearch(query) {
+    return [{type: 'kb', title: 'A kb title', excerpt: 'a kb excerpt', link: 'a kb link'}, {type: 'kb', title: 'A kb title2', excerpt: 'a kb excerpt2', link: 'a kb link2'}];
+  }
 }

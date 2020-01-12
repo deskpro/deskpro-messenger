@@ -57,6 +57,12 @@ export default (settings) => {
     delete screens.newTicket.enabled;
   }
 
+  screens.index.blocks.push({
+    blockType: 'QuickSearchBlock',
+    blockTitle: "Quick search",
+    to: 'quick-search'
+  });
+
   const enabledGreetings = [null];
   if ('object' === typeof screens.startChat) {
     enabledGreetings.push('/screens/startChat');

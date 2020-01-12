@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 
 import Block from '../components/core/Block';
+import QuickSearchBlock from '../components/search/QuickSearchBlock';
 import Button from '../components/form/Button';
 import { connect } from 'react-redux';
 import { hasAgentsAvailable } from '../modules/info';
@@ -56,6 +57,9 @@ const blocksMapping = {
       </Block>
     )
   }),
+  QuickSearchBlock: injectIntl(({ intl }) => (
+    <QuickSearchBlock title='Quick Search' />
+  )),
   TicketsBlock: injectIntl(({ intl, ...props }) => (
     <Block title={intl.formatMessage(transMessages.ticketsTitle)}>
       <Link title='Browse your tickets' to="/screens/tickets">
