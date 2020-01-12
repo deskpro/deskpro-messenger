@@ -153,7 +153,12 @@ export default class ApiService {
    *
    *  @returns {array} array of results
    */
-  async quickSearch(query) {
-    return [{type: 'kb', title: 'A kb title', excerpt: 'a kb excerpt', link: 'a kb link'}, {type: 'kb', title: 'A kb title2', excerpt: 'a kb excerpt2', link: 'a kb link2'}];
+  quickSearch(query) {
+    return [{ type: 'kb', title: 'A kb title', excerpt: 'a kb excerpt', link: 'a kb link' }, {
+      type:    'kb',
+      title:   'A kb title2',
+      excerpt: 'a kb excerpt2',
+      link:    'a kb link2'
+    }];
   }
 }

@@ -1,5 +1,5 @@
 import { combineEpics, ofType } from 'redux-observable';
-import { debounce, map } from 'rxjs/operators';
+import { debounce, mergeMap, skipWhile } from 'rxjs/operators';
 import { timer } from 'rxjs';
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
@@ -20,7 +20,8 @@ export const quickSearchComplete = (payload) => ({
 const quickSearchEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(SEARCH_QUICK_SEARCH),
-    map(async ({ payload }) => {
+    skipWhile(p => p.length !== 0 && p.length < 3),
+    mergeMap(async ({ payload }) => {
       try {
         const results = await api.quickSearch(payload);
         return quickSearchComplete(results);
