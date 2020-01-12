@@ -20,13 +20,12 @@ export const quickSearchComplete = (payload) => ({
 const quickSearchEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(SEARCH_QUICK_SEARCH),
-    debounce(() => timer(1000)),
     map(async ({ payload }) => {
       try {
         const results = await api.quickSearch(payload);
-        return { type: SEARCH_QUICK_SEARCH_COMPLETE, payload: results }
+        return quickSearchComplete(results);
       } catch (e) {
-        return { type: SEARCH_QUICK_SEARCH_COMPLETE, payload: [] }
+        return quickSearchComplete([]);
       }
     }),
   );
@@ -39,7 +38,7 @@ export const searchEpic = combineEpics(
 export default produce((draft, { type, payload }) => {
   switch (type) {
     case SEARCH_QUICK_SEARCH_COMPLETE:
-      draft.results.push(payload.data);
+      draft.results = payload;
       return;
 
     default:
