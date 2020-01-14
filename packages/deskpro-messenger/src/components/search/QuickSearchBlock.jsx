@@ -23,6 +23,18 @@ class QuickSearchBlock extends React.Component {
 
   };
 
+  getLabel = (type) => {
+    let label = '';
+    switch(type) {
+      case 'kb':
+        label = 'Knowledgebase';
+        break;
+      default:
+        label = 'Unknown'
+    }
+    return <span className="dpmsg-QuickSearchExcerptLabel">{label}</span>;
+  };
+
   render() {
     const { title, className } = this.props;
 
@@ -30,9 +42,31 @@ class QuickSearchBlock extends React.Component {
       <div className={classNames('dpmsg-Block', className)}>
         <div className="dpmsg-BlockWrapper">
           {!!title && <div className="dpmsg-BlockHeader">{title}</div>}
-          <input onChange={this.onChange} value={this.state.query} />
-          {(this.state.query.length >= 3 && !this.props.results.length) && <div>No results</div>}
-          {this.state.query.length >= 3 && this.props.results.map((r) => (<div><h4>{r.title}</h4>{r.excerpt}<a target="_parent" href={r.link}>view more</a></div>))}
+          <div className="dpmsg-QuickSearchControl">
+            <div>
+              <input className="dpmsg-QuickSearchControl--input" id="quickSearchInput" onChange={this.onChange} value={this.state.query} />
+              <label className="dpmsg-QuickSearchControl--label" for="quickSearchInput"><i className="fa fa-search" />
+                <span aria-hidden={true}>Search</span>
+              </label>
+            </div>
+            <div className="dpmsg-QuickSearchControl--hint">
+              <span>
+                {this.state.query.length >= 3 ? `${(!this.props.results.length ? 'No results' : 'Search results')} for "${this.state.query}"` : null }
+              </span>
+            </div>
+          </div>
+
+          <div className="dpmsg-QuickSearchResults">
+            {this.state.query.length >= 3 && this.props.results.map((r) => (
+              <div className="dpmsg-QuickSearchEntry">
+                <h4><a rel="noreferrer noopener" target="_blank" href={r.link}>{r.title}</a></h4>
+                <div className="dpmsg-QuickSearchExcerpt">
+                  {this.getLabel(r.type)}
+                  {r.excerpt}
+                </div>
+                <div className="dpmsg-QuickSearchEntry--divider" />
+              </div>))}
+          </div>
         </div>
       </div>
     );
