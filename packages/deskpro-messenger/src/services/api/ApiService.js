@@ -153,12 +153,7 @@ export default class ApiService {
    *
    *  @returns {array} array of results
    */
-  quickSearch(query) {
-    return [{ type: 'kb', title: 'A kb title', excerpt: 'a kb excerpt', link: 'a kb link' }, {
-      type:    'kb',
-      title:   'A kb title2',
-      excerpt: 'a kb excerpt2',
-      link:    'a kb link2'
-    }];
+  async quickSearch(query) {
+    return this.apiClient.get(`/api/messenger/search/quick?q=${query}`).then(({data}) => data);
   }
 }

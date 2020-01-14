@@ -26,7 +26,7 @@ class QuickSearchBlock extends React.Component {
   getLabel = (type) => {
     let label = '';
     switch(type) {
-      case 'kb':
+      case 'article':
         label = 'Knowledgebase';
         break;
       default:
@@ -45,7 +45,7 @@ class QuickSearchBlock extends React.Component {
           <div className="dpmsg-QuickSearchControl">
             <div>
               <input className="dpmsg-QuickSearchControl--input" id="quickSearchInput" onChange={this.onChange} value={this.state.query} />
-              <label className="dpmsg-QuickSearchControl--label" for="quickSearchInput"><i className="fa fa-search" />
+              <label className="dpmsg-QuickSearchControl--label" htmlFor="quickSearchInput"><i className="fa fa-search" />
                 <span aria-hidden={true}>Search</span>
               </label>
             </div>
