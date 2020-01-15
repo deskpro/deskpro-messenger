@@ -6,6 +6,13 @@ export default (settings) => {
     }
   };
 
+  screens.index.blocks.push({
+    blockType: 'QuickSearchBlock',
+    blockTitle: "Quick search",
+    to: 'quick-search',
+    order: 0
+  });
+
   if (settings.chat.enabled) {
     const chatBlockConfig = settings.messenger.chat;
     screens.index.blocks.push({
@@ -14,7 +21,8 @@ export default (settings) => {
       description: chatBlockConfig.description,
       linkText: chatBlockConfig.buttonText || 'Start a chat',
       showAgentPhotos: chatBlockConfig.showAgentPhotos,
-      to: 'startChat'
+      to: 'startChat',
+      order: 10
     });
     screens.startChat = settings.chat;
     screens.startChat.screenType = 'StartChatScreen';
@@ -50,18 +58,13 @@ export default (settings) => {
       blockTitle: ticketBlockConfig.title,
       description: ticketBlockConfig.description,
       label: ticketBlockConfig.buttonText,
-      to: 'newTicket'
+      to: 'newTicket',
+      order: 20
     });
     screens.newTicket = settings.tickets;
     screens.newTicket.screenType = 'TicketFormScreen';
     delete screens.newTicket.enabled;
   }
-
-  screens.index.blocks.push({
-    blockType: 'QuickSearchBlock',
-    blockTitle: "Quick search",
-    to: 'quick-search'
-  });
 
   const enabledGreetings = [null];
   if ('object' === typeof screens.startChat) {
