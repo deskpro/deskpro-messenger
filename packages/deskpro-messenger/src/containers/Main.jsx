@@ -66,7 +66,7 @@ class Main extends PureComponent {
   };
 
   render() {
-    const { config, agentsAvailable } = this.props;
+    const { config } = this.props;
     const { translations } = this.state;
 
     return (
@@ -92,7 +92,7 @@ class Main extends PureComponent {
 const enhancer = compose(
   withRouter,
   connect(
-    (state) => ({ agentsAvailable: hasAgentsAvailable(state) }),
+    null,
     { appInit, appShutdown }
   )
 );

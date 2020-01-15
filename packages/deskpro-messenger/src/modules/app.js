@@ -52,15 +52,11 @@ const autoOpenWindowEpic = (action$, _, { history, config }) =>
     delay(config.autoStart ? config.autoStartTimeout * 1000 : 0),
     switchMap((payload) => {
       // only for cases when we have no history (usually on start only), then history itself will work
-      if((config.screens.startChat && payload.agents_online && payload.agents_online.length > 0) || config.screens.newTicket) {
-        if (history.location.pathname === '/') {
-          history.push(`/screens/index`);
-          return of(setWindowState(config.autoStart));
-        } else {
-          return of(setWindowState(true));
-        }
+      if (history.location.pathname === '/') {
+        history.push(`/screens/index`);
+        return of(setWindowState(config.autoStart));
       } else {
-        return of(setWindowState(false));
+        return of(setWindowState(true));
       }
     })
   );
