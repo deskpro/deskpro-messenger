@@ -21,6 +21,7 @@ const quickSearchEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(SEARCH_QUICK_SEARCH),
     skipWhile(p => p.length !== 0 && p.length < 3),
+    debounce(() => timer(1000)),
     mergeMap(async ({ payload }) => {
       try {
         const results = await api.quickSearch(payload);
