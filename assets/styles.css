@@ -69,6 +69,8 @@
 .dpmsg-MainTextarea,
 .dpmsg-TextareaActions,
 .dpmsg-ChatMessagesWrapper,
+.dpmsg-QuickSearchControl,
+.dpmsg-QuickSearchResults,
 .dpmsg-Icon,
 .dpmsg-IconArrow,
 .dpmsg-IconBadge,
@@ -218,6 +220,7 @@
 
   --grey-dark: #8b9293;
   --grey-light: #d3d6d7;
+  --grey-lighter: #eff0f0;
   --grey-darkest: #4c4f50;
 
   --blue: #3d88f3;
@@ -1388,7 +1391,68 @@
   border-radius: 10px;
   height: 20px;
   width: 6px;
-}.dpmsg-Icon {
+}.dpmsg-QuickSearchControl {
+  width: calc(100% - 20px);
+  position: relative
+}.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--input {
+    background: #fff;
+    width: calc(100% - 120px);
+    border: 1.5px solid #d3d6d7;
+    border: 1.5px solid var(--grey-light);
+    border-radius: 4px;
+    padding: 13px 60px;
+    font-family: Rubik,sans-serif;
+    color: #4c4f50;
+    color: var(--grey-darkest);
+    outline: none;
+  }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--label {
+    position: absolute;
+    border: none;
+    height: 32px;
+    left: 16px;
+    top: 7px;
+    width: 32px;
+    font-size: 26px;
+    padding: 0;
+    color: #3d88f3;
+    color: var(--color-primary);
+    background-color: #fff
+  }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--label span {
+      display: none;
+    }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--hint {
+    font-style: italic;
+    font-weight: normal;
+    font-size: 14px;
+    color: #4c4f50;
+    color: var(--grey-darkest);
+    margin-top: 15px;
+  }.dpmsg-QuickSearchResults {
+  margin-top: 7px
+}.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry {
+    margin-top: 15px;
+    max-width: calc(100% - 20px)
+
+  }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerpt {
+      line-height: 150%;
+    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry h4 {
+      font-size: 14px;
+      line-height: 150%;
+      margin: 0 0 11px 0;
+      max-width: calc(100% - 20px);
+    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchEntry--divider {
+      margin-top: 10px;
+      height: 1px;
+      background-color: #d3d6d7;
+      background-color: var(--grey-light);
+    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerptLabel {
+      display: inline-block;
+      color: #4c4f50;
+      color: var(--grey-darkest);
+      background-color: #eff0f0;
+      background-color: var(--grey-lighter);
+      padding: 7px;
+      margin-right: 5px;
+    }.dpmsg-Icon {
   display: inline-block;
   flex-shrink: 0;
   height: 17px;
