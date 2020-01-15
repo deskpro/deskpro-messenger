@@ -9,7 +9,6 @@ import enLocale from 'react-intl/locale-data/en';
 import enTranslations from '../translations/en.json';
 import WithData from './WithData';
 import Window from '../components/core/Window';
-import { hasAgentsAvailable } from '../modules/info';
 import MessengerToggler from '../components/core/MessengerToggler';
 import Greetings from '../components/core/Greetings';
 import { ConfigProvider } from '../components/core/ConfigContext';
