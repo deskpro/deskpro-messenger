@@ -80,7 +80,7 @@ const blocksMapping = {
 
 const Blocks = ({ blocks, agentsAvailable, activeChat }) => (
   <Fragment>
-    {blocks.map(({ blockType, ...props }, index) => {
+    {blocks.sort((blockA, blockB) => blockA.order - blockB.order).map(({ blockType, ...props }, index) => {
       if(blockType === 'StartChatBlock' && !agentsAvailable) {
         return null;
       }
