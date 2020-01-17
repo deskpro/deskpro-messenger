@@ -64,10 +64,11 @@ export default (settings) => {
     screens,
     themeVars: {
       '--color-primary': settings.getIn(['styles', 'primaryColor'], '#3d88f3'),
-      '--color-background': settings.getIn(
-        ['styles', 'backgroundColor'],
-        '#3d88f3'
-      )
+      '--color-background': settings.getIn(['styles', 'backgroundColor'], '#3d88f3'),
+      '--brand-primary': settings.getIn(['styles', 'primaryColor'], '#3d88f3'),
+      '--brand-secondary': settings.getIn(['styles', 'backgroundColor'], '#a9b0b0'),
+      '--text-color': settings.getIn(['styles', 'textColor'], '#ffffff'),
+
     },
     greetings: {},
     enabledGreetings
