@@ -41,6 +41,7 @@ export default class AbstractClient {
       // set the single `chat` property to identify the chat ID the alert belongs to.
       chat: data.chat || data.id,
       uuid: data.uuid || alert.uuid,
+      meta: data.meta || {},
       message:
         data.origin === 'system' &&
         typeof data.message === 'string' &&

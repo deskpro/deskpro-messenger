@@ -43,9 +43,15 @@ export default class DpClient extends AbstractClient {
     await super.startListening();
     this.client.on(`${this.channelName}-action_alert`, (data) => {
       const alert = this.transformNotification(data);
+      if (this.options.debug) {
+        console.log('Action-alert as been received', alert);
+      }
       this.onNotificationReceived(alert);
     });
     this.client.on(`user_public-action_alert`, (data) => {
+      if (this.options.debug) {
+        console.log('Action-alert as been received', data);
+      }
       this.onNotificationReceived(data);
     });
   }
