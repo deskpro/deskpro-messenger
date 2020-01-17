@@ -25,7 +25,7 @@ class StyleSettings extends React.PureComponent {
     return (
       <ListElement {...drawerProps}>
         <Heading onClick={onClick}>
-          Style
+          Widget Settings
           &nbsp;
           <Icon
             key="icon"
@@ -36,14 +36,6 @@ class StyleSettings extends React.PureComponent {
           />
         </Heading>
         <Section className='dp-column-drawer__body' hidden={!opened}>
-          <Label>Background color</Label>
-          <Colorpicker
-            value={config.getIn(['styles', 'backgroundColor'])}
-            name="styles.backgroundColor"
-            onChange={handleChange}
-            format="hex"
-          />
-
           <Label>Primary color</Label>
           <Colorpicker
             value={config.getIn(['styles', 'primaryColor'])}
@@ -51,6 +43,24 @@ class StyleSettings extends React.PureComponent {
             onChange={handleChange}
             format="hex"
           />
+
+          <Label>Secondary (background) color</Label>
+          <Colorpicker
+            value={config.getIn(['styles', 'backgroundColor'])}
+            name="styles.backgroundColor"
+            onChange={handleChange}
+            format="hex"
+          />
+
+          <Label>Text & Icon color</Label>
+          <Colorpicker
+            value={config.getIn(['styles', 'textColor'])}
+            name="styles.textColor"
+            onChange={handleChange}
+            format="hex"
+          />
+
+
         </Section>
       </ListElement>
     );
