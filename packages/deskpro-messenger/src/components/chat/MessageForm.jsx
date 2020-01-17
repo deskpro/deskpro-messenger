@@ -85,6 +85,8 @@ class MessageForm extends PureComponent {
     const err = [];
     if (!response && error) {
       err.push(error.message);
+    } else if (error && response) {
+      err.push(error.message);
     } else {
       try {
         const { errors } = JSON.parse(response);
