@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
-import { Icon, ToggleableList, Section } from '@deskpro/react-components';
+import { Icon, ToggleableList } from '@deskpro/react-components';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import ChatSettings from './ChatSettings';
 import EmbedWidget from './EmbedWidget';

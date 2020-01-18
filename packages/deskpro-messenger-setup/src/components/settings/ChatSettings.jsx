@@ -161,16 +161,8 @@ class ChatSettings extends React.PureComponent {
           >
             Enable chat
           </Toggle>
-          <br />
-          Prompt the user to describe their problem before the chat starts:
-          <br />
-          <Input
-            type="text"
-            value={config.getIn(['chat', 'prompt'])}
-            name="chat.prompt"
-            onChange={handleChange}
-          />
           <Label>Default chat department</Label>
+
           <Select
             options={chatDepartments.toArray().map(dep => (
               {
@@ -182,7 +174,16 @@ class ChatSettings extends React.PureComponent {
             onChange={this.handleSelectChange}
             name="chat.department"
           />
-          <h4>Who can use chat</h4>
+          <br />
+          Prompt the user to describe their problem before the chat starts:
+          <br />
+          <Input
+            type="text"
+            value={config.getIn(['chat', 'prompt'])}
+            name="chat.prompt"
+            onChange={handleChange}
+          />
+
           <h4>Pre-chat form</h4>
           <Toggle
             checked={config.getIn(['chat', 'preChatForm', 'enabled'])}
@@ -191,6 +192,7 @@ class ChatSettings extends React.PureComponent {
           >
             Ask information before chat commences
           </Toggle>
+
           <span style={{ display: config.getIn(['chat', 'preChatForm', 'enabled']) ? 'block' : 'none' }}>
             <div>
               Require users to provide their name and email address as well as adding custom fields or require departments.
@@ -205,10 +207,10 @@ class ChatSettings extends React.PureComponent {
             <div className="dp_m_chat_brand_message" style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessageEnabled']) ? 'block' : 'none' }}>
               Welcome to Deskpro. Please fill out the details below so we can direct you to the right person as quickly as possible.
             </div>
-            <h4>Show fields:</h4>
+            <h4>Chat fields:</h4>
             <div className="dp_m_chat_field_wrapper">
               <div className="dp_m_chat_field_enabled_wrapper">
-                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox>
+                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} disabled={true} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox>
               </div>
               <div className="dp_m_chat_field_required_wrapper">
                 <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameRequired'])} name="chat.preChatForm.isNameRequired" >Required?</Checkbox>
@@ -216,7 +218,7 @@ class ChatSettings extends React.PureComponent {
             </div>
             <div className="dp_m_chat_field_wrapper">
               <div className="dp_m_chat_field_enabled_wrapper">
-                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailEnabled'])} name="chat.preChatForm.isEmailEnabled">Email</Checkbox>
+                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} disabled={true} checked={config.getIn(['chat', 'preChatForm', 'isEmailEnabled'])} name="chat.preChatForm.isEmailEnabled">Email</Checkbox>
                 </div>
               <div className="dp_m_chat_field_required_wrapper">
                 <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailRequired'])} name="chat.preChatForm.isEmailRequired">Required?</Checkbox>
@@ -267,7 +269,7 @@ class ChatSettings extends React.PureComponent {
             onChange={handleChange}
           />
           <br />
-          <u>Missed chat ticket properties</u>
+          <h4>Missed chat ticket properties</h4>
           <Label>Department</Label>
           <Select
             options={ticketDepartments.toArray().map(dep => (
@@ -281,7 +283,18 @@ class ChatSettings extends React.PureComponent {
             name="chat.ticketDefaults.department"
           />
           <Label>Subject</Label>
+          <Select
+            options={[
+              {value: 'setSubject', label: 'Text set by admin'},
+              {value: 'autoSubject', label: 'Use first 5 words of message'}
+            ]}
+            value={config.getIn(['chat', 'ticketDefaults', 'subjectType'])}
+            onChange={this.handleSelectChange}
+            name="chat.ticketDefaults.subjectType"
+          />
+          <br />
           <Input
+            style={{ display: config.getIn(['chat', 'ticketDefaults', 'subjectType']) === 'setSubject' ? 'block' : 'none' }}
             type="text"
             value={config.getIn(['chat', 'ticketDefaults', 'subject'])}
             placeholder="Missed chat from {name}"
