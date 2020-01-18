@@ -1,7 +1,7 @@
 import React, { PureComponent, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
+import Isvg from 'react-inlinesvg';
 import { ConfigConsumer } from './ConfigContext';
 import ScreenContent from './ScreenContent';
 import asset from '../../utils/asset';
@@ -35,6 +35,8 @@ class MessengerShell extends PureComponent {
       forwardedRef
     } = this.props;
 
+    const headerImage = 'img/dp-logo-white.svg';
+
     return (
       <div className="dpmsg-ScreenWrap" ref={forwardedRef}>
         <div
@@ -46,7 +48,11 @@ class MessengerShell extends PureComponent {
           <div className="dpmsg-ScreenHeder">
             <div className="dpmsg-ScreenControls dpmsg-Level">{controls}</div>
             <div className="dpmsg-ScreenHederLogo">
-              <img src={asset('img/dp-logo-white.svg')} alt="" />
+              {
+                headerImage.substr(-3) === 'svg'
+                  ? <Isvg src={asset(headerImage)} alt="" />
+                  : <img src={asset(headerImage)} alt="" />
+              }
             </div>
             <span className="dpmsg-ScreenHederTitle">{title}</span>
             {!!introText && (
