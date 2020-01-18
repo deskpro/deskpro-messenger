@@ -45,18 +45,18 @@ class MessengerShell extends PureComponent {
             'is-light': isLight
           })}
         >
-          <div className="dpmsg-ScreenHeder">
+          <div className="dpmsg-ScreenHeader">
             <div className="dpmsg-ScreenControls dpmsg-Level">{controls}</div>
-            <div className="dpmsg-ScreenHederLogo">
+            <div className="dpmsg-ScreenHeaderLogo">
               {
                 headerImage.substr(-3) === 'svg'
                   ? <Isvg src={asset(headerImage)} alt="" />
                   : <img src={asset(headerImage)} alt="" />
               }
             </div>
-            <span className="dpmsg-ScreenHederTitle">{title}</span>
+            <span className="dpmsg-ScreenHeaderTitle">{title}</span>
             {!!introText && (
-              <span className="dpmsg-ScreenHederText">{introText}</span>
+              <span className="dpmsg-ScreenHeaderText">{introText}</span>
             )}
           </div>
           <ScreenContent>
