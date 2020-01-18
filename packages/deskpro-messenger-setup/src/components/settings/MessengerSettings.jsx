@@ -30,7 +30,7 @@ class MessengerSettings extends React.Component {
     return (
       <ListElement {...drawerProps}>
         <Heading onClick={onClick}>
-          Messenger settings
+          Proactive chat settings
           &nbsp;
           <Icon
             key="icon"

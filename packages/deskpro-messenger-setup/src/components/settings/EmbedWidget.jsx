@@ -23,7 +23,7 @@ class EmbedWidget extends React.PureComponent {
     return (
       <ListElement {...drawerProps}>
         <Heading onClick={onClick}>
-          Embed the messenger widget on your site
+          Add Widget & Chat to your Site
           &nbsp;
           <Icon
             key="icon"
@@ -43,13 +43,7 @@ class EmbedWidget extends React.PureComponent {
             the helpdesk itself (i.e. it only shows on your own website).
           </Toggle>
 
-          <h4>Publish on your website</h4>
-          <div>
-            Add the messenger to your website by copy and pasting a line of HTML
-            code.
-          </div>
-          <Button size="medium">View instructions</Button>
-          <br />
+          <h4>Domain whitelist</h4>
           <div>
             For security reasons, you must specify the domains you will use the
             messenger on:

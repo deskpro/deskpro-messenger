@@ -43,11 +43,6 @@ class Settings extends React.Component {
             config={settings}
             handleChange={handleChange}
           />
-          <EmbedWidget
-            id="embed"
-            config={settings}
-            handleChange={handleChange}
-          />
           <ChatSettings
             id="chat"
             config={settings}
@@ -56,14 +51,19 @@ class Settings extends React.Component {
             ticketDepartments={ticketDepartments}
             chatCustomFields={chatCustomFields}
           />
+          <MessengerSettings
+            id="messenger"
+            config={settings}
+            handleChange={handleChange}
+          />
           <TicketSettings
             id="ticket"
             config={settings}
             handleChange={handleChange}
             ticketDepartments={ticketDepartments}
           />
-          <MessengerSettings
-            id="messenger"
+          <EmbedWidget
+            id="embed"
             config={settings}
             handleChange={handleChange}
           />
