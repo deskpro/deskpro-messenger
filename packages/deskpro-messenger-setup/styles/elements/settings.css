@@ -41,7 +41,7 @@
     min-width: 200px;
 }
 
-.dp-ms-chat_field_wrapper .dp-ms-chat_field_required_wrapper i.fas.fa-bars{
+.dp-ms-chat_field_wrapper .dp-ms-chat_field_enabled_wrapper i.fas.fa-bars{
     cursor: move;
     position: absolute;
     right: 0;
