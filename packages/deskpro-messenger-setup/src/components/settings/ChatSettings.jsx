@@ -261,51 +261,54 @@ class ChatSettings extends React.PureComponent {
             onChange={this.handleSelectChange}
             name="chat.noAnswerBehavior"
           />
-          <span style={{ display: config.getIn(['chat', 'noAnswerBehavior']) === '' ? 'block' : 'none' }}>
-            <Label>Busy message</Label>
-            <Textarea
-              name="chat.busyMessage"
-              id=""
-              cols="40"
-              rows="6"
-              value={config.getIn(['chat', 'busyMessage'])}
-              onChange={handleChange}
-            />
-          </span>
-          <span style={{ display: config.getIn(['chat', 'noAnswerBehavior']) === 'save_ticket' ? 'block' : 'none' }}>
-            <h4>Missed chat ticket properties</h4>
-            <Label>Department</Label>
-            <Select
-              options={ticketDepartments.toArray().map(dep => (
-                {
-                  value: dep.get('id'),
-                  label: dep.get('title')
-                }
-              ))}
-              value={config.getIn(['chat', 'ticketDefaults', 'department'])}
-              onChange={this.handleSelectChange}
-              name="chat.ticketDefaults.department"
-            />
-            <Label>Subject</Label>
-            <Select
-              options={[
-                {value: 'setSubject', label: 'Text set by admin'},
-                {value: 'autoSubject', label: 'Use first 5 words of message'}
-              ]}
-              value={config.getIn(['chat', 'ticketDefaults', 'subjectType'])}
-              onChange={this.handleSelectChange}
-              name="chat.ticketDefaults.subjectType"
-            />
-            <br />
-            <Input
-              style={{ display: config.getIn(['chat', 'ticketDefaults', 'subjectType']) === 'setSubject' ? 'block' : 'none' }}
-              type="text"
-              value={config.getIn(['chat', 'ticketDefaults', 'subject'])}
-              placeholder="Missed chat from {name}"
-              onChange={handleChange}
-              name="chat.ticketDefaults.subject"
-            />
-          </span>
+          {config.getIn(['chat', 'noAnswerBehavior']) === '' ?
+            [
+              <Label>Busy message</Label>,
+              <Textarea
+                name="chat.busyMessage"
+                id=""
+                cols="40"
+                rows="6"
+                value={config.getIn(['chat', 'busyMessage'])}
+                onChange={handleChange}
+              />
+            ] : null
+          }
+          {config.getIn(['chat', 'noAnswerBehavior']) === 'save_ticket' ?
+            [
+              <h4>Missed chat ticket properties</h4>,
+              <Label>Department</Label>,
+              <Select
+                options={ticketDepartments.toArray().map(dep => (
+                  {
+                    value: dep.get('id'),
+                    label: dep.get('title')
+                  }
+                ))}
+                value={config.getIn(['chat', 'ticketDefaults', 'department'])}
+                onChange={this.handleSelectChange}
+                name="chat.ticketDefaults.department"
+              />,
+              <Label>Subject</Label>,
+              <Select
+                options={[
+                  {value: 'setSubject', label: 'Text set by admin'},
+                  {value: 'autoSubject', label: 'Use first 5 words of message'}
+                ]}
+                value={config.getIn(['chat', 'ticketDefaults', 'subjectType'])}
+                onChange={this.handleSelectChange}
+                name="chat.ticketDefaults.subjectType"
+              />,
+              <br />,
+              <Input
+                style={{ display: config.getIn(['chat', 'ticketDefaults', 'subjectType']) === 'setSubject' ? 'block' : 'none' }}
+                type="text"
+                value={config.getIn(['chat', 'ticketDefaults', 'subject'])}
+                placeholder="Missed chat from {name}"
+                onChange={handleChange}
+                name="chat.ticketDefaults.subject"
+              />,
+            ]: null}
         </Section>
       </ListElement>
     );
