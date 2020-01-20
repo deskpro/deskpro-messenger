@@ -127,6 +127,60 @@ class ChatSettings extends React.PureComponent {
     this.props.handleChange(value, name);
   };
 
+  renderPreChatForm() {
+    const {
+      config,
+      handleChange,
+      chatCustomFields,
+    } = this.props;
+
+    return (<div className="dp-ms-pre_chat-form">
+      <div className={'dp-ms-hint'}>
+        Require users to provide their name and email address as well as adding custom fields or require departments.
+      </div>
+      <Toggle
+        checked={config.getIn(['chat', 'preChatForm', 'brandMessageEnabled'])}
+        name="chat.preChatForm.brandMessageEnabled"
+        onChange={handleChange}
+      >
+        Brand message
+      </Toggle>
+      <div className="dp_m_chat_brand_message" style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessageEnabled']) ? 'block' : 'none' }}>
+        Welcome to Deskpro. Please fill out the details below so we can direct you to the right person as quickly as possible.
+      </div>
+      <h4>Chat fields:</h4>
+      <div className="dp_m_chat_field_wrapper">
+        <div className="dp_m_chat_field_enabled_wrapper">
+          <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} disabled={true} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox>
+        </div>
+        <div className="dp_m_chat_field_required_wrapper">
+          <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameRequired'])} name="chat.preChatForm.isNameRequired" >Required?</Checkbox>
+        </div>
+      </div>
+      <div className="dp_m_chat_field_wrapper">
+        <div className="dp_m_chat_field_enabled_wrapper">
+          <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} disabled={true} checked={config.getIn(['chat', 'preChatForm', 'isEmailEnabled'])} name="chat.preChatForm.isEmailEnabled">Email</Checkbox>
+        </div>
+        <div className="dp_m_chat_field_required_wrapper">
+          <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailRequired'])} name="chat.preChatForm.isEmailRequired">Required?</Checkbox>
+        </div>
+      </div>
+      <div className="dp_m_chat_field_wrapper">
+        <div className="dp_m_chat_field_enabled_wrapper">
+          <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable'])} name="chat.preChatForm.isDepartmentSelectable">Department</Checkbox>
+        </div>
+        <div style={{ display: config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable']) ? 'none' : 'block' }} className="dp_m_chat_field_required_wrapper">
+          Default department will be applied automatically
+        </div>
+      </div>
+      <SortableComponent
+        fields={chatCustomFields.toArray()}
+        config={config}
+        handleChange={handleChange}
+        handleCheckboxChange={this.handleCheckboxChange}
+      />
+    </div>)
+  }
   render() {
     const {
       config,
@@ -164,7 +218,6 @@ class ChatSettings extends React.PureComponent {
             Enable chat
           </Toggle>
           <Label>Default chat department</Label>
-
           <Select
             options={chatDepartments.toArray().map(dep => (
               {
@@ -176,9 +229,7 @@ class ChatSettings extends React.PureComponent {
             onChange={this.handleSelectChange}
             name="chat.department"
           />
-          <br />
-          Prompt the user to describe their problem before the chat starts:
-          <br />
+          <Label>Prompt the user to describe their problem before the chat starts:</Label>
           <Input
             type="text"
             value={config.getIn(['chat', 'prompt'])}
@@ -195,66 +246,21 @@ class ChatSettings extends React.PureComponent {
             Ask information before chat commences
           </Toggle>
 
-          <span style={{ display: config.getIn(['chat', 'preChatForm', 'enabled']) ? 'block' : 'none' }}>
-            <div className={'dp-ms-hint'}>
-              Require users to provide their name and email address as well as adding custom fields or require departments.
-            </div>
-            <Toggle
-              checked={config.getIn(['chat', 'preChatForm', 'brandMessageEnabled'])}
-              name="chat.preChatForm.brandMessageEnabled"
-              onChange={handleChange}
-            >
-              Brand message
-            </Toggle>
-            <div className="dp_m_chat_brand_message" style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessageEnabled']) ? 'block' : 'none' }}>
-              Welcome to Deskpro. Please fill out the details below so we can direct you to the right person as quickly as possible.
-            </div>
-            <h4>Chat fields:</h4>
-            <div className="dp_m_chat_field_wrapper">
-              <div className="dp_m_chat_field_enabled_wrapper">
-                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} disabled={true} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox>
-              </div>
-              <div className="dp_m_chat_field_required_wrapper">
-                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameRequired'])} name="chat.preChatForm.isNameRequired" >Required?</Checkbox>
-              </div>
-            </div>
-            <div className="dp_m_chat_field_wrapper">
-              <div className="dp_m_chat_field_enabled_wrapper">
-                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} disabled={true} checked={config.getIn(['chat', 'preChatForm', 'isEmailEnabled'])} name="chat.preChatForm.isEmailEnabled">Email</Checkbox>
-                </div>
-              <div className="dp_m_chat_field_required_wrapper">
-                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailRequired'])} name="chat.preChatForm.isEmailRequired">Required?</Checkbox>
-              </div>
-            </div>
-            <div className="dp_m_chat_field_wrapper">
-              <div className="dp_m_chat_field_enabled_wrapper">
-                <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable'])} name="chat.preChatForm.isDepartmentSelectable">Department</Checkbox>
-              </div>
-              <div style={{ display: config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable']) ? 'none' : 'block' }} className="dp_m_chat_field_required_wrapper">
-                Default department will be applied automatically
-              </div>
-            </div>
-            <SortableComponent
-              fields={chatCustomFields.toArray()}
-              config={config}
-              handleChange={handleChange}
-              handleCheckboxChange={this.handleCheckboxChange}
-            />
-          </span>
+          {config.getIn(['chat', 'preChatForm', 'enabled']) ? this.renderPreChatForm() : null}
           <h4>Unanswered chat</h4>
-          If no agents are online to accept a chat, or when the user has waited
-          for{' '}
-          <Input
-            className="small"
-            type="number"
-            min={0}
-            max={9999}
-            value={config.getIn(['chat', 'timeout'])}
-            onChange={this.ensureTimeoutIsPositive}
-            name="chat.timeout"
-          />{' '}
-          seconds
-          <br />
+          <Label>
+            If no agents are online to accept a chat, or when the user has waited for{' '}
+            <Input
+              className="small"
+              type="number"
+              min={0}
+              max={9999}
+              value={config.getIn(['chat', 'timeout'])}
+              onChange={this.ensureTimeoutIsPositive}
+              name="chat.timeout"
+            />{' '}
+            seconds
+          </Label>
           <Select
             options={this.noAnswerOptions}
             value={config.getIn(['chat', 'noAnswerBehavior'], '')}
@@ -263,6 +269,7 @@ class ChatSettings extends React.PureComponent {
           />
           {config.getIn(['chat', 'noAnswerBehavior']) === '' ?
             [
+              <br />,
               <Label>Busy message</Label>,
               <Textarea
                 name="chat.busyMessage"
