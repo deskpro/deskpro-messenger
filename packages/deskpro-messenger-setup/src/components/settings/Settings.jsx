@@ -15,11 +15,11 @@ class Settings extends React.Component {
     handleChange: PropTypes.func.isRequired,
     chatDepartments: PropTypes.object,
     ticketDepartments: PropTypes.object,
-    chatCustomFields: PropTypes.object,
+    chatCustomFields: PropTypes.object
   };
 
   static defaultProps = {
-    settings: fromJS({})
+    settings: fromJS({}),
   };
 
   render() {
@@ -32,7 +32,7 @@ class Settings extends React.Component {
     } = this.props;
 
     return (
-      <div className="messenger-settings">
+      <div className="dp-ms-container">
         <div>
           <Icon name={faCog} /> Site Widget & Chat
         </div>
@@ -68,6 +68,7 @@ class Settings extends React.Component {
             handleChange={handleChange}
           />
         </ToggleableList>
+        { this.props.children }
       </div>
     );
   }

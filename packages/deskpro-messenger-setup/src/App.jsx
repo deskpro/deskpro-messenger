@@ -32,7 +32,11 @@ class App extends React.Component {
           chatDepartments={chatDepartments}
           ticketDepartments={ticketDepartments}
           chatCustomFields={chatCustomFields}
-        />
+        >
+          <div className={"dp-ms-children"}>
+            { this.props.children }
+          </div>
+        </Settings>
         <Preview config={transformConfig(settings)}/>
       </div>
     );

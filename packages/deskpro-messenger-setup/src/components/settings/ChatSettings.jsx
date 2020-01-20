@@ -18,8 +18,8 @@ class CustomFieldCheckBox extends React.Component
   render() {
     const { field, config, handleChange, handleCheckboxChange } = this.props;
     return (
-      <div className="dp_m_chat_field_wrapper">
-        <div className="dp_m_chat_field_enabled_wrapper">
+      <div className="dp-ms-chat_field_wrapper">
+        <div className="dp-ms-chat_field_enabled_wrapper">
           <Checkbox
             key={`chat_custom_field_${field.get('id')}_enabled`}
             onChange={handleCheckboxChange}
@@ -31,7 +31,7 @@ class CustomFieldCheckBox extends React.Component
             <i className={'fas fa-bars'} />
           </Checkbox>
         </div>
-        <div className="dp_m_chat_field_required_wrapper">
+        <div className="dp-ms-chat_field_required_wrapper">
           <Checkbox
             key={`chat_custom_field_${field.get('id')}_required`}
             onChange={(checked, value, name) => handleChange(checked, name)}
@@ -145,31 +145,31 @@ class ChatSettings extends React.PureComponent {
       >
         Brand message
       </Toggle>
-      <div className="dp_m_chat_brand_message" style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessageEnabled']) ? 'block' : 'none' }}>
+      <div className="dp-ms-chat_brand_message" style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessageEnabled']) ? 'block' : 'none' }}>
         Welcome to Deskpro. Please fill out the details below so we can direct you to the right person as quickly as possible.
       </div>
       <h4>Chat fields:</h4>
-      <div className="dp_m_chat_field_wrapper">
-        <div className="dp_m_chat_field_enabled_wrapper">
+      <div className="dp-ms-chat_field_wrapper">
+        <div className="dp-ms-chat_field_enabled_wrapper">
           <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} disabled={true} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox>
         </div>
-        <div className="dp_m_chat_field_required_wrapper">
+        <div className="dp-ms-chat_field_required_wrapper">
           <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isNameRequired'])} name="chat.preChatForm.isNameRequired" >Required?</Checkbox>
         </div>
       </div>
-      <div className="dp_m_chat_field_wrapper">
-        <div className="dp_m_chat_field_enabled_wrapper">
+      <div className="dp-ms-chat_field_wrapper">
+        <div className="dp-ms-chat_field_enabled_wrapper">
           <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} disabled={true} checked={config.getIn(['chat', 'preChatForm', 'isEmailEnabled'])} name="chat.preChatForm.isEmailEnabled">Email</Checkbox>
         </div>
-        <div className="dp_m_chat_field_required_wrapper">
+        <div className="dp-ms-chat_field_required_wrapper">
           <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isEmailRequired'])} name="chat.preChatForm.isEmailRequired">Required?</Checkbox>
         </div>
       </div>
-      <div className="dp_m_chat_field_wrapper">
-        <div className="dp_m_chat_field_enabled_wrapper">
+      <div className="dp-ms-chat_field_wrapper">
+        <div className="dp-ms-chat_field_enabled_wrapper">
           <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} checked={config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable'])} name="chat.preChatForm.isDepartmentSelectable">Department</Checkbox>
         </div>
-        <div style={{ display: config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable']) ? 'none' : 'block' }} className="dp_m_chat_field_required_wrapper">
+        <div style={{ display: config.getIn(['chat', 'preChatForm', 'isDepartmentSelectable']) ? 'none' : 'block' }} className="dp-ms-chat_field_required_wrapper">
           Default department will be applied automatically
         </div>
       </div>

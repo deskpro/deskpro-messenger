@@ -7,11 +7,11 @@ class Preview extends React.PureComponent {
   };
 
   render() {
-    const { config } = this.props;
     return (
-      <div className="messenger-preview">
-        Preview
-        <div />
+      <div className="dp-ms-preview-container">
+        <div className="dp-ms-preview">
+          The place where messenger preview will be shown
+        </div>
       </div>
     );
   }
