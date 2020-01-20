@@ -41,7 +41,7 @@ const settings = {
       showAgentPhotos: false
     },
     tickets: {
-      title: 'Contact Us',
+      title: 'Email Us',
       description: 'Send us a message and we will reply by email',
       buttonText: 'Send a message'
     }

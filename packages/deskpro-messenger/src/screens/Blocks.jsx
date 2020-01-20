@@ -71,7 +71,7 @@ const blocksMapping = {
     <Block
       title={intl.formatMessage({ id: blockTitle, defaultMessage: blockTitle })}
     >
-      <Link title={props.description || ''} to={`/screens/${to}`}>
+      <Link title={props.description || ''} to={`/screens/${to}`} className="dpmsg-Button Button-FullWidth Button--primary">
         {intl.formatMessage({ id: label, defaultMessage: label })}
       </Link>
     </Block>
