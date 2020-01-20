@@ -22,7 +22,7 @@ class EmbedWidget extends React.PureComponent {
     };
     return (
       <ListElement {...drawerProps}>
-        <Heading onClick={onClick}>
+        <Heading onClick={onClick} className="dp-ms-section-header">
           Add Widget & Chat to your Site
           &nbsp;
           <Icon
@@ -33,7 +33,7 @@ class EmbedWidget extends React.PureComponent {
             name={opened ? faCaretUp : faCaretDown}
           />
         </Heading>
-        <Section className='dp-column-drawer__body' hidden={!opened}>
+        <Section className='dp-ms-section' hidden={!opened}>
           <Toggle
             checked={config.getIn(['embed', 'showOnPortal'])}
             name="embed.showOnPortal"

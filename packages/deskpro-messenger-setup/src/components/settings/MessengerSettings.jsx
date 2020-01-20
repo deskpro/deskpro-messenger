@@ -29,7 +29,7 @@ class MessengerSettings extends React.Component {
     };
     return (
       <ListElement {...drawerProps}>
-        <Heading onClick={onClick}>
+        <Heading onClick={onClick} className="dp-ms-section-header">
           Proactive chat settings
           &nbsp;
           <Icon
@@ -40,7 +40,7 @@ class MessengerSettings extends React.Component {
             name={opened ? faCaretUp : faCaretDown}
           />
         </Heading>
-        <Section className='dp-column-drawer__body' hidden={!opened}>
+        <Section className='dp-ms-section' hidden={!opened}>
           <Toggle
             checked={config.getIn(['messenger', 'autoStart'])}
             name="messenger.autoStart"

@@ -34,7 +34,7 @@ class TicketSettings extends React.PureComponent {
     };
     return (
       <ListElement {...drawerProps}>
-        <Heading onClick={onClick}>
+        <Heading onClick={onClick} className="dp-ms-section-header">
           Ticket settings
           &nbsp;
           <Icon
@@ -45,7 +45,7 @@ class TicketSettings extends React.PureComponent {
             name={opened ? faCaretUp : faCaretDown}
           />
         </Heading>
-        <Section className='dp-column-drawer__body' hidden={!opened}>
+        <Section className='dp-ms-section' hidden={!opened}>
           <Toggle
             checked={config.getIn(['tickets', 'enabled'])}
             name="tickets.enabled"

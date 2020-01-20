@@ -144,7 +144,7 @@ class ChatSettings extends React.PureComponent {
 
     return (
       <ListElement {...drawerProps}>
-        <Heading onClick={onClick}>
+        <Heading onClick={onClick} className="dp-ms-section-header">
           Chat settings
           &nbsp;
           <Icon
@@ -155,7 +155,7 @@ class ChatSettings extends React.PureComponent {
             name={opened ? faCaretUp : faCaretDown}
           />
         </Heading>
-        <Section className='dp-column-drawer__body' hidden={!opened}>
+        <Section className='dp-ms-section' hidden={!opened}>
           <Toggle
             checked={config.getIn(['chat', 'enabled'])}
             name="chat.enabled"
@@ -196,7 +196,7 @@ class ChatSettings extends React.PureComponent {
           </Toggle>
 
           <span style={{ display: config.getIn(['chat', 'preChatForm', 'enabled']) ? 'block' : 'none' }}>
-            <div>
+            <div className={'dp-ms-hint'}>
               Require users to provide their name and email address as well as adding custom fields or require departments.
             </div>
             <Toggle

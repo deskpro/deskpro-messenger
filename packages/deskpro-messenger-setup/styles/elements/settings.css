@@ -1,6 +1,6 @@
 .messenger-settings {
-    width: 30%;
-    min-width: 400px;
+    width: 35%;
+    min-width: 550px;
 }
 .messenger-settings  input:not([type=checkbox]) {
     width: 100%;
@@ -44,4 +44,18 @@
     background-color: #eff0f0;
     border: 1px solid #a9b0b0;
     min-height: 70px;
+}
+
+.dp-ms-section-header, .dp-ms-section {
+    background-color: white;
+}
+
+.dp-ms-section {
+    padding: 10px 20px !important;
+}
+
+.dp-ms-hint {
+    padding: 10px;
+    font-size: 10px;
+    color: #8b9293;
 }
