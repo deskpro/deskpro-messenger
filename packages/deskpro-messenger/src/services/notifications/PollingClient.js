@@ -34,7 +34,12 @@ export default class PollingClient extends AbstractClient {
         .then(({ data }) => data);
       if (alerts.length) {
         alerts.forEach((alert) => {
-          const message = this.transformNotification(alert);
+          let message;
+          if(alert.target_id === -200) { // public message for all users connected
+            message = alert;
+          } else {
+            message = this.transformNotification(alert);
+          }
           this.onNotificationReceived(message);
           this.lastActionAlert = alert.id;
         });
