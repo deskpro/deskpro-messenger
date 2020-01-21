@@ -80,7 +80,7 @@ export default (settings) => {
       '--brand-primary': settings.styles.primaryColor || '#3d88f3',
       '--header-icon-text-color': settings.styles.textColor || '#ffffff',
       '--brand-secondary': settings.styles.backgroundColor || '#a9b0b0',
-      '--color-background': settings.styles.backgroundColor || '#a9b0b0'
+      '--color-secondary': settings.styles.backgroundColor || '#a9b0b0'
     },
     greetings: {},
     enabledGreetings

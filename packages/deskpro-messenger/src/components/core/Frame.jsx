@@ -96,7 +96,7 @@ class Frame extends PureComponent {
       const html = this.frame.current.getDoc().getElementsByTagName('html')[0];
       Object.entries(this.props.themeVars).forEach(([name, value]) => {
         html.style.setProperty(name, value);
-        if(['--color-primary', '--color-secondary', '--brand-primary'].indexOf(name) !== -1) {
+        if(['--color-primary', '--color-secondary', '--brand-primary', '--brand-secondary'].indexOf(name) !== -1) {
           const darkName = name.replace('color', 'color-dark').replace('brand', 'brand-dark');
           html.style.setProperty(darkName, darker(value, 20));
         }
