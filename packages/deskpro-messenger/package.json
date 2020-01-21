@@ -23,6 +23,7 @@
     "contrast": "^1.0.1",
     "formik": "^1.1.1",
     "immer": "^1.7.3",
+    "moment": "^2.24.0",
     "postcss-color-mod-function": "^3.0.3",
     "prop-types": "^15.6.2",
     "pusher-js": "^4.3.1",
