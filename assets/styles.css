@@ -275,9 +275,12 @@
   --p2: 8px;
   --p3: 7px;
 
+
   --space: 17px;
   --sm-space: 13px;
+  --s-space: 10px;
   --xs-space: 8px;
+  --xxs-space: 5px;
 
   --button-padding: var(--xs-space);
 
@@ -746,6 +749,8 @@
   height: 56px;
   overflow: hidden;
   width: 56px;
+}.dpmsg-AvatarHeadsIcon img {
+  max-width:  100%;
 }.dpmsg-AvatarHeadsIcon:not(:first-child) {
   margin-left: -12px;
 }.dpmsg-AvatarHeadsIcon:first-child {
@@ -832,11 +837,11 @@
 }.dpmsg-MessageBubbleRow {
   display: -webkit-box;
   display: flex;
-  margin-bottom: 8px;
-  margin-bottom: var(--xs-space);
 }.dpmsg-AvatarCol {
   -webkit-box-flex: 0;
           flex: 0 0 35px;
+  margin-top: 5px;
+  margin-top: var(--xxs-space);
 }.dpmsg-AvatarCol img {
   margin-top: 4px;
   max-width: 27px;
@@ -861,21 +866,32 @@
   display: block;
   font-size: 14px;
   font-size: var(--h1);
-  margin-bottom: 8px;
-  margin-bottom: var(--xs-space);
   padding: 13px;
   padding: var(--sm-space);
-}.dpmsg-BubbleItem img {
+  margin-bottom: 5px;
+  margin-bottom: var(--xxs-space);
+  margin-top: 10px;
+  margin-top: var(--s-space)
+}.dpmsg-BubbleItem.dpmsg-SameSender {
+    margin-bottom: 5px;
+    margin-bottom: var(--xxs-space);
+    margin-top: 5px;
+    margin-top: var(--xxs-space);
+  }.dpmsg-BubbleItem img {
   max-width: 200px;
 }.is-incoming .dpmsg-BubbleItem {
   background-color: #f8fafc;
   border: 2px solid #dce4eb;
-  border: var(--border);
-}.is-outgoing .dpmsg-BubbleItem {
+  border: var(--border)
+}.is-incoming .dpmsg-BubbleItem.dpmsg-SameSender {
+    margin-left: 35px;
+  }.is-outgoing .dpmsg-BubbleItem {
   background-color: #fff;
   border: 2px solid #b0c0cc;
-  border: 2px solid var(--grey-300);
-}.is-outgoing .dpmsg-AvatarCol {
+  border: 2px solid var(--grey-300)
+}.is-outgoing .dpmsg-BubbleItem.dpmsg-SameSender {
+    margin-right: 35px;
+  }.is-outgoing .dpmsg-AvatarCol {
   -webkit-box-ordinal-group: 2;
           order: 1;
   text-align: right;
@@ -890,6 +906,7 @@
   margin-bottom: var(--xs-space);
   margin-top: 17px;
   margin-top: var(--space);
+  text-align: center;
 }.dpmsg-BubbleNotification.is-left {
   text-align: left;
 }.dpmsg-BubbleNotification.is-right {
