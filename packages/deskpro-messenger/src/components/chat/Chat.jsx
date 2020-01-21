@@ -148,15 +148,7 @@ class Chat extends PureComponent {
                 return <MessageBubble key={key} {...message} />;
               case 'chat.agentAssigned':
               case 'chat.agentUnassigned':
-                return (
-                  <SystemMessage
-                    key={key}
-                    {...message}
-                    message={intl.formatMessage(
-                      ...createTrans(message, message.type === 'chat.agentAssigned' ? 'agentAssigned' : 'agentUnassigned')
-                    )}
-                  />
-                );
+                return null;
               case 'chat.ended':
                 return (
                   <Fragment key={key}>
