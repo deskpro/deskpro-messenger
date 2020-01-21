@@ -143,7 +143,7 @@ class ChatSettings extends React.PureComponent {
         name="chat.preChatForm.formMessageEnabled"
         onChange={handleChange}
       >
-        Brand message
+        Form message
       </Toggle>
       <Textarea
         name="chat.preChatForm.formMessage"

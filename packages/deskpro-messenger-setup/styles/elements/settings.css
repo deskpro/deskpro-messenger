@@ -63,12 +63,12 @@
     padding: 10px 0 0 10px;
 }
 
-.dp-ms-chat_brand_message {
+.dp-ms-chat_form_message {
     margin-top: 15px;
     width: 100%;
 }
 
-.dp-ms-chat_brand_message textarea{
+.dp-ms-chat_form_message textarea{
     min-height: 40px;
 }
 
