@@ -232,7 +232,7 @@ const sendMessagesEpic = (action$, _, { api, cache }) =>
 const sendEndChatEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(CHAT_SEND_END_CHAT),
-    distinctUntilKeyChanged('meta'),
+    distinctUntilKeyChanged('meta', (prev, current) => prev.chat.id === current.chat.id),
     map(({ payload, meta: { chat } }) => {
       if (chat) {
         const message = {
