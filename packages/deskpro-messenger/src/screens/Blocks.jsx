@@ -75,6 +75,13 @@ const blocksMapping = {
         {intl.formatMessage({ id: label, defaultMessage: label })}
       </Link>
     </Block>
+  )),
+  ButtonLink: injectIntl(({ to, intl, label, blockTitle, ...props }) => (
+    <Block title={intl.formatMessage({ id: blockTitle, defaultMessage: blockTitle })}>
+      <Button  title={props.description || ''} to={`/screens/${to}`} width="full" color="primary">
+        {intl.formatMessage({ id: label, defaultMessage: label })}
+      </Button>
+    </Block>
   ))
 };
 

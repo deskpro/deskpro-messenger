@@ -54,7 +54,7 @@ export default (settings) => {
   if (settings.tickets.enabled) {
     const ticketBlockConfig = settings.messenger.tickets;
     screens.index.blocks.push({
-      blockType: 'ScreenLink',
+      blockType: 'ButtonLink',
       blockTitle: ticketBlockConfig.title,
       description: ticketBlockConfig.description,
       label: ticketBlockConfig.buttonText,
