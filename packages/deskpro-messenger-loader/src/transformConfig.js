@@ -78,7 +78,7 @@ export default (settings) => {
     themeVars: {
       '--color-primary': settings.styles.primaryColor || '#3d88f3',
       '--brand-primary': settings.styles.primaryColor || '#3d88f3',
-      '--text-color': settings.styles.textColor || '#ffffff',
+      '--header-icon-text-color': settings.styles.textColor || '#ffffff',
       '--brand-secondary': settings.styles.backgroundColor || '#a9b0b0',
       '--color-background': settings.styles.backgroundColor || '#a9b0b0'
     },
