@@ -508,10 +508,12 @@
   padding-bottom: var(--space);
   width: 388px;
 }.dpmsg-Screen {
-  background-color: #f6f7fa;
+  background-color: #6e8293;
+  background-color: var(--color-secondary);
   border-radius: 0.25rem;
   border-radius: var(--border-radius);
-  box-shadow: 0 3px 8px 1px rgba(51, 51, 62, 0.3);
+  box-shadow: 0 3px 8px 1px rgb(110, 161, 204);
+  box-shadow: 0 3px 8px 1px var(--color-dark-secondary);
   display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
