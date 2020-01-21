@@ -67,7 +67,7 @@ class StartChatScreen extends PureComponent {
   };
 
   render() {
-    const { department, departments, preChatForm, intl, user, uploadTo, brandMessageEnabled } = this.props;
+    const { department, departments, preChatForm, intl, user, uploadTo, brandMessageEnabled, brandMessage } = this.props;
     const immutableLayout = fromJSGreedy(preChatForm);
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
@@ -85,7 +85,7 @@ class StartChatScreen extends PureComponent {
         {viewMode === 'form' && (
           [
             brandMessageEnabled && <div className="dpmsg-StartChatScreen-BrandMessage">
-              Welcome to Deskpro. Please fill out the details below so we can direct you to the right person as quickly as possible.
+              { brandMessage }
           </div>,
             <TicketForm
               initialValues={{ person: user }}
