@@ -2196,13 +2196,11 @@
       color: #4c4f50;
       color: var(--label-color);
     }.dp-pc_field .react-select__menu {
-    margin-top: -12px;
-    margin-left: 12px;
+    margin-top: 8px;
+    margin-left: 10px;
     width: calc(100% - 20px);
-    border: none;
-    box-shadow: 4px 4px 6px rgba(39, 41, 86, 0.3);
-    box-shadow: 4px 4px 6px rgba(39, 41, 86, 0.3);
-    box-shadow: 4px 4px 6px var(--box-shadow-30);
+    border: 1px solid #D3D6D7;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
     color: #4c4f50;
     color: #4c4f50;
     color: var(--text-color);
@@ -2305,9 +2303,7 @@
       padding: 0 5px;
     }.dp-pc_field .react-select__control .react-select__input > input {
       margin-top: 12px;
-    }.dp-pc_field .react-select__menu {
-    margin-top: -5px;
-  }.dp-pc_field .react-select__menu .react-select__menu-list--is-multi .dp-pc_checkbox {
+    }.dp-pc_field .react-select__menu .react-select__menu-list--is-multi .dp-pc_checkbox {
         height: auto;
         padding-left: 0;
       }.dp-pc_field .react-select__menu .react-select__menu-list--is-multi .dp-pc_checkbox .dp-pc_checkbox__checkbox {
