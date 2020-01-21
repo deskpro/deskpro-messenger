@@ -11,6 +11,12 @@
     top: 3px
 }
 
+.dp-ms-position-separator {
+    display: inline-block;
+    height: 35px;
+    margin: 0 50px;
+}
+
 .dp-ms-container {
     width: 35%;
     min-width: 550px;

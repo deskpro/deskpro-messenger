@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { Colorpicker, Heading, Icon, Label, ListElement, Section, Subheading } from '@deskpro/react-components';
+import { Colorpicker, Heading, Icon, Label, ListElement, Section, Subheading, Radio } from '@deskpro/react-components';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 class StyleSettings extends React.PureComponent {
@@ -14,6 +14,10 @@ class StyleSettings extends React.PureComponent {
   static defaultProps = {
     config: Immutable.fromJS({}),
     opened: true
+  };
+
+  handleRadioChange = (checked, value, name) => {
+    this.props.handleChange(value, name)
   };
 
   render() {
@@ -62,6 +66,26 @@ class StyleSettings extends React.PureComponent {
             />
 
           </Section>
+          <Subheading size={4}>Widget position</Subheading>
+          <Radio
+            checked={config.getIn(['styles', 'position']) === 'right'}
+            name="styles.position"
+            onChange={this.handleRadioChange}
+            value="right"
+            style={{ display: 'inline-block' }}
+          >
+            Right
+          </Radio>
+          <span className="dp-ms-position-separator">- or -</span>
+          <Radio
+            checked={config.getIn(['styles', 'position']) === 'left'}
+            name="styles.position"
+            onChange={this.handleRadioChange}
+            value="left"
+            style={{ display: 'inline-block' }}
+          >
+            Left
+          </Radio>
         </Section>
       </ListElement>
     );
