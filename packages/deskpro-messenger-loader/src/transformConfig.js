@@ -76,6 +76,7 @@ export default (settings) => {
     maxFileSize: settings.messenger.maxFileSize,
     screens,
     themeVars: {
+      'position': settings.styles.position || 'right',
       '--color-primary': settings.styles.primaryColor || '#3d88f3',
       '--brand-primary': settings.styles.primaryColor || '#3d88f3',
       '--header-icon-text-color': settings.styles.textColor || '#ffffff',

@@ -9,7 +9,6 @@ import { ConfigConsumer } from './ConfigContext';
 
 const iframeStyle = {
   position: 'fixed',
-  right: '14px',
   bottom: '14px',
   width: '60px',
   height: '60px'
@@ -42,9 +41,12 @@ class WidgetToggler extends PureComponent {
   };
 
   render() {
-    const { opened } = this.props;
+    const { opened, themeVars } = this.props;
+    const style = {
+      [themeVars.position === 'left' ? 'left' : 'right']: '14px'
+    };
     return (
-      <Frame style={iframeStyle}>
+      <Frame style={{...iframeStyle, ...style}}>
         <button
           style={{
             background: this.props.themeVars['--color-primary'],

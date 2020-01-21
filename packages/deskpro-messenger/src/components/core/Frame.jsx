@@ -24,7 +24,6 @@ if (process.env.NODE_ENV === 'production') {
 
 const defaultIframeStyle = {
   position: 'fixed',
-  right: '14px',
   bottom: '14px',
   width: '50px',
   height: '50px'
@@ -118,6 +117,7 @@ class Frame extends PureComponent {
   render() {
     const { children, style = {}, head, themeVars, ...props } = this.props;
     const { extra } = this.state;
+    style[themeVars.position === 'left' ? 'left' : 'right'] = '14px';
 
     return ReactDOM.createPortal(
       <FrameComponent
