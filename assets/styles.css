@@ -242,7 +242,7 @@
   --color-info: var(--cyan);
   --color-warning: var(--yellow);
   --color-danger: var(--red);
-  --text-color: #fff;
+  --header-icon-text-color: #fff;
 
   --link-color: var(--color-primary);
   --link-hover-color: rgb(61, 88, 128);
@@ -538,16 +538,16 @@
 }.is-minimal .dpmsg-ScreenHeaderLogo img {
   height: 37px;
 }.is-minimal .dpmsg-ScreenHeaderLogo svg {
+  color: #fff;
+  color: var(--header-icon-text-color);
   height: 37px;
-  color: #4c4f50;
-  color: var(--text-color);
 }.is-minimal .dpmsg-ScreenHeaderLogo svg {
+  color: #fff;
+  color: var(--header-icon-text-color);
   height: 37px;
-  color: #4c4f50;
-  color: var(--text-color);
-}.is-minimal .dpmsg-ScreenHeaderLogo svg path{
-  fill: #4c4f50;
-  fill: var(--text-color);
+}.is-minimal .dpmsg-ScreenHeaderLogo svg path {
+  fill: #fff;
+  fill: var(--header-icon-text-color);
 }.is-minimal .dpmsg-ScreenHeader {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
@@ -623,8 +623,8 @@
   background-image: -webkit-linear-gradient(60deg, var(--color-primary) 0%, var(--color-primary) 22%, var(--color-dark-primary) 100%);
   background-image: linear-gradient(30deg, var(--color-primary) 0%, var(--color-primary) 22%, var(--color-dark-primary) 100%);
 }.dpmsg-ScreenHeaderTitle {
-  color: #4c4f50;
-  color: var(--text-color);
+  color: #fff;
+  color: var(--header-icon-text-color);
 }.dpmsg-ScreenHeaderText {
   color: #f9f9f9;
 }.is-minimal.is-light .dpmsg-ScreenHeaderText {
@@ -727,10 +727,9 @@
   right: 0;
   width: 100%;
 }.dpmsg-BlockText {
-  color: #5f768a;
+  color: #4c4f50;
   display: block;
-  font-size: 14px;
-  font-size: var(--h1);
+  font-size: 16px;
   margin-bottom: 15px;
   max-width: 220px;
 }.dpmsg-AvatarHeadsList {
@@ -1434,8 +1433,8 @@
     }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--hint {
     color: #4c4f50;
     color: var(--grey-darkest);
-    font-style: italic;
     font-size: 14px;
+    font-style: italic;
     font-weight: normal;
     margin-top: 15px;
   }.dpmsg-QuickSearchResults {
