@@ -6,8 +6,9 @@ import Block from '../components/core/Block';
 import QuickSearchBlock from '../components/search/QuickSearchBlock';
 import Button from '../components/form/Button';
 import { connect } from 'react-redux';
-import { hasAgentsAvailable } from '../modules/info';
+import { getAgentsAvailable } from '../modules/info';
 import { getActiveChat } from '../modules/chat';
+import AvatarHeads from '../components/ui/AvatarHeads';
 
 const transMessages = {
   startChatTitle: {
@@ -51,7 +52,11 @@ const blocksMapping = {
     }
     return (
       <Block title={title}>
-        <Button title={description} to={`/screens/${to}`} width="full" color="primary">
+        {props.showAgentPhotos ? <AvatarHeads agentsAvailable={props.agentsAvailable} /> : null}
+        <div className="dpmsg-BlockText">
+          {description}
+        </div>
+        <Button to={`/screens/${to}`} width="full" color="primary">
           {link}
         </Button>
       </Block>
@@ -88,12 +93,15 @@ const blocksMapping = {
 const Blocks = ({ blocks, agentsAvailable, activeChat }) => (
   <Fragment>
     {blocks.sort((blockA, blockB) => blockA.order - blockB.order).map(({ blockType, ...props }, index) => {
-      if(blockType === 'StartChatBlock' && !agentsAvailable) {
-        return null;
-      }
-      if(blockType === 'StartChatBlock' && activeChat) {
-        props.to = `active-chat/${activeChat}`;
-        props.activeChat = activeChat;
+      if(blockType === 'StartChatBlock') {
+        if (!Object.keys(agentsAvailable).length) {
+          return null;
+        }
+        if (activeChat) {
+          props.to = `active-chat/${activeChat}`;
+          props.activeChat = activeChat;
+        }
+        props.agentsAvailable = agentsAvailable;
       }
       const Component = blocksMapping[blockType];
       return Component ? (
@@ -103,4 +111,4 @@ const Blocks = ({ blocks, agentsAvailable, activeChat }) => (
   </Fragment>
 );
 
-export default connect((state) => ({ agentsAvailable: hasAgentsAvailable(state), activeChat: getActiveChat(state) }))(Blocks);
+export default connect((state) => ({ agentsAvailable: getAgentsAvailable(state), activeChat: getActiveChat(state) }))(Blocks);
