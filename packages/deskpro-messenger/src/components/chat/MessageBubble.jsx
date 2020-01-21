@@ -35,7 +35,7 @@ class MessageBubble extends React.Component {
       >
         {origin !== 'system' && (
           <div
-            className={classNames('dpmsg-AvatarCol', {
+            className={classNames('dpmsg-AvatarCol is-rounded', {
               'is-rounded': origin === 'user'
             })}
           >
