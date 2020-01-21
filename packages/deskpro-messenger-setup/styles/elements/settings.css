@@ -55,12 +55,12 @@
 }
 
 .dp-ms-chat_brand_message {
-    margin: 7px;
-    padding: 7px;
-    color: #8b9293;
-    background-color: #eff0f0;
-    border: 1px solid #a9b0b0;
-    min-height: 70px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.dp-ms-chat_brand_message textarea{
+    min-height: 40px;
 }
 
 .dp-ms-section-header, .dp-ms-section {

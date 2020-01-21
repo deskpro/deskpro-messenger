@@ -145,9 +145,13 @@ class ChatSettings extends React.PureComponent {
       >
         Brand message
       </Toggle>
-      <div className="dp-ms-chat_brand_message" style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessageEnabled']) ? 'block' : 'none' }}>
-        Welcome to Deskpro. Please fill out the details below so we can direct you to the right person as quickly as possible.
-      </div>
+      <Textarea
+        name="chat.preChatForm.brandMessage"
+        style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessageEnabled']) ? 'block' : 'none' }}
+        value={config.getIn(['chat', 'preChatForm', 'brandMessage'])}
+        className="dp-ms-chat_brand_message"
+        onChange={handleChange}
+      />
       <h4>Chat fields:</h4>
       <div className="dp-ms-chat_field_wrapper">
         <div className="dp-ms-chat_field_enabled_wrapper">
