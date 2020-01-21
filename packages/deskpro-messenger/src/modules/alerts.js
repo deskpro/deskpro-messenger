@@ -3,11 +3,11 @@ import { map, switchMap, take, takeUntil } from 'rxjs/operators';
 
 import { APP_SHUTDOWN, OPEN_WINDOW_ONCE } from './app';
 import { alertReceived } from './info';
-import { CHAT_START, messageReceived } from './chat';
+import { CHAT_START, CHAT_SEND_MESSAGE, CHAT_OPENED, messageReceived } from './chat';
 
 export const listenForAlertsEpic = (action$, _, { api }) =>
   action$.pipe(
-    ofType(OPEN_WINDOW_ONCE, CHAT_START),
+    ofType(OPEN_WINDOW_ONCE, CHAT_START, CHAT_SEND_MESSAGE, CHAT_OPENED),
     take(1),
     switchMap(() => {
       return api.getAlertsStream().pipe(

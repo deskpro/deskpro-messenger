@@ -1,16 +1,17 @@
-import { from, of, merge, empty, race, interval } from 'rxjs';
-import { ofType, combineEpics } from 'redux-observable';
+import { empty, from, interval, merge, of, race } from 'rxjs';
+import { combineEpics, ofType } from 'redux-observable';
 import {
-  withLatestFrom,
-  tap,
-  skip,
   filter,
-  mergeMap,
-  switchMap,
-  take,
+  ignoreElements,
   map,
   mapTo,
-  ignoreElements
+  mergeMap,
+  skip,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+  distinctUntilKeyChanged
 } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
@@ -40,10 +41,12 @@ export const CHAT_START = 'CHAT_START';
 export const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
 export const CHAT_INIT_CHATS = 'CHAT_INIT_CHATS';
 export const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
+export const CHAT_SEND_END_CHAT = 'CHAT_SEND_END_CHAT';
 export const CHAT_SEND_MESSAGE_SUCCESS = 'CHAT_SEND_MESSAGE_SUCCESS';
 export const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
 export const CHAT_HISTORY_LOADED = 'CHAT_HISTORY_LOADED';
 export const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
+export const CHAT_OPENED = 'CHAT_OPENED';
 //#endregion
 
 //#region ACTION CREATORS
@@ -51,6 +54,9 @@ export const createChat = (data, meta) => ({
   type: CHAT_START,
   payload: data,
   meta
+});
+export const chatOpened = () => ({
+  type: CHAT_OPENED
 });
 export const saveChat = (payload, meta) => ({
   type: CHAT_SAVE_CHAT,
@@ -77,6 +83,11 @@ export const noAgentsMessage = (chat) =>
   });
 export const sendMessage = (message, chat) => ({
   type: CHAT_SEND_MESSAGE,
+  payload: message,
+  meta: { chat }
+});
+export const endChatMessage = (message, chat) => ({
+  type: CHAT_SEND_END_CHAT,
   payload: message,
   meta: { chat }
 });
@@ -218,6 +229,27 @@ const sendMessagesEpic = (action$, _, { api, cache }) =>
     map((args) => messageSent(...args))
   );
 
+const sendEndChatEpic = (action$, _, { api }) =>
+  action$.pipe(
+    ofType(CHAT_SEND_END_CHAT),
+    distinctUntilKeyChanged('meta'),
+    map(({ payload, meta: { chat } }) => {
+      if (chat) {
+        const message = {
+          ...payload,
+          chat: chat.id,
+          uuid: uuid()
+        };
+        return [message, chat];
+      }
+      throw new Error('Cannot send a message to the undefined chat.');
+    }),
+    tap((args) => {
+      api.sendMessage(...args);
+    }),
+    map((args) => messageSent(...args))
+  );
+
 const soundEpic = (action$, state$) =>
   action$.pipe(
     ofType(CHAT_MESSAGE_RECEIVED, CHAT_SEND_MESSAGE_SUCCESS),
@@ -244,6 +276,7 @@ export const chatEpic = combineEpics(
   loadHistoryEpic,
   createChatEpic,
   sendMessagesEpic,
+  sendEndChatEpic,
   cacheNewChatEpic,
   deactivateChatEpic,
   soundEpic,
@@ -256,7 +289,9 @@ const emptyChat = { messages: [] };
 const chatReducer = produce((draft, { type, payload }) => {
   switch (type) {
     case CHAT_SEND_MESSAGE_SUCCESS:
-      draft.messages.push(payload);
+      if (!payload.type.startsWith('chat.end')) {
+        draft.messages.push(payload);
+      }
       return;
 
     case CHAT_MESSAGE_RECEIVED:
@@ -337,6 +372,7 @@ export default produce(
         draft.chats[chatId].messages
       );
     }
+
     return;
   },
   { chats: {}, mute: false }
