@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Heading, Icon, Input, Label, ListElement, Section, Select, Textarea, Toggle, Checkbox } from '@deskpro/react-components';
+import { Group, Heading, Icon, Input, Label, ListElement, Section, Select, Textarea, Toggle, Checkbox, Subheading } from '@deskpro/react-components';
 import arrayMove from 'array-move';
 import { SortableElement, SortableContainer } from 'react-sortable-hoc';
 
@@ -150,9 +150,9 @@ class ChatSettings extends React.PureComponent {
         style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessageEnabled']) ? 'block' : 'none' }}
         value={config.getIn(['chat', 'preChatForm', 'brandMessage'])}
         className="dp-ms-chat_brand_message"
-        onChange={handleChange}
+          onChange={handleChange}
       />
-      <h4>Chat fields:</h4>
+      <Subheading size={5}>Chat fields:</Subheading>
       <div className="dp-ms-chat_field_wrapper">
         <div className="dp-ms-chat_field_enabled_wrapper">
           <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} disabled={true} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox>
@@ -190,7 +190,6 @@ class ChatSettings extends React.PureComponent {
       config,
       handleChange,
       chatDepartments,
-      chatCustomFields,
       ticketDepartments,
       opened,
       onClick
@@ -213,7 +212,7 @@ class ChatSettings extends React.PureComponent {
             name={opened ? faCaretUp : faCaretDown}
           />
         </Heading>
-        <Section className='dp-ms-section' hidden={!opened}>
+        <Section hidden={!opened}>
           <Toggle
             checked={config.getIn(['chat', 'enabled'])}
             name="chat.enabled"
@@ -221,105 +220,142 @@ class ChatSettings extends React.PureComponent {
           >
             Enable chat
           </Toggle>
-          <Label>Default chat department</Label>
-          <Select
-            options={chatDepartments.toArray().map(dep => (
+          <Section className="dp-ms-np-section" hidden={!config.getIn(['chat', 'enabled'])}>
+            <Section className="dp-ms-section">
+              <Group
+                label="Default chat department"
+                htmlFor="ms-default-chat-department">
+                <Select
+                  options={chatDepartments.toArray().map(dep => (
+                    {
+                      value: dep.get('id'),
+                      label: dep.get('title')
+                    }
+                  ))}
+                  id="ms-default-chat-department"
+                  value={config.getIn(['chat', 'department'])}
+                  onChange={this.handleSelectChange}
+                  name="chat.department"
+                />
+              </Group>
+              <Group
+                label="Prompt the user to describe their problem before the chat starts:"
+                htmlFor="ms-chat-prompt">
+                <Input
+                  id="ms-chat-prompt"
+                  type="text"
+                  value={config.getIn(['chat', 'prompt'])}
+                  name="chat.prompt"
+                  onChange={handleChange}
+                />
+              </Group>
+            </Section>
+            <Subheading size={4}>Pre-chat form</Subheading>
+            <Section className="dp-ms-section">
+              <Toggle
+                checked={config.getIn(['chat', 'preChatForm', 'enabled'])}
+                name="chat.preChatForm.enabled"
+                onChange={handleChange}
+              >
+                Ask information before chat commences
+              </Toggle>
+            </Section>
+            <Section className="dp-ms-section" hidden={!config.getIn(['chat', 'preChatForm', 'enabled'])}>
+              {this.renderPreChatForm()}
+            </Section>
+            <Subheading size={4}>Unanswered chat</Subheading>
+            <Section className="dp-ms-section">
+              <Label>
+                If no agents are online to accept a chat, or when the user has waited for{' '}
+                <Input
+                  className="small"
+                  type="number"
+                  min={0}
+                  max={9999}
+                  value={config.getIn(['chat', 'timeout'])}
+                  onChange={this.ensureTimeoutIsPositive}
+                  name="chat.timeout"
+                />{' '}
+                seconds
+              </Label>
+              <Group
+                htmlFor="ms-chat-no-answer-behavior"
+              >
+                <Select
+                  options={this.noAnswerOptions}
+                  value={config.getIn(['chat', 'noAnswerBehavior'], '')}
+                  onChange={this.handleSelectChange}
+                  name="chat.noAnswerBehavior"
+                  id="ms-chat-no-answer-behavior"
+                />
+              </Group>
               {
-                value: dep.get('id'),
-                label: dep.get('title')
+                config.getIn(['chat', 'noAnswerBehavior']) === ''  &&
+                <Group
+                  label="Busy message"
+                  htmlFor="ms-chat-busyMessage"
+                >
+                  <Textarea
+                    name="chat.busyMessage"
+                    id="ms-chat-busyMessage"
+                    cols="40"
+                    rows="6"
+                    value={config.getIn(['chat', 'busyMessage'])}
+                    onChange={handleChange}
+                  />
+                </Group>
               }
-            ))}
-            value={config.getIn(['chat', 'department'])}
-            onChange={this.handleSelectChange}
-            name="chat.department"
-          />
-          <Label>Prompt the user to describe their problem before the chat starts:</Label>
-          <Input
-            type="text"
-            value={config.getIn(['chat', 'prompt'])}
-            name="chat.prompt"
-            onChange={handleChange}
-          />
-
-          <h4>Pre-chat form</h4>
-          <Toggle
-            checked={config.getIn(['chat', 'preChatForm', 'enabled'])}
-            name="chat.preChatForm.enabled"
-            onChange={handleChange}
-          >
-            Ask information before chat commences
-          </Toggle>
-
-          {config.getIn(['chat', 'preChatForm', 'enabled']) ? this.renderPreChatForm() : null}
-          <h4>Unanswered chat</h4>
-          <Label>
-            If no agents are online to accept a chat, or when the user has waited for{' '}
-            <Input
-              className="small"
-              type="number"
-              min={0}
-              max={9999}
-              value={config.getIn(['chat', 'timeout'])}
-              onChange={this.ensureTimeoutIsPositive}
-              name="chat.timeout"
-            />{' '}
-            seconds
-          </Label>
-          <Select
-            options={this.noAnswerOptions}
-            value={config.getIn(['chat', 'noAnswerBehavior'], '')}
-            onChange={this.handleSelectChange}
-            name="chat.noAnswerBehavior"
-          />
-          {config.getIn(['chat', 'noAnswerBehavior']) === '' ?
-            [
-              <br />,
-              <Label>Busy message</Label>,
-              <Textarea
-                name="chat.busyMessage"
-                id=""
-                cols="40"
-                rows="6"
-                value={config.getIn(['chat', 'busyMessage'])}
-                onChange={handleChange}
-              />
-            ] : null
-          }
-          {config.getIn(['chat', 'noAnswerBehavior']) === 'save_ticket' ?
-            [
-              <h4>Missed chat ticket properties</h4>,
-              <Label>Department</Label>,
-              <Select
-                options={ticketDepartments.toArray().map(dep => (
-                  {
-                    value: dep.get('id'),
-                    label: dep.get('title')
-                  }
-                ))}
-                value={config.getIn(['chat', 'ticketDefaults', 'department'])}
-                onChange={this.handleSelectChange}
-                name="chat.ticketDefaults.department"
-              />,
-              <Label>Subject</Label>,
-              <Select
-                options={[
-                  {value: 'setSubject', label: 'Text set by admin'},
-                  {value: 'autoSubject', label: 'Use first 5 words of message'}
-                ]}
-                value={config.getIn(['chat', 'ticketDefaults', 'subjectType'])}
-                onChange={this.handleSelectChange}
-                name="chat.ticketDefaults.subjectType"
-              />,
-              <br />,
-              <Input
-                style={{ display: config.getIn(['chat', 'ticketDefaults', 'subjectType']) === 'setSubject' ? 'block' : 'none' }}
-                type="text"
-                value={config.getIn(['chat', 'ticketDefaults', 'subject'])}
-                placeholder="Missed chat from {name}"
-                onChange={handleChange}
-                name="chat.ticketDefaults.subject"
-              />,
-            ]: null}
+              {config.getIn(['chat', 'noAnswerBehavior']) === 'save_ticket' ?
+                [
+                  <Subheading size={4}>Missed chat ticket properties</Subheading>,
+                  <Group
+                    label="Department"
+                    htmlFor="ms-chat-ticketDefaults-department"
+                  >
+                    <Select
+                      options={ticketDepartments.toArray().map(dep => (
+                        {
+                          value: dep.get('id'),
+                          label: dep.get('title')
+                        }
+                      ))}
+                      value={config.getIn(['chat', 'ticketDefaults', 'department'])}
+                      onChange={this.handleSelectChange}
+                      name="chat.ticketDefaults.department"
+                      id="ms-chat-ticketDefaults-department"
+                    />
+                  </Group>,
+                  <Group
+                    label="Subject"
+                    htmlFor="ms-chat-ticketDefaults-subject"
+                  >
+                    <Select
+                      options={[
+                        {value: 'setSubject', label: 'Text set by admin'},
+                        {value: 'autoSubject', label: 'Use first 5 words of message'}
+                      ]}
+                      value={config.getIn(['chat', 'ticketDefaults', 'subjectType'])}
+                      onChange={this.handleSelectChange}
+                      name="chat.ticketDefaults.subjectType"
+                      id="ms-chat-ticketDefaults-subject"
+                    />
+                  </Group>,
+                  config.getIn(['chat', 'ticketDefaults', 'subjectType']) === 'setSubject' &&
+                  <Group
+                    htmlFor="ms-chat-ticket-defaults-subject"
+                  >
+                    <Input
+                      type="text"
+                      value={config.getIn(['chat', 'ticketDefaults', 'subject'])}
+                      placeholder="Missed chat from {name}"
+                      onChange={handleChange}
+                      name="chat.ticketDefaults.subject"
+                      id="ms-chat-ticket-defaults-subject"
+                    />
+                  </Group>
+                ]: null}
+            </Section>
+          </Section>
         </Section>
       </ListElement>
     );

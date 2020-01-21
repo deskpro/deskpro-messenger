@@ -77,6 +77,9 @@ module.exports = [
             'Textarea',
             'Toggle',
             'ToggleableList',
+            'Radio',
+            'Subheading',
+            'Group'
           ],
           'node_modules/immutable/dist/immutable.js': [
             'fromJS',

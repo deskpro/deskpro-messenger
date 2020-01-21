@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { Heading, Input, Label, ListElement, Section, Select, Toggle, Icon } from '@deskpro/react-components';
+import { Group, Heading, Input, Label, ListElement, Section, Select, Toggle, Icon } from '@deskpro/react-components';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 class TicketSettings extends React.PureComponent {
@@ -45,34 +45,48 @@ class TicketSettings extends React.PureComponent {
             name={opened ? faCaretUp : faCaretDown}
           />
         </Heading>
-        <Section className='dp-ms-section' hidden={!opened}>
-          <Toggle
-            checked={config.getIn(['tickets', 'enabled'])}
-            name="tickets.enabled"
-            onChange={handleChange}
-          >
-            Enable new tickets
-          </Toggle>
-          <Label>Department</Label>
-          <Select
-            options={ticketDepartments.toArray().map(dep => (
-              {
-                value: dep.get('id'),
-                label: dep.get('title')
-              }
-            ))}
-            value={config.getIn(['tickets', 'department'])}
-            onChange={this.handleSelectChange}
-            name="tickets.department"
-          />
-          <Label>Subject</Label>
-          <Input
-            type="text"
-            value={config.getIn(['tickets', 'subject'])}
-            placeholder="Ticket from {name}"
-            onChange={handleChange}
-            name="tickets.subject"
-          />
+        <Section hidden={!opened}>
+          <Section className='dp-ms-section'>
+            <Toggle
+              checked={config.getIn(['tickets', 'enabled'])}
+              name="tickets.enabled"
+              onChange={handleChange}
+            >
+              Enable new tickets
+            </Toggle>
+            <Section hidden={!config.getIn(['tickets', 'enabled'])}>
+              <Group
+                label="Department"
+                htmlFor="ms-tickets-default-department"
+              >
+                <Select
+                  options={ticketDepartments.toArray().map(dep => (
+                    {
+                      value: dep.get('id'),
+                      label: dep.get('title')
+                    }
+                  ))}
+                  value={config.getIn(['tickets', 'department'])}
+                  onChange={this.handleSelectChange}
+                  name="tickets.department"
+                  id="ms-tickets-default-department"
+                />
+              </Group>
+              <Group
+                label="Subject"
+                htmlFor="ms-tickets-default-subject"
+              >
+                <Input
+                  type="text"
+                  value={config.getIn(['tickets', 'subject'])}
+                  placeholder="Ticket from {name}"
+                  onChange={handleChange}
+                  name="tickets.subject"
+                  id="ms-tickets-default-subject"
+                />
+              </Group>
+            </Section>
+          </Section>
         </Section>
       </ListElement>
     );
