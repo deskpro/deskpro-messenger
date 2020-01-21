@@ -107,7 +107,7 @@ export default class ApiService {
           if (m.origin === 'system') {
             return {
               ...m,
-              type: 'chat.system',
+              type: m.meta && m.meta.type ? m.meta.type : 'chat.system',
               message: JSON.parse(m.message)
             };
           }
