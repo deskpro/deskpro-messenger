@@ -67,7 +67,7 @@ class StartChatScreen extends PureComponent {
   };
 
   render() {
-    const { department, departments, preChatForm, intl, user, uploadTo, brandMessageEnabled, brandMessage } = this.props;
+    const { department, departments, preChatForm, intl, user, uploadTo, formMessageEnabled, formMessage } = this.props;
     const immutableLayout = fromJSGreedy(preChatForm);
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
@@ -84,8 +84,8 @@ class StartChatScreen extends PureComponent {
       >
         {viewMode === 'form' && (
           [
-            brandMessageEnabled && <div className="dpmsg-StartChatScreen-BrandMessage">
-              { brandMessage }
+            formMessageEnabled && <div className="dpmsg-StartChatScreen-BrandMessage">
+              { formMessage }
           </div>,
             <TicketForm
               initialValues={{ person: user }}

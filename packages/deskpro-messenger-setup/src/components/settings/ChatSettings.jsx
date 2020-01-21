@@ -139,17 +139,17 @@ class ChatSettings extends React.PureComponent {
         Require users to provide their name and email address as well as adding custom fields or require departments.
       </div>
       <Toggle
-        checked={config.getIn(['chat', 'preChatForm', 'brandMessageEnabled'])}
-        name="chat.preChatForm.brandMessageEnabled"
+        checked={config.getIn(['chat', 'preChatForm', 'formMessageEnabled'])}
+        name="chat.preChatForm.formMessageEnabled"
         onChange={handleChange}
       >
         Brand message
       </Toggle>
       <Textarea
-        name="chat.preChatForm.brandMessage"
-        style={{ display: config.getIn(['chat', 'preChatForm', 'brandMessageEnabled']) ? 'block' : 'none' }}
-        value={config.getIn(['chat', 'preChatForm', 'brandMessage'])}
-        className="dp-ms-chat_brand_message"
+        name="chat.preChatForm.formMessage"
+        style={{ display: config.getIn(['chat', 'preChatForm', 'formMessageEnabled']) ? 'block' : 'none' }}
+        value={config.getIn(['chat', 'preChatForm', 'formMessage'])}
+        className="dp-ms-chat_form_message"
           onChange={handleChange}
       />
       <Subheading size={5}>Chat fields:</Subheading>
