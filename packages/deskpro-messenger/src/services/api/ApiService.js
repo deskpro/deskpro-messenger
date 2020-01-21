@@ -103,7 +103,7 @@ export default class ApiService {
     return await this.apiClient
       .get(`/api/messenger/chat/${chat.id}-${chat.access_token}/messages`)
       .then(({ data }) =>
-        data.map((m) => {
+        data.filter((m) => m.meta.type !== 'chat.agentAssigned' && m.meta.type !== 'chat.agentUnassigned').map((m) => {
           if (m.origin === 'system') {
             return {
               ...m,

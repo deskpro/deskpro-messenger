@@ -322,8 +322,9 @@ const chatReducer = produce((draft, { type, payload }) => {
       }
       if (payload.type === 'chat.agentAssigned' || payload.type === 'chat.agentUnassigned') {
         draft.agent = _pick(payload, ['name', 'avatar']);
+      } else {
+        draft.messages.push(payload);
       }
-      draft.messages.push(payload);
       draft.typing = payload.origin === 'agent' ? undefined : draft.typing;
       if (payload.type === 'chat.ended') {
         draft.data.status = 'ended';

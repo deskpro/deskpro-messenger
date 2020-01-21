@@ -18,9 +18,15 @@ class MessageBubble extends React.Component {
   renderMessage() {
     const { message } = this.props;
     return <div
-      className="dpmsg-BubbleItem"
+      className={classNames("dpmsg-BubbleItem", {'dpmsg-SameSender': !this.isNotTheSameSender()})}
       dangerouslySetInnerHTML={{ __html: message }}
     />
+  }
+
+  isNotTheSameSender() {
+    const { origin, prev } = this.props;
+
+    return !(prev.origin && prev.origin === origin);
   }
 
   render() {
@@ -33,7 +39,7 @@ class MessageBubble extends React.Component {
           'is-outgoing': origin === 'user'
         })}
       >
-        {origin !== 'system' && (
+        {origin !== 'system' && this.isNotTheSameSender() && (
           <div
             className={classNames('dpmsg-AvatarCol is-rounded', {
               'is-rounded': origin === 'user'
@@ -54,7 +60,13 @@ MessageBubble.propTypes = {
   avatar: PropTypes.string,
   origin: PropTypes.oneOf(['user', 'agent', 'system']).isRequired,
   message: PropTypes.string.isRequired,
+  author: PropTypes.number.isRequired,
+  prev: PropTypes.object,
   name: PropTypes.string
+};
+
+MessageBubble.defaultProps = {
+  prev: {}
 };
 
 export default MessageBubble;

@@ -145,7 +145,7 @@ class Chat extends PureComponent {
             const key = message.uuid || `${message.type}-${index}`;
             switch (message.type) {
               case 'chat.message':
-                return <MessageBubble key={key} {...message} />;
+                return <MessageBubble key={key} {...message} prev={messages[index-1]}/>;
               case 'chat.agentAssigned':
               case 'chat.agentUnassigned':
                 return null;
