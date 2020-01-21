@@ -36,7 +36,8 @@ class MessageBubble extends React.Component {
       <div
         className={classNames('dpmsg-MessageBubbleRow', {
           'is-incoming': origin !== 'user',
-          'is-outgoing': origin === 'user'
+          'is-outgoing': origin === 'user',
+          'dpmsg-SameSender': !this.isNotTheSameSender()
         })}
       >
         {origin !== 'system' && this.isNotTheSameSender() && (
