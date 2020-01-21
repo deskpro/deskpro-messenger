@@ -168,7 +168,7 @@ class Chat extends PureComponent {
                 );
               case 'chat.noAgents':
                 return (
-                  <div>
+                  <div key={`no_agents_${message.uuid}`}>
                     <SystemMessage
                       {...message}
                       message={
