@@ -736,7 +736,6 @@
   display: block;
   font-size: 16px;
   margin-bottom: 15px;
-  max-width: 220px;
 }.dpmsg-AvatarHeadsList {
   display: -webkit-box;
   display: flex;
