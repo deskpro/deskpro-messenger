@@ -22,7 +22,7 @@
 .dpmsg-ScreenFooterLogo,
 .dpmsg-ScreenIconRow,
 .dpmsg-ScreenControls,
-.dpmsg-StartChatScreen-BrandMessage,
+.dpmsg-StartChatScreen-FormMessage,
 .dpmsg-BlockWrapper,
 .dpmsg-BlockHeader,
 .dpmsg-BlockText,
@@ -276,6 +276,9 @@
   --p3: 7px;
 
 
+
+  --xxl-space: 25px;
+  --l-space: 20px;
   --space: 17px;
   --sm-space: 13px;
   --s-space: 10px;
@@ -505,8 +508,8 @@
   display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
-  margin: 4px 8px 0;
-  margin: 4px var(--xs-space) 0;
+  margin: 0 10px;
+  margin: 0 var(--s-space);
   padding-bottom: 17px;
   padding-bottom: var(--space);
   width: 388px;
@@ -676,7 +679,6 @@
     color: #9db2d8;
   }.is-light .dpmsg-ScreenControls .dpmsg-IconArrow {
   background-image: url('data:image/svg+xml,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><style>.cls-1{fill: %234395d2;}</style></defs><title>app_icons</title><path class="cls-1" d="M275,468.73a36.26,36.26,0,0,0,50.26,0l0,0L589.1,206a36.27,36.27,0,0,0-51.29-51.29L300.69,391.8,63.56,154.67A36.27,36.27,0,0,0,12.27,206Z"/></svg>');
-
 }.dpmsg-Block .dpmsg-endChatButton {
   color: #8b9293;
   color: var(--grey-dark);
@@ -688,8 +690,16 @@
 }.dpmsg-Block .dpmsg-endChatButton:hover {
     color: #3d88f3;
     color: var(--color-primary);
-  }.dpmsg-StartChatScreen-BrandMessage {
-  padding: 10px;
+  }.dpmsg-StartChatScreen-FormMessage {
+  color: #4c4f50;
+  color: var(--grey-darkest);
+  font-family: Rubik, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 150%;
+  margin: 25px 0;
+  display: block;
 }.dpmsg-Block {
   background-color: #fff;
   border: 1px solid #e0e0e0;
@@ -697,8 +707,8 @@
   border-radius: var(--border-radius);
   box-shadow: 0 4px 8px 1px rgba(51, 51, 62, 0.1);
   display: block;
-  padding: 17px;
-  padding: var(--space);
+  padding: 20px;
+  padding: var(--l-space);
   position: relative;
 }.dpmsg-BlockWrapper {
   display: block;
@@ -710,9 +720,9 @@
   display: flex;
   font-size: 18px;
   letter-spacing: 0.4px;
-  margin-bottom: 13px;
-  margin-bottom: var(--sm-space);
-  padding-bottom: 10px;
+  margin-bottom: 25px;
+  margin-bottom: var(--xxl-space);
+  padding-bottom: 15px;
   position: relative;
 }.dpmsg-BlockHeader span {
   color: #4c4f50;
@@ -1958,7 +1968,7 @@
   --valid-label: #4eba5c;
   --box-shadow-30: rgba(39, 41, 86, 0.3);
   --option-background: var(--grey-lightest);
-  --checkbox-border: #dce4eb;
+  --checkbox-border: var(--grey-light);
   --input-background: var(--grey-lightest);
   --input-border: var(--grey-light);
   --input-height: 44px;
@@ -1968,15 +1978,13 @@
 
 }.dp-pc_form {
   box-sizing: border-box;
-
   font-family: 'Rubik', sans-serif;
 }.dp-pc_form * {
     box-sizing: border-box;
   }.dp-pc_form .dp-pc_submit {
     width: 135px;
     height: 48px;
-    margin-top: 10px;
-    margin-left: 10px;
+    margin-top: 5px;
     border-radius: 4px;
     background-color: #3d88f3;
     background-color: #3d88f3;
@@ -1998,7 +2006,7 @@
       box-shadow: inset 4px 4px 4px rgba(39, 41, 86, 0.2);
     }.dp-pc_field {
   position: relative;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }.dp-pc_field input.dp-pc_input {
     border: 1.5px solid #d3d6d7;
     border: 1.5px solid #d3d6d7;
@@ -2015,11 +2023,10 @@
     height: 44px;
     height: 44px;
     height: var(--input-height);
-    margin-left: 10px;
     padding: 17px 12px;
     padding: 17px 12px;
     padding: var(--input-padding);
-    width: calc(100% - 20px);
+    width: 100%;
   }.dp-pc_field input:-webkit-autofill,
   .dp-pc_field input:-internal-autofill-selected
   {
@@ -2042,12 +2049,11 @@
     font-size: 14px;
     font-weight: normal;
     pointer-events: none;
-    margin: 0 0 16px 10px;
+    margin: 0 0 15px 0;
   }.dp-pc_field .dp-pc_error_message,
   .dp-pc_field .dp-pc_description {
     font-size: 12px;
-    margin-left: 12px;
-    margin-top: 10px;
+    margin-top: 7px;
     color: #4c4f50;
     color: #4c4f50;
     color: var(--label-color);
@@ -2068,10 +2074,9 @@
       Textarea
   *******************************/.dp-pc_field textarea.dp-pc_input {
     font-size: 16px;
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 10px;
     line-height: 22px;
-    margin-left: 10px;
     display: block;
     color: #4c4f50;
     color: #4c4f50;
@@ -2112,11 +2117,10 @@
     background-color: #f7f7f7;
     background-color: #f7f7f7;
     background-color: var(--input-background);
-    margin-left: 10px;
     height: 44px;
     height: 44px;
     height: var(--input-height);
-    width: calc(100% - 20px);
+    width: 100%;
     font-size: 18px;
     box-shadow: none;
     padding: 0 11px 0 12px;
@@ -2197,8 +2201,7 @@
       color: var(--label-color);
     }.dp-pc_field .react-select__menu {
     margin-top: 8px;
-    margin-left: 10px;
-    width: calc(100% - 20px);
+    width: 100%;
     border: 1px solid #D3D6D7;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
     color: #4c4f50;
@@ -2291,8 +2294,8 @@
         color: #4c4f50;
         color: var(--text-color);
         border-radius: 4px;
-        border: 2px solid #dce4eb;
-        border: 2px solid #dce4eb;
+        border: 2px solid #d3d6d7;
+        border: 2px solid #d3d6d7;
         border: 2px solid var(--checkbox-border);
       }.dp-pc_field .react-select__control .react-select__multi-value__label {
       position: static;
@@ -2335,8 +2338,7 @@
     padding: 17px 12px;
     padding: 17px 12px;
     padding: var(--input-padding);
-    margin-left: 10px;
-    width: calc(100% - 20px);
+    width: 100%;
   }.dp-pc_field .dp-pc_checkbox .dp-pc_checkbox__checkbox {
       margin-top: 5px;
       display: inline-block;
@@ -2345,8 +2347,8 @@
         height: 16px;
         top: 2px;
         border-radius: 4px;
-        border: 2px solid #dce4eb;
-        border: 2px solid #dce4eb;
+        border: 2px solid #d3d6d7;
+        border: 2px solid #d3d6d7;
         border: 2px solid var(--checkbox-border);
         display: inline-block;
         cursor: pointer;
@@ -2394,8 +2396,7 @@
     }/******************************
         Input checkboxes
   *******************************/.dp-pc_field .dp-pc_checkboxes {
-    margin-left: 10px;
-    width: calc(100% - 20px);
+    width: 100%;
   }.dp-pc_field .dp-pc_checkboxes_checkbox {
     margin-top: 10px;
     display: inline-block;
@@ -2407,8 +2408,8 @@
       height: 16px;
       top: 2px;
       border-radius: 4px;
-      border: 2px solid #dce4eb;
-      border: 2px solid #dce4eb;
+      border: 2px solid #d3d6d7;
+      border: 2px solid #d3d6d7;
       border: 2px solid var(--checkbox-border);
       display: inline-block;
       position: relative;
@@ -2462,8 +2463,7 @@
       Input radio
   *******************************/.dp-pc_field .dp-pc_radios {
     padding: 23px 10px 11px 0;
-    margin-left: 10px;
-    width: calc(100% - 20px);
+    width: 100%;
   }.dp-pc_field .dp-pc_radio {
     margin-top: 10px;
     display: inline-block;
@@ -2474,8 +2474,8 @@
       width: 16px;
       top: 2px;
       border-radius: 50%;
-      border: 2px solid #dce4eb;
-      border: 2px solid #dce4eb;
+      border: 2px solid #d3d6d7;
+      border: 2px solid #d3d6d7;
       border: 2px solid var(--checkbox-border);
       display: inline-block;
       cursor: pointer;
@@ -2536,30 +2536,29 @@
   }/******************************
       File Upload
   *******************************/.dp-pc_field .dp-pc_file-upload {
-    color: #4c4f50;
-    color: #4c4f50;
-    color: var(--text-color);
-    padding: 10px;
+    color: #a9b0b0;
+    color: #a9b0b0;
+    color: var(--grey);
   }.dp-pc_field .dp-pc_file-upload .dp-pc_file-upload__dropzone {
-      border: 2px dashed #dce4eb;
-      border: 2px dashed #dce4eb;
+      border: 2px dashed #d3d6d7;
+      border: 2px dashed #d3d6d7;
       border: 2px dashed var(--checkbox-border);
       border-radius: 4px;
       display: inline-block;
-      padding: 10px 23px 10px 10px;
+      padding: 10px;
       white-space: nowrap;
       cursor: pointer;
+      width: 100%;
     }.dp-pc_field .dp-pc_file-upload .dp-pc_file-upload__dropzone .choose {
-        border: 2px solid #dce4eb;
-        border: 2px solid #dce4eb;
+        border: 2px solid #d3d6d7;
+        border: 2px solid #d3d6d7;
         border: 2px solid var(--checkbox-border);
         border-radius: 4px;
         padding: 10px;
         display: inline-block;
       }.dp-pc_field .dp-pc_file-upload .dp-pc_file-upload__dropzone .or {
         display: inline-block;
-        padding: 16px;
-        font-style: italic;
+        padding: 16px 10px;
       }.dp-pc_field .dp-pc_file-upload .dp-pc_file-upload__dropzone .dnd {
         display: inline-block;
       }.dp-pc_field .dp-pc_file-upload .dp-pc_file-upload__dropzone svg {
@@ -2664,7 +2663,6 @@
     border: 1.5px solid #d3d6d7;
     border: 1.5px solid #d3d6d7;
     border: 1.5px solid var(--input-border);
-    margin-left: 10px;
   }.dp-pc_field .dp-pc_date-picker input.dp-pc_date-picker_input {
       font-size: 18px;
       padding: 17px 12px;
@@ -2680,7 +2678,6 @@
       color: #4c4f50;
       color: #4c4f50;
       color: var(--text-color);
-      margin-left: 10px;
       border: none;
     }.dp-pc_field .dp-pc_date-picker svg {
       width: 20px;
@@ -2706,8 +2703,7 @@
   }/******************************
       Likert scale
   *******************************/.dp-pc_field .dp-pc_likert {
-    margin-left: 10px;
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 30px 10px 10px 0;
   }.dp-pc_field .dp-pc_likert label {
       cursor: pointer;
@@ -2742,8 +2738,8 @@
       height: 25px;
       display: block;
       font-size: 16px;
-      border-color: #dce4eb;
-      border-color: #dce4eb;
+      border-color: #d3d6d7;
+      border-color: #d3d6d7;
       border-color: var(--checkbox-border);
       background-color: #f7f7f7;
       background-color: #f7f7f7;
@@ -2787,7 +2783,6 @@
             color: #4c4f50;
             color: var(--label-color);
             font-size: 13px;
-            margin-left: 10px;
           }.dp-pc_field.dp-pc_field--tel .react-select .react-select__single-value .react-select__description {
         display: none;
       }.dp-pc_field.dp-pc_field--tel .react-select .react-select__placeholder {
@@ -2817,8 +2812,6 @@
       color: var(--grey-light);
     }.dp-pc_field.dp-pc_multi-select .react-select__control {
   height: inherit;
-}.dp-pc_form .dp-pc_field .dp-pc_file-upload__dropzone {
-  margin-top: 45px;
 }.dp-pc_form.show-hover .dp-pc_likert .dp-pc_likert_input:hover .dp-pc_likert_number {
       background-color: #3d88f3;
       background-color: #3d88f3;
