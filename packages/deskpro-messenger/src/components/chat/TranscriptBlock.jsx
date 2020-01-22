@@ -50,18 +50,19 @@ export class TranscriptBlock extends PureComponent {
   }
 
 
-  handleYesNo = (e) => {
+  handleYes = (e) => {
     e.preventDefault();
-    if (e.target.name === 'yes') {
-      const { user } = this.props;
-      if (user && user.email) {
-        this.setState({ viewMode: 'final' }, () => this.submit(user));
-      } else {
-        this.setState({ viewMode: 'fields' });
-      }
+    const { user } = this.props;
+    if (user && user.email) {
+      this.setState({ viewMode: 'final' }, () => this.submit(user));
     } else {
-      this.setState({ viewMode: 'hidden' });
+      this.setState({ viewMode: 'fields' });
     }
+  };
+
+  handleNo = (e) => {
+    e.preventDefault();
+    this.setState({ viewMode: 'hidden' });
   };
 
   handleInputChange = (e) => {
@@ -122,16 +123,16 @@ export class TranscriptBlock extends PureComponent {
     return (
       <div className="dpmsg-PromptContentAgree">
         <button
-          className="dpmsg-PromptBtn is-agdee"
+          className="dpmsg-PromptBtn is-agree"
           name="yes"
-          onClick={this.handleYesNo}
+          onClick={this.handleYes}
         >
           <FormattedMessage {...transMessages.yesButton} />
         </button>
         <button
           className="dpmsg-PromptBtn is-disagree"
           name="no"
-          onClick={this.handleYesNo}
+          onClick={this.handleNo}
         >
           <FormattedMessage {...transMessages.noButton} />
         </button>
