@@ -15,7 +15,7 @@ import {
   getMessages,
   getTypingState,
   getChatData,
-  getChatAgent
+  getChatAgent, isChatAssigned
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 import { getChatDepartments } from '../modules/info';
@@ -92,6 +92,11 @@ class ChatScreen extends PureComponent {
       ? departments[chatConfig.department]
       : {};
 
+    const chat = {
+      ...chatData,
+      assigned: this.props.chatAssigned // we can't check just agent is not null
+    };
+
     return (
       <Block
         title={intl.formatMessage(
@@ -115,7 +120,7 @@ class ChatScreen extends PureComponent {
           typing={this.props.typing}
           user={user}
           agent={agent}
-          chat={chatData}
+          chat={chat}
           chatConfig={chatConfig}
         />
       </Block>
@@ -129,7 +134,8 @@ const mapStateToProps = (state, props) => ({
   agent: getChatAgent(state, props),
   messages: getMessages(state, props),
   typing: getTypingState(state, props),
-  departments: getChatDepartments(state, props)
+  departments: getChatDepartments(state, props),
+  chatAssigned: isChatAssigned(state, props)
 });
 
 const mapProps = (WrappedComponent) => (props) => {

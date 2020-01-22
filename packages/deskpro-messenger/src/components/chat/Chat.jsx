@@ -153,7 +153,7 @@ class Chat extends PureComponent {
                 case 'chat.agentUnassigned':
                   return null;
                 case 'chat.ended':
-                  return (
+                  return chat.assigned && (
                     <Fragment key={key}>
                       <SystemMessage
                         {...message}
