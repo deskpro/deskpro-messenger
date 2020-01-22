@@ -40,7 +40,7 @@ class MessageBubble extends React.Component {
           'dpmsg-SameSender': !this.isNotTheSameSender()
         })}
       >
-        {origin !== 'system' && this.isNotTheSameSender() && (
+        {(origin !== 'system' && this.isNotTheSameSender()) && (
           <div
             className={classNames('dpmsg-AvatarCol is-rounded', {
               'is-rounded': origin === 'user'

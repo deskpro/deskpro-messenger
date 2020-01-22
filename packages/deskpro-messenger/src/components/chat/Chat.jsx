@@ -67,7 +67,7 @@ class Chat extends PureComponent {
 
   componentDidMount() {
     if (this.props.messages.length && this.scrollArea.current) {
-      this.scrollToBottom(true);
+      this.scrollToBottom();
     }
   }
 
@@ -76,21 +76,20 @@ class Chat extends PureComponent {
       prevProps.contentSize.height !== this.props.contentSize.height;
     if (
       prevProps.messages.length !== this.props.messages.length ||
+      (prevProps.messages[prevProps.messages.length-1].id !== this.props.messages[this.props.messages.length-1].id) ||
       changedSize || prevProps.endChatBlock !== this.props.endChatBlock
     ) {
-      this.scrollToBottom(changedSize);
+      this.scrollToBottom();
     }
   }
 
-  scrollToBottom(refresh) {
-    if (refresh && this.scrollArea.current) {
-      this.scrollArea.current.setSizesToState();
-    }
+  scrollToBottom() {
+    this.scrollArea.current.setSizesToState();
     setTimeout(() => {
       if (this.scrollArea.current) {
         this.scrollArea.current.scrollBottom();
       }
-    }, 100);
+    }, 10);
   }
 
   render() {
@@ -141,75 +140,77 @@ class Chat extends PureComponent {
               })}
             />
           )}
-          {messages.map((message, index) => {
-            const key = message.uuid || `${message.type}-${index}`;
-            switch (message.type) {
-              case 'chat.message':
-                return <MessageBubble key={key} {...message} prev={messages[index-1]}/>;
-              case 'chat.agentAssigned':
-              case 'chat.agentUnassigned':
-                return null;
-              case 'chat.ended':
-                return (
-                  <Fragment key={key}>
-                    <SystemMessage
-                      {...message}
-                      message={intl.formatMessage(
-                        ...createTrans(message, 'chatEnded')
-                      )}
-                    />
-                    <TranscriptBlock onSend={onSendMessage} user={user} />
-                    <RatingBlock
-                      onSend={onSendMessage}
-                      user={user}
-                      agent={agent}
-                    />
-                  </Fragment>
-                );
-              case 'chat.noAgents':
-                return (
-                  <div key={`no_agents_${message.uuid}`}>
-                    <SystemMessage
-                      {...message}
-                      message={
-                        chatConfig.busyMessage ||
-                        intl.formatMessage(
-                          ...createTrans(message, 'noAgentOnline')
-                        )
-                      }
-                    />
-                    {chatConfig.noAnswerBehavior === 'save_ticket' && (
-                      <SaveTicketBlock
-                        user={user}
-                        uploadTo={chatConfig.uploadTo}
-                        ticketParams={chatConfig.ticketDefaults}
-                        formConfig={chatConfig.ticketFormConfig}
-                        onSend={onSendMessage}
-                      />
-                    )}
-                    {chatConfig.noAnswerBehavior === 'create_ticket' && (
-                      <CreateTicketBlock />
-                    )}
-                  </div>
-                );
-
-              default: {
-                if (
-                  message.origin === 'system' &&
-                  message.message &&
-                  message.message.phrase_id
-                ) {
+          {messages
+            .filter(m => m.id)
+            .map((message, index) => {
+              const key = message.uuid || `${message.type}-${index}`;
+              switch (message.type) {
+                case 'chat.message':
+                  return <MessageBubble key={key} {...message} prev={messages[index-1]}/>;
+                case 'chat.agentAssigned':
+                case 'chat.agentUnassigned':
+                  return null;
+                case 'chat.ended':
                   return (
-                    <SystemMessage
-                      key={key}
-                      {...message}
-                      message={intl.formatMessage(...createTrans(message))}
-                    />
+                    <Fragment key={key}>
+                      <SystemMessage
+                        {...message}
+                        message={intl.formatMessage(
+                          ...createTrans(message, 'chatEnded')
+                        )}
+                      />
+                      <TranscriptBlock onSend={onSendMessage} user={user} />
+                      <RatingBlock
+                        onSend={onSendMessage}
+                        user={user}
+                        agent={agent}
+                      />
+                    </Fragment>
                   );
+                case 'chat.noAgents':
+                  return (
+                    <div key={`no_agents_${message.uuid}`}>
+                      <SystemMessage
+                        {...message}
+                        message={
+                          chatConfig.busyMessage ||
+                          intl.formatMessage(
+                            ...createTrans(message, 'noAgentOnline')
+                          )
+                        }
+                      />
+                      {chatConfig.noAnswerBehavior === 'save_ticket' && (
+                        <SaveTicketBlock
+                          user={user}
+                          uploadTo={chatConfig.uploadTo}
+                          ticketParams={chatConfig.ticketDefaults}
+                          formConfig={chatConfig.ticketFormConfig}
+                          onSend={onSendMessage}
+                        />
+                      )}
+                      {chatConfig.noAnswerBehavior === 'create_ticket' && (
+                        <CreateTicketBlock />
+                      )}
+                    </div>
+                  );
+
+                default: {
+                  if (
+                    message.origin === 'system' &&
+                    message.message &&
+                    message.message.phrase_id
+                  ) {
+                    return (
+                      <SystemMessage
+                        key={key}
+                        {...message}
+                        message={intl.formatMessage(...createTrans(message))}
+                      />
+                    );
+                  }
+                  return null;
                 }
-                return null;
               }
-            }
           })}
           {!!typing && <TypingMessage value={typing} />}
           {!!chat && chat.status !== 'ended' && endChatBlock && (
