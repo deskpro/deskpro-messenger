@@ -49,7 +49,7 @@ class Chat extends PureComponent {
     onSendMessage: PropTypes.func.isRequired,
     onEndChat: PropTypes.func.isRequired,
     onCancelEndChat: PropTypes.func.isRequired,
-    typing: PropTypes.object,
+    typing: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
     agent: PropTypes.object,
     user: PropTypes.object,
     endChatBlock: PropTypes.bool.isRequired,
