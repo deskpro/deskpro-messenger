@@ -11,6 +11,7 @@ import { withConfig } from '../components/core/ConfigContext';
 import {
   sendMessage,
   endChatMessage,
+  chatOpened,
   getMessages,
   getTypingState,
   getChatData,
@@ -37,7 +38,10 @@ class ChatScreen extends PureComponent {
     }).isRequired,
     departments: PropTypes.object.isRequired,
     messages: PropTypes.array,
-    typing: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
+    typing: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+    sendMessage: PropTypes.func.isRequired,
+    endChatMessage: PropTypes.func.isRequired,
+    chatOpened: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -48,6 +52,12 @@ class ChatScreen extends PureComponent {
   state = {
     endChatBlock: false
   };
+
+  componentDidMount() {
+    if(this.props.chatData.id) {
+      this.props.chatOpened();
+    }
+  }
 
   handleSendMessage = (message, type = 'chat.message') => {
     if (message) {
@@ -135,7 +145,7 @@ export default compose(
   withConfig,
   connect(
     mapStateToProps,
-    { sendMessage, endChatMessage }
+    { sendMessage, endChatMessage, chatOpened }
   ),
   mapProps
 )(ChatScreen);
