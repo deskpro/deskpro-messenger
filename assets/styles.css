@@ -844,7 +844,8 @@
   margin-top: var(--xxs-space);
 }.dpmsg-AvatarCol img {
   margin-top: 4px;
-  max-width: 27px;
+  width: 27px;
+  height: 27px;
 }.dpmsg-BubbleCol {
   display: block;
   width: 100%
