@@ -14,6 +14,7 @@ export default (settings) => {
       description: chatBlockConfig.get('description'),
       linkText: chatBlockConfig.get('buttonText', 'Start a chat'),
       showAgentPhotos: chatBlockConfig.get('showAgentPhotos'),
+      startWithInputField: chatBlockConfig.get('startWithInputField'),
       to: 'startChat'
     });
     screens.startChat = settings.get('chat').toJS();

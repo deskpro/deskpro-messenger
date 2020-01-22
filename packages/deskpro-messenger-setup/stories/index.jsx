@@ -38,7 +38,8 @@ const settings = {
       title: 'Start a conversation',
       description: 'Start a chat with one of our agents',
       buttonText: 'Start a new conversation',
-      showAgentPhotos: false
+      showAgentPhotos: false,
+      startWithInputField: false,
     },
     tickets: {
       title: 'Email Us',
