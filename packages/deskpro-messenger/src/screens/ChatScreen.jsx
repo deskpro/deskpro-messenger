@@ -11,10 +11,11 @@ import { withConfig } from '../components/core/ConfigContext';
 import {
   sendMessage,
   endChatMessage,
+  chatOpened,
   getMessages,
   getTypingState,
   getChatData,
-  getChatAgent
+  getChatAgent, isChatAssigned
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 import { getChatDepartments } from '../modules/info';
@@ -37,7 +38,10 @@ class ChatScreen extends PureComponent {
     }).isRequired,
     departments: PropTypes.object.isRequired,
     messages: PropTypes.array,
-    typing: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
+    typing: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+    sendMessage: PropTypes.func.isRequired,
+    endChatMessage: PropTypes.func.isRequired,
+    chatOpened: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -48,6 +52,12 @@ class ChatScreen extends PureComponent {
   state = {
     endChatBlock: false
   };
+
+  componentDidMount() {
+    if(this.props.chatData.id) {
+      this.props.chatOpened();
+    }
+  }
 
   handleSendMessage = (message, type = 'chat.message') => {
     if (message) {
@@ -82,6 +92,11 @@ class ChatScreen extends PureComponent {
       ? departments[chatConfig.department]
       : {};
 
+    const chat = {
+      ...chatData,
+      assigned: this.props.chatAssigned // we can't check just agent is not null
+    };
+
     return (
       <Block
         title={intl.formatMessage(
@@ -105,7 +120,7 @@ class ChatScreen extends PureComponent {
           typing={this.props.typing}
           user={user}
           agent={agent}
-          chat={chatData}
+          chat={chat}
           chatConfig={chatConfig}
         />
       </Block>
@@ -119,7 +134,8 @@ const mapStateToProps = (state, props) => ({
   agent: getChatAgent(state, props),
   messages: getMessages(state, props),
   typing: getTypingState(state, props),
-  departments: getChatDepartments(state, props)
+  departments: getChatDepartments(state, props),
+  chatAssigned: isChatAssigned(state, props)
 });
 
 const mapProps = (WrappedComponent) => (props) => {
@@ -135,7 +151,7 @@ export default compose(
   withConfig,
   connect(
     mapStateToProps,
-    { sendMessage, endChatMessage }
+    { sendMessage, endChatMessage, chatOpened }
   ),
   mapProps
 )(ChatScreen);

@@ -344,6 +344,7 @@ export default produce(
     } else if (type === CHAT_SAVE_CHAT) {
       draft.chats[payload.id] = { ...emptyChat, data: payload };
       draft.activeChat = payload.id;
+      draft.chatAssigned = false;
     } else if (type === CHAT_INIT_CHATS) {
       payload.sort((a,b) => a.id - b.id).forEach((chat) => {
         const id = chat.id;
@@ -353,6 +354,9 @@ export default produce(
         );
         if (chat.status === 'open') {
           draft.activeChat = id;
+        }
+        if (chat.agent) {
+          draft.chatAssigned = true;
         }
       });
     } else if (
@@ -367,6 +371,9 @@ export default produce(
       if (payload.type === 'chat.ended' && payload.chat === draft.activeChat) {
         delete draft.activeChat;
       }
+      if (payload.type === 'chat.agentAssigned' && payload.chat === draft.activeChat) {
+        draft.chatAssigned = true;
+      }
     } else if (type === CHAT_HISTORY_LOADED) {
       const chatId = payload[0].chat || draft.activeChat;
       draft.chats[chatId].messages = payload.concat(
@@ -376,7 +383,7 @@ export default produce(
 
     return;
   },
-  { chats: {}, mute: false }
+  { chats: {}, mute: false, activeChat: null, chatAssigned: false }
 );
 //#endregion
 
@@ -400,4 +407,5 @@ export const getChatData = createSelector(getChat, (chat) => chat.data);
 export const getMessages = createSelector(getChat, (chat) => chat.messages);
 export const getTypingState = createSelector(getChat, (chat) => chat.typing);
 export const isMuted = createSelector(getChatState, (state) => state.mute);
+export const isChatAssigned = createSelector(getChatState, (state) => state.chatAssigned);
 //#endregion

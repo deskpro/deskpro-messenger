@@ -74,9 +74,11 @@ class Chat extends PureComponent {
   componentDidUpdate(prevProps) {
     const changedSize =
       prevProps.contentSize.height !== this.props.contentSize.height;
+    const lastPrevChat = prevProps.messages[prevProps.messages.length-1];
+    const lastCurrentChat = this.props.messages[this.props.messages.length-1];
     if (
       prevProps.messages.length !== this.props.messages.length ||
-      (prevProps.messages[prevProps.messages.length-1].id !== this.props.messages[this.props.messages.length-1].id) ||
+      (lastPrevChat && lastPrevChat.id !== lastCurrentChat.id) ||
       changedSize || prevProps.endChatBlock !== this.props.endChatBlock
     ) {
       this.scrollToBottom();
@@ -141,7 +143,7 @@ class Chat extends PureComponent {
             />
           )}
           {messages
-            .filter(m => m.id)
+            .filter(m => m.id || m.type !== 'chat.typing.start')
             .map((message, index) => {
               const key = message.uuid || `${message.type}-${index}`;
               switch (message.type) {
@@ -151,7 +153,7 @@ class Chat extends PureComponent {
                 case 'chat.agentUnassigned':
                   return null;
                 case 'chat.ended':
-                  return (
+                  return chat.assigned && (
                     <Fragment key={key}>
                       <SystemMessage
                         {...message}
