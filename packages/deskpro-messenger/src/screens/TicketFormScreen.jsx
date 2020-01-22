@@ -66,14 +66,15 @@ class TicketFormScreen extends React.Component {
         )}
         {!ticketSaved && (
           <TicketForm
-            errors={errors}
             initialValues={{ person: user }}
-            onSubmit={this.onSubmit}
             deskproLayout={immutableLayout}
+            departmentPropName="department"
             departments={fromJSGreedy(departments)}
             department={department}
             fileUploadUrl={uploadTo}
             csrfToken="not_used"
+            onSubmit={this.onSubmit}
+            errors={errors}
           />
         )}
         {ticketSaved && !ticketSaving && (

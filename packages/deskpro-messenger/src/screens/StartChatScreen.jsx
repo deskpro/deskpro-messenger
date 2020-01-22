@@ -90,11 +90,11 @@ class StartChatScreen extends PureComponent {
             <TicketForm
               initialValues={{ person: user }}
               deskproLayout={immutableLayout}
+              departmentPropName="chat_department"
               departments={fromJSGreedy(departments)}
+              department={department}
               fileUploadUrl={uploadTo}
               csrfToken="not_used"
-              departmentPropName="chat_department"
-              department={department}
               onSubmit={this.createChat}
             />
           ]
