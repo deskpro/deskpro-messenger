@@ -84,7 +84,7 @@ class StartChatScreen extends PureComponent {
       >
         {viewMode === 'form' && (
           [
-            formMessageEnabled && <div className="dpmsg-StartChatScreen-BrandMessage">
+            formMessageEnabled && <div className="dpmsg-StartChatScreen-FormMessage">
               { formMessage }
           </div>,
             <TicketForm
