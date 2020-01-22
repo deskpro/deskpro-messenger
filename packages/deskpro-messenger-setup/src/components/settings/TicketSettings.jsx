@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { Group, Heading, Input, Label, ListElement, Section, Select, Toggle, Icon } from '@deskpro/react-components';
+import { Radio, Group, Heading, Input, Label, ListElement, Section, Select, Toggle, Icon } from '@deskpro/react-components';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 class TicketSettings extends React.PureComponent {
@@ -18,6 +18,10 @@ class TicketSettings extends React.PureComponent {
   handleSelectChange = (option, name) => {
     const value = typeof option === 'object' ? option.value : option;
     this.props.handleChange(value, name);
+  };
+
+  handleRadioChange = (checked, value, name) => {
+    this.props.handleChange(value, name)
   };
 
   render() {
@@ -59,6 +63,22 @@ class TicketSettings extends React.PureComponent {
                 label="Department"
                 htmlFor="ms-tickets-default-department"
               >
+                <Radio
+                  checked={config.getIn(['tickets', 'departmentOption']) === 'choose'}
+                  name="tickets.departmentOption"
+                  onChange={this.handleRadioChange}
+                  value="choose"
+                >
+                  Selected by the user in the ticket form
+                </Radio>
+                <Radio
+                  checked={config.getIn(['tickets', 'departmentOption']) === 'hidden'}
+                  name="tickets.departmentOption"
+                  onChange={this.handleRadioChange}
+                  value="hidden"
+                >
+                  Set Department (removes from the ticket form)
+                </Radio>
                 <Select
                   options={ticketDepartments.toArray().map(dep => (
                     {
@@ -71,6 +91,12 @@ class TicketSettings extends React.PureComponent {
                   name="tickets.department"
                   id="ms-tickets-default-department"
                 />
+                {
+                  config.getIn(['tickets', 'departmentOption']) === 'choose' &&
+                  <span className="dp-ms-hint">
+                    Will be used as default selected department for a user, who can change it
+                  </span>
+                }
               </Group>
               <Group
                 label="Subject"
