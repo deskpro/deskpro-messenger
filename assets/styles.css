@@ -871,7 +871,8 @@
   margin-bottom: 5px;
   margin-bottom: var(--xxs-space);
   margin-top: 10px;
-  margin-top: var(--s-space)
+  margin-top: var(--s-space);
+  word-break: break-all
 }.dpmsg-BubbleItem.dpmsg-SameSender {
     margin-bottom: 5px;
     margin-bottom: var(--xxs-space);
@@ -906,7 +907,6 @@
   margin-bottom: var(--xs-space);
   margin-top: 17px;
   margin-top: var(--space);
-  text-align: center;
 }.dpmsg-BubbleNotification.is-left {
   text-align: left;
 }.dpmsg-BubbleNotification.is-right {
