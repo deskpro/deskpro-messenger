@@ -85,4 +85,5 @@ export default produce(
 export const getChatDepartments = (state) => state.info.chatDepartments;
 export const getTicketDepartments = (state) => state.info.ticketDepartments;
 export const hasAgentsAvailable = (state) => state.info.agents_online.length;
+export const getAgentsAvailable = (state) => state.info.agents;
 //#endregion
