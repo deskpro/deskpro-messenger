@@ -118,7 +118,7 @@ class Chat extends PureComponent {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: height >= maxHeight ? maxHeight - 87 : undefined
+          height: height >= maxHeight ? maxHeight - 110 : undefined
         }}
       >
         <ScrollArea
