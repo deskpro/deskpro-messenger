@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 class AvatarHeads extends React.PureComponent {
   static propTypes = {
-    agentsAvailable: PropTypes.array
+    agentsAvailable: PropTypes.object
   };
 
   static defaultProps = {
-    agentsAvailable: []
+    agentsAvailable: {}
   };
 
   render() {
@@ -18,7 +18,7 @@ class AvatarHeads extends React.PureComponent {
     return (
       <div className="dpmsg-AvatarHeadsList">
         {Object.values(agentsAvailable).map(agent => (
-          <div className="dpmsg-AvatarHeadsIcon">
+          <div className="dpmsg-AvatarHeadsIcon" key={agent.id}>
             <img src={agent.avatar} alt="" />
           </div>
         ))}

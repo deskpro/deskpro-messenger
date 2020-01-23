@@ -13,7 +13,7 @@ import AvatarHeads from '../components/ui/AvatarHeads';
 const transMessages = {
   startChatTitle: {
     id: 'blocks.start_chat.title',
-    defaultMessage: 'Conversations'
+    defaultMessage: 'Chat with us'
   },
   startChatLink: {
     id: 'blocks.start_chat.link',

@@ -35,7 +35,7 @@ const settings = {
     title: 'Get In Touch',
     subtext: '',
     chat: {
-      title: 'Start a conversation',
+      title: 'Chat with us',
       description: 'Start a chat with one of our agents',
       buttonText: 'Start a new conversation',
       showAgentPhotos: false,
