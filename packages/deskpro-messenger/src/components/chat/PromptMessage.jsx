@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import MessageBubble from './MessageBubble';
 import MessageForm from './MessageForm';
 import { withConfig } from '../core/ConfigContext';
+import BotBubble from './BotBubble';
 
 class PromptMessage extends PureComponent {
   static propTypes = {
@@ -21,7 +22,7 @@ class PromptMessage extends PureComponent {
 
     return (
       <Fragment>
-        {!!prompt && <MessageBubble origin="system" message={prompt} />}
+        {!!prompt && <BotBubble message={prompt} />}
         <MessageForm onSend={onSendMessage}/>
       </Fragment>
     );

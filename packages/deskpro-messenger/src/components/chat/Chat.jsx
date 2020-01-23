@@ -14,6 +14,7 @@ import SaveTicketBlock from './SaveTicketBlock';
 import CreateTicketBlock from './CreateTicketBlock';
 import { withScreenContentSize } from '../core/ScreenContent';
 import { withFrameContext } from '../core/Frame';
+import BotBubble from './BotBubble';
 
 const transMessages = {
   agentAssigned: {
@@ -134,8 +135,7 @@ class Chat extends PureComponent {
           ownerDocument={frameContext.document}
         >
           {!!chatConfig.prompt && (
-            <MessageBubble
-              origin="system"
+            <BotBubble
               message={intl.formatMessage({
                 id: 'chat.welcome_bubble.message',
                 defaultMessage: chatConfig.prompt
@@ -172,8 +172,7 @@ class Chat extends PureComponent {
                 case 'chat.noAgents':
                   return (
                     <div key={`no_agents_${message.uuid}`}>
-                      <SystemMessage
-                        {...message}
+                      <BotBubble
                         message={
                           chatConfig.busyMessage ||
                           intl.formatMessage(
@@ -195,7 +194,15 @@ class Chat extends PureComponent {
                       )}
                     </div>
                   );
-
+                case 'chat.userJoined':
+                case 'chat.userLeft':
+                  return (
+                    <SystemMessage
+                      key={key}
+                      {...message}
+                      message={intl.formatMessage(...createTrans(message))}
+                    />
+                  );
                 default: {
                   if (
                     message.origin === 'system' &&
@@ -203,9 +210,8 @@ class Chat extends PureComponent {
                     message.message.phrase_id
                   ) {
                     return (
-                      <SystemMessage
+                      <BotBubble
                         key={key}
-                        {...message}
                         message={intl.formatMessage(...createTrans(message))}
                       />
                     );

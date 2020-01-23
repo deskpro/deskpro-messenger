@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import asset from '../../utils/asset';
+import Isvg from 'react-inlinesvg';
 
 class MessageBubble extends React.Component {
 
@@ -41,11 +42,7 @@ class MessageBubble extends React.Component {
         })}
       >
         {(origin !== 'system' && this.isNotTheSameSender()) && (
-          <div
-            className={classNames('dpmsg-AvatarCol is-rounded', {
-              'is-rounded': origin === 'user'
-            })}
-          >
+          <div className="dpmsg-AvatarCol is-rounded">
             <img src={avatar || asset('img/docs/avatar-default.jpg')} alt={name} />
           </div>
         )}
