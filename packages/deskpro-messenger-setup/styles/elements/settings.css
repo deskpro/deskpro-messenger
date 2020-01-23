@@ -76,6 +76,11 @@
     background-color: white;
 }
 
+.dp-column-drawer .dp-ms-section .dp-ms-subheading_inner {
+    margin: 15px 0;
+    padding: 0;
+}
+
 .dp-ms-section {
     padding: 0 20px !important;
     margin: 5px 0 20px 0;

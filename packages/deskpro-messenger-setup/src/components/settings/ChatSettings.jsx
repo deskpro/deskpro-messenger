@@ -152,7 +152,7 @@ class ChatSettings extends React.PureComponent {
         className="dp-ms-chat_form_message"
           onChange={handleChange}
       />
-      <Subheading size={5}>Chat fields:</Subheading>
+      <Subheading size={5} className="dp-ms-subheading_inner">Chat fields:</Subheading>
       <div className="dp-ms-chat_field_wrapper">
         <div className="dp-ms-chat_field_enabled_wrapper">
           <Checkbox onChange={(checked, value, name) => handleChange(checked, name)} disabled={true} checked={config.getIn(['chat', 'preChatForm', 'isNameEnabled'])} name="chat.preChatForm.isNameEnabled">Name</Checkbox>
