@@ -33,7 +33,8 @@ const initVisitorEpic = (action$, _, { config, api, cache }) =>
               draft.visitor_id = visitorId;
               draft.guest = {
                 name: cache.getValue('guest.name') || _get(config, 'user.name'),
-                email: cache.getValue('guest.email') || _get(config, 'user.email')
+                email: cache.getValue('guest.email') || _get(config, 'user.email'),
+                avatar: cache.getValue('guest.avatar') || _get(config, 'user.avatar')
               };
             })
           )
@@ -45,7 +46,8 @@ const initVisitorEpic = (action$, _, { config, api, cache }) =>
           visitor_id: visitorId,
           guest: config.user || {
             name: null,
-            email: null
+            email: null,
+            avatar: null,
           }
         });
       }
@@ -64,9 +66,10 @@ const updateGuestEpic = (action$, _, { cache }) =>
     tap((action) => {
       cache.setValue('guest.name', action.payload.name);
       cache.setValue('guest.email', action.payload.email);
+      cache.setValue('guest.avatar', action.payload.avatar);
     }),
     map((action) =>
-      setVisitor({ guest: _pick(action.payload, ['name', 'email']) })
+      setVisitor({ guest: _pick(action.payload, ['name', 'email', 'avatar']) })
     )
   );
 
@@ -84,6 +87,7 @@ export default produce(
         if (_isPlainObject(payload.guest) && !_isEmpty(payload.guest)) {
           draft.name = payload.guest.name || draft.name;
           draft.email = payload.guest.email || draft.email;
+          draft.avatar = payload.guest.avatar || draft.avatar;
         }
         return;
 
@@ -98,7 +102,7 @@ export default produce(
 //#region SELECTORS
 const getGuestState = (state) => state.guest;
 export const getUserData = createSelector(getGuestState, (guest) =>
-  _pick(guest, ['name', 'email'])
+  _pick(guest, ['name', 'email', 'avatar'])
 );
 export const getVisitorId = createSelector(
   getGuestState,
@@ -106,6 +110,6 @@ export const getVisitorId = createSelector(
 );
 export const getUser = createSelector(
   getGuestState,
-  (guest) => Object.assign({}, { name: guest.name, email: guest.email } )
+  (guest) => Object.assign({}, { name: guest.name, email: guest.email, avatar: guest.avatar } )
 );
 //#endregion

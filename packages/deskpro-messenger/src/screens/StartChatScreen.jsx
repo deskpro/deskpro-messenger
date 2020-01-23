@@ -48,7 +48,8 @@ class StartChatScreen extends PureComponent {
     }
     createChat(postData, {
       fromScreen: screenName,
-      ...user,
+      name: user.name,
+      email: user.email,
       ...meta
     });
   };
@@ -62,7 +63,7 @@ class StartChatScreen extends PureComponent {
         type: 'chat.message',
         ...(typeof message === 'string' ? { message } : message)
       };
-      this.createChat({ chat_department: department, ...user }, { message: messageModel });
+      this.createChat({ chat_department: department, name: user.name, email: user.email }, { message: messageModel });
     }
   };
 

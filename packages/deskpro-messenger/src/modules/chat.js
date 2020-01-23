@@ -219,14 +219,19 @@ const sendMessagesEpic = (action$, _, { api, cache }) =>
           chat: chat.id,
           uuid: uuid()
         };
-        return [message, chat];
+        return {message, chat};
       }
       throw new Error('Cannot send a message to the undefined chat.');
     }),
     tap((args) => {
-      api.sendMessage(...args);
+      const { message, chat } = args;
+      api.sendMessage(message, chat);
     }),
-    map((args) => messageSent(...args))
+    map((args) => {
+      const { message, chat } = args;
+      message.avatar = cache.getValue('guest.avatar');
+      return messageSent({message, chat});
+    })
   );
 
 const sendEndChatEpic = (action$, _, { api }) =>
@@ -247,7 +252,7 @@ const sendEndChatEpic = (action$, _, { api }) =>
     tap((args) => {
       api.sendMessage(...args);
     }),
-    map((args) => messageSent(...args))
+    skip()
   );
 
 const soundEpic = (action$, state$) =>
