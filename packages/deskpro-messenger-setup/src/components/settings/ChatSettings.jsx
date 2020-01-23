@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
+import classNames from 'classnames';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { Group, Heading, Icon, Input, Label, ListElement, Section, Select, Textarea, Toggle, Checkbox, Subheading } from '@deskpro/react-components';
 import arrayMove from 'array-move';
@@ -251,7 +252,12 @@ class ChatSettings extends React.PureComponent {
               </Group>
             </Section>
             <Subheading size={4}>Pre-chat form</Subheading>
-            <Section className="dp-ms-section">
+            <Section
+              className={classNames(
+                    "dp-ms-section",
+                    { 'dp-ms-no-bottom-margin': config.getIn(['chat', 'preChatForm', 'enabled']) }
+              )}
+            >
               <Toggle
                 checked={config.getIn(['chat', 'preChatForm', 'enabled'])}
                 name="chat.preChatForm.enabled"
@@ -260,7 +266,10 @@ class ChatSettings extends React.PureComponent {
                 Ask information before chat commences
               </Toggle>
             </Section>
-            <Section className="dp-ms-section" hidden={!config.getIn(['chat', 'preChatForm', 'enabled'])}>
+            <Section
+              className="dp-ms-section dp-ms-no-top-margin"
+              hidden={!config.getIn(['chat', 'preChatForm', 'enabled'])}
+            >
               {this.renderPreChatForm()}
             </Section>
             <Subheading size={4}>Unanswered chat</Subheading>

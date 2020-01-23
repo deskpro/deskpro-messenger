@@ -76,6 +76,14 @@
     background-color: white;
 }
 
+.dp-ms-section.dp-ms-no-bottom-margin {
+    margin-bottom: 0;
+}
+
+.dp-ms-section.dp-ms-no-top-margin {
+    margin-top: 0;
+}
+
 .dp-column-drawer .dp-ms-section .dp-ms-subheading_inner {
     margin: 15px 0;
     padding: 0;
@@ -87,7 +95,7 @@
 }
 
 .dp-ms-hint {
-    padding: 10px;
+    padding: 5px 10px 10px 10px;
     font-size: 10px;
     color: #8b9293;
 }
