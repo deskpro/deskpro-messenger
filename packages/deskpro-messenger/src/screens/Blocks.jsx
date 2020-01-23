@@ -52,13 +52,21 @@ const blocksMapping = {
     }
     return (
       <Block title={title}>
-        {props.showAgentPhotos ? <AvatarHeads agentsAvailable={props.agentsAvailable} /> : null}
-        <div className="dpmsg-BlockText">
-          {description}
-        </div>
-        <Button to={`/screens/${to}`} width="full" color="primary">
-          {link}
-        </Button>
+        {props.showAgentPhotos && !activeChat ? <AvatarHeads agentsAvailable={props.agentsAvailable} /> : null}
+        {activeChat ?
+          null :
+          <div className="dpmsg-BlockText">
+            {description}
+          </div>}
+        {props.startWithInputField && !activeChat ?
+          <Button to={`/screens/${to}`} width="full" input>
+            {link}
+          </Button>
+          :
+          <Button to={`/screens/${to}`} width="full" color="primary">
+            {link}
+          </Button>
+        }
       </Block>
     )
   }),
