@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import asset from '../../utils/asset';
 import Isvg from 'react-inlinesvg';
-import classNames from 'classnames';
 
 class BotBubble extends React.Component {
 

@@ -140,6 +140,13 @@ class MessengerSettings extends React.Component {
             >
               Show agent profiles photos
             </Toggle>
+            <Toggle
+              name="messenger.chat.startWithInputField"
+              checked={config.getIn(['messenger', 'chat', 'startWithInputField'])}
+              onChange={handleChange}
+            >
+              Start conversation with an input field
+            </Toggle>
           </Section>
           <Subheading size={4}>Tickets options</Subheading>
           <Section className='dp-ms-section'>

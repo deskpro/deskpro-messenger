@@ -12,6 +12,7 @@ const Button = ({
   color = '',
   textOnly = false,
   rounded = false,
+  input = false,
   ...props
 }) =>
   React.createElement(
@@ -24,7 +25,8 @@ const Button = ({
         'Button--text': textOnly,
         [`Button--${size}`]: !!size,
         [`Button--${color}`]: !!color,
-        'Button--rounded': !!rounded
+        'Button--rounded': !!rounded,
+        'Button--input' : !!input,
       }),
       to,
       ...props

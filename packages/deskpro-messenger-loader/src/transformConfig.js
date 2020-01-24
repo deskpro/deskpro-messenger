@@ -21,6 +21,7 @@ export default (settings) => {
       description: chatBlockConfig.description,
       linkText: chatBlockConfig.buttonText || 'Start a chat',
       showAgentPhotos: chatBlockConfig.showAgentPhotos,
+      startWithInputField: chatBlockConfig.startWithInputField,
       to: 'startChat',
       order: 10
     });

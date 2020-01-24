@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'
 
-import MessageBubble from './MessageBubble';
 import MessageForm from './MessageForm';
 import { withConfig } from '../core/ConfigContext';
 import BotBubble from './BotBubble';

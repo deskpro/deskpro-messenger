@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import asset from '../../utils/asset';
-import Isvg from 'react-inlinesvg';
 
 class MessageBubble extends React.Component {
 
