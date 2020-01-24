@@ -275,8 +275,6 @@
   --p2: 8px;
   --p3: 7px;
 
-
-
   --xxl-space: 25px;
   --l-space: 20px;
   --space: 17px;
@@ -693,13 +691,13 @@
   }.dpmsg-StartChatScreen-FormMessage {
   color: #4c4f50;
   color: var(--grey-darkest);
+  display: block;
   font-family: Rubik, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: normal;
   line-height: 150%;
   margin: 25px 0;
-  display: block;
 }.dpmsg-Block {
   background-color: #fff;
   border: 1px solid #e0e0e0;
@@ -759,7 +757,7 @@
   overflow: hidden;
   width: 56px;
 }.dpmsg-AvatarHeadsIcon img {
-  max-width:  100%;
+  max-width: 100%;
 }.dpmsg-AvatarHeadsIcon:not(:first-child) {
   margin-left: -12px;
 }.dpmsg-AvatarHeadsIcon:first-child {
@@ -851,10 +849,16 @@
           flex: 0 0 35px;
   margin-top: 5px;
   margin-top: var(--xxs-space);
-}.dpmsg-AvatarCol img {
-  margin-top: 4px;
-  width: 27px;
-  height: 27px;
+}.dpmsg-AvatarCol img, .dpmsg-AvatarCol svg {
+  height: 32px;
+  width: 32px;
+  margin-top: 10px
+}.dpmsg-AvatarCol svg {
+  color: #3d88f3;
+  color: var(--color-primary);
+}.dpmsg-AvatarCol svg path {
+  fill: #3d88f3;
+  fill: var(--color-primary);
 }.dpmsg-BubbleCol {
   display: block;
   width: 100%
@@ -876,12 +880,12 @@
   display: block;
   font-size: 14px;
   font-size: var(--h1);
-  padding: 13px;
-  padding: var(--sm-space);
   margin-bottom: 5px;
   margin-bottom: var(--xxs-space);
   margin-top: 10px;
   margin-top: var(--s-space);
+  padding: 13px;
+  padding: var(--sm-space);
   word-break: break-all
 }.dpmsg-BubbleItem.dpmsg-SameSender {
     margin-bottom: 5px;
@@ -1829,7 +1833,33 @@
     color: var(--text-light)
   }.dpmsg-Button.Button--danger:hover { background: rgb(204, 90, 104); }.dpmsg-Button.Button--rounded {
     border-radius: 100px;
-  }.dpmsg-Button[disabled] {
+  }.dpmsg-Button.Button--input.Button-FullWidth {
+    background: #eff0f0;
+    background: var(--grey-lighter);
+    border: none;
+    border-radius: 3px 0 0 3px !important;
+    color: #8b9293;
+    color: var(--grey-dark);
+    cursor: text;
+    font-size: 16px;
+    position: relative;
+    text-align: left
+  }.dpmsg-Button.Button--input.Button-FullWidth::after {
+      background-color: #3d88f3;
+      background-color: var(--color-primary);
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 18L8.25003 26.925L29.25 18L8.25003 9.07501L12 18Z' stroke='white' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.25 18H12' stroke='white' stroke-width='1.5' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 80%;
+      border-radius: 0 3px 3px 0;
+      content: "";
+      display: inline-block;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 40px;
+    }.dpmsg-Button[disabled] {
     border-color: #d0dae2;
     cursor: not-allowed;
     opacity: 0.55;
