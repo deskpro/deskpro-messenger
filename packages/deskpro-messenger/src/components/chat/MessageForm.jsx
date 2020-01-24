@@ -13,6 +13,8 @@ import { withVisitorId } from '../../containers/withVisitorId';
 
 window.$ = window.jQuery = $;
 
+const PATH = '<path d="M12 18L8.25003 26.925L29.25 18L8.25003 9.07501L12 18Z" stroke="#4C4F50" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>\n<path d="M29.25 18H12" stroke="#4C4F50" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>';
+
 /**
  * Extends Froala editor.
  */
@@ -27,7 +29,7 @@ const extendFroala = () => {
     NAME: 'ImageUpload',
     template: 'dpmsg'
   });
-  $.FroalaEditor.DefineIcon('sendMessage', { NAME: 'Send', template: 'dpmsg' });
+  $.FroalaEditor.DefineIcon('sendMessage', { PATH: PATH, template: 'svg' });
 };
 
 class MessageForm extends PureComponent {
