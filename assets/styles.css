@@ -2014,7 +2014,7 @@
   --description-color: #5f768a;
   --valid-label: #4eba5c;
   --box-shadow-30: rgba(39, 41, 86, 0.3);
-  --option-background: var(--grey-lightest);
+  --option-background: #fff;
   --checkbox-border: var(--grey-light);
   --input-background: var(--grey-lightest);
   --input-border: var(--grey-light);
@@ -2258,8 +2258,8 @@
       font-size: 16px;
       padding: 10px;
       position: relative;
-      background-color: #f7f7f7;
-      background-color: #f7f7f7;
+      background-color: #fff;
+      background-color: #fff;
       background-color: var(--option-background);
     }.dp-pc_field .react-select__menu .react-select__option.react-select__option--is-focused {
         background-color: #a9b0b0;
@@ -2334,8 +2334,8 @@
       Multiple Dropdown
   *******************************/.dp-pc_field .react-select__control .react-select__value-container--is-multi .react-select__multi-value {
         line-height: 1.2;
-        background-color: #f7f7f7;
-        background-color: #f7f7f7;
+        background-color: #fff;
+        background-color: #fff;
         background-color: var(--option-background);
         color: #4c4f50;
         color: #4c4f50;
@@ -2703,13 +2703,14 @@
   }/******************************
       Date Picker
   *******************************/.dp-pc_field .dp-pc_date-picker {
-    width: calc(100% - 25px);
+    width: 100%;
     background-color: #f7f7f7;
     background-color: #f7f7f7;
     background-color: var(--input-background);
     border: 1.5px solid #d3d6d7;
     border: 1.5px solid #d3d6d7;
     border: 1.5px solid var(--input-border);
+    border-radius: 3px;
   }.dp-pc_field .dp-pc_date-picker input.dp-pc_date-picker_input {
       font-size: 18px;
       padding: 17px 12px;
