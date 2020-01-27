@@ -89,6 +89,9 @@ class MessageForm extends PureComponent {
       err.push(error.message);
     } else if (error && response) {
       err.push(error.message);
+      if(error.code === 3 || error.code === 4 || error.code === 5) {
+        err.push("Contact server administrator for more info.");
+      }
     } else {
       try {
         const { errors } = JSON.parse(response);
