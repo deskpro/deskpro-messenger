@@ -38,13 +38,19 @@ export default (settings) => {
               field_id: 'name',
               field_type: 'text',
               required: true,
-              placeholder: 'John Doe'
+              placeholder: 'John Doe',
+              data: {
+                'title': 'Name',
+              }
             },
             {
               field_id: 'email',
               field_type: 'email',
               required: true,
-              placeholder: 'john.doe@company.com'
+              placeholder: 'john.doe@company.com',
+              data: {
+                'title': 'Email',
+              }
             }
           ]
         }
