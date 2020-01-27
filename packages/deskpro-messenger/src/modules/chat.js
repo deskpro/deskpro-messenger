@@ -36,6 +36,9 @@ const sounds = _mapValues(
 );
 sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 
+const endedEvents = ['chat.ended', 'chat.waitTimeout', 'chat.userTimeout'];
+const isEndEvent = (payload) => -1 !== endedEvents.indexOf(payload.type);
+
 //#region ACTION TYPES
 export const CHAT_START = 'CHAT_START';
 export const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
@@ -202,7 +205,7 @@ const cacheNewChatEpic = (action$, _, { history, cache }) =>
 const deactivateChatEpic = (action$, _, { cache }) =>
   action$.pipe(
     ofType(CHAT_MESSAGE_RECEIVED),
-    filter(({ payload }) => payload.type === 'chat.ended'),
+    filter(({ payload }) => isEndEvent(payload)),
     tap(({ payload }) => {
       cache.setValue(['chats', ['id', payload.chat], 'status'], 'ended');
     }),
@@ -331,7 +334,7 @@ const chatReducer = produce((draft, { type, payload }) => {
         draft.messages.push(payload);
       }
       draft.typing = payload.origin === 'agent' ? undefined : draft.typing;
-      if (payload.type === 'chat.ended') {
+      if (isEndEvent(payload)) {
         draft.data.status = 'ended';
       }
       return;
@@ -373,7 +376,7 @@ export default produce(
           action
         );
       }
-      if (payload.type === 'chat.ended' && payload.chat === draft.activeChat) {
+      if (isEndEvent(payload) && payload.chat === draft.activeChat) {
         delete draft.activeChat;
       }
       if (payload.type === 'chat.agentAssigned' && payload.chat === draft.activeChat) {

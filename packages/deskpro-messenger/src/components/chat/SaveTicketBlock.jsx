@@ -9,12 +9,12 @@ import Button from '../form/Button';
 const transMessages = {
   header: {
     id: 'chat.save_ticket.question',
-    defaultMessage: 'Do you want to save a new ticket?'
+    defaultMessage: 'Would you like an agent to contact you?'
   },
   intro: {
     id: 'chat.save_ticket.intro',
     defaultMessage:
-      'Save your name and email address and one of our agents will get back to you as soon as possible.'
+      'Enter your name and your email address and one of our agents will get back to you as soon as possible.'
   },
   thanks: {
     id: 'chat.save_ticket.thanks',
