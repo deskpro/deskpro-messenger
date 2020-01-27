@@ -54,7 +54,7 @@ export class TranscriptBlock extends PureComponent {
     e.preventDefault();
     const { user } = this.props;
     if (user && user.email) {
-      this.setState({ viewMode: 'final' }, () => this.submit(user));
+      this.setState({ viewMode: 'final' }, () => this.submit(user, 1));
     } else {
       this.setState({ viewMode: 'fields' });
     }
@@ -62,7 +62,7 @@ export class TranscriptBlock extends PureComponent {
 
   handleNo = (e) => {
     e.preventDefault();
-    this.setState({ viewMode: 'hidden' });
+    this.setState({ viewMode: 'hidden' }, () => this.submit({}, 0));
   };
 
   handleInputChange = (e) => {
@@ -80,10 +80,11 @@ export class TranscriptBlock extends PureComponent {
     this.setState({ ...shape, errors });
   };
 
-  submit = ({ name, email }) => {
+  submit = ({ name, email }, transcript) => {
     this.props.onSend({
       type: 'chat.transcript',
       origin: 'user',
+      transcript,
       name,
       email
     });
@@ -93,7 +94,7 @@ export class TranscriptBlock extends PureComponent {
     e.preventDefault();
     const { name, email, errors} = this.state;
     if (name && email && !errors.email && !errors.name ) {
-      this.setState({ viewMode: 'final' }, () => this.submit(this.state));
+      this.setState({ viewMode: 'final' }, () => this.submit({name, email}, 1));
     }
   };
 
