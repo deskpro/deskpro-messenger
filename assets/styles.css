@@ -916,8 +916,6 @@
 }.is-incoming .dpmsg-AvatarCol {
   margin-right: 10px;
   margin-right: var(--s-space);
-  -webkit-box-ordinal-group: 2;
-          order: 1;
   text-align: right;
 }.dpmsg-BubbleNotification {
   color: #4c4f50;
