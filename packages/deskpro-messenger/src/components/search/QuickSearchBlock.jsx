@@ -43,9 +43,10 @@ class QuickSearchBlock extends React.Component {
         <div className="dpmsg-BlockWrapper">
           {!!title && <div className="dpmsg-BlockHeader">{title}</div>}
           <div className="dpmsg-QuickSearchControl">
-            <div>
+            <div className="dpmsg-QuickSearchControl--wrapper">
               <input className="dpmsg-QuickSearchControl--input" id="quickSearchInput" onChange={this.onChange} value={this.state.query} />
-              <label className="dpmsg-QuickSearchControl--label" htmlFor="quickSearchInput"><i className="fa fa-search" />
+              <label className="dpmsg-QuickSearchControl--label" htmlFor="quickSearchInput">
+                <i className="fa fa-search" />
                 <span aria-hidden={true}>Search</span>
               </label>
             </div>
