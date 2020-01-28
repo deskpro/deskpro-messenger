@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { Radio, Group, Heading, Input, Label, ListElement, Section, Select, Toggle, Icon } from '@deskpro/react-components';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import ChatSettings from './ChatSettings';
 
 class TicketSettings extends React.PureComponent {
   static propTypes = {
@@ -17,6 +18,13 @@ class TicketSettings extends React.PureComponent {
 
   handleSelectChange = (option, name) => {
     const value = typeof option === 'object' ? option.value : option;
+    this.props.handleChange(value, name);
+  };
+
+  handleTicketsToggleChange = (value, name)  => {
+    if(!value && this.props.config.getIn(['chat', 'noAnswerBehavior']) === 'create_ticket') {
+      this.props.handleChange('save_ticket', 'chat.noAnswerBehavior');
+    }
     this.props.handleChange(value, name);
   };
 
@@ -54,7 +62,7 @@ class TicketSettings extends React.PureComponent {
             <Toggle
               checked={config.getIn(['tickets', 'enabled'])}
               name="tickets.enabled"
-              onChange={handleChange}
+              onChange={this.handleTicketsToggleChange}
             >
               Enable new tickets
             </Toggle>
