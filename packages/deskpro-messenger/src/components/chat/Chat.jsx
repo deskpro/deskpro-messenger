@@ -192,7 +192,7 @@ class Chat extends PureComponent {
                         />
                       )}
                       {chatConfig.noAnswerBehavior === 'create_ticket' && (
-                        <CreateTicketBlock />
+                        <CreateTicketBlock chat={chat}/>
                       )}
                     </div>
                   );
@@ -222,7 +222,6 @@ class Chat extends PureComponent {
                 }
               }
           })}
-          <CreateTicketBlock chat={chat}/>
           {!!typing && <TypingMessage value={typing} />}
           {!!chat && chat.status !== 'ended' && endChatBlock && (
             <ChatEndBlock onCancelEnd={onCancelEndChat} onEnd={onEndChat} />
