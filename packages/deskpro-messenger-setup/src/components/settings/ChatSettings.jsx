@@ -200,6 +200,8 @@ class ChatSettings extends React.PureComponent {
       className: 'dp-column-drawer'
     };
 
+    this.noAnswerOptions[2].isDisabled = !config.getIn(['tickets', 'enabled']);
+
     return (
       <ListElement {...drawerProps}>
         <Heading onClick={onClick} className="dp-ms-section-header">
