@@ -900,13 +900,13 @@
   border: 2px solid #dce4eb;
   border: var(--border)
 }.is-incoming .dpmsg-BubbleItem.dpmsg-SameSender {
-    margin-left: 35px;
+    margin-left: 45px;
   }.is-outgoing .dpmsg-BubbleItem {
   background-color: #fff;
   border: 2px solid #b0c0cc;
   border: 2px solid var(--grey-300)
 }.is-outgoing .dpmsg-BubbleItem.dpmsg-SameSender {
-    margin-right: 35px;
+    margin-right: 45px;
   }.is-outgoing .dpmsg-AvatarCol {
   margin-left: 10px;
   margin-left: var(--s-space);
@@ -1455,7 +1455,9 @@
 }.dpmsg-QuickSearchControl {
   position: relative;
   width: calc(100% - 20px)
-}.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--input {
+}.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--wrapper {
+    position: relative;
+  }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--input {
     background: #fff;
     border: 1.5px solid #d3d6d7;
     border: 1.5px solid var(--grey-light);
