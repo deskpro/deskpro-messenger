@@ -222,7 +222,7 @@ class Chat extends PureComponent {
                 }
               }
           })}
-          <CreateTicketBlock />
+          <CreateTicketBlock chat={chat}/>
           {!!typing && <TypingMessage value={typing} />}
           {!!chat && chat.status !== 'ended' && endChatBlock && (
             <ChatEndBlock onCancelEnd={onCancelEndChat} onEnd={onEndChat} />

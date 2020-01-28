@@ -89,9 +89,9 @@ export const sendMessage = (message, chat) => ({
   payload: message,
   meta: { chat }
 });
-export const endChatMessage = (message, chat) => ({
+export const endChatMessage = (chat) => ({
   type: CHAT_SEND_END_CHAT,
-  payload: message,
+  payload: { origin: 'user', type: 'chat.end' },
   meta: { chat }
 });
 export const messageSent = (message, chat) => ({

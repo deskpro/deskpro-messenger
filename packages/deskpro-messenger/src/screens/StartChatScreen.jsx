@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
-
-// import Chat from '../components/chat/Chat';
 import Block from '../components/core/Block';
 import { createChat, sendMessage } from '../modules/chat';
 import { getUser,  } from '../modules/guest';
