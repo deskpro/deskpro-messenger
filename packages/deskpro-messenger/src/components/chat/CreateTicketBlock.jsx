@@ -21,7 +21,10 @@ const transMessages = {
 };
 
 const CreateTicketBlock = ({ intl }) => (
-  <ChatPrompt header={intl.formatMessage(transMessages.header)}>
+  <ChatPrompt
+    className="dpmsg-PromptLeftAligned"
+    icon='Email'
+    header={intl.formatMessage(transMessages.header)}>
     <div className="dpmsg-PromptText">
       <FormattedMessage {...transMessages.intro} />
       <Button to="/screens/newTicket" color="primary">
