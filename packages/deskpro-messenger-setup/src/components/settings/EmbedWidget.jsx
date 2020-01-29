@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Group, Subheading, Heading, Icon, ListElement, Section, Textarea, Toggle } from '@deskpro/react-components';
+import { Group, Subheading, Heading, Icon, ListElement, Section, Textarea, Toggle, Input } from '@deskpro/react-components';
 
 class EmbedWidget extends React.PureComponent {
   static propTypes = {
@@ -43,6 +43,18 @@ class EmbedWidget extends React.PureComponent {
               Show the widget on the portal. When disabled, the widget won't show on
               the helpdesk itself (i.e. it only shows on your own website).
             </Toggle>
+            <Group
+              label="JWT secret:"
+              htmlFor="ms-embed-jwt"
+            >
+              <Input
+                name="embed.jwtSecret"
+                id="ms-embed-jwt"
+                type="text"
+                value={config.getIn(['embed', 'jwtSecret'])}
+                onChange={handleChange}
+              />
+            </Group>
           </Section>
           <Subheading size={4}>Domain whitelist</Subheading>
           <Section className='dp-ms-section'>
