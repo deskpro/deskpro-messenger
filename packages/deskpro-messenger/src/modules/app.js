@@ -45,13 +45,13 @@ const autoOpenWindowEpic = (action$, _, { history, config }) =>
   action$.pipe(
     ofType(LOAD_APP_INFO_SUCCESS),
     delay(config.autoStart ? config.autoStartTimeout * 1000 : 0),
-    switchMap((payload) => {
-      // only for cases when we have no history (usually on start only), then history itself will work
-      if (history.location.pathname === '/') {
+    switchMap(() => {
+      // only for cases when we have no history (usually on start only)
+      if (history.location.pathname === config.entranceUrl && history.length < 3) {
         history.push(`/screens/${config.autoStart ? 'proactiveChat' : 'index'}`);
         return of(setWindowState(config.autoStart));
       } else {
-        return of(setWindowState(true));
+        return of(setWindowState(false));
       }
     })
   );
