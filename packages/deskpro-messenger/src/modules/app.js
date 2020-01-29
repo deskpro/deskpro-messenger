@@ -1,6 +1,6 @@
 import { ofType, combineEpics } from 'redux-observable';
 import { of } from 'rxjs';
-import { take, tap, skip, switchMap, delay } from 'rxjs/operators';
+import { take, takeUntil, tap, skip, switchMap, delay } from 'rxjs/operators';
 import _sample from 'lodash/sample';
 import { produce } from 'immer';
 
@@ -11,6 +11,7 @@ import { LOAD_APP_INFO_SUCCESS } from './info';
 export const APP_INIT = 'APP_INIT';
 export const APP_SHUTDOWN = 'APP_SHUTDOWN';
 export const TOGGLE_WINDOW = 'TOGGLE_WINDOW';
+export const WINDOW_CLOSED = 'WINDOW_CLOSED';
 export const OPEN_WINDOW_ONCE = 'OPEN_WINDOW_ONCE'; // will be handled just once
 export const SET_WINDOW_STATE = 'SET_WINDOW_STATE';
 //#endregion
@@ -20,6 +21,7 @@ export const appInit = () => ({ type: APP_INIT, payload: {} });
 export const appShutdown = () => ({ type: APP_SHUTDOWN, payload: {} });
 export const toggleWindow = () => ({ type: TOGGLE_WINDOW });
 export const openWindowOnce = () => ({ type: OPEN_WINDOW_ONCE });
+export const windowClosed = () => ({ type: WINDOW_CLOSED });
 export const setWindowState = (payload) => ({
   type: SET_WINDOW_STATE,
   payload
@@ -41,21 +43,29 @@ const startupRedirectEpic = (action$, _, { history, config }) =>
     }),
     skip()
   );
-const autoOpenWindowEpic = (action$, _, { history, config }) =>
+const autoOpenWindowEpic = (action$, _, { history, config, cache }) =>
   action$.pipe(
     ofType(LOAD_APP_INFO_SUCCESS),
     delay(config.autoStart ? config.autoStartTimeout * 1000 : 0),
     switchMap(() => {
       // only for cases when we have no history (usually on start only)
-      if (history.location.pathname === config.entranceUrl && history.length < 3) {
-        history.push(`/screens/${config.autoStart ? 'proactiveChat' : 'index'}`);
-        return of(setWindowState(config.autoStart));
+      if (config.autoStart && !cache.getValue('app.manuallyClosed', false)) {
+        history.push('/screens/proactiveChat');
+        return of(setWindowState(true));
       } else {
         return of(setWindowState(false));
       }
     })
   );
-export const appEpic = combineEpics(startupRedirectEpic, autoOpenWindowEpic);
+const toggleWindowEpic = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(WINDOW_CLOSED),
+    take(1),
+    tap(() => {
+      cache.setValue('app.manuallyClosed', true);
+    })
+  );
+export const appEpic = combineEpics(startupRedirectEpic, autoOpenWindowEpic, toggleWindowEpic);
 //#endregion
 
 //#region REDUCER
