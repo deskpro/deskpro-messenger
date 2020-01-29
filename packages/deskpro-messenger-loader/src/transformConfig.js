@@ -3,6 +3,10 @@ export default (settings) => {
     index: {
       screenType: 'Blocks',
       blocks: []
+    },
+    proactiveChat: {
+      screenType: 'Blocks',
+      blocks: []
     }
   };
 
@@ -15,7 +19,7 @@ export default (settings) => {
 
   if (settings.chat.enabled) {
     const chatBlockConfig = settings.messenger.chat;
-    screens.index.blocks.push({
+    const startChatBlock = {
       blockType: 'StartChatBlock',
       title: chatBlockConfig.title || 'Conversation',
       description: chatBlockConfig.description,
@@ -24,7 +28,9 @@ export default (settings) => {
       startWithInputField: chatBlockConfig.startWithInputField,
       to: 'startChat',
       order: 10
-    });
+    };
+    screens.index.blocks.push(startChatBlock);
+    screens.proactiveChat.blocks.push(startChatBlock);
     screens.startChat = settings.chat;
     screens.startChat.screenType = 'StartChatScreen';
     delete screens.startChat.enabled;
@@ -73,10 +79,6 @@ export default (settings) => {
     delete screens.newTicket.enabled;
   }
 
-  const enabledGreetings = [null];
-  if ('object' === typeof screens.startChat) {
-    enabledGreetings.push('/screens/startChat');
-  }
   return {
     autoStart: settings.messenger.autoStart,
     autoStartTimeout: settings.messenger.autoStartTimeout,
@@ -91,6 +93,5 @@ export default (settings) => {
       '--color-secondary': settings.styles.backgroundColor || '#f7f7f7'
     },
     greetings: {},
-    enabledGreetings
   };
 };
