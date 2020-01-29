@@ -105,15 +105,17 @@ class SaveTicketBlock extends PureComponent {
 
     return (
       <Fragment>
-        <p className="dpmsg-PromptText">
+        <div className="dpmsg-PromptText">
           <FormattedMessage {...transMessages.intro} />
-        </p>
-        <SaveTicketForm
-          uploadTo={uploadTo}
-          department={ticketParams.department}
-          formConfig={formConfig}
-          onSubmit={this.handleSubmit}
-        />
+        </div>
+        <div className="dpmsg-GroupInputs dpmsg-NoTopPadding">
+          <SaveTicketForm
+            uploadTo={uploadTo}
+            department={ticketParams.department}
+            formConfig={formConfig}
+            onSubmit={this.handleSubmit}
+          />
+        </div>
       </Fragment>
     );
   }
@@ -127,15 +129,17 @@ class SaveTicketBlock extends PureComponent {
     }
 
     return (
-      <ChatPrompt header={intl.formatMessage(transMessages.header)}>
-        <div className="dpmsg-GroupInputs">
-          {viewMode === 'ask' && this.renderFormOrQuestion()}
-          {viewMode === 'thanks' && (
-            <p className="dpmsg-PromptText">
-              <FormattedMessage {...transMessages.thanks} />
-            </p>
-          )}
-        </div>
+      <ChatPrompt
+        className="dpmsg-PromptLeftAligned"
+        header={intl.formatMessage(transMessages.header)}
+        icon='Headset'
+      >
+        {viewMode === 'ask' && this.renderFormOrQuestion()}
+        {viewMode === 'thanks' && (
+          <div className="dpmsg-PromptText">
+            <FormattedMessage {...transMessages.thanks} />
+          </div>
+        )}
       </ChatPrompt>
     );
   }

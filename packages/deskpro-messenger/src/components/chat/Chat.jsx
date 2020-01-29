@@ -222,6 +222,13 @@ class Chat extends PureComponent {
                 }
               }
           })}
+          <SaveTicketBlock
+            user={user}
+            uploadTo={chatConfig.uploadTo}
+            ticketParams={chatConfig.ticketDefaults}
+            formConfig={chatConfig.ticketFormConfig}
+            onSend={onSendMessage}
+          />
           {!!typing && <TypingMessage value={typing} />}
           {!!chat && chat.status !== 'ended' && endChatBlock && (
             <ChatEndBlock onCancelEnd={onCancelEndChat} onEnd={onEndChat} />
