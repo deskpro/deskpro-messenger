@@ -8,17 +8,21 @@ const pickChat = (chat) =>
 export default class ApiService {
   polling = false;
   _visitorId = null;
+  jwt = false;
 
   constructor(config = {}) {
-    this.apiClient = axios.create({
+    let clientConfig      = {
       baseURL: config.helpdeskURL,
       headers: {
         Accept: 'application/json',
         'Cache-Control': 'no-cache',
         'Content-Type': 'application/json; charset=utf-8',
-        'X-JWT-TOKEN': config.jwt
       }
-    });
+    };
+    if(config.jwt) {
+      clientConfig.headers['X-JWT-TOKEN'] = this.jwt = config.jwt;
+    }
+    this.apiClient = axios.create(clientConfig);
   }
 
   set visitorId(value) {
@@ -41,6 +45,9 @@ export default class ApiService {
    */
   async createChat(data) {
     const { department: chat_department, ...chatValues } = data;
+    if(this.jwt) {
+      chatValues.jwt = this.jwt;
+    }
     const response = await this.apiClient.post('/api/messenger/chat', chatValues);
 
     return pickChat(response.data.data);

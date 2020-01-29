@@ -25,22 +25,23 @@ const initVisitorEpic = (action$, _, { config, api, cache }) =>
   action$.pipe(
     ofType(APP_INIT),
     switchMap(() => {
-      const visitorId = cache.getValue('visitor_id');
-      if (visitorId) {
+      const visitorId = cache.getValue('visitor_id') || generateVisitorId();
+      if (cache.getValue('visitor_id') || config.jwt) {
         return from(api.loadUser(visitorId)).pipe(
           map((user) =>
             produce(user, (draft) => {
+              console.log(user);
               draft.visitor_id = visitorId;
               draft.guest = {
-                name: cache.getValue('guest.name') || _get(config, 'user.name'),
-                email: cache.getValue('guest.email') || _get(config, 'user.email'),
-                avatar: cache.getValue('guest.avatar') || _get(config, 'user.avatar')
+                name: user.name || cache.getValue('guest.name') || _get(config, 'user.name'),
+                email: user.email || cache.getValue('guest.email') || _get(config, 'user.email'),
+                avatar: cache.getValue('guest.avatar') || _get(config, 'user.avatar'),
+                personId: user.person_id || cache.getValue('guest.personId')
               };
             })
           )
         );
       } else {
-        const visitorId = generateVisitorId();
         api.visitorId = visitorId;
         return of({
           visitor_id: visitorId,
