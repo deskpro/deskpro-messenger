@@ -5,14 +5,20 @@ import asset from '../../utils/asset';
 
 class MessageBubble extends React.Component {
 
-  renderImage() {
+  renderFile() {
     const { message, meta } = this.props;
-    const regexp = `<a href="${meta.downloadUrl}" target="_blank">$1$2</a>`;
-    const newMessage = message.replace(/(<img.*?>)(<\/div>)/, regexp);
-    return <div
-      className="dpmsg-BubbleItem"
-      dangerouslySetInnerHTML={{ __html: newMessage }}
-    />
+    const newMessage = message.match(/<a href.*>(.*)<\/a>/);
+    return (
+      <div className={classNames("dpmsg-BubbleAttachment", {'dpmsg-SameSender': !this.isNotTheSameSender()})}>
+        <div className="dpmsg-BubbleAttachmentHeader">
+          <i className="dpmsg-Icon dpmsg-IconPaperclip" /> Attachment
+        </div>
+        <div className="dpmsg-BubbleAttachmentContent">
+          <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>{newMessage[1]} ({meta.filesize})</a>
+          {meta.isImage && <div><img alt={newMessage[1]} src={`${meta.downloadUrl}?s=50`} /></div>}
+        </div>
+      </div>
+    );
   }
 
   renderMessage() {
@@ -46,7 +52,7 @@ class MessageBubble extends React.Component {
           </div>
         )}
         <div className="dpmsg-BubbleCol">
-          {(meta && meta.type === 'file' && meta.isImage) ? this.renderImage() : this.renderMessage()}
+          {(meta && meta.type === 'file') ? this.renderFile() : this.renderMessage()}
         </div>
       </div>
     );
