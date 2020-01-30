@@ -2,6 +2,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import postcss from 'rollup-plugin-postcss';
+import image from '@rollup/plugin-image';
 import cssnext from 'postcss-cssnext';
 import simplevars from 'postcss-simple-vars';
 import postcssImport from 'postcss-import';
@@ -42,6 +43,7 @@ module.exports = [
       exports: 'named'
     },
     plugins: [
+      image(),
       postcss({
         parser:  false,
         plugins: [

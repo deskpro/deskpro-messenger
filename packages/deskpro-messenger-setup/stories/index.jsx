@@ -38,6 +38,7 @@ const settings = {
       title: 'Chat with us',
       description: 'Start a chat with one of our agents',
       buttonText: 'Start a new conversation',
+      inputPlaceholder: 'Type your message here',
       showAgentPhotos: false,
       startWithInputField: false,
     },
