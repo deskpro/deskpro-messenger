@@ -1,8 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
+import classNames from 'classnames';
+import avatarButton from '../../images/avatar-button.png';
+import avatarTextButton from '../../images/avatar-text-button.png';
+import avatarTextInput from '../../images/avatar-text-input.png';
+import avatarWidgetButton from '../../images/avatar-widget-button.png';
+import textButton from '../../images/text-button.png';
+import textInput from '../../images/text-input.png';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Group, Heading, Icon, Input, Label, ListElement, Section, Toggle, Subheading } from '@deskpro/react-components';
+import { Group, Heading, Icon, Input, Label, ListElement, Radio, Section, Toggle, Subheading } from '@deskpro/react-components';
 
 class MessengerSettings extends React.Component {
   static propTypes = {
@@ -21,8 +28,14 @@ class MessengerSettings extends React.Component {
     this.props.handleChange(value, name);
   };
 
+  handleRadioChange = (e) => {
+     this.props.handleChange(e.target.value, e.target.name)
+  };
+
   render() {
     const { config, handleChange, opened, onClick } = this.props;
+
+    const autoStartStyle = config.getIn(['messenger', 'autoStartStyle']);
     const drawerProps = {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
       className: 'dp-column-drawer'
@@ -68,8 +81,92 @@ class MessengerSettings extends React.Component {
             }
           </Section>
 
-          <Subheading size={4}>Greeting options</Subheading>
-          <Section className='dp-ms-section'>
+          <Subheading size={4}>Proactive Widget Style</Subheading>
+          <Section className='dp-ms-section dp-ms-widget-styles'>
+            <input
+              type="radio"
+              id="widget-style-avatar-text-button"
+              name="messenger.autoStartStyle"
+              value="avatar-text-button"
+              checked={autoStartStyle === 'avatar-text-button'}
+              onChange={this.handleRadioChange}
+            />
+            <label className='dp-ms-widget-style' htmlFor='widget-style-avatar-text-button'>
+              Agent avatar with text & button
+              <img src={avatarTextButton} alt="Avatar Text Button style preview"/>
+            </label>
+            <input
+              type="radio"
+              id="widget-style-avatar-text-input"
+              name="messenger.autoStartStyle"
+              value="avatar-text-input"
+              disabled={config.getIn(['chat', 'preChatForm', 'enabled'])}
+              checked={autoStartStyle === 'avatar-text-input'}
+              onChange={this.handleRadioChange}
+            />
+            <label className='dp-ms-widget-style' htmlFor='widget-style-avatar-text-input'>
+              Agent avatar with text & input
+              <img src={avatarTextInput} alt="Avatar Text Input style preview"/>
+            </label>
+            <input
+              type="radio"
+              id="widget-style-avatar-button"
+              name="messenger.autoStartStyle"
+              value="avatar-button"
+              checked={autoStartStyle === 'avatar-button'}
+              onChange={this.handleRadioChange}
+              // style={{ display: 'none' }}
+            />
+            <label className='dp-ms-widget-style' htmlFor='widget-style-avatar-button'>
+              Agent avatar with button
+              <img src={avatarButton} alt="Avatar Button style preview"/>
+            </label>
+            <input
+              type="radio"
+              id="widget-style-text-button"
+              name="messenger.autoStartStyle"
+              value="text-button"
+              checked={config.getIn(['messenger', 'autoStartStyle']) === 'text-button'}
+              onChange={this.handleRadioChange}
+              // style={{ display: 'none' }}
+            />
+            <label className='dp-ms-widget-style' htmlFor='widget-style-text-button'>
+              Text & button
+              <img src={textButton} alt="Text Button style preview"/>
+            </label>
+            <input
+              type="radio"
+              id="widget-style-text-input"
+              name="messenger.autoStartStyle"
+              value="text-input"
+              disabled={config.getIn(['chat', 'preChatForm', 'enabled'])}
+              checked={autoStartStyle === 'text-input'}
+              onChange={this.handleRadioChange}
+              // style={{ display: 'none' }}
+            />
+            <label className='dp-ms-widget-style' htmlFor='widget-style-text-input'>
+              Text & input
+              <img src={textInput} alt="Text Input style preview"/>
+            </label>
+            <input
+              type="radio"
+              id="widget-style-avatar-widget"
+              name="messenger.autoStartStyle"
+              value="avatar-widget"
+              checked={autoStartStyle === 'avatar-widget'}
+              onChange={this.handleRadioChange}
+              // style={{ display: 'none' }}
+            />
+            <label className='dp-ms-widget-style' htmlFor='widget-style-avatar-widget'>
+              Agent with widget button
+              <img src={avatarWidgetButton} alt="Avatar Widget Button style preview"/>
+            </label>
+          </Section>
+
+          <Subheading size={4} className={classNames({hidden: !autoStartStyle || autoStartStyle === 'avatar-widget'})}>
+            Greeting options
+          </Subheading>
+          <Section className='dp-ms-section' hidden={!autoStartStyle || autoStartStyle === 'avatar-widget'}>
             <Group
               label="Greeting title"
               htmlFor="ms-messenger-title"
@@ -82,18 +179,18 @@ class MessengerSettings extends React.Component {
                 onChange={handleChange}
               />
             </Group>
-            <Group
-              label="Greeting subtext"
-              htmlFor="ms-messenger-subtext"
-            >
-              <Input
-                id="ms-messenger-subtext"
-                type="text"
-                value={config.getIn(['messenger', 'subtext'])}
-                name="messenger.subtext"
-                onChange={handleChange}
-              />
-            </Group>
+            {/*<Group*/}
+            {/*  label="Greeting subtext"*/}
+            {/*  htmlFor="ms-messenger-subtext"*/}
+            {/*>*/}
+            {/*  <Input*/}
+            {/*    id="ms-messenger-subtext"*/}
+            {/*    type="text"*/}
+            {/*    value={config.getIn(['messenger', 'subtext'])}*/}
+            {/*    name="messenger.subtext"*/}
+            {/*    onChange={handleChange}*/}
+            {/*  />*/}
+            {/*</Group>*/}
           </Section>
           <Subheading size={4}>Chat options</Subheading>
           <Section className='dp-ms-section'>
@@ -112,6 +209,7 @@ class MessengerSettings extends React.Component {
             <Group
               label="Description"
               htmlFor="ms-messenger-chat-description"
+              className={classNames({hidden: !autoStartStyle || ['avatar-widget', 'avatar-button'].includes(autoStartStyle)})}
             >
               <Input
                 id="ms-messenger-chat-description"
@@ -124,6 +222,7 @@ class MessengerSettings extends React.Component {
             <Group
               label="Button text"
               htmlFor="ms-messenger-chat-button-text"
+              className={classNames({hidden: !autoStartStyle || autoStartStyle.indexOf('button') === -1})}
             >
               <Input
                 id="ms-messenger-chat-button-text"
@@ -133,20 +232,26 @@ class MessengerSettings extends React.Component {
                 onChange={handleChange}
               />
             </Group>
-            <Toggle
-              name="messenger.chat.showAgentPhotos"
-              checked={config.getIn(['messenger', 'chat', 'showAgentPhotos'])}
-              onChange={handleChange}
+            <Group
+              label="Input placeholder"
+              htmlFor="ms-messenger-chat-input-placeholder"
+              className={classNames({hidden: !autoStartStyle || autoStartStyle.indexOf('input') === -1})}
             >
-              Show agent profiles photos
-            </Toggle>
-            <Toggle
-              name="messenger.chat.startWithInputField"
-              checked={config.getIn(['messenger', 'chat', 'startWithInputField'])}
-              onChange={handleChange}
-            >
-              Start conversation with an input field
-            </Toggle>
+              <Input
+                id="ms-messenger-chat-input-placeholder"
+                type="text"
+                value={config.getIn(['messenger', 'chat', 'inputPlaceholder'])}
+                name="messenger.chat.inputPlaceholder"
+                onChange={handleChange}
+              />
+            </Group>
+            {/*<Toggle*/}
+            {/*  name="messenger.chat.showAgentPhotos"*/}
+            {/*  checked={config.getIn(['messenger', 'chat', 'showAgentPhotos'])}*/}
+            {/*  onChange={handleChange}*/}
+            {/*>*/}
+            {/*  Show agent profiles photos*/}
+            {/*</Toggle>*/}
           </Section>
           <Subheading size={4}>Tickets options</Subheading>
           <Section className='dp-ms-section'>

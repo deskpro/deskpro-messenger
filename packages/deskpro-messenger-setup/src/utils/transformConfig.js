@@ -13,6 +13,7 @@ export default (settings) => {
       title: chatBlockConfig.get('title', 'Conversation'),
       description: chatBlockConfig.get('description'),
       linkText: chatBlockConfig.get('buttonText', 'Start a chat'),
+      inputPlaceholder: chatBlockConfig.get('inputPlaceholder', 'Type your message here'),
       showAgentPhotos: chatBlockConfig.get('showAgentPhotos'),
       startWithInputField: chatBlockConfig.get('startWithInputField'),
       to: 'startChat'

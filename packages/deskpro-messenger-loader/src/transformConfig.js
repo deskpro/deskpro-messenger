@@ -24,6 +24,7 @@ export default (settings) => {
       title: chatBlockConfig.title || 'Conversation',
       description: chatBlockConfig.description,
       linkText: chatBlockConfig.buttonText || 'Start a chat',
+      inputPlaceholder: chatBlockConfig.inputPlaceholder || 'Type your message here',
       showAgentPhotos: chatBlockConfig.showAgentPhotos,
       startWithInputField: chatBlockConfig.startWithInputField,
       to: 'startChat',
@@ -82,6 +83,7 @@ export default (settings) => {
   return {
     autoStart: settings.messenger.autoStart,
     autoStartTimeout: settings.messenger.autoStartTimeout,
+    autoStartStyle: settings.messenger.autoStartStyle,
     maxFileSize: settings.messenger.maxFileSize,
     screens,
     themeVars: {

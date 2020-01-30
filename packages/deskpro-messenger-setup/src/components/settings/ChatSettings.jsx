@@ -97,11 +97,13 @@ class ChatSettings extends React.PureComponent {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
     chatDepartments: PropTypes.object,
-    ticketDepartments: PropTypes.object
+    ticketDepartments: PropTypes.object,
+    chatCustomFields: PropTypes.object,
   };
 
   static defaultProps = {
-    config: Immutable.fromJS({})
+    config: Immutable.fromJS({}),
+    chatCustomFields: Immutable.fromJS({}),
   };
 
   noAnswerOptions = [
