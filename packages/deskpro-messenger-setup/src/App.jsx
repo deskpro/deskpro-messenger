@@ -14,6 +14,7 @@ class App extends React.Component {
     chatDepartments: PropTypes.object,
     ticketDepartments: PropTypes.object,
     chatCustomFields: PropTypes.object,
+    usergroups: PropTypes.object,
   };
 
   render() {
@@ -22,7 +23,8 @@ class App extends React.Component {
       handleChange,
       chatDepartments,
       chatCustomFields,
-      ticketDepartments
+      ticketDepartments,
+      usergroups,
     } = this.props;
     return (
       <div id="dp-messenger-setup">
@@ -32,6 +34,7 @@ class App extends React.Component {
           chatDepartments={chatDepartments}
           ticketDepartments={ticketDepartments}
           chatCustomFields={chatCustomFields}
+          usergroups={usergroups}
         >
           <div className={"dp-ms-children"}>
             { this.props.children }

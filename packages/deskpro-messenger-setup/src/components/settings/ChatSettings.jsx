@@ -99,6 +99,7 @@ class ChatSettings extends React.PureComponent {
     chatDepartments: PropTypes.object,
     ticketDepartments: PropTypes.object,
     chatCustomFields: PropTypes.object,
+    usergroups: PropTypes.object
   };
 
   static defaultProps = {
@@ -121,6 +122,21 @@ class ChatSettings extends React.PureComponent {
 
   handleCheckboxChange = (checked, value, name) => {
     this.props.handleChange({id: value, enabled: checked}, name)
+  };
+
+  handleUsergroupChange = (checked, name) => {
+    const id = parseInt(name.split('.').slice(-1)[0], 10);
+    const { config, handleChange } = this.props;
+    let groups = config.getIn(['chat', 'usergroups']);
+    if(checked) {
+      if (config.getIn(['chat', 'usergroups']).indexOf(id) === -1) {
+        groups = groups.push(id)
+      }
+    } else {
+      groups = groups.filter(i => i !== id);
+    }
+
+    handleChange(groups, 'chat.usergroups');
   };
 
   ensureTimeoutIsPositive = (value, name) => {
@@ -188,6 +204,7 @@ class ChatSettings extends React.PureComponent {
       />
     </div>)
   }
+
   render() {
     const {
       config,
@@ -195,7 +212,8 @@ class ChatSettings extends React.PureComponent {
       chatDepartments,
       ticketDepartments,
       opened,
-      onClick
+      onClick,
+      usergroups
     } = this.props;
     const drawerProps = {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
@@ -254,6 +272,23 @@ class ChatSettings extends React.PureComponent {
                   onChange={handleChange}
                 />
               </Group>
+            </Section>
+            <Subheading size={4}>Provide the widget with usergroups can use the chat</Subheading>
+            <Section
+              className={classNames(
+                "dp-ms-section",
+              )}
+            >
+              {(usergroups.filter(u => u.get('is_enabled')).toArray() || []).map(u =>
+                <Toggle
+                  checked={config.getIn(['chat', 'usergroups'], new Immutable.List()).indexOf(u.get('id')) !== -1}
+                  key={`usergroup_${u.get('title')}`}
+                  name={`chat.usergroups.${u.get('id')}`}
+                  onChange={this.handleUsergroupChange}
+                >
+                  {u.get('title')}
+                </Toggle>
+              )}
             </Section>
             <Subheading size={4}>Pre-chat form</Subheading>
             <Section

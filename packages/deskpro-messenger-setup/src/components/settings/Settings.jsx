@@ -15,7 +15,8 @@ class Settings extends React.Component {
     handleChange: PropTypes.func.isRequired,
     chatDepartments: PropTypes.object,
     ticketDepartments: PropTypes.object,
-    chatCustomFields: PropTypes.object
+    chatCustomFields: PropTypes.object,
+    usergroups: PropTypes.object
   };
 
   static defaultProps = {
@@ -29,6 +30,7 @@ class Settings extends React.Component {
       chatDepartments,
       chatCustomFields,
       ticketDepartments,
+      usergroups,
     } = this.props;
 
     return (
@@ -50,6 +52,7 @@ class Settings extends React.Component {
             chatDepartments={chatDepartments}
             ticketDepartments={ticketDepartments}
             chatCustomFields={chatCustomFields}
+            usergroups={usergroups}
           />
           <MessengerSettings
             id="messenger"
