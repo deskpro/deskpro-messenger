@@ -50,7 +50,7 @@ class TicketFormScreen extends React.Component {
   render() {
     const { intl, formConfig, uploadTo, departments, department, ticketSaved, ticketSaving, errors, user } = this.props;
     const immutableLayout = fromJSGreedy(formConfig);
-
+    console.log(errors);
     return (
       <Block
         title={intl.formatMessage({
