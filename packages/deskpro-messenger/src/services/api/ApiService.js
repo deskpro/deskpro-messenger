@@ -150,6 +150,7 @@ export default class ApiService {
    * @param {object} values Ticket values.
    */
   async createTicket(values) {
+    values.attachments = values.attachments.map(a => ({ blob_auth: a.authcode }));
     return this.apiClient.post(`/api/messenger/ticket`, values);
   }
 
