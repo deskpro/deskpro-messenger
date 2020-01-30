@@ -1,7 +1,6 @@
-import { ofType, combineEpics } from 'redux-observable';
+import { combineEpics, ofType } from 'redux-observable';
 import { of } from 'rxjs';
-import { take, takeUntil, tap, skip, switchMap, delay } from 'rxjs/operators';
-import _sample from 'lodash/sample';
+import { delay, skip, switchMap, take, tap } from 'rxjs/operators';
 import { produce } from 'immer';
 
 import { SET_VISITOR } from './guest';

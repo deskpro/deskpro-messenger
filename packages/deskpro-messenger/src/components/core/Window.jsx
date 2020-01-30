@@ -96,7 +96,7 @@ class MessengerWindow extends PureComponent {
   };
 
   render() {
-    const { opened, intl, autoStart } = this.props;
+    const { opened, intl } = this.props;
 
     return (
       <Frame

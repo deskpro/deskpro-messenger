@@ -70,7 +70,16 @@ class StartChatScreen extends PureComponent {
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
     const initialValues = { ...user };
-    const immutableLayout = fromJSGreedy(preChatForm);
+    const correctedForm = preChatForm;
+    correctedForm[0].fields.forEach(f => {
+      if(f.field_id === 'name' && user.name) {
+        f.field_type = 'hidden';
+      }
+      if(f.field_id === 'email' && user.email) {
+        f.field_type = 'hidden';
+      }
+    });
+    const immutableLayout = fromJSGreedy(correctedForm);
 
     return (
       <Block

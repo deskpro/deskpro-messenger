@@ -30,7 +30,6 @@ const initVisitorEpic = (action$, _, { config, api, cache }) =>
         return from(api.loadUser(visitorId)).pipe(
           map((user) =>
             produce(user, (draft) => {
-              console.log(user);
               draft.visitor_id = visitorId;
               draft.guest = {
                 name: user.name || cache.getValue('guest.name') || _get(config, 'user.name'),
