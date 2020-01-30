@@ -123,7 +123,7 @@ class StartChatScreen extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => ({
-  user: getUser(state),
+  user:        getUser(state),
   departments: getChatDepartments(state, props)
 });
 

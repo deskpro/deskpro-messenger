@@ -40,6 +40,7 @@ export default produce(
   (draft, { type, payload }) => {
     switch (type) {
       case LOAD_APP_INFO_SUCCESS: {
+        draft.canUseChat = payload.canUseChat;
         draft.chatDepartments = payload.chat_departments.reduce(
           (acc, d) => ({ ...acc, [d.id]: d }),
           {}
@@ -86,4 +87,5 @@ export const getChatDepartments = (state) => state.info.chatDepartments;
 export const getTicketDepartments = (state) => state.info.ticketDepartments;
 export const hasAgentsAvailable = (state) => state.info.agents_online.length;
 export const getAgentsAvailable = (state) => state.info.agents;
+export const canUseChat = (state) => state.info.canUseChat;
 //#endregion

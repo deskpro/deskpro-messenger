@@ -6,7 +6,7 @@ import Block from '../components/core/Block';
 import QuickSearchBlock from '../components/search/QuickSearchBlock';
 import Button from '../components/form/Button';
 import { connect } from 'react-redux';
-import { getAgentsAvailable } from '../modules/info';
+import { getAgentsAvailable, canUseChat } from '../modules/info';
 import { getActiveChat } from '../modules/chat';
 import AvatarHeads from '../components/ui/AvatarHeads';
 
@@ -98,11 +98,11 @@ const blocksMapping = {
   ))
 };
 
-const Blocks = ({ blocks, agentsAvailable, activeChat }) => (
+const Blocks = ({ blocks, agentsAvailable, activeChat, chatAvailable }) => (
   <Fragment>
     {blocks.sort((blockA, blockB) => blockA.order - blockB.order).map(({ blockType, ...props }, index) => {
       if(blockType === 'StartChatBlock') {
-        if (!Object.keys(agentsAvailable).length) {
+        if (!Object.keys(agentsAvailable).length || !chatAvailable) {
           return null;
         }
         if (activeChat) {
@@ -119,4 +119,10 @@ const Blocks = ({ blocks, agentsAvailable, activeChat }) => (
   </Fragment>
 );
 
-export default connect((state) => ({ agentsAvailable: getAgentsAvailable(state), activeChat: getActiveChat(state) }))(Blocks);
+const mapStateToProps = (state) => ({
+  agentsAvailable: getAgentsAvailable(state),
+  activeChat:      getActiveChat(state),
+  chatAvailable:   canUseChat(state)
+});
+
+export default connect(mapStateToProps)(Blocks);

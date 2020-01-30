@@ -42,13 +42,13 @@ const startupRedirectEpic = (action$, _, { history, config }) =>
     }),
     skip()
   );
-const autoOpenWindowEpic = (action$, _, { history, config, cache }) =>
+const autoOpenWindowEpic = (action$, state$, { history, config, cache }) =>
   action$.pipe(
     ofType(LOAD_APP_INFO_SUCCESS),
     delay(config.autoStart ? config.autoStartTimeout * 1000 : 0),
-    switchMap(() => {
+    switchMap((payload) => {
       // only for cases when we have no history (usually on start only)
-      if (config.autoStart && !cache.getValue('app.manuallyClosed', false)) {
+      if (config.autoStart && !cache.getValue('app.manuallyClosed', false) && payload.canUseChat) {
         history.push('/screens/proactiveChat');
         return of(setWindowState(true));
       } else {

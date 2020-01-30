@@ -11,15 +11,13 @@ import { getTicketDepartments } from '../modules/info';
 import { getUser } from '../modules/guest';
 
 
-const mapStateToProps = (state, props) => {
-  return {
+const mapStateToProps = (state, props) => ({
     departments:  getTicketDepartments(state, props),
     ticketSaved:  getTicketSavedState(state),
     ticketSaving: getTicketSavingState(state),
     user:         getUser(state),
     errors:       getErrors(state)
-  };
-};
+});
 
 class TicketFormScreen extends React.Component {
   static propTypes = {
