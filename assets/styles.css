@@ -834,7 +834,7 @@
 }.dpmsg-PromptContentEvaluation [class*=dpmsg-IconSmile] {
   height: 32px;
   width: 32px;
-}.dpmsg-MessagePrompt .dpmsg-GroupInputs {
+}.dpmsg-MessagePrompt .dpmsg-GroupInputs.dpmsg-NoTopPadding {
   padding: 0 20px 13px;
   padding: 0 var(--l-space) var(--sm-space);
 }.dpmsg-PromptText {
@@ -1278,10 +1278,8 @@
     padding-left: 39px;
   }.dpmsg-GroupInputs {
   display: block;
-  padding-bottom: 13px;
-  padding-bottom: var(--sm-space);
-  padding-top: 13px;
-  padding-top: var(--sm-space);
+  padding: 13px 20px;
+  padding: var(--sm-space) var(--l-space);
 }.dpmsg-GroupInputs input {
   margin-bottom: 8px;
   margin-bottom: var(--xs-space);
