@@ -153,10 +153,6 @@ export default class ApiService {
     if(values.attachments) {
       values.attachments = values.attachments.map(a => ({ blob_auth: a.authcode }));
     }
-    values.person.email = values.person.user_email;
-    values.person.name = values.person.user_name;
-    delete values.person.user_name;
-    delete values.person.user_email;
     return this.apiClient.post(`/api/messenger/ticket`, values);
   }
 
