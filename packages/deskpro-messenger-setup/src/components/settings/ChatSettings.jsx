@@ -124,10 +124,27 @@ class ChatSettings extends React.PureComponent {
     this.props.handleChange({id: value, enabled: checked}, name)
   };
 
+  isUserGroupChecked = (usergroup) => {
+    const { config, usergroups } = this.props;
+    const everyoneUsergroup = usergroups.find(u => u.get('sys_name') === 'everyone');
+    const registeredUsergroup = usergroups.find(u => u.get('sys_name') === 'registered');
+
+    if(config.getIn(['chat', 'usergroups']).indexOf(everyoneUsergroup.get('id')) !== -1) {
+      return true;
+    }
+
+    if(usergroup.get('sys_name') !== 'everyone' && config.getIn(['chat', 'usergroups']).indexOf(registeredUsergroup.get('id')) !== -1) {
+      return true;
+    }
+
+    return config.getIn(['chat', 'usergroups'], new Immutable.List()).indexOf(usergroup.get('id')) !== -1
+  };
+
   handleUsergroupChange = (checked, name) => {
     const id = parseInt(name.split('.').slice(-1)[0], 10);
     const { config, handleChange } = this.props;
     let groups = config.getIn(['chat', 'usergroups']);
+
     if(checked) {
       if (config.getIn(['chat', 'usergroups']).indexOf(id) === -1) {
         groups = groups.push(id)
@@ -281,7 +298,7 @@ class ChatSettings extends React.PureComponent {
             >
               {(usergroups.filter(u => u.get('is_enabled')).toArray() || []).map(u =>
                 <Toggle
-                  checked={config.getIn(['chat', 'usergroups'], new Immutable.List()).indexOf(u.get('id')) !== -1}
+                  checked={this.isUserGroupChecked(u)}
                   key={`usergroup_${u.get('title')}`}
                   name={`chat.usergroups.${u.get('id')}`}
                   onChange={this.handleUsergroupChange}
