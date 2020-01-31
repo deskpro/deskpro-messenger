@@ -129,7 +129,7 @@ class ChatSettings extends React.PureComponent {
     const everyoneUsergroup = usergroups.find(u => u.get('sys_name') === 'everyone');
     const registeredUsergroup = usergroups.find(u => u.get('sys_name') === 'registered');
 
-    if(config.getIn(['chat', 'usergroups']).indexOf(everyoneUsergroup.get('id')) !== -1) {
+    if(config.getIn(['chat', 'usergroups'], new Immutable.List()).indexOf(everyoneUsergroup.get('id')) !== -1) {
       return true;
     }
 
