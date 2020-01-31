@@ -74,7 +74,7 @@ class Chat extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const changedSize =
-      prevProps.contentSize.height !== this.props.contentSize.height;
+      prevProps.contentSize.height < this.props.contentSize.height;
     const lastPrevChat = prevProps.messages[prevProps.messages.length-1];
     const lastCurrentChat = this.props.messages[this.props.messages.length-1];
     if (

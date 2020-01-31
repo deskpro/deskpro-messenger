@@ -71,16 +71,23 @@ class StartChatScreen extends PureComponent {
     const dept = department ? departments[department] : {};
     const initialValues = { ...user };
     const correctedForm = preChatForm;
+    let hiddenCount = 0;
     if(correctedForm.length > 0) {
       correctedForm[0].fields.forEach(f => {
         if(f.field_id === 'name' && user.name) {
           f.field_type = 'hidden';
+          hiddenCount++;
         }
         if(f.field_id === 'email' && user.email) {
           f.field_type = 'hidden';
+          hiddenCount++
+        }
+        if(f.field_type === 'department' && f.is_hidden) {
+          hiddenCount++
         }
       });
     }
+
     const immutableLayout = fromJSGreedy(correctedForm);
 
     return (
@@ -93,7 +100,7 @@ class StartChatScreen extends PureComponent {
           { department: dept.title }
         )}
       >
-        {viewMode === 'form' && (
+        {viewMode === 'form' && correctedForm[0].fields.length !== hiddenCount && (
           [
             formMessageEnabled && <div key="form_message" className="dpmsg-StartChatScreen-FormMessage">
               { formMessage }
@@ -111,7 +118,7 @@ class StartChatScreen extends PureComponent {
             />
           ]
         )}
-        {viewMode === 'prompt' && (
+        {(viewMode === 'prompt' || (viewMode === 'form' && correctedForm[0].fields.length === hiddenCount)) && (
           <PromptMessage
             prompt={this.promptMessage}
             onSendMessage={this.onSendMessage}
