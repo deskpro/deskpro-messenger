@@ -956,7 +956,7 @@
     margin-top: 5px;
     margin-top: var(--xxs-space);
   }.dpmsg-BubbleItem img {
-  max-width: 200px;
+  max-width: 250px;
 }.is-incoming .dpmsg-BubbleItem {
   background-color: #f8fafc;
   border: 2px solid #dce4eb;
