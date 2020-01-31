@@ -67,7 +67,7 @@ class Chat extends PureComponent {
   scrollArea = React.createRef();
 
   componentDidMount() {
-    if (this.props.messages.length && this.scrollArea.current) {
+    if (this.props.messages.length > 0 && this.scrollArea.current) {
       this.scrollToBottom();
     }
   }
