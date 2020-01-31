@@ -14,8 +14,9 @@ class MessageBubble extends React.Component {
           <i className="dpmsg-Icon dpmsg-IconPaperclip" /> Attachment
         </div>
         <div className="dpmsg-BubbleAttachmentContent">
-          <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>{newMessage[1]} ({meta.filesize})</a>
-          {meta.isImage && <div><img alt={newMessage[1]} src={`${meta.downloadUrl}?s=50`} /></div>}
+          <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>{newMessage[1]} ({meta.filesize})
+            {meta.isImage && <div><img alt={newMessage[1]} src={`${meta.downloadUrl}?s=50`} /></div>}
+          </a>
         </div>
       </div>
     );

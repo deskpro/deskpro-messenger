@@ -49,9 +49,10 @@ class MessageForm extends PureComponent {
   wrapperRef = React.createRef();
   froalaRef = React.createRef();
 
-  onFroalaInit = (_, editor) => {
+  onFroalaInit = (e, editor) => {
     this.editor = editor;
-    this.editor.events.focus();
+    editor.events.focus();
+    // editor.events.on('drop', this.onDrop.bind(null, e, editor), true);
     editor.events.on('keydown', this.handleKeydown, true);
   };
 
@@ -78,9 +79,31 @@ class MessageForm extends PureComponent {
     return e;
   };
 
+
+  beforeFileUpload = (event, files) => {
+    console.log(event, files);
+  };
+
   fileUploaded = (e, editor, response) => {
-    const { blob_id } = JSON.parse(response);
-    this.uploadedFiles.push(blob_id);
+    const { blob } = JSON.parse(response);
+
+    if (blob) {
+      this.props.onSend({
+        message: 'chat.attachment',
+        type: 'chat.attachment',
+        blob: blob,
+      });
+    }
+    editor.popups.hide('file.insert');
+
+    return false;
+  };
+
+  imageUploaded = (e, editor, response) => {
+    const { blob } = JSON.parse(response);
+    blob.is_inline_image = true;
+    this.uploadedFiles.push(blob);
+    editor.popups.hide('file.insert');
   };
 
   fileError = (event, editor, error, response) => {
@@ -103,7 +126,7 @@ class MessageForm extends PureComponent {
       }
     }
     if(err.length > 0) {
-      const $popup = editor.popups.get('file.insert') || editor.popups.get('file.insert');
+      const $popup = editor.popups.get('file.insert');
       const $layer = $popup.find('.fr-layer');
       $layer.find('h3').text(err.join(' '));
     }
@@ -120,7 +143,7 @@ class MessageForm extends PureComponent {
     fileUploadURL: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
     fileMaxSize: this.props.maxFileSize || (1024*1024*10),
     toolbarBottom: true,
-    toolbarButtons: ['sendMessage', 'emoticons', 'insertFile', 'insertImage'],
+    toolbarButtons: ['sendMessage', 'emoticons', 'insertFile'],
     imageEditButtons: [],
     shortcutsEnabled: ['bold', 'italic', 'underline'],
     enter: $.FroalaEditor.ENTER_BR,
@@ -131,7 +154,8 @@ class MessageForm extends PureComponent {
     events: {
       'froalaEditor.initialized': this.onFroalaInit,
       'froalaEditor.file.uploaded': this.fileUploaded,
-      'froalaEditor.image.uploaded': this.fileUploaded,
+      'froalaEditor.file.beforeUpload': this.beforeFileUpload,
+      'froalaEditor.image.uploaded': this.imageUploaded,
       'froalaEditor.file.error': this.fileError,
       'froalaEditor.image.error': this.fileError
     },
@@ -149,14 +173,15 @@ class MessageForm extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault && e.preventDefault();
-    if (this.state.message) {
+
+    const {message } = this.state;
+
+    if (message) {
       this.props.onSend({
-        message: this.state.message,
-        blobs: this.uploadedFiles
+        message,
+        blobs: this.uploadedFiles.map(blob => blob.id)
       });
-      this.setState({ message: '' }, () => {
-        this.uploadedFiles = [];
-      });
+      this.setState({ message: '' }, () => this.uploadedFiles = []);
     }
   };
 
