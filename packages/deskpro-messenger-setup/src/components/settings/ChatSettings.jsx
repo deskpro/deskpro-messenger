@@ -133,7 +133,7 @@ class ChatSettings extends React.PureComponent {
       return true;
     }
 
-    if(usergroup.get('sys_name') !== 'everyone' && config.getIn(['chat', 'usergroups']).indexOf(registeredUsergroup.get('id')) !== -1) {
+    if(usergroup.get('sys_name') !== 'everyone' && config.getIn(['chat', 'usergroups'], new Immutable.List()).indexOf(registeredUsergroup.get('id')) !== -1) {
       return true;
     }
 
