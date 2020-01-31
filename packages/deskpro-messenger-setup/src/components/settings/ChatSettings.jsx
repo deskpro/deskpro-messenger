@@ -125,28 +125,31 @@ class ChatSettings extends React.PureComponent {
   };
 
   isUserGroupChecked = (usergroup) => {
-    const { config, usergroups } = this.props;
-    const everyoneUsergroup = usergroups.find(u => u.get('sys_name') === 'everyone');
-    const registeredUsergroup = usergroups.find(u => u.get('sys_name') === 'registered');
-
-    if(config.getIn(['chat', 'usergroups'], new Immutable.List()).indexOf(everyoneUsergroup.get('id')) !== -1) {
-      return true;
-    }
-
-    if(usergroup.get('sys_name') !== 'everyone' && config.getIn(['chat', 'usergroups'], new Immutable.List()).indexOf(registeredUsergroup.get('id')) !== -1) {
-      return true;
-    }
-
+    const { config } = this.props;
     return config.getIn(['chat', 'usergroups'], new Immutable.List()).indexOf(usergroup.get('id')) !== -1
   };
 
   handleUsergroupChange = (checked, name) => {
     const id = parseInt(name.split('.').slice(-1)[0], 10);
-    const { config, handleChange } = this.props;
-    let groups = config.getIn(['chat', 'usergroups']);
+    const { config, handleChange, usergroups } = this.props;
+    let groups = config.getIn(['chat', 'usergroups'], new Immutable.List());
+    const everyone = usergroups.find(u => u.get('sys_name') === 'everyone');
+    const registered = usergroups.find(u => u.get('sys_name') === 'registered');
 
     if(checked) {
-      if (config.getIn(['chat', 'usergroups']).indexOf(id) === -1) {
+      if (id === everyone.get('id')) {
+        groups = new Immutable.List(usergroups
+          .map(u => u.get('id'))
+          .toArray()
+        )
+      } else if (id === registered.get('id')) {
+
+        groups = new Immutable.List(usergroups
+          .filter(u => groups.indexOf(everyone.get('id')) === -1 ? u.get('id') !== everyone.get('id') : true)
+          .map(u => u.get('id'))
+          .toArray()
+        )
+      } else if (groups.indexOf(id) === -1) {
         groups = groups.push(id)
       }
     } else {
