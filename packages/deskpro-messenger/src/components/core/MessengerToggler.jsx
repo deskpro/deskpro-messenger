@@ -22,7 +22,7 @@ class WidgetToggler extends PureComponent {
   static propTypes = {
     opened:                PropTypes.bool,
     chatSettings:          PropTypes.object,
-    chatEnabled:           PropTypes.object.isRequired,
+    chatEnabled:           PropTypes.bool.isRequired,
     autoStart:             PropTypes.bool,
     autoStartTimeout:      PropTypes.number,
     autoStartStyle:        PropTypes.string,
