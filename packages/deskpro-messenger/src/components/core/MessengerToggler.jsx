@@ -70,16 +70,15 @@ class WidgetToggler extends PureComponent {
   handleTogglerClick = (e) => {
     e.preventDefault();
 
-    const { opened, location, history, openWindowOnce, toggleWindow, proactiveChatClosed } = this.props;
+    const { opened, location, history, openWindowOnce, toggleWindow } = this.props;
 
     if (!opened) {
       openWindowOnce();
       if (!location.pathname.startsWith('/screens')) {
         history.push(`/screens/index`);
       }
-    } else {
-      proactiveChatClosed();
     }
+
     toggleWindow();
     setTimeout(this.recalcIframeHeight, 250);
   };
@@ -94,6 +93,7 @@ class WidgetToggler extends PureComponent {
   startChart = () => {
     this.props.history.push(`/screens/startChat`);
     this.props.toggleWindow();
+    this.props.proactiveWindowClosed();
     setTimeout(this.recalcIframeHeight, 250);
   };
 
