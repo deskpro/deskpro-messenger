@@ -40,7 +40,6 @@ const settings = {
       buttonText: 'Start a new conversation',
       inputPlaceholder: 'Type your message here',
       showAgentPhotos: false,
-      startWithInputField: false,
     },
     tickets: {
       title: 'Email Us',

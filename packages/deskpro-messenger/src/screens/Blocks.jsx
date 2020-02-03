@@ -15,6 +15,10 @@ const transMessages = {
     id: 'blocks.start_chat.title',
     defaultMessage: 'Chat with us'
   },
+  startChatDescription: {
+    id: 'blocks.start_chat.description',
+    defaultMessage: 'Need help? Just reply to start a live conversation with one of our team'
+  },
   startChatLink: {
     id: 'blocks.start_chat.link',
     defaultMessage: 'Start Chat'
@@ -48,7 +52,7 @@ const blocksMapping = {
     } else {
       link = intl.formatMessage(linkText ? { id: linkText, defaultMessage: linkText } : transMessages.startChatLink, props);
       title = props.title || intl.formatMessage(transMessages.startChatTitle);
-      description = props.description || intl.formatMessage(transMessages.startChatTitle);
+      description = props.description || intl.formatMessage(transMessages.startChatDescription);
     }
     return (
       <Block title={title}>
@@ -58,15 +62,9 @@ const blocksMapping = {
           <div className="dpmsg-BlockText">
             {description}
           </div>}
-        {props.startWithInputField && !activeChat ?
-          <Button to={`/screens/${to}`} width="full" input>
-            {link}
-          </Button>
-          :
-          <Button to={`/screens/${to}`} width="full" color="primary">
-            {link}
-          </Button>
-        }
+        <Button to={`/screens/${to}`} width="full" color="primary">
+          {link}
+        </Button>
       </Block>
     )
   }),

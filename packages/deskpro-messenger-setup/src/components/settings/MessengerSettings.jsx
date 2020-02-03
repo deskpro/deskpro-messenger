@@ -179,20 +179,8 @@ class MessengerSettings extends React.Component {
                 onChange={handleChange}
               />
             </Group>
-            {/*<Group*/}
-            {/*  label="Greeting subtext"*/}
-            {/*  htmlFor="ms-messenger-subtext"*/}
-            {/*>*/}
-            {/*  <Input*/}
-            {/*    id="ms-messenger-subtext"*/}
-            {/*    type="text"*/}
-            {/*    value={config.getIn(['messenger', 'subtext'])}*/}
-            {/*    name="messenger.subtext"*/}
-            {/*    onChange={handleChange}*/}
-            {/*  />*/}
-            {/*</Group>*/}
           </Section>
-          <Subheading size={4}>Chat options</Subheading>
+          <Subheading size={4}>Options</Subheading>
           <Section className='dp-ms-section'>
             <Group
               label="Title"
@@ -242,52 +230,6 @@ class MessengerSettings extends React.Component {
                 type="text"
                 value={config.getIn(['messenger', 'chat', 'inputPlaceholder'])}
                 name="messenger.chat.inputPlaceholder"
-                onChange={handleChange}
-              />
-            </Group>
-            {/*<Toggle*/}
-            {/*  name="messenger.chat.showAgentPhotos"*/}
-            {/*  checked={config.getIn(['messenger', 'chat', 'showAgentPhotos'])}*/}
-            {/*  onChange={handleChange}*/}
-            {/*>*/}
-            {/*  Show agent profiles photos*/}
-            {/*</Toggle>*/}
-          </Section>
-          <Subheading size={4}>Tickets options</Subheading>
-          <Section className='dp-ms-section'>
-            <Group
-              label="Title"
-              htmlFor="ms-messenger-tickets-title"
-            >
-              <Input
-                id="ms-messenger-tickets-title"
-                type="text"
-                value={config.getIn(['messenger', 'tickets', 'title'])}
-                name="messenger.tickets.title"
-                onChange={handleChange}
-              />
-            </Group>
-            <Group
-              label="Description"
-              htmlFor="ms-messenger-tickets-description"
-            >
-              <Input
-                id="ms-messenger-tickets-description"
-                type="text"
-                value={config.getIn(['messenger', 'tickets', 'description'])}
-                name="messenger.tickets.description"
-                onChange={handleChange}
-              />
-            </Group>
-            <Group
-              label="Button text"
-              htmlFor="ms-messenger-tickets-button-text"
-            >
-              <Input
-                id="ms-messenger-tickets-button-text"
-                type="text"
-                value={config.getIn(['messenger', 'tickets', 'buttonText'])}
-                name="messenger.tickets.buttonText"
                 onChange={handleChange}
               />
             </Group>

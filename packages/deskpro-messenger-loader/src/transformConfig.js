@@ -26,7 +26,6 @@ export default (settings) => {
       linkText: chatBlockConfig.buttonText || 'Start a chat',
       inputPlaceholder: chatBlockConfig.inputPlaceholder || 'Type your message here',
       showAgentPhotos: chatBlockConfig.showAgentPhotos,
-      startWithInputField: chatBlockConfig.startWithInputField,
       to: 'startChat',
       order: 10
     };
