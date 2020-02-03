@@ -80,14 +80,14 @@ class AutoStart extends PureComponent {
   };
 
   renderAvatarWidget() {
-    const { intl, agentsAvailable, startChat } = this.props;
+    const { agentsAvailable, startChat, screens } = this.props;
 
     const agent = Object.values(agentsAvailable).pop();
-    const title = intl.formatMessage(transMessages.startChatTitle);
+    const proactiveSettings = screens.proactive;
     return (
       <button className='dpmsg-AutoStart-widget' onClick={startChat}>
         <div className='dpmsg-AutoStart-widget-text'>
-          {title}
+          {proactiveSettings.title}
         </div>
         <div className="dpmsg-AutoStart-widget-avatar" key={agent.id}>
           <img src={agent.avatar} alt=""/>
