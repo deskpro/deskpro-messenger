@@ -22,7 +22,7 @@ class WidgetToggler extends PureComponent {
   static propTypes = {
     opened:                PropTypes.bool,
     chatSettings:          PropTypes.object,
-    chatEnabled:           PropTypes.object.isRequired,
+    chatEnabled:           PropTypes.bool.isRequired,
     autoStart:             PropTypes.bool,
     autoStartTimeout:      PropTypes.number,
     autoStartStyle:        PropTypes.string,
@@ -118,13 +118,13 @@ class WidgetToggler extends PureComponent {
   canAutoStart = () => {
     const { autoStart, opened, canUseChat, agentsAvailable, chatEnabled } = this.props;
 
-    return !(
-      !chatEnabled ||
-      cache.getValue('app.proactiveWindowClosed', false) ||
-      opened ||
-      !autoStart ||
-      !canUseChat ||
-      Object.keys(agentsAvailable).length < 1
+    return (
+      chatEnabled &&
+      !cache.getValue('app.proactiveWindowClosed', false) &&
+      !opened &&
+      autoStart &&
+      canUseChat &&
+      Object.keys(agentsAvailable).length > 0
     );
 
   };
@@ -177,9 +177,12 @@ class WidgetToggler extends PureComponent {
       [themeVars.position === 'left' ? 'left' : 'right']: '14px'
     };
 
-    if (this.canAutoStart()) {
+    if (this.canAutoStart() && this.state.canRenderAutoStart) {
       iframeStyle.height = this.state.iframeHeight;
       iframeStyle.width  = '400px';
+    } else {
+      iframeStyle.height = '60px';
+      iframeStyle.width  = '60px';
     }
     return (
       <Frame
