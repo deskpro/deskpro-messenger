@@ -41,11 +41,17 @@ class Input extends PureComponent {
     onChange:    PropTypes.func.isRequired
   };
 
+  handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      this.props.onClick();
+    }
+  };
+
   render() {
     const { placeholder, value, onClick, onChange } = this.props;
     return (
       <div className='dpmsg-AutoStart-input'>
-        <input type='text' placeholder={placeholder} onChange={onChange} value={value}/>
+        <input type='text' placeholder={placeholder} onKeyDown={this.handleKeyDown} onChange={onChange} value={value}/>
         <button onClick={onClick}/>
       </div>
     )
@@ -115,7 +121,7 @@ class AutoStart extends PureComponent {
           </div>
           {autoStartStyle.indexOf('input') !== -1 ?
             <Input
-              onClick={startChat}
+              onClick={() => startChat(this.state.message)}
               width="full"
               color="primary"
               placeholder={proactiveSettings.inputPlaceholder}
