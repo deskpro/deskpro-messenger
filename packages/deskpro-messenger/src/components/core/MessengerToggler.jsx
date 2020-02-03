@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { canUseChat, getAgentsAvailable } from "../../modules/info";
+import { getUser } from '../../modules/guest';
+import { createChat } from '../../modules/chat';
 import Frame from './Frame';
 import { isWindowOpened, toggleWindow, openWindowOnce, proactiveWindowClosed } from '../../modules/app';
 import { ConfigConsumer } from './ConfigContext';
@@ -19,10 +21,13 @@ const iframeStyle = {
 class WidgetToggler extends PureComponent {
   static propTypes = {
     opened:                PropTypes.bool,
+    chatSettings:          PropTypes.object,
+    chatEnabled:           PropTypes.object.isRequired,
     autoStart:             PropTypes.bool,
     autoStartTimeout:      PropTypes.number,
     autoStartStyle:        PropTypes.string,
     screens:               PropTypes.object,
+    user:                  PropTypes.object,
     toggleWindow:          PropTypes.func.isRequired,
     openWindowOnce:        PropTypes.func.isRequired,
     proactiveWindowClosed: PropTypes.func.isRequired,
@@ -33,6 +38,11 @@ class WidgetToggler extends PureComponent {
       push: PropTypes.func.isRequired
     }).isRequired
   };
+
+  static defaultProps = {
+    chatSettings: {}
+  };
+
   state            = {
     iframeHeight:       '60px',
     canRenderAutoStart: false,
@@ -52,9 +62,9 @@ class WidgetToggler extends PureComponent {
   };
 
   componentDidMount() {
-    const { autoStart, autoStartTimeout } = this.props;
+    const { chatEnabled, autoStart, autoStartTimeout } = this.props;
 
-    if (autoStart) {
+    if (chatEnabled && autoStart) {
       if (autoStartTimeout) {
         setTimeout(() => this.setState({ canRenderAutoStart: true }), autoStartTimeout * 1000)
       } else {
@@ -92,26 +102,55 @@ class WidgetToggler extends PureComponent {
     setTimeout(this.recalcIframeHeight, 250);
   };
 
-  startChart = () => {
-    this.props.history.push(`/screens/startChat`);
-    this.props.toggleWindow();
+  startChat = (message = '') => {
+    if(message) {
+      this.sendCreateChat(message);
+    } else {
+      this.props.history.push(`/screens/startChat`);
+      this.props.toggleWindow();
+    }
+
     this.props.proactiveWindowClosed();
+
     setTimeout(this.recalcIframeHeight, 250);
   };
 
   canAutoStart = () => {
-    const { autoStart, opened, canUseChat, agentsAvailable } = this.props;
+    const { autoStart, opened, canUseChat, agentsAvailable, chatEnabled } = this.props;
 
-    return !(cache.getValue('app.proactiveWindowClosed', false) ||
+    return !(
+      !chatEnabled ||
+      cache.getValue('app.proactiveWindowClosed', false) ||
       opened ||
       !autoStart ||
       !canUseChat ||
-      Object.keys(agentsAvailable).length < 1);
+      Object.keys(agentsAvailable).length < 1
+    );
 
-  }
+  };
+
+  sendCreateChat = (message) => {
+    const { createChat, chatSettings: { department }, user } = this.props;
+    const values = { chat_department: department, name: user.name, email: user.email };
+    const meta = {
+      message: {
+        origin: 'user',
+        type: 'chat.message',
+        ...{ message }
+      }
+    };
+
+    createChat(values, {
+      fromScreen: 'startChat',
+      name: user.name,
+      email: user.email,
+      ...meta
+    });
+  };
+
 
   renderAutoStart() {
-    const { autoStart, opened, autoStartStyle, canUseChat, agentsAvailable, screens } = this.props;
+    const { autoStartStyle, screens } = this.props;
 
     if (!this.canAutoStart()) {
       return null;
@@ -124,15 +163,15 @@ class WidgetToggler extends PureComponent {
         <AutoStart
           onClose={this.onProactiveClose}
           autoStartStyle={autoStartStyle}
-          startChat={this.startChart}
           screens={screens}
+          startChat={this.startChat}
         />
       </div>
     );
   }
 
   render() {
-    const { opened, themeVars, autoStart, autoStartStyle } = this.props;
+    const { opened, themeVars, autoStartStyle } = this.props;
 
     const style = {
       [themeVars.position === 'left' ? 'left' : 'right']: '14px'
@@ -172,6 +211,8 @@ const WidgetTogglerWithStyles = (props) => (
   <ConfigConsumer>
     {({ themeVars, autoStart, autoStartTimeout, autoStartStyle, screens }) =>
       <WidgetToggler
+        chatEnabled={!!screens.startChat}
+        chatSettings={screens.startChat}
         themeVars={themeVars}
         autoStart={autoStart}
         autoStartTimeout={autoStartTimeout}
@@ -186,9 +227,10 @@ const mapStateToProps = (state) => ({
   opened:          isWindowOpened(state),
   agentsAvailable: getAgentsAvailable(state),
   canUseChat:      canUseChat(state),
+  user:            getUser(state),
 });
 
 export default connect(
   mapStateToProps,
-  { toggleWindow, openWindowOnce, proactiveWindowClosed }
+  { toggleWindow, openWindowOnce, proactiveWindowClosed, createChat }
 )(WidgetTogglerWithStyles);

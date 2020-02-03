@@ -33,11 +33,19 @@ const transMessages = {
 };
 
 class Input extends PureComponent {
+
+  static propTypes = {
+    placeholder: PropTypes.string.isRequired,
+    value:       PropTypes.string.isRequired,
+    onClick:     PropTypes.func.isRequired,
+    onChange:    PropTypes.func.isRequired
+  };
+
   render() {
-    const { placeholder, onClick } = this.props;
+    const { placeholder, value, onClick, onChange } = this.props;
     return (
       <div className='dpmsg-AutoStart-input'>
-        <input type='text' placeholder={placeholder}/>
+        <input type='text' placeholder={placeholder} onChange={onChange} value={value}/>
         <button onClick={onClick}/>
       </div>
     )
@@ -51,6 +59,18 @@ class AutoStart extends PureComponent {
     agentsAvailable: PropTypes.object.isRequired,
     startChat:       PropTypes.func.isRequired,
     autoStartStyle:  PropTypes.string.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: ''
+    };
+  }
+
+
+  onInputChange = (e) => {
+    this.setState({ message: e.target.value });
   };
 
   renderToolbar = () => {
@@ -77,7 +97,7 @@ class AutoStart extends PureComponent {
   };
 
   render() {
-    const { intl, autoStartStyle, startChat, screens } = this.props;
+    const { autoStartStyle, startChat, screens } = this.props;
 
     const proactiveSettings = screens.proactive;
     if (autoStartStyle === 'avatar-widget') {
@@ -94,7 +114,14 @@ class AutoStart extends PureComponent {
             {proactiveSettings.description}
           </div>
           {autoStartStyle.indexOf('input') !== -1 ?
-            <Input onClick={startChat} width="full" color="primary" placeholder={proactiveSettings.inputPlaceholder}/> :
+            <Input
+              onClick={startChat}
+              width="full"
+              color="primary"
+              placeholder={proactiveSettings.inputPlaceholder}
+              value={this.state.message}
+              onChange={this.onInputChange}
+            /> :
             <Button onClick={startChat} width="full" color="primary">
               {proactiveSettings.buttonText}
             </Button>

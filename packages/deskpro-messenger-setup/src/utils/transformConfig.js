@@ -7,7 +7,7 @@ export default (settings) => {
   };
 
   if (settings.getIn(['chat', 'enabled'])) {
-    const chatBlockConfig = settings.getIn(['messenger', 'chat']);
+    const chatBlockConfig = settings.getIn(['messenger', 'proactive']);
     screens.index.blocks.push({
       blockType: 'StartChatBlock',
       title: chatBlockConfig.get('title', 'Conversation'),

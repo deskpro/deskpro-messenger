@@ -14,7 +14,7 @@ export default (settings) => {
   });
 
   if (settings.chat.enabled) {
-    const chatBlockConfig = settings.messenger.chat;
+    const chatBlockConfig = settings.messenger.proactive;
     const startChatBlock = {
       blockType: 'StartChatBlock',
       title: chatBlockConfig.title || 'Conversation',
