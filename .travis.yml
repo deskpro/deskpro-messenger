@@ -1,6 +1,11 @@
 language: node_js
 node_js:
   - '8'
+before_install:
+  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > packages/deskpro-messenger/.npmrc
+  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > packages/deskpro-messenger-loader/.npmrc
+  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > packages/deskpro-messenger-setup/.npmrc
 cache:
   directories:
     - packages/deskpro-messenger/node_modules
@@ -20,3 +25,8 @@ deploy:
     local-dir: packages/deskpro-messenger/storybook-static
     on:
       branch: master
+  - provider: script
+    skip_cleanup: true
+    script: npm run publish-npm -- $(node bin/lerna-version.js)
+    on:
+      tags: true
