@@ -1,27 +1,26 @@
 import { combineEpics, ofType } from 'redux-observable';
-import { of } from 'rxjs';
-import { delay, skip, switchMap, take, tap } from 'rxjs/operators';
+import { skip, take, tap } from 'rxjs/operators';
 import { produce } from 'immer';
 
 import { SET_VISITOR } from './guest';
-import { LOAD_APP_INFO_SUCCESS } from './info';
+
 
 //#region ACTION TYPES
-export const APP_INIT = 'APP_INIT';
-export const APP_SHUTDOWN = 'APP_SHUTDOWN';
-export const TOGGLE_WINDOW = 'TOGGLE_WINDOW';
-export const WINDOW_CLOSED = 'WINDOW_CLOSED';
-export const OPEN_WINDOW_ONCE = 'OPEN_WINDOW_ONCE'; // will be handled just once
-export const SET_WINDOW_STATE = 'SET_WINDOW_STATE';
+export const APP_INIT                = 'APP_INIT';
+export const APP_SHUTDOWN            = 'APP_SHUTDOWN';
+export const TOGGLE_WINDOW           = 'TOGGLE_WINDOW';
+export const PROACTIVE_WINDOW_CLOSED = 'PROACTIVE_WINDOW_CLOSED';
+export const OPEN_WINDOW_ONCE        = 'OPEN_WINDOW_ONCE'; // will be handled just once
+export const SET_WINDOW_STATE        = 'SET_WINDOW_STATE';
 //#endregion
 
 //#region ACTIONS
-export const appInit = () => ({ type: APP_INIT, payload: {} });
-export const appShutdown = () => ({ type: APP_SHUTDOWN, payload: {} });
-export const toggleWindow = () => ({ type: TOGGLE_WINDOW });
-export const openWindowOnce = () => ({ type: OPEN_WINDOW_ONCE });
-export const windowClosed = () => ({ type: WINDOW_CLOSED });
-export const setWindowState = (payload) => ({
+export const appInit               = () => ({ type: APP_INIT, payload: {} });
+export const appShutdown           = () => ({ type: APP_SHUTDOWN, payload: {} });
+export const toggleWindow          = () => ({ type: TOGGLE_WINDOW });
+export const openWindowOnce        = () => ({ type: OPEN_WINDOW_ONCE });
+export const proactiveWindowClosed = () => ({ type: PROACTIVE_WINDOW_CLOSED });
+export const setWindowState        = (payload) => ({
   type: SET_WINDOW_STATE,
   payload
 });
@@ -45,13 +44,13 @@ const startupRedirectEpic = (action$, _, { history, config }) =>
 
 const toggleWindowEpic = (action$, _, { cache }) =>
   action$.pipe(
-    ofType(WINDOW_CLOSED),
+    ofType(PROACTIVE_WINDOW_CLOSED),
     take(1),
     tap(() => {
-      cache.setValue('app.manuallyClosed', true);
+      cache.setValue('app.proactiveWindowClosed', true);
     })
   );
-export const appEpic = combineEpics(startupRedirectEpic, toggleWindowEpic);
+export const appEpic   = combineEpics(startupRedirectEpic, toggleWindowEpic);
 //#endregion
 
 //#region REDUCER

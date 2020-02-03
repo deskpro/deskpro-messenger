@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { injectIntl } from 'react-intl';
 
@@ -9,24 +10,24 @@ import { getAgentsAvailable } from "../../modules/info";
 import Button from "../form/Button";
 
 const transMessages = {
-  title: {
-    id: 'app.title',
+  title:                     {
+    id:             'app.title',
     defaultMessage: 'Get in Touch'
   },
-  startChatTitle: {
-    id: 'blocks.start_chat.title',
+  startChatTitle:            {
+    id:             'blocks.start_chat.title',
     defaultMessage: 'Chat with us'
   },
-  startChatDescription: {
-    id: 'blocks.start_chat.description',
+  startChatDescription:      {
+    id:             'blocks.start_chat.description',
     defaultMessage: 'Need help? Just reply to start a live conversation with one of our team'
   },
-  startChatLink: {
-    id: 'blocks.start_chat.link_text',
+  startChatLink:             {
+    id:             'blocks.start_chat.link_text',
     defaultMessage: 'Start Chat'
   },
   startChatInputPlaceholder: {
-    id: 'blocks.start_chat.input_placeholder',
+    id:             'blocks.start_chat.input_placeholder',
     defaultMessage: 'Type your message here'
   },
 };
@@ -37,21 +38,30 @@ class Input extends PureComponent {
     return (
       <div className='dpmsg-AutoStart-input'>
         <input type='text' placeholder={placeholder}/>
-        <button onClick={onClick} />
+        <button onClick={onClick}/>
       </div>
     )
   }
 }
 
 class AutoStart extends PureComponent {
+
+  static propTypes = {
+    onClose:         PropTypes.func.isRequired,
+    agentsAvailable: PropTypes.object.isRequired,
+    startChat:       PropTypes.func.isRequired,
+    autoStartStyle:  PropTypes.string.isRequired,
+  };
+
   renderToolbar = () => {
     return (
-      <button className='dpmsg-AutoStart-close' />
+      <button className='dpmsg-AutoStart-close' onClick={this.props.onClose}/>
     )
   };
 
   renderAvatarWidget() {
     const { intl, agentsAvailable, startChat } = this.props;
+
     const agent = Object.values(agentsAvailable).pop();
     const title = intl.formatMessage(transMessages.startChatTitle);
     return (
@@ -60,7 +70,7 @@ class AutoStart extends PureComponent {
           {title}
         </div>
         <div className="dpmsg-AutoStart-widget-avatar" key={agent.id}>
-          <img src={agent.avatar} alt="" />
+          <img src={agent.avatar} alt=""/>
         </div>
       </button>
     )
@@ -68,10 +78,11 @@ class AutoStart extends PureComponent {
 
   render() {
     const { intl, autoStartStyle, startChat } = this.props;
-    const link = intl.formatMessage(transMessages.startChatLink);
+
+    const link             = intl.formatMessage(transMessages.startChatLink);
     const inputPlaceholder = intl.formatMessage(transMessages.startChatInputPlaceholder);
-    const title = intl.formatMessage(transMessages.startChatTitle);
-    const description = intl.formatMessage(transMessages.startChatDescription);
+    const title            = intl.formatMessage(transMessages.startChatTitle);
+    const description      = intl.formatMessage(transMessages.startChatDescription);
     if (autoStartStyle === 'avatar-widget') {
       return this.renderAvatarWidget();
     }
@@ -81,12 +92,12 @@ class AutoStart extends PureComponent {
         title={intl.formatMessage(transMessages.title)}
       >
         <Block title={title}>
-          {autoStartStyle.indexOf('avatar') !== -1 ? <AvatarHeads agentsAvailable={this.props.agentsAvailable} /> : null}
+          {autoStartStyle.indexOf('avatar') !== -1 ? <AvatarHeads agentsAvailable={this.props.agentsAvailable}/> : null}
           <div className="dpmsg-BlockText">
             {description}
           </div>
           {autoStartStyle.indexOf('input') !== -1 ?
-            <Input onClick={startChat} width="full" color="primary" placeholder={inputPlaceholder} />  :
+            <Input onClick={startChat} width="full" color="primary" placeholder={inputPlaceholder}/> :
             <Button onClick={startChat} width="full" color="primary">
               {link}
             </Button>
