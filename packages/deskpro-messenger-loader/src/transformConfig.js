@@ -25,7 +25,7 @@ export default (settings) => {
       to: 'startChat',
       order: 10
     };
-    const proactiveBlockConfig = settings.messenger.proactive;
+    screens.proactive = settings.messenger.proactive;
     screens.index.blocks.push(startChatBlock);
     screens.startChat = settings.chat;
     screens.startChat.screenType = 'StartChatScreen';

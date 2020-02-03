@@ -77,29 +77,26 @@ class AutoStart extends PureComponent {
   };
 
   render() {
-    const { intl, autoStartStyle, startChat } = this.props;
+    const { intl, autoStartStyle, startChat, screens } = this.props;
 
-    const link             = intl.formatMessage(transMessages.startChatLink);
-    const inputPlaceholder = intl.formatMessage(transMessages.startChatInputPlaceholder);
-    const title            = intl.formatMessage(transMessages.startChatTitle);
-    const description      = intl.formatMessage(transMessages.startChatDescription);
+    const proactiveSettings = screens.proactive;
     if (autoStartStyle === 'avatar-widget') {
       return this.renderAvatarWidget();
     }
     return (
       <MessengerShell
         controls={this.renderToolbar()}
-        title={intl.formatMessage(transMessages.title)}
+        title={proactiveSettings.greetingTitle}
       >
-        <Block title={title}>
+        <Block title={proactiveSettings.title}>
           {autoStartStyle.indexOf('avatar') !== -1 ? <AvatarHeads agentsAvailable={this.props.agentsAvailable}/> : null}
           <div className="dpmsg-BlockText">
-            {description}
+            {proactiveSettings.description}
           </div>
           {autoStartStyle.indexOf('input') !== -1 ?
-            <Input onClick={startChat} width="full" color="primary" placeholder={inputPlaceholder}/> :
+            <Input onClick={startChat} width="full" color="primary" placeholder={proactiveSettings.inputPlaceholder}/> :
             <Button onClick={startChat} width="full" color="primary">
-              {link}
+              {proactiveSettings.buttonText}
             </Button>
           }
         </Block>

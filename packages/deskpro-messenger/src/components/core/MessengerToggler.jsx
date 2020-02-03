@@ -22,6 +22,7 @@ class WidgetToggler extends PureComponent {
     autoStart:             PropTypes.bool,
     autoStartTimeout:      PropTypes.number,
     autoStartStyle:        PropTypes.string,
+    screens:               PropTypes.object,
     toggleWindow:          PropTypes.func.isRequired,
     openWindowOnce:        PropTypes.func.isRequired,
     proactiveWindowClosed: PropTypes.func.isRequired,
@@ -33,7 +34,7 @@ class WidgetToggler extends PureComponent {
     }).isRequired
   };
   state            = {
-    iframeHeight:       '100%',
+    iframeHeight:       '60px',
     canRenderAutoStart: false,
   };
 
@@ -88,6 +89,7 @@ class WidgetToggler extends PureComponent {
     e.stopPropagation();
 
     this.setState({ canRenderAutoStart: false }, () => this.props.proactiveWindowClosed());
+    setTimeout(this.recalcIframeHeight, 250);
   };
 
   startChart = () => {
@@ -97,15 +99,21 @@ class WidgetToggler extends PureComponent {
     setTimeout(this.recalcIframeHeight, 250);
   };
 
-  renderAutoStart() {
-    const { autoStart, opened, autoStartStyle, canUseChat, agentsAvailable } = this.props;
+  canAutoStart = () => {
+    const { autoStart, opened, canUseChat, agentsAvailable } = this.props;
 
-    if (cache.getValue('app.proactiveWindowClosed', false) ||
+    return !(cache.getValue('app.proactiveWindowClosed', false) ||
       opened ||
       !autoStart ||
       !canUseChat ||
-      Object.keys(agentsAvailable).length < 1
-    ) {
+      Object.keys(agentsAvailable).length < 1);
+
+  }
+
+  renderAutoStart() {
+    const { autoStart, opened, autoStartStyle, canUseChat, agentsAvailable, screens } = this.props;
+
+    if (!this.canAutoStart()) {
       return null;
     }
 
@@ -117,6 +125,7 @@ class WidgetToggler extends PureComponent {
           onClose={this.onProactiveClose}
           autoStartStyle={autoStartStyle}
           startChat={this.startChart}
+          screens={screens}
         />
       </div>
     );
@@ -129,7 +138,7 @@ class WidgetToggler extends PureComponent {
       [themeVars.position === 'left' ? 'left' : 'right']: '14px'
     };
 
-    if (autoStart) {
+    if (this.canAutoStart()) {
       iframeStyle.height = this.state.iframeHeight;
       iframeStyle.width  = '400px';
     }
@@ -161,12 +170,13 @@ class WidgetToggler extends PureComponent {
 
 const WidgetTogglerWithStyles = (props) => (
   <ConfigConsumer>
-    {({ themeVars, autoStart, autoStartTimeout, autoStartStyle }) =>
+    {({ themeVars, autoStart, autoStartTimeout, autoStartStyle, screens }) =>
       <WidgetToggler
         themeVars={themeVars}
         autoStart={autoStart}
         autoStartTimeout={autoStartTimeout}
         autoStartStyle={autoStartStyle}
+        screens={screens}
         {...props}
       />}
   </ConfigConsumer>
