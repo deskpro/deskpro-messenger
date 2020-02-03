@@ -3,10 +3,6 @@ export default (settings) => {
     index: {
       screenType: 'Blocks',
       blocks: []
-    },
-    proactiveChat: {
-      screenType: 'Blocks',
-      blocks: []
     }
   };
 
@@ -18,7 +14,7 @@ export default (settings) => {
   });
 
   if (settings.chat.enabled) {
-    const chatBlockConfig = settings.messenger.chat;
+    const chatBlockConfig = settings.messenger.proactive;
     const startChatBlock = {
       blockType: 'StartChatBlock',
       title: chatBlockConfig.title || 'Conversation',
@@ -26,12 +22,11 @@ export default (settings) => {
       linkText: chatBlockConfig.buttonText || 'Start a chat',
       inputPlaceholder: chatBlockConfig.inputPlaceholder || 'Type your message here',
       showAgentPhotos: chatBlockConfig.showAgentPhotos,
-      startWithInputField: chatBlockConfig.startWithInputField,
       to: 'startChat',
       order: 10
     };
+    screens.proactive = settings.messenger.proactive;
     screens.index.blocks.push(startChatBlock);
-    screens.proactiveChat.blocks.push(startChatBlock);
     screens.startChat = settings.chat;
     screens.startChat.screenType = 'StartChatScreen';
     delete screens.startChat.enabled;

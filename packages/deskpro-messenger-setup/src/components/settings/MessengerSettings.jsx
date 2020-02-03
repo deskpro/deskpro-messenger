@@ -169,125 +169,67 @@ class MessengerSettings extends React.Component {
           <Section className='dp-ms-section' hidden={!autoStartStyle || autoStartStyle === 'avatar-widget'}>
             <Group
               label="Greeting title"
-              htmlFor="ms-messenger-title"
+              htmlFor="ms-messenger-proactive-greeting-title"
             >
               <Input
-                id="ms-messenger-title"
+                id="ms-messenger-proactive-greeting-title"
                 type="text"
-                value={config.getIn(['messenger', 'title'])}
-                name="messenger.title"
+                value={config.getIn(['messenger', 'proactive','greetingTitle'])}
+                name="messenger.proactive.greetingTitle"
                 onChange={handleChange}
               />
             </Group>
-            {/*<Group*/}
-            {/*  label="Greeting subtext"*/}
-            {/*  htmlFor="ms-messenger-subtext"*/}
-            {/*>*/}
-            {/*  <Input*/}
-            {/*    id="ms-messenger-subtext"*/}
-            {/*    type="text"*/}
-            {/*    value={config.getIn(['messenger', 'subtext'])}*/}
-            {/*    name="messenger.subtext"*/}
-            {/*    onChange={handleChange}*/}
-            {/*  />*/}
-            {/*</Group>*/}
           </Section>
-          <Subheading size={4}>Chat options</Subheading>
+          <Subheading size={4}>Options</Subheading>
           <Section className='dp-ms-section'>
             <Group
               label="Title"
-              htmlFor="ms-messenger-chat-title"
+              htmlFor="ms-messenger-proactive-title"
             >
               <Input
-                id="ms-messenger-chat-title"
+                id="ms-messenger-proactive-title"
                 type="text"
-                value={config.getIn(['messenger', 'chat', 'title'])}
-                name="messenger.chat.title"
+                value={config.getIn(['messenger', 'proactive', 'title'])}
+                name="messenger.proactive.title"
                 onChange={handleChange}
               />
             </Group>
             <Group
               label="Description"
-              htmlFor="ms-messenger-chat-description"
+              htmlFor="ms-messenger-proactive-description"
               className={classNames({hidden: !autoStartStyle || ['avatar-widget', 'avatar-button'].includes(autoStartStyle)})}
             >
               <Input
-                id="ms-messenger-chat-description"
+                id="ms-messenger-proactive-description"
                 type="text"
-                value={config.getIn(['messenger', 'chat', 'description'])}
-                name="messenger.chat.description"
+                value={config.getIn(['messenger', 'proactive', 'description'])}
+                name="messenger.proactive.description"
                 onChange={handleChange}
               />
             </Group>
             <Group
               label="Button text"
-              htmlFor="ms-messenger-chat-button-text"
+              htmlFor="ms-messenger-proactive-button-text"
               className={classNames({hidden: !autoStartStyle || autoStartStyle.indexOf('button') === -1})}
             >
               <Input
-                id="ms-messenger-chat-button-text"
+                id="ms-messenger-proactive-button-text"
                 type="text"
-                value={config.getIn(['messenger', 'chat', 'buttonText'])}
-                name="messenger.chat.buttonText"
+                value={config.getIn(['messenger', 'proactive', 'buttonText'])}
+                name="messenger.proactive.buttonText"
                 onChange={handleChange}
               />
             </Group>
             <Group
               label="Input placeholder"
-              htmlFor="ms-messenger-chat-input-placeholder"
+              htmlFor="ms-messenger-proactive-input-placeholder"
               className={classNames({hidden: !autoStartStyle || autoStartStyle.indexOf('input') === -1})}
             >
               <Input
-                id="ms-messenger-chat-input-placeholder"
+                id="ms-messenger-proactive-input-placeholder"
                 type="text"
-                value={config.getIn(['messenger', 'chat', 'inputPlaceholder'])}
-                name="messenger.chat.inputPlaceholder"
-                onChange={handleChange}
-              />
-            </Group>
-            {/*<Toggle*/}
-            {/*  name="messenger.chat.showAgentPhotos"*/}
-            {/*  checked={config.getIn(['messenger', 'chat', 'showAgentPhotos'])}*/}
-            {/*  onChange={handleChange}*/}
-            {/*>*/}
-            {/*  Show agent profiles photos*/}
-            {/*</Toggle>*/}
-          </Section>
-          <Subheading size={4}>Tickets options</Subheading>
-          <Section className='dp-ms-section'>
-            <Group
-              label="Title"
-              htmlFor="ms-messenger-tickets-title"
-            >
-              <Input
-                id="ms-messenger-tickets-title"
-                type="text"
-                value={config.getIn(['messenger', 'tickets', 'title'])}
-                name="messenger.tickets.title"
-                onChange={handleChange}
-              />
-            </Group>
-            <Group
-              label="Description"
-              htmlFor="ms-messenger-tickets-description"
-            >
-              <Input
-                id="ms-messenger-tickets-description"
-                type="text"
-                value={config.getIn(['messenger', 'tickets', 'description'])}
-                name="messenger.tickets.description"
-                onChange={handleChange}
-              />
-            </Group>
-            <Group
-              label="Button text"
-              htmlFor="ms-messenger-tickets-button-text"
-            >
-              <Input
-                id="ms-messenger-tickets-button-text"
-                type="text"
-                value={config.getIn(['messenger', 'tickets', 'buttonText'])}
-                name="messenger.tickets.buttonText"
+                value={config.getIn(['messenger', 'proactive', 'inputPlaceholder'])}
+                name="messenger.proactive.inputPlaceholder"
                 onChange={handleChange}
               />
             </Group>

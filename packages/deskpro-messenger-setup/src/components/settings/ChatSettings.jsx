@@ -310,6 +310,52 @@ class ChatSettings extends React.PureComponent {
                 </Toggle>
               )}
             </Section>
+            <Subheading size={4}>Chat module settings</Subheading>
+            <Section className='dp-ms-section'>
+              <Group
+                label="Greeting title"
+                htmlFor="ms-messenger-title"
+              >
+                <Input
+                  id="ms-messenger-title"
+                  type="text"
+                  value={config.getIn(['messenger', 'title'])}
+                  name="messenger.title"
+                  onChange={handleChange}
+                />
+              </Group>
+              <Toggle
+                name="messenger.chat.showAgentPhotos"
+                checked={config.getIn(['messenger', 'chat', 'showAgentPhotos'])}
+                onChange={handleChange}
+              >
+                Show agent profiles photos
+              </Toggle>
+              <Group
+                label="Description"
+                htmlFor="ms-messenger-chat-description"
+              >
+                <Input
+                  id="ms-messenger-chat-description"
+                  type="text"
+                  value={config.getIn(['messenger', 'chat', 'description'])}
+                  name="messenger.chat.description"
+                  onChange={handleChange}
+                />
+              </Group>
+              <Group
+                label="Button text"
+                htmlFor="ms-messenger-chat-button-text"
+              >
+                <Input
+                  id="ms-messenger-chat-button-text"
+                  type="text"
+                  value={config.getIn(['messenger', 'chat', 'buttonText'])}
+                  name="messenger.chat.buttonText"
+                  onChange={handleChange}
+                />
+              </Group>
+            </Section>
             <Subheading size={4}>Pre-chat form</Subheading>
             <Section
               className={classNames(

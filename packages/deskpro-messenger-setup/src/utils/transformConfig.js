@@ -7,7 +7,7 @@ export default (settings) => {
   };
 
   if (settings.getIn(['chat', 'enabled'])) {
-    const chatBlockConfig = settings.getIn(['messenger', 'chat']);
+    const chatBlockConfig = settings.getIn(['messenger', 'proactive']);
     screens.index.blocks.push({
       blockType: 'StartChatBlock',
       title: chatBlockConfig.get('title', 'Conversation'),
@@ -15,7 +15,6 @@ export default (settings) => {
       linkText: chatBlockConfig.get('buttonText', 'Start a chat'),
       inputPlaceholder: chatBlockConfig.get('inputPlaceholder', 'Type your message here'),
       showAgentPhotos: chatBlockConfig.get('showAgentPhotos'),
-      startWithInputField: chatBlockConfig.get('startWithInputField'),
       to: 'startChat'
     });
     screens.startChat = settings.get('chat').toJS();

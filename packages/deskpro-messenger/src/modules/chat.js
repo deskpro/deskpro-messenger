@@ -26,6 +26,7 @@ import uuid from '../utils/uuid';
 import { hasAgentsAvailable } from './info';
 
 import { SET_VISITOR } from './guest';
+import { setWindowState } from './app';
 
 const spread = produce(Object.assign);
 
@@ -165,6 +166,12 @@ const createChatEpic = (action$, state$, { api }) =>
     })
   );
 
+const forceChatOpenEpic = (action$) =>
+  action$.pipe(
+    ofType(CHAT_SAVE_CHAT),
+    mergeMap(() => of(setWindowState(true)))
+  );
+
 const agentAssignementTimeout = (action$, _, { config }) =>
   action$.pipe(
     ofType(CHAT_SAVE_CHAT),
@@ -288,7 +295,8 @@ export const chatEpic = combineEpics(
   cacheNewChatEpic,
   deactivateChatEpic,
   soundEpic,
-  agentAssignementTimeout
+  agentAssignementTimeout,
+  forceChatOpenEpic
 );
 //#endregion
 
