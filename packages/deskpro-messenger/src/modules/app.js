@@ -42,23 +42,7 @@ const startupRedirectEpic = (action$, _, { history, config }) =>
     }),
     skip()
   );
-const autoOpenWindowEpic = (action$, state$, { history, config, cache }) =>
-  action$.pipe(
-    ofType(LOAD_APP_INFO_SUCCESS),
-    delay(config.autoStart ? config.autoStartTimeout * 1000 : 0),
-    switchMap(({ payload }) => {
-      // only for cases when we have no history (usually on start only)
-      if (config.autoStart &&
-        !cache.getValue('app.manuallyClosed', false) &&
-        payload.canUseChat && payload.agentsAvailable.length > 0
-      ) {
-        history.push('/screens/proactiveChat');
-        return of(setWindowState(true));
-      } else {
-        return of(setWindowState(false));
-      }
-    })
-  );
+
 const toggleWindowEpic = (action$, _, { cache }) =>
   action$.pipe(
     ofType(WINDOW_CLOSED),
@@ -67,7 +51,7 @@ const toggleWindowEpic = (action$, _, { cache }) =>
       cache.setValue('app.manuallyClosed', true);
     })
   );
-export const appEpic = combineEpics(startupRedirectEpic, autoOpenWindowEpic, toggleWindowEpic);
+export const appEpic = combineEpics(startupRedirectEpic, toggleWindowEpic);
 //#endregion
 
 //#region REDUCER

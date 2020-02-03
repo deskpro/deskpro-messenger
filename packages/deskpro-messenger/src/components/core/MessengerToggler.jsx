@@ -2,7 +2,7 @@ import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-
+import { canUseChat, getAgentsAvailable } from "../../modules/info";
 import Frame from './Frame';
 import { isWindowOpened, toggleWindow, openWindowOnce, windowClosed } from '../../modules/app';
 import { ConfigConsumer } from './ConfigContext';
@@ -19,6 +19,7 @@ class WidgetToggler extends PureComponent {
   static propTypes = {
     opened: PropTypes.bool,
     autoStart: PropTypes.bool,
+    autoStartTimeout: PropTypes.number,
     autoStartStyle: PropTypes.string,
     toggleWindow: PropTypes.func.isRequired,
     openWindowOnce: PropTypes.func.isRequired,
@@ -31,7 +32,8 @@ class WidgetToggler extends PureComponent {
     }).isRequired
   };
   state = {
-    iframeHeight: '100%'
+    iframeHeight: '100%',
+    canRenderAutoStart: false,
   };
 
   autoStartShellRef = createRef();
@@ -48,7 +50,13 @@ class WidgetToggler extends PureComponent {
   };
 
   componentDidMount() {
-    if (this.props.autoStart) {
+    const { autoStart, autoStartTimeout } = this.props;
+    if (autoStart) {
+      if(autoStartTimeout) {
+        setTimeout(() => this.setState({canRenderAutoStart: true}), autoStartTimeout*1000)
+      } else {
+        this.setState({ canRenderAutoStart: true })
+      }
       this.interval = setInterval(this.recalcIframeHeight, 250);
     }
   }
@@ -81,8 +89,8 @@ class WidgetToggler extends PureComponent {
   };
 
   renderAutoStart() {
-    const { autoStart, opened, autoStartStyle } = this.props;
-    if (opened || !autoStart) {
+    const { autoStart, opened, autoStartStyle, canUseChat, agentsAvailable } = this.props;
+    if (opened || !autoStart || Object.keys(agentsAvailable).length < 1 || !canUseChat) {
       return null;
     }
     return (
@@ -111,7 +119,7 @@ class WidgetToggler extends PureComponent {
         style={{...iframeStyle, ...style}}
       >
         <div className={classNames('dpmsg-TriggerBtn-wrapper', autoStartStyle)}>
-          {this.renderAutoStart()}
+          {this.state.canRenderAutoStart && this.renderAutoStart()}
           <button
             style={{
               background: this.props.themeVars['--color-primary'],
@@ -134,17 +142,24 @@ class WidgetToggler extends PureComponent {
 
 const WidgetTogglerWithStyles = (props) => (
   <ConfigConsumer>
-    {({ themeVars, autoStart, autoStartStyle }) =>
+    {({ themeVars, autoStart, autoStartTimeout, autoStartStyle }) =>
       <WidgetToggler
         themeVars={themeVars}
         autoStart={autoStart}
+        autoStartTimeout={autoStartTimeout}
         autoStartStyle={autoStartStyle}
         {...props}
       />}
   </ConfigConsumer>
 );
 
+const mapStateToProps = (state) => ({
+  opened: isWindowOpened(state),
+  agentsAvailable: getAgentsAvailable(state),
+  canUseChat: canUseChat(state),
+});
+
 export default connect(
-  (state) => ({ opened: isWindowOpened(state) }),
+  mapStateToProps,
   { toggleWindow, openWindowOnce, windowClosed }
 )(WidgetTogglerWithStyles);

@@ -3,10 +3,6 @@ export default (settings) => {
     index: {
       screenType: 'Blocks',
       blocks: []
-    },
-    proactiveChat: {
-      screenType: 'Blocks',
-      blocks: []
     }
   };
 
@@ -30,7 +26,6 @@ export default (settings) => {
       order: 10
     };
     screens.index.blocks.push(startChatBlock);
-    screens.proactiveChat.blocks.push(startChatBlock);
     screens.startChat = settings.chat;
     screens.startChat.screenType = 'StartChatScreen';
     delete screens.startChat.enabled;
