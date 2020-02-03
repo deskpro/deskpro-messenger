@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
 import { injectIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
 
 import MessengerShell from "./MessengerShell";
 import Block from "./Block";
@@ -56,14 +55,14 @@ class AutoStart extends PureComponent {
     const agent = Object.values(agentsAvailable).pop();
     const title = intl.formatMessage(transMessages.startChatTitle);
     return (
-      <a className='dpmsg-AutoStart-widget' onClick={startChat}>
+      <button className='dpmsg-AutoStart-widget' onClick={startChat}>
         <div className='dpmsg-AutoStart-widget-text'>
           {title}
         </div>
         <div className="dpmsg-AutoStart-widget-avatar" key={agent.id}>
           <img src={agent.avatar} alt="" />
         </div>
-      </a>
+      </button>
     )
   };
 

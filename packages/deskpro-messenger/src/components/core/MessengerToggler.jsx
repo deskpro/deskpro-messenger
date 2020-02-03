@@ -118,7 +118,7 @@ class WidgetToggler extends PureComponent {
       <Frame
         style={{...iframeStyle, ...style}}
       >
-        <div className={classNames('dpmsg-TriggerBtn-wrapper', autoStartStyle)}>
+        <div className={classNames('dpmsg-TriggerBtn-wrapper', autoStartStyle, themeVars.position)}>
           {this.state.canRenderAutoStart && this.renderAutoStart()}
           <button
             style={{

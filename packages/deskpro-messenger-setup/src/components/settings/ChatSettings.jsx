@@ -293,6 +293,23 @@ class ChatSettings extends React.PureComponent {
                 />
               </Group>
             </Section>
+            <Subheading size={4}>Provide the widget with usergroups can use the chat</Subheading>
+            <Section
+              className={classNames(
+                "dp-ms-section",
+              )}
+            >
+              {(usergroups.filter(u => u.get('is_enabled')).toArray() || []).map(u =>
+                <Toggle
+                  checked={this.isUserGroupChecked(u)}
+                  key={`usergroup_${u.get('title')}`}
+                  name={`chat.usergroups.${u.get('id')}`}
+                  onChange={this.handleUsergroupChange}
+                >
+                  {u.get('title')}
+                </Toggle>
+              )}
+            </Section>
             <Subheading size={4}>Chat module settings</Subheading>
             <Section className='dp-ms-section'>
               <Group
@@ -338,23 +355,6 @@ class ChatSettings extends React.PureComponent {
                   onChange={handleChange}
                 />
               </Group>
-            </Section>
-            <Subheading size={4}>Provide the widget with usergroups can use the chat</Subheading>
-            <Section
-              className={classNames(
-                "dp-ms-section",
-              )}
-            >
-              {(usergroups.filter(u => u.get('is_enabled')).toArray() || []).map(u =>
-                <Toggle
-                  checked={this.isUserGroupChecked(u)}
-                  key={`usergroup_${u.get('title')}`}
-                  name={`chat.usergroups.${u.get('id')}`}
-                  onChange={this.handleUsergroupChange}
-                >
-                  {u.get('title')}
-                </Toggle>
-              )}
             </Section>
             <Subheading size={4}>Pre-chat form</Subheading>
             <Section
