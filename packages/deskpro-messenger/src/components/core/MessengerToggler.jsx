@@ -7,6 +7,7 @@ import Frame from './Frame';
 import { isWindowOpened, toggleWindow, openWindowOnce, proactiveWindowClosed } from '../../modules/app';
 import { ConfigConsumer } from './ConfigContext';
 import AutoStart from './AutoStart';
+import cache from '../../services/Cache';
 
 const iframeStyle = {
   position: 'fixed',
@@ -99,9 +100,15 @@ class WidgetToggler extends PureComponent {
   renderAutoStart() {
     const { autoStart, opened, autoStartStyle, canUseChat, agentsAvailable } = this.props;
 
-    if (opened || !autoStart || Object.keys(agentsAvailable).length < 1 || !canUseChat) {
+    if (cache.getValue('app.proactiveWindowClosed', false) ||
+      opened ||
+      !autoStart ||
+      !canUseChat ||
+      Object.keys(agentsAvailable).length < 1
+    ) {
       return null;
     }
+
     return (
       <div
         ref={this.autoStartShellRef}
