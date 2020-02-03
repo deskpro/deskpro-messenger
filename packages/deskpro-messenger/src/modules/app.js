@@ -48,7 +48,10 @@ const autoOpenWindowEpic = (action$, state$, { history, config, cache }) =>
     delay(config.autoStart ? config.autoStartTimeout * 1000 : 0),
     switchMap(({ payload }) => {
       // only for cases when we have no history (usually on start only)
-      if (config.autoStart && !cache.getValue('app.manuallyClosed', false) && payload.canUseChat) {
+      if (config.autoStart &&
+        !cache.getValue('app.manuallyClosed', false) &&
+        payload.canUseChat && payload.agentsAvailable.length > 0
+      ) {
         history.push('/screens/proactiveChat');
         return of(setWindowState(true));
       } else {
