@@ -9,29 +9,6 @@ import AvatarHeads from "../ui/AvatarHeads";
 import { getAgentsAvailable } from "../../modules/info";
 import Button from "../form/Button";
 
-const transMessages = {
-  title:                     {
-    id:             'app.title',
-    defaultMessage: 'Get in Touch'
-  },
-  startChatTitle:            {
-    id:             'blocks.start_chat.title',
-    defaultMessage: 'Chat with us'
-  },
-  startChatDescription:      {
-    id:             'blocks.start_chat.description',
-    defaultMessage: 'Need help? Just reply to start a live conversation with one of our team'
-  },
-  startChatLink:             {
-    id:             'blocks.start_chat.link_text',
-    defaultMessage: 'Start Chat'
-  },
-  startChatInputPlaceholder: {
-    id:             'blocks.start_chat.input_placeholder',
-    defaultMessage: 'Type your message here'
-  },
-};
-
 class Input extends PureComponent {
 
   static propTypes = {
