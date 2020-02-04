@@ -56,31 +56,13 @@ class TicketFormScreen extends React.Component {
           defaultMessage: 'New Ticket'
         })}
       >
-        <div className="dpmsg-BlockInnerIcon">
-          <i className="dpmsg-Icon dpmsg-Icon--Round dpmsg-IconRocket" />
-        </div>
-        <div className="dpmsg-BlockInnerHeader">
-          <FormattedMessage
-            id="tickets.form.thanks_header"
-            defaultMessage="Your request on its way"
-          />
-        </div>
-        <div className="dpmsg-BlockInnerContent">
-          <FormattedMessage
-            id="tickets.form.thanks"
-            defaultMessage="Thank you for contacting us. One of our team will be in touch with you via email."
-          />
-        </div>
-
-
-
-        {false && ticketSaving && (
+        {ticketSaving && (
           <FormattedMessage
             id="tickets.form.saving"
             defaultMessage="We're saving your ticket. Please wait"
           />
         )}
-        {false && !ticketSaved && (
+        {!ticketSaved && (
           <TicketForm
             initialValues={{ person: user }}
             deskproLayout={immutableLayout}
@@ -93,11 +75,24 @@ class TicketFormScreen extends React.Component {
             errors={errors}
           />
         )}
-        {false && ticketSaved && !ticketSaving && (
-          <FormattedMessage
-            id="tickets.form.thanks"
-            defaultMessage="Thank you! We will answer you soon via email."
-          />
+        {ticketSaved && !ticketSaving && (
+          [
+            <div className="dpmsg-BlockInnerIcon">
+              <i className="dpmsg-Icon dpmsg-Icon--Round dpmsg-IconRocket" />
+            </div>,
+            <div className="dpmsg-BlockInnerHeader">
+              <FormattedMessage
+              id="tickets.form.thanks_header"
+              defaultMessage="Your request on its way"
+                />
+            </div>,
+            <div className="dpmsg-BlockInnerContent">
+              <FormattedMessage
+                id="tickets.form.thanks"
+                defaultMessage="Thank you for contacting us. One of our team will be in touch with you via email."
+              />
+            </div>
+          ]
         )}
       </Block>
     );
