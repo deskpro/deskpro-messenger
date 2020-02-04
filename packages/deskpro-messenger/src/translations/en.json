@@ -32,6 +32,7 @@
   "blocks.tickets.view_all_link": "view all",
   "tickets.create_form_block.header": "Create a ticket",
   "tickets.create_form_block.link_label": "Create new ticket",
-  "tickets.form.thanks": "Thank you! We will answer you soon via email.",
+  "tickets.form.thanks_header": "Your request on its way",
+  "tickets.form.thanks": "Thank you for contacting us. One of our team will be in touch with you via email.",
   "tickets.form.submit_button": "Save Ticket"
 }
