@@ -158,7 +158,9 @@ class WidgetToggler extends PureComponent {
 
     return (
       <div
+        className='dpmsg-AutoStart'
         ref={this.autoStartShellRef}
+        style={{ display: 'none' }}
       >
         <AutoStart
           onClose={this.onProactiveClose}

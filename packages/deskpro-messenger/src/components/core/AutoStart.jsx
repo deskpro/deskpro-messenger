@@ -93,9 +93,10 @@ class AutoStart extends PureComponent {
       >
         <Block title={proactiveSettings.title}>
           {autoStartStyle.indexOf('avatar') !== -1 ? <AvatarHeads agentsAvailable={this.props.agentsAvailable}/> : null}
+          {autoStartStyle.indexOf('text') !== -1 ?
           <div className="dpmsg-BlockText">
             {proactiveSettings.description}
-          </div>
+          </div> : null}
           {autoStartStyle.indexOf('input') !== -1 ?
             <Input
               onClick={() => startChat(this.state.message)}
