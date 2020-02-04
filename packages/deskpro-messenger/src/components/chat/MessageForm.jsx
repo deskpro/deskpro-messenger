@@ -80,10 +80,6 @@ class MessageForm extends PureComponent {
   };
 
 
-  beforeFileUpload = (event, files) => {
-    console.log(event, files);
-  };
-
   fileUploaded = (e, editor, response) => {
     const { blob } = JSON.parse(response);
 
@@ -154,7 +150,6 @@ class MessageForm extends PureComponent {
     events: {
       'froalaEditor.initialized': this.onFroalaInit,
       'froalaEditor.file.uploaded': this.fileUploaded,
-      'froalaEditor.file.beforeUpload': this.beforeFileUpload,
       'froalaEditor.image.uploaded': this.imageUploaded,
       'froalaEditor.file.error': this.fileError,
       'froalaEditor.image.error': this.fileError
