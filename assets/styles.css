@@ -540,8 +540,8 @@
 }.dpmsg-ScreenWrap {
   -webkit-box-align: end;
           align-items: flex-end;
-  display: -webkit-box;
-  display: flex;
+  display: -webkit-box !important;
+  display: flex !important;
   flex-wrap: wrap;
   margin: 0 10px;
   margin: 0 var(--s-space);
