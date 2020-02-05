@@ -9,5 +9,8 @@
     "lerna": "lerna",
     "test": "cd packages/deskpro-messenger && yarn test",
     "publish-npm": "lerna publish --force-publish --no-git-tag-version --no-push --yes"
+  },
+  "dependencies": {
+    "@deskpro/portal-components": "0.3.54"
   }
 }
