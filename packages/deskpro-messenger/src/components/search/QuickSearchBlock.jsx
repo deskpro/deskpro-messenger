@@ -23,18 +23,6 @@ class QuickSearchBlock extends React.Component {
 
   };
 
-  getLabel = (type) => {
-    let label = '';
-    switch(type) {
-      case 'article':
-        label = 'Knowledgebase';
-        break;
-      default:
-        label = 'Unknown'
-    }
-    return <span className="dpmsg-QuickSearchExcerptLabel">{label}</span>;
-  };
-
   render() {
     const { title, className } = this.props;
 
@@ -60,9 +48,8 @@ class QuickSearchBlock extends React.Component {
           <div className="dpmsg-QuickSearchResults">
             {this.state.query.length >= 3 && this.props.results.map((r) => (
               <div className="dpmsg-QuickSearchEntry">
-                <h4><a rel="noreferrer noopener" target="_blank" href={r.link}>{r.title}</a></h4>
+                <h4><a className="dpmsg-QuickSearchEntryHeaderLink" rel="noreferrer noopener" target="_blank" href={r.link}>{r.title}</a></h4>
                 <div className="dpmsg-QuickSearchExcerpt">
-                  {this.getLabel(r.type)}
                   {r.excerpt}
                 </div>
                 <div className="dpmsg-QuickSearchEntry--divider" />
