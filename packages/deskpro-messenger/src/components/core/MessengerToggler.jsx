@@ -103,8 +103,8 @@ class WidgetToggler extends PureComponent {
   };
 
   startChat = (message = '') => {
-    if(message) {
-      this.sendCreateChat(message);
+    if(message.trim()) {
+      this.sendCreateChat(message.trim());
     } else {
       this.props.history.push(`/screens/startChat`);
       this.props.toggleWindow();

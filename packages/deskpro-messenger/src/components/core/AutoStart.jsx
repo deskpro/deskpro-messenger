@@ -68,7 +68,7 @@ class AutoStart extends PureComponent {
     const agent = Object.values(agentsAvailable).pop();
     const proactiveSettings = screens.proactive;
     return (
-      <button className='dpmsg-AutoStart-widget' onClick={startChat}>
+      <button className='dpmsg-AutoStart-widget' onClick={() => startChat()}>
         <div className='dpmsg-AutoStart-widget-text'>
           {proactiveSettings.title}
         </div>
@@ -106,7 +106,7 @@ class AutoStart extends PureComponent {
               value={this.state.message}
               onChange={this.onInputChange}
             /> :
-            <Button onClick={startChat} width="full" color="primary">
+            <Button onClick={() => startChat(this.state.message)} width="full" color="primary">
               {proactiveSettings.buttonText}
             </Button>
           }
