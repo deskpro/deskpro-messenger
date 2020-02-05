@@ -1,11 +1,12 @@
-import React, { PureComponent } from 'react';
+import React, { lazy, PureComponent } from 'react';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 import { fromJSGreedy } from '../../utils/common';
-import { TicketForm } from '@deskpro/portal-components';
 import { connect } from 'react-redux';
 import { getUser } from '../../modules/guest';
 import PropTypes from 'prop-types';
+
+const TicketForm = lazy(() => import('../tickets/LazyTicketForm'));
 
 class SaveTicketForm extends PureComponent {
 

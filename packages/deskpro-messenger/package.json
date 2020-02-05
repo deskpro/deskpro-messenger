@@ -45,6 +45,7 @@
     "yup": "^0.27.0"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "npm-run-all -p watch:*",
     "build": "npm-run-all -s build:*",
     "watch:js": "node scripts/start.js",
@@ -115,6 +116,7 @@
     "react-testing-library": "^5.3.0",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
+    "source-map-explorer": "^2.2.2",
     "style-loader": "0.23.0",
     "stylelint": "^9.5.0",
     "stylelint-config-suitcss": "^14.0.0",

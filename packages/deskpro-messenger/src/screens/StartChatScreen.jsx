@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Suspense, lazy, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -9,8 +9,8 @@ import { getUser,  } from '../modules/guest';
 import PromptMessage from '../components/chat/PromptMessage';
 import { getChatDepartments } from '../modules/info';
 import { fromJSGreedy } from '../utils/common';
-import { TicketForm } from '@deskpro/portal-components';
 
+const TicketForm = lazy(() => import('../components/tickets/LazyTicketForm'));
 
 class StartChatScreen extends PureComponent {
   static propTypes = {
@@ -105,17 +105,19 @@ class StartChatScreen extends PureComponent {
             formMessageEnabled && <div key="form_message" className="dpmsg-StartChatScreen-FormMessage">
               { formMessage }
           </div>,
-            <TicketForm
-              key="ticket_form"
-              initialValues={initialValues}
-              deskproLayout={immutableLayout}
-              departmentPropName="chat_department"
-              departments={fromJSGreedy(departments)}
-              department={department}
-              fileUploadUrl={uploadTo}
-              csrfToken="not_used"
-              onSubmit={this.createChat}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <TicketForm
+                key="ticket_form"
+                initialValues={initialValues}
+                deskproLayout={immutableLayout}
+                departmentPropName="chat_department"
+                departments={fromJSGreedy(departments)}
+                department={department}
+                fileUploadUrl={uploadTo}
+                csrfToken="not_used"
+                onSubmit={this.createChat}
+              />
+            </Suspense>
           ]
         )}
         {(viewMode === 'prompt' || (viewMode === 'form' && correctedForm[0].fields.length === hiddenCount)) && (
