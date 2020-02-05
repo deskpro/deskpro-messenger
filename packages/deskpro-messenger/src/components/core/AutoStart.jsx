@@ -51,6 +51,11 @@ class AutoStart extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    import('../../screens/ChatScreen');
+    import('../../screens/StartChatScreen');
+  }
+
 
   onInputChange = (e) => {
     this.setState({ message: e.target.value });
