@@ -149,11 +149,26 @@ export default class ApiService {
    * Create ticket.
    * @param {object} values Ticket values.
    */
-  async createTicket(values) {
+  async createTicket(values, config) {
     if(values.attachments) {
       values.attachments = values.attachments.map(a => ({ blob_auth: a.authcode }));
     }
-    return this.apiClient.post(`/api/messenger/ticket`, values);
+    const keys = Object.keys(values);
+    const allowedKeys = keys.filter(k => k.indexOf('ticket_field_') === -1);
+
+    const postData = Object.keys(values)
+      .filter(key => allowedKeys.includes(key))
+      .reduce((obj, key) => {
+        return {
+          ...obj,
+          [key]: values[key]
+        };
+      }, {});
+
+    postData.fields = Object.fromEntries(keys.filter(k => k.indexOf('ticket_field_') === 0).map(k => {
+      return [k.split('_').slice(-1)[0], values[k]];
+    }));
+    return this.apiClient.post(`/api/messenger/ticket`, postData);
   }
 
   /**
