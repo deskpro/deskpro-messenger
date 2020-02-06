@@ -7,7 +7,7 @@ export default (settings) => {
   };
 
   if (settings.getIn(['chat', 'enabled'])) {
-    const chatBlockConfig = settings.getIn(['messenger', 'proactive']);
+    const chatBlockConfig = settings.getIn(['chat', 'options']);
     screens.index.blocks.push({
       blockType: 'StartChatBlock',
       title: chatBlockConfig.get('title', 'Conversation'),
@@ -61,7 +61,7 @@ export default (settings) => {
   if ('object' === typeof screens.startChat) {
     enabledGreetings.push('/screens/startChat');
   }
-  const config = {
+  return {
     screens,
     themeVars: {
       '--color-primary': settings.getIn(['widget', 'primaryColor'], '#3d88f3'),
@@ -74,6 +74,4 @@ export default (settings) => {
     greetings: {},
     enabledGreetings
   };
-
-  return config;
 };

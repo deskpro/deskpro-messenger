@@ -5,7 +5,7 @@ import { Icon, ToggleableList } from '@deskpro/react-components';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import ChatSettings from './ChatSettings';
 import EmbedWidget from './EmbedWidget';
-import ProactiveChatSettings from './ProactiveChatSettings';
+import ProactiveSettings from './ProactiveSettings';
 import WidgetSettings from './WidgetSettings';
 import EmailUsSettings from './EmailUsSettings';
 
@@ -54,7 +54,7 @@ class Settings extends React.Component {
             chatCustomFields={chatCustomFields}
             usergroups={usergroups}
           />
-          <ProactiveChatSettings
+          <ProactiveSettings
             id="messenger"
             config={settings}
             handleChange={handleChange}

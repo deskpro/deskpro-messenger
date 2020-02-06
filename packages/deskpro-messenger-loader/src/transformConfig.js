@@ -24,7 +24,7 @@ export default (settings) => {
       to:              'startChat',
       order:           10
     };
-    screens.proactive = settings.messenger.proactive;
+    screens.proactive = settings.proactive.options;
     screens.index.blocks.push(startChatBlock);
     screens.startChat = settings.chat;
     screens.startChat.screenType = 'StartChatScreen';
@@ -76,10 +76,12 @@ export default (settings) => {
 
   return {
     widget: settings.widget,
-    autoStart: settings.messenger.autoStart,
-    autoStartTimeout: settings.messenger.autoStartTimeout,
-    autoStartStyle: settings.messenger.autoStartStyle,
-    maxFileSize: settings.messenger.maxFileSize,
+    proactive: {
+      autoStart: settings.proactive.autoStart,
+      autoStartTimeout: settings.proactive.autoStartTimeout,
+      autoStartStyle: settings.proactive.autoStartStyle,
+    },
+    maxFileSize: settings.maxFileSize,
     screens,
     themeVars: {
       'position': settings.widget.position || 'right',

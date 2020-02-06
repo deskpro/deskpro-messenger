@@ -23,9 +23,7 @@ class WidgetToggler extends PureComponent {
     opened:                PropTypes.bool,
     chatSettings:          PropTypes.object,
     chatEnabled:           PropTypes.bool.isRequired,
-    autoStart:             PropTypes.bool,
-    autoStartTimeout:      PropTypes.number,
-    autoStartStyle:        PropTypes.string,
+    proactive:             PropTypes.object,
     screens:               PropTypes.object,
     user:                  PropTypes.object,
     toggleWindow:          PropTypes.func.isRequired,
@@ -62,7 +60,7 @@ class WidgetToggler extends PureComponent {
   };
 
   componentDidMount() {
-    const { chatEnabled, autoStart, autoStartTimeout } = this.props;
+    const { chatEnabled, proactive: { autoStart, autoStartTimeout } } = this.props;
 
     if (chatEnabled && autoStart) {
       if (autoStartTimeout) {
@@ -116,7 +114,7 @@ class WidgetToggler extends PureComponent {
   };
 
   canAutoStart = () => {
-    const { autoStart, opened, canUseChat, agentsAvailable, chatEnabled } = this.props;
+    const { proactive: { autoStart }, opened, canUseChat, agentsAvailable, chatEnabled } = this.props;
 
     return (
       chatEnabled &&
@@ -150,7 +148,7 @@ class WidgetToggler extends PureComponent {
 
 
   renderAutoStart() {
-    const { autoStartStyle, screens } = this.props;
+    const { proactive: { autoStartStyle }, screens } = this.props;
 
     if (!this.canAutoStart()) {
       return null;
@@ -173,7 +171,7 @@ class WidgetToggler extends PureComponent {
   }
 
   render() {
-    const { opened, themeVars, autoStartStyle } = this.props;
+    const { opened, themeVars, proactive: { autoStartStyle } } = this.props;
 
     const style = {
       [themeVars.position === 'left' ? 'left' : 'right']: '14px'
@@ -214,14 +212,12 @@ class WidgetToggler extends PureComponent {
 
 const WidgetTogglerWithStyles = (props) => (
   <ConfigConsumer>
-    {({ themeVars, autoStart, autoStartTimeout, autoStartStyle, screens }) =>
+    {({ themeVars, proactive, screens }) =>
       <WidgetToggler
         chatEnabled={!!screens.startChat}
         chatSettings={screens.startChat}
         themeVars={themeVars}
-        autoStart={autoStart}
-        autoStartTimeout={autoStartTimeout}
-        autoStartStyle={autoStartStyle}
+        proactive={proactive}
         screens={screens}
         {...props}
       />}

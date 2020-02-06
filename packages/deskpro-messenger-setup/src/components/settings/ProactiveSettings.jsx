@@ -21,7 +21,7 @@ import {
   Toggle
 } from '@deskpro/react-components';
 
-class ProactiveChatSettings extends React.Component {
+class ProactiveSettings extends React.Component {
   static propTypes = {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired
@@ -45,7 +45,7 @@ class ProactiveChatSettings extends React.Component {
   render() {
     const { config, handleChange, opened, onClick } = this.props;
 
-    const autoStartStyle = config.getIn(['messenger', 'autoStartStyle']);
+    const autoStartStyle = config.getIn(['proactive', 'autoStartStyle']);
     const drawerProps = {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
       className: 'dp-column-drawer'
@@ -66,14 +66,14 @@ class ProactiveChatSettings extends React.Component {
         <Section hidden={!opened}>
           <Section className='dp-ms-section'>
             <Toggle
-              checked={config.getIn(['messenger', 'autoStart'])}
-              name="messenger.autoStart"
+              checked={config.getIn(['proactive', 'autoStart'])}
+              name="proactive.autoStart"
               onChange={handleChange}
             >
               Automatically open the messenger on page load
             </Toggle>
             {
-              config.getIn(['messenger', 'autoStart']) &&
+              config.getIn(['proactive', 'autoStart']) &&
               <Label>
                 Delay proactive chat by
                 <Input
@@ -81,10 +81,10 @@ class ProactiveChatSettings extends React.Component {
                   type="number"
                   min={0}
                   max={9999}
-                  value={config.getIn(['messenger', 'autoStartTimeout'])}
+                  value={config.getIn(['proactive', 'autoStartTimeout'])}
                   onChange={this.ensureTimeoutIsPositive}
-                  name="messenger.autoStartTimeout"
-                  id="ms-messenger-autoStartTimeout"
+                  name="proactive.autoStartTimeout"
+                  id="ms-proactive-autoStartTimeout"
                 />
                 seconds
               </Label>
@@ -96,7 +96,7 @@ class ProactiveChatSettings extends React.Component {
             <input
               type="radio"
               id="widget-style-avatar-text-button"
-              name="messenger.autoStartStyle"
+              name="proactive.autoStartStyle"
               value="avatar-text-button"
               checked={autoStartStyle === 'avatar-text-button'}
               onChange={this.handleRadioChange}
@@ -108,7 +108,7 @@ class ProactiveChatSettings extends React.Component {
             <input
               type="radio"
               id="widget-style-avatar-text-input"
-              name="messenger.autoStartStyle"
+              name="proactive.autoStartStyle"
               value="avatar-text-input"
               disabled={config.getIn(['chat', 'preChatForm', 'enabled'])}
               checked={autoStartStyle === 'avatar-text-input'}
@@ -121,7 +121,7 @@ class ProactiveChatSettings extends React.Component {
             <input
               type="radio"
               id="widget-style-avatar-button"
-              name="messenger.autoStartStyle"
+              name="proactive.autoStartStyle"
               value="avatar-button"
               checked={autoStartStyle === 'avatar-button'}
               onChange={this.handleRadioChange}
@@ -134,9 +134,9 @@ class ProactiveChatSettings extends React.Component {
             <input
               type="radio"
               id="widget-style-text-button"
-              name="messenger.autoStartStyle"
+              name="proactive.autoStartStyle"
               value="text-button"
-              checked={config.getIn(['messenger', 'autoStartStyle']) === 'text-button'}
+              checked={config.getIn(['proactive', 'autoStartStyle']) === 'text-button'}
               onChange={this.handleRadioChange}
               // style={{ display: 'none' }}
             />
@@ -147,7 +147,7 @@ class ProactiveChatSettings extends React.Component {
             <input
               type="radio"
               id="widget-style-text-input"
-              name="messenger.autoStartStyle"
+              name="proactive.autoStartStyle"
               value="text-input"
               disabled={config.getIn(['chat', 'preChatForm', 'enabled'])}
               checked={autoStartStyle === 'text-input'}
@@ -161,7 +161,7 @@ class ProactiveChatSettings extends React.Component {
             <input
               type="radio"
               id="widget-style-avatar-widget"
-              name="messenger.autoStartStyle"
+              name="proactive.autoStartStyle"
               value="avatar-widget"
               checked={autoStartStyle === 'avatar-widget'}
               onChange={this.handleRadioChange}
@@ -179,13 +179,13 @@ class ProactiveChatSettings extends React.Component {
           <Section className='dp-ms-section' hidden={!autoStartStyle || autoStartStyle === 'avatar-widget'}>
             <Group
               label="Greeting title"
-              htmlFor="ms-messenger-proactive-greeting-title"
+              htmlFor="ms-proactive-options-greeting-title"
             >
               <Input
-                id="ms-messenger-proactive-greeting-title"
+                id="ms-proactive-options-greeting-title"
                 type="text"
-                value={config.getIn(['messenger', 'proactive','greetingTitle'])}
-                name="messenger.proactive.greetingTitle"
+                value={config.getIn(['proactive', 'options','greetingTitle'])}
+                name="proactive.options.greetingTitle"
                 onChange={handleChange}
               />
             </Group>
@@ -194,52 +194,52 @@ class ProactiveChatSettings extends React.Component {
           <Section className='dp-ms-section'>
             <Group
               label="Title"
-              htmlFor="ms-messenger-proactive-title"
+              htmlFor="ms-proactive-options-title"
             >
               <Input
-                id="ms-messenger-proactive-title"
+                id="ms-proactive-options-title"
                 type="text"
-                value={config.getIn(['messenger', 'proactive', 'title'])}
-                name="messenger.proactive.title"
+                value={config.getIn(['proactive', 'options','title'])}
+                name="proactive.options.title"
                 onChange={handleChange}
               />
             </Group>
             <Group
               label="Description"
-              htmlFor="ms-messenger-proactive-description"
+              htmlFor="ms-proactive-options-description"
               className={classNames({hidden: !autoStartStyle || ['avatar-widget', 'avatar-button'].includes(autoStartStyle)})}
             >
               <Input
-                id="ms-messenger-proactive-description"
+                id="ms-proactive-options-description"
                 type="text"
-                value={config.getIn(['messenger', 'proactive', 'description'])}
-                name="messenger.proactive.description"
+                value={config.getIn(['proactive', 'options','description'])}
+                name="proactive.options.description"
                 onChange={handleChange}
               />
             </Group>
             <Group
               label="Button text"
-              htmlFor="ms-messenger-proactive-button-text"
+              htmlFor="ms-proactive-options-button-text"
               className={classNames({hidden: !autoStartStyle || autoStartStyle.indexOf('button') === -1})}
             >
               <Input
-                id="ms-messenger-proactive-button-text"
+                id="ms-proactive-options-button-text"
                 type="text"
-                value={config.getIn(['messenger', 'proactive', 'buttonText'])}
-                name="messenger.proactive.buttonText"
+                value={config.getIn(['proactive', 'options','buttonText'])}
+                name="proactive.options.buttonText"
                 onChange={handleChange}
               />
             </Group>
             <Group
               label="Input placeholder"
-              htmlFor="ms-messenger-proactive-input-placeholder"
+              htmlFor="ms-proactive-options-input-placeholder"
               className={classNames({hidden: !autoStartStyle || autoStartStyle.indexOf('input') === -1})}
             >
               <Input
-                id="ms-messenger-proactive-input-placeholder"
+                id="ms-proactive-options-input-placeholder"
                 type="text"
-                value={config.getIn(['messenger', 'proactive', 'inputPlaceholder'])}
-                name="messenger.proactive.inputPlaceholder"
+                value={config.getIn(['proactive', 'options','inputPlaceholder'])}
+                name="proactive.options.inputPlaceholder"
                 onChange={handleChange}
               />
             </Group>
@@ -249,4 +249,4 @@ class ProactiveChatSettings extends React.Component {
     );
   }
 }
-export default ProactiveChatSettings;
+export default ProactiveSettings;
