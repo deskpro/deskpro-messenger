@@ -57,7 +57,7 @@ export default (state = { ticketSaving: false, ticketSaved: false, errors: {} },
     case TICKET_NEW_OPEN:
       return { ...state, ticketSaving: false, ticketSaved: false };
     case TICKET_SAVE_NEW:
-      return { ...state, ticketSaving: true };
+      return { ...state, ticketSaving: true, errors: {} };
     case TICKET_SAVE_NEW_SUCCESS:
       return { ...state, ticketSaving: false, ticketSaved: true, errors: {} };
     case TICKET_SAVE_NEW_ERROR:
