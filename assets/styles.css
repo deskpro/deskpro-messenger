@@ -1697,14 +1697,15 @@
 
   }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerpt {
       line-height: 150%;
-    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry h4 {
+    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry h4.dpmsg-QuickSearchEntryHeaderLink {
       font-size: 14px;
+      font-weight: 400;
       line-height: 150%;
-      max-width: calc(100% - 20px);
-      margin: 0 0 3px 0
-    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry h4 a.dpmsg-QuickSearchEntryHeaderLink {
+      margin: 0 0 3px 0;
+      max-width: calc(100% - 20px)
+    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry h4.dpmsg-QuickSearchEntryHeaderLink a {
         text-decoration: none
-      }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry h4 a.dpmsg-QuickSearchEntryHeaderLink:hover {
+      }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry h4.dpmsg-QuickSearchEntryHeaderLink a:hover {
           text-decoration: underline;
         }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchEntry--divider {
       background-color: #d3d6d7;
