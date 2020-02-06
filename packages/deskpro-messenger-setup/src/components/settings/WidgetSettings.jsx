@@ -53,24 +53,24 @@ class WidgetSettings extends React.PureComponent {
           <Section className='dp-ms-section'>
             <Label>Primary color</Label>
             <Colorpicker
-              value={config.getIn(['styles', 'primaryColor'])}
-              name="styles.primaryColor"
+              value={config.getIn(['widget', 'primaryColor'])}
+              name="widget.primaryColor"
               onChange={handleChange}
               format="hex"
             />
 
             <Label>Secondary (background) color</Label>
             <Colorpicker
-              value={config.getIn(['styles', 'backgroundColor'])}
-              name="styles.backgroundColor"
+              value={config.getIn(['widget', 'backgroundColor'])}
+              name="widget.backgroundColor"
               onChange={handleChange}
               format="hex"
             />
 
             <Label>Text & Icon color</Label>
             <Colorpicker
-              value={config.getIn(['styles', 'textColor'])}
-              name="styles.textColor"
+              value={config.getIn(['widget', 'textColor'])}
+              name="widget.textColor"
               onChange={handleChange}
               format="hex"
             />
@@ -82,8 +82,8 @@ class WidgetSettings extends React.PureComponent {
               <Input
                 id="ms-messenger-title"
                 type="text"
-                value={config.getIn(['messenger', 'title'])}
-                name="messenger.title"
+                value={config.getIn(['widget', 'greetingTitle'])}
+                name="widget.greetingTitle"
                 onChange={handleChange}
               />
             </Group>
@@ -91,8 +91,8 @@ class WidgetSettings extends React.PureComponent {
           <Subheading size={4}>Widget position</Subheading>
           <Section className='dp-ms-section'>
             <Radio
-              checked={config.getIn(['styles', 'position']) === 'right'}
-              name="styles.position"
+              checked={config.getIn(['widget', 'position']) === 'right'}
+              name="widget.position"
               onChange={this.handleRadioChange}
               value="right"
               style={{ display: 'inline-block' }}
@@ -101,8 +101,8 @@ class WidgetSettings extends React.PureComponent {
             </Radio>
             <span className="dp-ms-position-separator">- or -</span>
             <Radio
-              checked={config.getIn(['styles', 'position']) === 'left'}
-              name="styles.position"
+              checked={config.getIn(['widget', 'position']) === 'left'}
+              name="widget.position"
               onChange={this.handleRadioChange}
               value="left"
               style={{ display: 'inline-block' }}

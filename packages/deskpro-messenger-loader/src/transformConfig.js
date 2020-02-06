@@ -76,18 +76,19 @@ export default (settings) => {
   }
 
   return {
+    widget: settings.widget,
     autoStart: settings.messenger.autoStart,
     autoStartTimeout: settings.messenger.autoStartTimeout,
     autoStartStyle: settings.messenger.autoStartStyle,
     maxFileSize: settings.messenger.maxFileSize,
     screens,
     themeVars: {
-      'position': settings.styles.position || 'right',
-      '--color-primary': settings.styles.primaryColor || '#3d88f3',
-      '--brand-primary': settings.styles.primaryColor || '#3d88f3',
-      '--header-icon-text-color': settings.styles.textColor || '#ffffff',
-      '--brand-secondary': settings.styles.backgroundColor || '#f7f7f7',
-      '--color-secondary': settings.styles.backgroundColor || '#f7f7f7'
+      'position': settings.widget.position || 'right',
+      '--color-primary': settings.widget.primaryColor || '#3d88f3',
+      '--brand-primary': settings.widget.primaryColor || '#3d88f3',
+      '--header-icon-text-color': settings.widget.textColor || '#ffffff',
+      '--brand-secondary': settings.widget.backgroundColor || '#f7f7f7',
+      '--color-secondary': settings.widget.backgroundColor || '#f7f7f7'
     },
     greetings: {},
   };

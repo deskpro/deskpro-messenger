@@ -37,13 +37,6 @@ const extraStyles = (
   </Fragment>
 );
 
-const transMessages = {
-  title: {
-    id: 'app.title',
-    defaultMessage: 'Get in Touch'
-  }
-};
-
 class MessengerWindow extends PureComponent {
   static propTypes = {
     opened: PropTypes.bool
@@ -96,7 +89,8 @@ class MessengerWindow extends PureComponent {
   };
 
   render() {
-    const { opened, intl } = this.props;
+    console.log(this.props);
+    const { opened, widget: { greetingTitle } } = this.props;
 
     return (
       <Frame
@@ -110,7 +104,7 @@ class MessengerWindow extends PureComponent {
         <MessengerShell
           controls={this.renderToolbar()}
           ref={this.shellRef}
-          title={intl.formatMessage(transMessages.title)}
+          title={greetingTitle}
         >
           <div>
             <Suspense
