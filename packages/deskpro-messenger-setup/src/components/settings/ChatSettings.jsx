@@ -281,24 +281,9 @@ class ChatSettings extends React.PureComponent {
                   name="chat.department"
                 />
               </Group>
-              <Group
-                label="Prompt the user to describe their problem before the chat starts:"
-                htmlFor="ms-chat-prompt">
-                <Input
-                  id="ms-chat-prompt"
-                  type="text"
-                  value={config.getIn(['chat', 'prompt'])}
-                  name="chat.prompt"
-                  onChange={handleChange}
-                />
-              </Group>
             </Section>
-            <Subheading size={4}>Provide the widget with usergroups can use the chat</Subheading>
-            <Section
-              className={classNames(
-                "dp-ms-section",
-              )}
-            >
+            <Subheading size={4}>Who can use chat</Subheading>
+            <Section className="dp-ms-section">
               {(usergroups.filter(u => u.get('is_enabled')).toArray() || []).map(u =>
                 <Toggle
                   checked={this.isUserGroupChecked(u)}
@@ -310,48 +295,62 @@ class ChatSettings extends React.PureComponent {
                 </Toggle>
               )}
             </Section>
-            <Subheading size={4}>Chat module settings</Subheading>
+            <Section className="dp-ms-section">
+              <Group
+                label="Chat Prompt Message"
+                htmlFor="ms-chat-prompt">
+                <Input
+                  id="ms-chat-prompt"
+                  type="text"
+                  value={config.getIn(['chat', 'prompt'])}
+                  name="chat.prompt"
+                  onChange={handleChange}
+                />
+              </Group>
+
+            </Section>
+            <Subheading size={4}>Chat options</Subheading>
             <Section className='dp-ms-section'>
               <Group
                 label="Title"
-                htmlFor="ms-messenger-title"
+                htmlFor="ms-chat-options-title"
               >
                 <Input
-                  id="ms-messenger-title"
+                  id="ms-chat-options-title"
                   type="text"
-                  value={config.getIn(['messenger', 'chat', 'title'])}
-                  name="messenger.title"
+                  value={config.getIn(['chat', 'options', 'title'])}
+                  name="chat.options.title"
                   onChange={handleChange}
                 />
               </Group>
               <Toggle
-                name="messenger.chat.showAgentPhotos"
-                checked={config.getIn(['messenger', 'chat', 'showAgentPhotos'])}
+                name="chat.options.showAgentPhotos"
+                checked={config.getIn(['chat', 'options', 'showAgentPhotos'])}
                 onChange={handleChange}
               >
                 Show agent profiles photos
               </Toggle>
               <Group
                 label="Description"
-                htmlFor="ms-messenger-chat-description"
+                htmlFor="ms-chat-options-description"
               >
                 <Input
-                  id="ms-messenger-chat-description"
+                  id="ms-chat-options-description"
                   type="text"
-                  value={config.getIn(['messenger', 'chat', 'description'])}
-                  name="messenger.chat.description"
+                  value={config.getIn(['chat', 'options', 'description'])}
+                  name="chat.options.description"
                   onChange={handleChange}
                 />
               </Group>
               <Group
                 label="Button Text"
-                htmlFor="ms-messenger-chat-button-text"
+                htmlFor="ms-chat-options-button-text"
               >
                 <Input
-                  id="ms-messenger-chat-button-text"
+                  id="ms-chat-options-button-text"
                   type="text"
-                  value={config.getIn(['messenger', 'chat', 'buttonText'])}
-                  name="messenger.chat.buttonText"
+                  value={config.getIn(['chat', 'options', 'buttonText'])}
+                  name="chat.options.buttonText"
                   onChange={handleChange}
                 />
               </Group>

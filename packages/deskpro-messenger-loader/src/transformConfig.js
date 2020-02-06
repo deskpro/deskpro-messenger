@@ -14,16 +14,15 @@ export default (settings) => {
   });
 
   if (settings.chat.enabled) {
-    const chatBlockConfig = settings.messenger.chat;
+    const chatBlockConfig = settings.chat;
     const startChatBlock = {
-      blockType: 'StartChatBlock',
-      title: chatBlockConfig.title || 'Conversation',
-      description: chatBlockConfig.description,
-      linkText: chatBlockConfig.buttonText || 'Start a chat',
-      inputPlaceholder: chatBlockConfig.inputPlaceholder || 'Type your message here',
+      blockType:       'StartChatBlock',
+      title:           chatBlockConfig.options.title,
+      description:     chatBlockConfig.options.description,
+      linkText:        chatBlockConfig.options.buttonText,
       showAgentPhotos: chatBlockConfig.showAgentPhotos,
-      to: 'startChat',
-      order: 10
+      to:              'startChat',
+      order:           10
     };
     screens.proactive = settings.messenger.proactive;
     screens.index.blocks.push(startChatBlock);
