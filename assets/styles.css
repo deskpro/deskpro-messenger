@@ -1696,16 +1696,35 @@
     max-width: calc(100% - 20px)
 
   }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerpt {
+      overflow: hidden;
+      position: relative;
       line-height: 150%;
-    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry h4.dpmsg-QuickSearchEntryHeaderLink {
+      height: 40px;
+      text-align: justify;
+      margin-right: 12px;
+      padding-right: 12px
+    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerpt:before {
+        content: '...';
+        position: absolute;
+        right: 0;
+        bottom: -2px;
+      }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerpt:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        width: 10px;
+        height: 10px;
+        margin-top: 5px;
+        background: white;
+      }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchEntryHeaderLink {
       font-size: 14px;
       font-weight: 400;
       line-height: 150%;
       margin: 0 0 3px 0;
       max-width: calc(100% - 20px)
-    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry h4.dpmsg-QuickSearchEntryHeaderLink a {
+    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchEntryHeaderLink a {
         text-decoration: none
-      }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry h4.dpmsg-QuickSearchEntryHeaderLink a:hover {
+      }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchEntryHeaderLink a:hover {
           text-decoration: underline;
         }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchEntry--divider {
       background-color: #d3d6d7;
