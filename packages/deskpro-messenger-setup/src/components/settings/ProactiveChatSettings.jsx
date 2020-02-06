@@ -8,10 +8,20 @@ import avatarTextInput from '../../images/avatar-text-input.png';
 import avatarWidgetButton from '../../images/avatar-widget-button.png';
 import textButton from '../../images/text-button.png';
 import textInput from '../../images/text-input.png';
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Group, Heading, Icon, Input, Label, ListElement, Radio, Section, Toggle, Subheading } from '@deskpro/react-components';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import {
+  Group,
+  Heading,
+  Icon,
+  Input,
+  Label,
+  ListElement,
+  Section,
+  Subheading,
+  Toggle
+} from '@deskpro/react-components';
 
-class MessengerSettings extends React.Component {
+class ProactiveChatSettings extends React.Component {
   static propTypes = {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired
@@ -239,4 +249,4 @@ class MessengerSettings extends React.Component {
     );
   }
 }
-export default MessengerSettings;
+export default ProactiveChatSettings;

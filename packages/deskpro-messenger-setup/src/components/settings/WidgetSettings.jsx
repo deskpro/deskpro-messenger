@@ -1,10 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { Colorpicker, Heading, Icon, Label, ListElement, Section, Subheading, Radio } from '@deskpro/react-components';
+import {
+  Colorpicker,
+  Heading,
+  Icon,
+  Label,
+  ListElement,
+  Section,
+  Subheading,
+  Radio,
+  Input, Group
+} from '@deskpro/react-components';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
-class StyleSettings extends React.PureComponent {
+class WidgetSettings extends React.PureComponent {
   static propTypes = {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
@@ -65,30 +75,44 @@ class StyleSettings extends React.PureComponent {
               format="hex"
             />
 
+            <Group
+              label="Greeting Title"
+              htmlFor="ms-messenger-title"
+            >
+              <Input
+                id="ms-messenger-title"
+                type="text"
+                value={config.getIn(['messenger', 'title'])}
+                name="messenger.title"
+                onChange={handleChange}
+              />
+            </Group>
           </Section>
           <Subheading size={4}>Widget position</Subheading>
-          <Radio
-            checked={config.getIn(['styles', 'position']) === 'right'}
-            name="styles.position"
-            onChange={this.handleRadioChange}
-            value="right"
-            style={{ display: 'inline-block' }}
-          >
-            Right
-          </Radio>
-          <span className="dp-ms-position-separator">- or -</span>
-          <Radio
-            checked={config.getIn(['styles', 'position']) === 'left'}
-            name="styles.position"
-            onChange={this.handleRadioChange}
-            value="left"
-            style={{ display: 'inline-block' }}
-          >
-            Left
-          </Radio>
+          <Section className='dp-ms-section'>
+            <Radio
+              checked={config.getIn(['styles', 'position']) === 'right'}
+              name="styles.position"
+              onChange={this.handleRadioChange}
+              value="right"
+              style={{ display: 'inline-block' }}
+            >
+              Right
+            </Radio>
+            <span className="dp-ms-position-separator">- or -</span>
+            <Radio
+              checked={config.getIn(['styles', 'position']) === 'left'}
+              name="styles.position"
+              onChange={this.handleRadioChange}
+              value="left"
+              style={{ display: 'inline-block' }}
+            >
+              Left
+            </Radio>
+          </Section>
         </Section>
       </ListElement>
     );
   }
 }
-export default StyleSettings;
+export default WidgetSettings;

@@ -2,23 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {
-  Radio,
   Group,
   Heading,
+  Icon,
   Input,
-  Label,
   ListElement,
+  Radio,
   Section,
   Select,
-  Toggle,
-  Icon,
-  Subheading
+  Subheading,
+  Toggle
 } from '@deskpro/react-components';
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import ChatSettings from './ChatSettings';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import classNames from "classnames";
 
-class TicketSettings extends React.PureComponent {
+class EmailUsSettings extends React.PureComponent {
   static propTypes = {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
@@ -186,4 +184,4 @@ class TicketSettings extends React.PureComponent {
     );
   }
 }
-export default TicketSettings;
+export default EmailUsSettings;

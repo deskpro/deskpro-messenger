@@ -313,13 +313,13 @@ class ChatSettings extends React.PureComponent {
             <Subheading size={4}>Chat module settings</Subheading>
             <Section className='dp-ms-section'>
               <Group
-                label="Greeting title"
+                label="Title"
                 htmlFor="ms-messenger-title"
               >
                 <Input
                   id="ms-messenger-title"
                   type="text"
-                  value={config.getIn(['messenger', 'title'])}
+                  value={config.getIn(['messenger', 'chat', 'title'])}
                   name="messenger.title"
                   onChange={handleChange}
                 />
@@ -344,7 +344,7 @@ class ChatSettings extends React.PureComponent {
                 />
               </Group>
               <Group
-                label="Button text"
+                label="Button Text"
                 htmlFor="ms-messenger-chat-button-text"
               >
                 <Input

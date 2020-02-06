@@ -5,9 +5,9 @@ import { Icon, ToggleableList } from '@deskpro/react-components';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import ChatSettings from './ChatSettings';
 import EmbedWidget from './EmbedWidget';
-import MessengerSettings from './MessengerSettings';
-import StyleSettings from './StyleSettings';
-import TicketSettings from './TicketSettings';
+import ProactiveChatSettings from './ProactiveChatSettings';
+import WidgetSettings from './WidgetSettings';
+import EmailUsSettings from './EmailUsSettings';
 
 class Settings extends React.Component {
   static propTypes = {
@@ -40,7 +40,7 @@ class Settings extends React.Component {
         </div>
 
         <ToggleableList on="click" toggle="opened">
-          <StyleSettings
+          <WidgetSettings
             id="style"
             config={settings}
             handleChange={handleChange}
@@ -54,12 +54,12 @@ class Settings extends React.Component {
             chatCustomFields={chatCustomFields}
             usergroups={usergroups}
           />
-          <MessengerSettings
+          <ProactiveChatSettings
             id="messenger"
             config={settings}
             handleChange={handleChange}
           />
-          <TicketSettings
+          <EmailUsSettings
             id="ticket"
             config={settings}
             handleChange={handleChange}
