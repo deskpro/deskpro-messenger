@@ -60,7 +60,7 @@ export default (settings) => {
   }
 
   if (settings.tickets.enabled) {
-    const ticketBlockConfig = settings.messenger.tickets;
+    const ticketBlockConfig = settings.tickets.options;
     screens.index.blocks.push({
       blockType: 'ButtonLink',
       blockTitle: ticketBlockConfig.title,

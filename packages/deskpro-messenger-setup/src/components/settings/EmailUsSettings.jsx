@@ -143,37 +143,37 @@ class EmailUsSettings extends React.PureComponent {
             >
               <Group
                 label="Title"
-                htmlFor="ms-messenger-tickets-title"
+                htmlFor="ms-tickets-options-title"
               >
                 <Input
-                  id="ms-messenger-tickets-title"
+                  id="ms-tickets-options-title"
                   type="text"
-                  value={config.getIn(['messenger', 'tickets', 'title'])}
-                  name="messenger.tickets.title"
+                  value={config.getIn(['tickets', 'options', 'title'])}
+                  name="tickets.options.title"
                   onChange={handleChange}
                 />
               </Group>
               <Group
                 label="Description"
-                htmlFor="ms-messenger-tickets-description"
+                htmlFor="ms-tickets-options-description"
               >
                 <Input
-                  id="ms-messenger-tickets-description"
+                  id="ms-tickets-options-description"
                   type="text"
-                  value={config.getIn(['messenger', 'tickets', 'description'])}
-                  name="messenger.tickets.description"
+                  value={config.getIn(['tickets', 'options', 'description'])}
+                  name="tickets.options.description"
                   onChange={handleChange}
                 />
               </Group>
               <Group
                 label="Button text"
-                htmlFor="ms-messenger-tickets-button-text"
+                htmlFor="ms-tickets-options-button-text"
               >
                 <Input
-                  id="ms-messenger-tickets-button-text"
+                  id="ms-tickets-options-button-text"
                   type="text"
-                  value={config.getIn(['messenger', 'tickets', 'buttonText'])}
-                  name="messenger.tickets.buttonText"
+                  value={config.getIn(['tickets', 'options', 'buttonText'])}
+                  name="tickets.options.buttonText"
                   onChange={handleChange}
                 />
               </Group>

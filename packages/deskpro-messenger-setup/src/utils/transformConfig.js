@@ -45,7 +45,7 @@ export default (settings) => {
   }
 
   if (settings.getIn(['tickets', 'enabled'])) {
-    const ticketBlockConfig = settings.getIn(['messenger', 'tickets']);
+    const ticketBlockConfig = settings.getIn(['tickets', 'options']);
     screens.index.blocks.push({
       blockType: 'ScreenLink',
       blockTitle: ticketBlockConfig.get('title'),

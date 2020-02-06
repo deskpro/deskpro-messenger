@@ -57,11 +57,11 @@ const blocksMapping = {
     return (
       <Block title={title}>
         {props.showAgentPhotos && !activeChat ? <AvatarHeads agentsAvailable={props.agentsAvailable} /> : null}
-        {activeChat ?
-          null :
+        {!activeChat &&
           <div className="dpmsg-BlockText">
             {description}
-          </div>}
+          </div>
+        }
         <Button to={`/screens/${to}`} width="full" color="primary">
           {link}
         </Button>
@@ -87,8 +87,13 @@ const blocksMapping = {
       </Link>
     </Block>
   )),
-  ButtonLink: injectIntl(({ to, intl, label, blockTitle, ...props }) => (
+  ButtonLink: injectIntl(({ to, intl, label, blockTitle, description, ...props }) => (
     <Block title={intl.formatMessage({ id: blockTitle, defaultMessage: blockTitle })}>
+      {description &&
+        <div className="dpmsg-BlockText">
+          {description}
+        </div>
+      }
       <Button  title={props.description || ''} to={`/screens/${to}`} width="full" color="primary">
         {intl.formatMessage({ id: label, defaultMessage: label })}
       </Button>
