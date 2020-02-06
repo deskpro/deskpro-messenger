@@ -48,7 +48,7 @@ class QuickSearchBlock extends React.Component {
           <div className="dpmsg-QuickSearchResults">
             {this.state.query.length >= 3 && this.props.results.map((r) => (
               <div className="dpmsg-QuickSearchEntry">
-                <h4><a className="dpmsg-QuickSearchEntryHeaderLink" rel="noreferrer noopener" target="_blank" href={r.link}>{r.title}</a></h4>
+                <h4 className="dpmsg-QuickSearchEntryHeaderLink"><a rel="noreferrer noopener" target="_blank" href={r.link}>{r.title}</a></h4>
                 <div className="dpmsg-QuickSearchExcerpt">
                   {r.excerpt}
                 </div>
