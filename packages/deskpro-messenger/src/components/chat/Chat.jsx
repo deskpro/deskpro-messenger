@@ -135,12 +135,7 @@ class Chat extends PureComponent {
           ownerDocument={frameContext.document}
         >
           {!!chatConfig.prompt && (
-            <BotBubble
-              message={intl.formatMessage({
-                id: 'chat.welcome_bubble.message',
-                defaultMessage: chatConfig.prompt
-              })}
-            />
+            <BotBubble message={chatConfig.prompt} />
           )}
           {messages
             .filter(m => m.id || m.type !== 'chat.typing.start')
