@@ -30,15 +30,6 @@ storiesOf('Messenger', module)
       index: {
         screenType: 'Blocks',
         blocks: []
-      },
-      greetingChat: {
-        screenType: 'Blocks',
-        blocks: [
-          {
-            blockType: 'StartChatBlock',
-            to: 'startSupportChat'
-          }
-        ]
       }
     };
 
@@ -228,20 +219,6 @@ storiesOf('Messenger', module)
       };
     }
 
-    const greetings = {
-      greeting1: {
-        greetingType: 'SimpleGreeting'
-      },
-      greeting2: {
-        greetingType: 'PricingGreeting'
-      }
-    };
-    const enabledGreetings = [
-      null,
-      '/screens/greetingChat',
-      '/greetings/greeting1',
-      '/greetings/greeting2'
-    ];
 
     const buttonHandler = () => {
       window.parent.DeskProMessenger.send('open', { screen: 'salesChat' });
@@ -262,8 +239,6 @@ storiesOf('Messenger', module)
       ),
       locale: select('Locale', ['en-US', 'ru-RU'], 'en-US', 'i18n'),
       screens,
-      greetings,
-      enabledGreetings,
       themeVars,
       user: {
         name: text('User Name', 'Artem Berdyshev', 'Visitor'),

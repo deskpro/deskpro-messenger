@@ -29,8 +29,6 @@ class MessengerAPI extends PureComponent {
         let path;
         if ('screen' in payload) {
           path = `/screens/${payload.screen}`;
-        } else if ('greeting' in payload) {
-          path = `/greetings/${payload.greeting}`;
         }
         if (path) {
           this.props.history.push(path, { api: true, ...payload });

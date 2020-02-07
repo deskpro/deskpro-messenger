@@ -1,16 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { IntlProvider, addLocaleData } from 'react-intl';
+import { addLocaleData, IntlProvider } from 'react-intl';
 import enLocale from 'react-intl/locale-data/en';
 
 import enTranslations from '../translations/en.json';
 import WithData from './WithData';
 import Window from '../components/core/Window';
 import MessengerToggler from '../components/core/MessengerToggler';
-import Greetings from '../components/core/Greetings';
 import { ConfigProvider } from '../components/core/ConfigContext';
 import MessengerAPI from '../components/core/MessengerAPI';
 import { appInit, appShutdown } from '../modules/app';
@@ -77,7 +76,6 @@ class Main extends PureComponent {
           <WithData>
             <Switch>
               <Route path="/screens" component={Window} />
-              <Route path="/greetings" component={Greetings} />
             </Switch>
             <Route component={MessengerToggler} />
             <Route component={MessengerAPI} />
