@@ -72,7 +72,8 @@ export default produce((draft, { type, payload }) => {
     case SEARCH_QUICK_SEARCH:
     case SEARCH_FULL:
       draft.query = payload;
-
+      return;
+      
     default:
       return;
   }
