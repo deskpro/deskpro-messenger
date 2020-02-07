@@ -89,7 +89,6 @@ class MessengerWindow extends PureComponent {
   };
 
   render() {
-    console.log(this.props);
     const { opened, widget: { greetingTitle } } = this.props;
 
     return (
@@ -130,6 +129,12 @@ class MessengerWindow extends PureComponent {
                       path="/screens/active-chat/:chatId"
                       screenName="chatScreen"
                       screen={{ screenType: 'ChatScreen' }}
+                    />,
+                    <ScreenRoute
+                      key="quickSearchScreen"
+                      path="/screens/search"
+                      screenName="quickSearchScreen"
+                      screen={{ screenType: 'QuickSearchScreen' }}
                     />,
                     <Redirect key="index-redirect" to="/screens/index" />
                   ])}

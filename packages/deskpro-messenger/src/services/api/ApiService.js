@@ -181,4 +181,15 @@ export default class ApiService {
   async quickSearch(query) {
     return this.apiClient.get(`/api/messenger/search/quick?q=${query}`).then(({data}) => data);
   }
+
+  /**
+   * Do a quick search
+   *
+   * @param {string} query a search query.
+   *
+   *  @returns {array} array of results
+   */
+  async search(query) {
+    return this.apiClient.get(`/api/messenger/search/full?q=${query}`).then(({data}) => data);
+  }
 }
