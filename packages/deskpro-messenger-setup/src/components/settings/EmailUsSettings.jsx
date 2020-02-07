@@ -99,10 +99,11 @@ class EmailUsSettings extends React.PureComponent {
                   Set Department (removes from the ticket form)
                 </Radio>
                 <Select
-                  options={ticketDepartments.toArray().map(dep => (
+                  options={ticketDepartments.filter(d => d.get('children').size < 1).toArray().map(dep => (
                     {
-                      value: dep.get('id'),
-                      label: dep.get('title')
+                      value:      dep.get('id'),
+                      label:      dep.get('title'),
+                      isDisabled: dep.get('children').size > 0
                     }
                   ))}
                   value={config.getIn(['tickets', 'department'])}

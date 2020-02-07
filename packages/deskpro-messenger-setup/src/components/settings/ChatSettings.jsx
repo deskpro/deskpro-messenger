@@ -269,7 +269,7 @@ class ChatSettings extends React.PureComponent {
                 label="Default chat department"
                 htmlFor="ms-default-chat-department">
                 <Select
-                  options={chatDepartments.toArray().map(dep => (
+                  options={chatDepartments.filter(d => d.get('children').size < 1).toArray().map(dep => (
                     {
                       value: dep.get('id'),
                       label: dep.get('title')
@@ -426,7 +426,7 @@ class ChatSettings extends React.PureComponent {
                     htmlFor="ms-chat-ticketDefaults-department"
                   >
                     <Select
-                      options={ticketDepartments.toArray().map(dep => (
+                      options={ticketDepartments.filter(d => d.get('children').size < 1).toArray().map(dep => (
                         {
                           value: dep.get('id'),
                           label: dep.get('title')
