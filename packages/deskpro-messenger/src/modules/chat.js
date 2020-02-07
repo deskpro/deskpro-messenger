@@ -180,7 +180,7 @@ const agentAssignementTimeout = (action$, _, { config }) =>
         action$.pipe(
           ofType(CHAT_MESSAGE_RECEIVED),
           filter(({ payload: message }) =>
-            ['chat.agentAssigned', 'chat.noAgents'].includes(message.type)
+            ['chat.agentAssigned', 'chat.ended', 'chat.noAgents'].includes(message.type)
           ),
           mapTo(false)
         ),
