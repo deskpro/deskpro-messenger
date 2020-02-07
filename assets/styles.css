@@ -1694,14 +1694,13 @@
 }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry {
     margin-top: 15px;
     max-width: calc(100% - 20px)
-
   }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerpt {
       overflow: hidden;
       position: relative;
       line-height: 150%;
-      height: 40px;
+      height: 34px;
+      font-size: 12px;
       text-align: justify;
-      margin-right: 12px;
       padding-right: 12px
     }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerpt:before {
         content: '...';
@@ -1739,7 +1738,16 @@
       display: inline-block;
       margin-right: 5px;
       padding: 7px;
-    }.dpmsg-Icon {
+    }.dpmsg-QuickSearchResults .dpmsg-QuickSearchFooter {
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    color: #4c4f50;
+    color: var(--grey-darkest);
+    display: block;
+    text-align: center;
+    margin: 20px 0;
+  }.dpmsg-Icon {
   display: inline-block;
   flex-shrink: 0;
   height: 17px;
