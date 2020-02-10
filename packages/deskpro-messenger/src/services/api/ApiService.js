@@ -149,7 +149,7 @@ export default class ApiService {
    * Create ticket.
    * @param {object} values Ticket values.
    */
-  async createTicket(values, config) {
+  async createTicket(values) {
     if(values.attachments) {
       values.attachments = values.attachments.map(a => ({ blob_auth: a.authcode }));
     }
@@ -165,10 +165,16 @@ export default class ApiService {
         };
       }, {});
 
-    postData.fields = Object.fromEntries(keys.filter(k => k.indexOf('ticket_field_') === 0).map(k => {
+    const fields = Object.fromEntries(keys.filter(k => k.indexOf('ticket_field_') === 0).map(k => {
       return [k.split('_').slice(-1)[0], values[k]];
     }));
-    return this.apiClient.post(`/api/messenger/ticket`, postData);
+    if(Object.keys(fields).length > 0) {
+      postData.fields = fields;
+    }
+    if(postData.message) {
+      postData.message = { message: values.message, format: 'html' }
+    }
+    return this.apiClient.post(`/api/messenger/ticket`, { ticket_with_layouts_api: postData });
   }
 
   /**
