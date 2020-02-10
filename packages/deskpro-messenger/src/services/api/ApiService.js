@@ -149,7 +149,7 @@ export default class ApiService {
    * Create ticket.
    * @param {object} values Ticket values.
    */
-  async createTicket(values) {
+  async createTicket(values, config) {
     if(values.attachments) {
       values.attachments = values.attachments.map(a => ({ blob_auth: a.authcode }));
     }
@@ -174,7 +174,7 @@ export default class ApiService {
     if(postData.message) {
       postData.message = { message: values.message, format: 'html' }
     }
-    return this.apiClient.post(`/api/messenger/ticket`, { ticket_with_layouts_api: postData });
+    return this.apiClient.post(`/api/messenger/ticket`, postData);
   }
 
   /**
