@@ -20,7 +20,7 @@ export default (settings) => {
       title:           chatBlockConfig.options.title,
       description:     chatBlockConfig.options.description,
       linkText:        chatBlockConfig.options.buttonText,
-      showAgentPhotos: chatBlockConfig.showAgentPhotos,
+      showAgentPhotos: chatBlockConfig.options.showAgentPhotos,
       to:              'startChat',
       order:           10
     };
