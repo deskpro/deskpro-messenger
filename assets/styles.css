@@ -1692,8 +1692,7 @@
   }.dpmsg-QuickSearchResults {
   margin-top: 7px
 }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry {
-    margin-top: 15px;
-    max-width: calc(100% - 20px)
+    margin-top: 15px
   }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerpt {
       overflow: hidden;
       position: relative;
