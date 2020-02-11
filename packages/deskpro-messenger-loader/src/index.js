@@ -41,7 +41,7 @@ function setupFrames(config, manifest) {
   const iframeDoc = iframe.contentDocument;
 
   const assets = manifest.entrypoints.main.js.map(fileName =>
-    `<script async src="${config.bundleUrl.isDev ? '' : config.bundleUrl.path}${fileName}"></script>`
+    `<script async src="${config.bundleUrl.isDev ? '' : `${config.helpdeskURL}${config.bundleUrl.path}`}${fileName}"></script>`
   ).join("\n");
 
   const initialContent = `<!DOCTYPE html><html>
@@ -62,7 +62,7 @@ function init() {
   const scriptTag = document.getElementById('dp-messenger-loader');
   const hdUrl = scriptTag.dataset.helpdeskUrl;
   return loadConfig(hdUrl).then((config) => {
-    fetch(config.bundleUrl.manifest)
+    fetch(`${config.helpdeskURL}${config.bundleUrl.manifest}`)
       .then((res) => res.json())
       .then((manifest) => {
         setupFrames(config, manifest);
