@@ -171,9 +171,7 @@ export default class ApiService {
     if(Object.keys(fields).length > 0) {
       postData.fields = fields;
     }
-    if(postData.message) {
-      postData.message = { message: values.message, format: 'html' }
-    }
+    postData.message = { message: values.message, format: 'html' };
     return this.apiClient.post(`/api/messenger/ticket`, postData);
   }
 
