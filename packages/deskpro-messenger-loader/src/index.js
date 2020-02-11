@@ -62,7 +62,7 @@ function init() {
   const scriptTag = document.getElementById('dp-messenger-loader');
   const hdUrl = scriptTag.dataset.helpdeskUrl;
   return loadConfig(hdUrl).then((config) => {
-    fetch(`${config.helpdeskURL}${config.bundleUrl.manifest}`)
+    fetch(`${config.bundleUrl.isDev ? '' : config.helpdeskURL}${config.bundleUrl.manifest}`)
       .then((res) => res.json())
       .then((manifest) => {
         setupFrames(config, manifest);
