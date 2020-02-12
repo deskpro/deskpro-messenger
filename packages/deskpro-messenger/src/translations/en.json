@@ -6,6 +6,7 @@
   "chat.agent_unassigned.message": "{name} left the conversation.",
   "message_user-joined": "{name} joined the conversation.",
   "message_user-left": "{name} left the conversation.",
+  "message_ended": "You have ended the conversation.",
   "message_ended-by": "{name} has ended the conversation.",
   "message_assigned": "{name} assigned to the chat.",
   "message_unassigned": "{name} unassigned from the chat.",

@@ -192,7 +192,6 @@ class Chat extends PureComponent {
                     </div>
                   );
                 case 'chat.userJoined':
-                case 'chat.userLeft':
                   return (
                     <SystemMessage
                       key={key}
