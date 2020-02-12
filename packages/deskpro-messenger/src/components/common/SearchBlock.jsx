@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import Isvg from 'react-inlinesvg';
+import asset from '../../utils/asset';
 
 class SearchBlock extends React.Component {
   static propTypes = {
@@ -19,7 +21,8 @@ class SearchBlock extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: props.query
+      query: props.query,
+      focused: false
     }
   }
 
@@ -27,11 +30,6 @@ class SearchBlock extends React.Component {
     this.props.search(this.state.query)
   }
 
-  onChange = (e) => {
-    const value = e.target.value;
-    this.setState({query: value}, () => this.props.search(value));
-
-  };
 
   getSearchHint() {
     return (
@@ -49,6 +47,18 @@ class SearchBlock extends React.Component {
     return this.props.results.length > 3 && <Link to="/screens/search" className="dpmsg-QuickSearchFooter">See more results</Link>;
   }
 
+
+  onChange = (e) => {
+    const value = e.target.value;
+    this.setState({query: value}, () => this.props.search(value));
+  };
+
+  onClear = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({query: ''}, () => this.props.search(''));
+  };
+
   render() {
     const { title, className } = this.props;
 
@@ -57,12 +67,21 @@ class SearchBlock extends React.Component {
         <div className="dpmsg-BlockWrapper">
           {!!title && <div className="dpmsg-BlockHeader">{title}</div>}
           <div className="dpmsg-QuickSearchControl">
-            <div className="dpmsg-QuickSearchControl--wrapper">
-              <input className="dpmsg-QuickSearchControl--input" id="quickSearchInput" onChange={this.onChange} value={this.state.query} />
+            <div className={classNames("dpmsg-QuickSearchControl--wrapper", {focused: this.state.focused})}>
+              <input
+                className="dpmsg-QuickSearchControl--input"
+                id="quickSearchInput"
+                onChange={this.onChange}
+                onFocus={() => this.setState({focused: true})}
+                onBlur={() => this.setState({focused: false})}
+                value={this.state.query}
+
+              />
               <label className="dpmsg-QuickSearchControl--label" htmlFor="quickSearchInput">
-                <i className="fa fa-search" />
+                <Isvg src={asset('img/search.svg')} />
                 <span aria-hidden={true}>Search</span>
               </label>
+              { (this.state.query.length > 0) && <i className="dpmsg-Icon dpmsg-IconSearchClear" onClick={this.onClear} /> }
             </div>
             <div className="dpmsg-QuickSearchControl--hint">
               {this.getSearchHint()}
