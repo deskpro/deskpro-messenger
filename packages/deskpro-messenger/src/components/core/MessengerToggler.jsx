@@ -24,7 +24,6 @@ class WidgetToggler extends PureComponent {
     chatSettings:          PropTypes.object,
     chatEnabled:           PropTypes.bool.isRequired,
     proactive:             PropTypes.object,
-    screens:               PropTypes.object,
     user:                  PropTypes.object,
     toggleWindow:          PropTypes.func.isRequired,
     openWindowOnce:        PropTypes.func.isRequired,
@@ -148,7 +147,7 @@ class WidgetToggler extends PureComponent {
 
 
   renderAutoStart() {
-    const { proactive: { autoStartStyle }, screens } = this.props;
+    const { proactive: { options, autoStartStyle } } = this.props;
 
     if (!this.canAutoStart()) {
       return null;
@@ -163,7 +162,7 @@ class WidgetToggler extends PureComponent {
         <AutoStart
           onClose={this.onProactiveClose}
           autoStartStyle={autoStartStyle}
-          screens={screens}
+          options={options}
           startChat={this.startChat}
         />
       </div>
@@ -218,7 +217,6 @@ const WidgetTogglerWithStyles = (props) => (
         chatSettings={screens.startChat}
         themeVars={themeVars}
         proactive={proactive}
-        screens={screens}
         {...props}
       />}
   </ConfigConsumer>

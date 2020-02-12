@@ -24,7 +24,6 @@ export default (settings) => {
       to:              'startChat',
       order:           10
     };
-    screens.proactive = settings.proactive.options;
     screens.index.blocks.push(startChatBlock);
     screens.startChat = settings.chat;
     screens.startChat.screenType = 'StartChatScreen';
@@ -77,6 +76,7 @@ export default (settings) => {
   return {
     widget: settings.widget,
     proactive: {
+      options: settings.proactive.options,
       autoStart: settings.proactive.autoStart,
       autoStartTimeout: settings.proactive.autoStartTimeout,
       autoStartStyle: settings.proactive.autoStartStyle,
@@ -90,7 +90,6 @@ export default (settings) => {
       '--header-icon-text-color': settings.widget.textColor || '#ffffff',
       '--brand-secondary': settings.widget.backgroundColor || '#f7f7f7',
       '--color-secondary': settings.widget.backgroundColor || '#f7f7f7'
-    },
-    greetings: {},
+    }
   };
 };

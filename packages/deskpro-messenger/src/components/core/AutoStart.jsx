@@ -40,6 +40,7 @@ class AutoStart extends PureComponent {
   static propTypes = {
     onClose:         PropTypes.func.isRequired,
     agentsAvailable: PropTypes.object.isRequired,
+    options:         PropTypes.object.isRequired,
     startChat:       PropTypes.func.isRequired,
     autoStartStyle:  PropTypes.string.isRequired,
   };
@@ -68,14 +69,13 @@ class AutoStart extends PureComponent {
   };
 
   renderAvatarWidget() {
-    const { agentsAvailable, startChat, screens } = this.props;
+    const { agentsAvailable, startChat, options } = this.props;
 
     const agent = Object.values(agentsAvailable).pop();
-    const proactiveSettings = screens.proactive;
     return (
       <button className='dpmsg-AutoStart-widget' onClick={() => startChat()}>
         <div className='dpmsg-AutoStart-widget-text'>
-          {proactiveSettings.title}
+          {options.title}
         </div>
         <div className="dpmsg-AutoStart-widget-avatar" key={agent.id}>
           <img src={agent.avatar} alt=""/>
@@ -85,34 +85,34 @@ class AutoStart extends PureComponent {
   };
 
   render() {
-    const { autoStartStyle, startChat, screens } = this.props;
+    const { autoStartStyle, startChat, options} = this.props;
 
-    const proactiveSettings = screens.proactive;
+
     if (autoStartStyle === 'avatar-widget') {
       return this.renderAvatarWidget();
     }
     return (
       <MessengerShell
         controls={this.renderToolbar()}
-        title={proactiveSettings.greetingTitle}
+        title={options.greetingTitle}
       >
-        <Block title={proactiveSettings.title}>
+        <Block title={options.title}>
           {autoStartStyle.indexOf('avatar') !== -1 ? <AvatarHeads agentsAvailable={this.props.agentsAvailable}/> : null}
           {autoStartStyle.indexOf('text') !== -1 ?
           <div className="dpmsg-BlockText">
-            {proactiveSettings.description}
+            {options.description}
           </div> : null}
           {autoStartStyle.indexOf('input') !== -1 ?
             <Input
               onClick={() => startChat(this.state.message)}
               width="full"
               color="primary"
-              placeholder={proactiveSettings.inputPlaceholder}
+              placeholder={options.inputPlaceholder}
               value={this.state.message}
               onChange={this.onInputChange}
             /> :
             <Button onClick={() => startChat(this.state.message)} width="full" color="primary">
-              {proactiveSettings.buttonText}
+              {options.buttonText}
             </Button>
           }
         </Block>

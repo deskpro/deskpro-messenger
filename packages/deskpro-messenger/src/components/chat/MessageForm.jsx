@@ -51,8 +51,6 @@ class MessageForm extends PureComponent {
 
   onFroalaInit = (e, editor) => {
     this.editor = editor;
-    editor.events.focus();
-    // editor.events.on('drop', this.onDrop.bind(null, e, editor), true);
     editor.events.on('keydown', this.handleKeydown, true);
   };
 
