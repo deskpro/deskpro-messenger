@@ -8,7 +8,7 @@ import Block from '../components/core/Block';
 import { TicketForm } from '@deskpro/portal-components';
 import { getTicketSavedState, getTicketSavingState, getErrors, saveTicket, newTicket } from '../modules/tickets';
 import { getTicketDepartments } from '../modules/info';
-import { getUser } from '../modules/guest';
+import { getUser, isUserSet } from '../modules/guest';
 
 
 const mapStateToProps = (state, props) => ({
@@ -16,6 +16,7 @@ const mapStateToProps = (state, props) => ({
     ticketSaved:  getTicketSavedState(state),
     ticketSaving: getTicketSavingState(state),
     user:         getUser(state),
+    isUserSet:    isUserSet(state),
     errors:       getErrors(state)
 });
 
@@ -28,6 +29,7 @@ class TicketFormScreen extends React.Component {
     departments:  PropTypes.object.isRequired,
     intl:         PropTypes.object.isRequired,
     user:         PropTypes.object,
+    userId:       PropTypes.bool,
     ticketSaved:  PropTypes.bool,
     ticketSaving: PropTypes.bool
   };
@@ -46,8 +48,19 @@ class TicketFormScreen extends React.Component {
   }
 
   render() {
-    const { intl, formConfig, uploadTo, departments, department, ticketSaved, ticketSaving, errors, user } = this.props;
-    const immutableLayout = fromJSGreedy(formConfig);
+    const { intl, formConfig, uploadTo, departments, department, ticketSaved, ticketSaving, errors, user, isUserSet } = this.props;
+    const converted = formConfig.map((d) => {
+      if(d.fields) {
+        d.fields.forEach((f, i) => {
+          if(f.field_type === 'person') {
+            d.fields[i].is_disabled = isUserSet;
+          }
+        });
+      }
+
+      return d;
+    });
+    const immutableLayout = fromJSGreedy(converted);
 
     return (
       <Block

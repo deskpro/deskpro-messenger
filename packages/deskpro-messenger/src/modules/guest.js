@@ -35,7 +35,7 @@ const initVisitorEpic = (action$, _, { config, api, cache }) =>
                 name: user.name || cache.getValue('guest.name') || _get(config, 'user.name'),
                 email: user.email || cache.getValue('guest.email') || _get(config, 'user.email'),
                 avatar: cache.getValue('guest.avatar') || _get(config, 'user.avatar'),
-                personId: user.person_id || cache.getValue('guest.personId')
+                personId: user.person_id || cache.getValue('personId')
               };
             })
           )
@@ -88,6 +88,7 @@ export default produce(
           draft.name = payload.guest.name || draft.name;
           draft.email = payload.guest.email || draft.email;
           draft.avatar = payload.guest.avatar || draft.avatar;
+          draft.personId = payload.guest.personId || draft.personId;
         }
         return;
 
@@ -95,7 +96,7 @@ export default produce(
         return;
     }
   },
-  { name: '', email: '' }
+  { name: '', email: '', avatar: '' }
 );
 //#endregion
 
@@ -111,5 +112,9 @@ export const getVisitorId = createSelector(
 export const getUser = createSelector(
   getGuestState,
   (guest) => Object.assign({}, { name: guest.name, email: guest.email, avatar: guest.avatar } )
+);
+export const isUserSet = createSelector(
+  getGuestState,
+  (guest) => !isNaN(parseInt(guest.personId, 10))
 );
 //#endregion
