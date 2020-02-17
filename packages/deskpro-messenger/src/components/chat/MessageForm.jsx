@@ -19,7 +19,7 @@ const PATH = '<path d="M12 18L8.25003 26.925L29.25 18L8.25003 9.07501L12 18Z" st
  * Extends Froala editor.
  */
 const extendFroala = () => {
-  $.FroalaEditor.ICON_TEMPLATES['dpmsg'] = '<i class="dpmsg-Icon[NAME]"></i>';
+  $.FroalaEditor.ICON_TEMPLATES['dpmsg'] = '<i class="dpmsg-Icon dpmsg-Icon[NAME]"></i>';
   $.FroalaEditor.DefineIcon('emoticons', { NAME: 'Smile', template: 'dpmsg' });
   $.FroalaEditor.DefineIcon('insertFile', {
     NAME: 'Attach',
