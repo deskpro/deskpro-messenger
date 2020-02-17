@@ -1590,14 +1590,16 @@
   width: auto;
 }.fr-toolbar .fr-command:hover {
   background-color: transparent;
-}.fr-toolbar .fr-command.fr-btn i {
+}.fr-toolbar .fr-command.fr-btn i.dpmsg-Icon {
   cursor: inherit;
   font-size: 0.875rem;
   line-height: 1.2;
-  margin: 0 17px 0 0;
+  margin-left: 0;
   width: 22px;
 }.fr-toolbar .fr-command.fr-btn[data-cmd="emoticons"] {
   margin-left: -5px;
+}.fr-toolbar .fr-command.fr-btn[data-cmd="emoticons"], .fr-toolbar .fr-command.fr-btn[data-cmd="insertFile"] {
+  margin-top: -12px;
 }.fr-toolbar .fr-command.fr-btn[data-cmd="sendMessage"] {
   float: right;
   margin-right: 4px;
@@ -2258,7 +2260,13 @@
     padding: 1.25em 1.5em;
     white-space: pre;
     word-wrap: normal;
-  }:root {
+  }body {
+  margin-top: 22px; // this is froala FF bug fix (wont affect webkit)
+  margin-left: 0; // this is froala FF bug fix (wont affect webkit)
+  padding: 0;
+  position: static;
+  position: initial;
+}:root {
   --grey-darkest: #4c4f50;
   --grey-lightest: #f7f7f7;
   --grey-light: #d3d6d7;
