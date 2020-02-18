@@ -14,6 +14,7 @@ export const newTicket  = () => ({ type: TICKET_NEW_OPEN });
 //#endregion
 
 const flattenErrors = (errors = {}, field, key) => {
+  if(!errors[key]) errors[key] = {};
   if(field.errors) {
     errors[key] = field.errors
       .map(error => error.message)
@@ -21,7 +22,7 @@ const flattenErrors = (errors = {}, field, key) => {
       .join(' ');
   } else if (field.fields) {
     Object.keys(field.fields).forEach((k) => {
-      flattenErrors(errors, field.fields[k], k);
+      flattenErrors(errors[key], field.fields[k], k);
     });
   }
 };
