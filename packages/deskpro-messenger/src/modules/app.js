@@ -3,7 +3,7 @@ import { skip, take, tap } from 'rxjs/operators';
 import { produce } from 'immer';
 
 import { SET_VISITOR } from './guest';
-
+import { CHAT_OPENED } from './chat';
 
 //#region ACTION TYPES
 export const APP_INIT                = 'APP_INIT';
@@ -44,11 +44,12 @@ const startupRedirectEpic = (action$, _, { history, config }) =>
 
 const toggleWindowEpic = (action$, _, { cache }) =>
   action$.pipe(
-    ofType(PROACTIVE_WINDOW_CLOSED),
+    ofType(PROACTIVE_WINDOW_CLOSED, TOGGLE_WINDOW, CHAT_OPENED),
     take(1),
     tap(() => {
       cache.setValue('app.proactiveWindowClosed', true);
-    })
+    }),
+    skip()
   );
 export const appEpic   = combineEpics(startupRedirectEpic, toggleWindowEpic);
 //#endregion
