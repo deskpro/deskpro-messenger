@@ -1669,9 +1669,10 @@
     color: #4c4f50;
     color: var(--grey-darkest);
     font-family: Rubik, sans-serif;
+    font-size: 16px;
     outline: none;
-    padding: 13px 60px;
-    width: calc(100% - 120px);
+    padding: 13px 46px;
+    width: calc(100% - 92px);
   }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--label {
     background-color: #fff;
     border: none;
