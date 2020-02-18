@@ -1655,6 +1655,7 @@
   height: 20px;
   width: 6px;
 }.dpmsg-QuickSearchControl {
+  font-family: Rubik, sans-serif;
   position: relative;
   width: calc(100% - 20px)
 }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--wrapper {
@@ -1698,12 +1699,14 @@
   }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--hint {
     color: #4c4f50;
     color: var(--grey-darkest);
+    font-family: Rubik, sans-serif;
     font-size: 14px;
     font-style: italic;
     font-weight: normal;
     margin-top: 15px;
     word-break: break-all;
   }.dpmsg-QuickSearchResults {
+  font-family: Rubik, sans-serif;
   margin-top: 7px
 }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry {
     margin-top: 15px
