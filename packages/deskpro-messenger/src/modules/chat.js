@@ -283,7 +283,9 @@ const soundEpic = (action$, state$) =>
         message.origin in sounds ? sounds[message.origin] : sounds.default;
       sound.play();
     }),
-    skip()
+    map(() => {
+      return setWindowState(true);
+    })
   );
 
 export const chatEpic = combineEpics(
