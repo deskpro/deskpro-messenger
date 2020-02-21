@@ -135,6 +135,7 @@ class Frame extends PureComponent {
         frameBorder="0"
         scrolling="no"
         style={{ ...defaultIframeStyle, ...style }}
+        initialContent={`<!DOCTYPE html><html><head></head><body><div class="dpmsg-ScreenFrame frame-root"></div></body></html>`}
         {...props}
         ref={this.frame}
       >

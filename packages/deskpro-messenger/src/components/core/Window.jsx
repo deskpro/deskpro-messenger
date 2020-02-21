@@ -44,7 +44,7 @@ class MessengerWindow extends PureComponent {
   state = {
     imageVisible: false,
     articleVisible: false,
-    iframeHeight: '100%'
+    iframeHeight: '350px'
   };
 
   shellRef = createRef();
@@ -54,8 +54,9 @@ class MessengerWindow extends PureComponent {
       return;
     }
     const rect = this.shellRef.current.getBoundingClientRect();
-    const height = `${rect.height + 15}px`;
-    if (height !== this.state.iframeHeight) {
+    const maxHeight = Math.min(1000, window.parent.innerHeight * 0.9);
+    const height = `${rect.height > maxHeight ? maxHeight : rect.height}px`;
+    if (parseInt(height, 10) > parseInt(this.state.iframeHeight, 10)) {
       this.setState({ iframeHeight: height });
     }
   };
