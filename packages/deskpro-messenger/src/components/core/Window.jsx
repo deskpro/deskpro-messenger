@@ -50,7 +50,7 @@ class MessengerWindow extends PureComponent {
 
   shellRef = createRef();
 
-  recalcIframeHeight = () => {
+  recalcIframeHeight = (force = false) => {
     if (!this.shellRef.current) {
       return;
     }
@@ -58,13 +58,19 @@ class MessengerWindow extends PureComponent {
     const maxHeight = Math.min(1000, window.parent.innerHeight * 0.9);
     const height = `${rect.height > maxHeight ? maxHeight : rect.height}px`;
     if (parseInt(height, 10) > parseInt(this.state.iframeHeight, 10)
-      || maxHeight !== this.state.maxHeight) {
+      || maxHeight !== this.state.maxHeight || force) {
       this.setState({ iframeHeight: height, maxHeight });
     }
   };
 
   componentDidMount() {
     this.interval = setInterval(this.recalcIframeHeight, 250);
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.opened !== this.props.opened) {
+      this.recalcIframeHeight(true);
+    }
   }
 
   componentWillUnmount() {
