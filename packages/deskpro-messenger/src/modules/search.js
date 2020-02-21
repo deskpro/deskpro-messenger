@@ -1,13 +1,15 @@
 import { combineEpics, ofType } from 'redux-observable';
-import { debounce, mergeMap, skipWhile } from 'rxjs/operators';
-import { timer } from 'rxjs';
+import { debounce, mergeMap, map, skipWhile, tap, skip, take } from 'rxjs/operators';
+import { timer, EMPTY } from 'rxjs';
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
+import { SET_VISITOR } from './guest';
 
 export const SEARCH_QUICK_SEARCH = 'SEARCH_QUICK_SEARCH';
 export const SEARCH_QUICK_SEARCH_COMPLETE = 'SEARCH_QUICK_SEARCH_COMPLETE';
 export const SEARCH_FULL = 'SEARCH_FULL';
 export const SEARCH_FULL_COMPLETE = 'SEARCH_FULL_COMPLETE';
+export const SEARCH_RESTORE = 'SEARCH_RESTORE';
 
 export const quickSearch = (payload) => ({
   type: SEARCH_QUICK_SEARCH,
@@ -26,6 +28,28 @@ export const searchComplete = (payload) => ({
   payload
 });
 
+const searchRestore = (payload) => ({
+  type: SEARCH_RESTORE,
+  payload
+});
+
+const startupFillResultsEpic = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(SET_VISITOR),
+    take(1),
+    map(() => {
+      return searchComplete(cache.getValue('search.results') || []);
+    }),
+  );
+
+const startupFillQueryEpic = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(SET_VISITOR),
+    take(1),
+    map(() => {
+      return searchRestore(cache.getValue('search.query') || '');
+    }),
+  );
 
 const quickSearchEpic = (action$, _, { api }) =>
   action$.pipe(
@@ -57,8 +81,26 @@ const fullSearchEpic = (action$, _, { api }) =>
     }),
   );
 
+const cacheQueryEpic = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(SEARCH_FULL, SEARCH_QUICK_SEARCH),
+    tap(({ payload }) => {
+      cache.setValue('search.query', payload)
+    }),
+    skip()
+  );
+
+const cacheResultsEpic = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(SEARCH_QUICK_SEARCH_COMPLETE, SEARCH_FULL_COMPLETE),
+    tap(({ payload }) => {
+      cache.setValue('search.results', payload)
+    }),
+    skip()
+  );
+
 export const searchEpic = combineEpics(
-  quickSearchEpic, fullSearchEpic
+  quickSearchEpic, fullSearchEpic, cacheQueryEpic, cacheResultsEpic, startupFillQueryEpic, startupFillResultsEpic
 );
 
 //#region REDUCER
@@ -71,9 +113,10 @@ export default produce((draft, { type, payload }) => {
 
     case SEARCH_QUICK_SEARCH:
     case SEARCH_FULL:
+    case SEARCH_RESTORE:
       draft.query = payload;
       return;
-      
+
     default:
       return;
   }
