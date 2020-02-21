@@ -1,5 +1,5 @@
 import { combineEpics, ofType } from 'redux-observable';
-import { skip, take, tap } from 'rxjs/operators';
+import { skip, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { produce } from 'immer';
 
 import { SET_VISITOR } from './guest';
@@ -44,7 +44,16 @@ const startupRedirectEpic = (action$, _, { history, config, cache }) =>
     skip()
   );
 
-const toggleWindowEpic = (action$, _, { cache }) =>
+const restoreWindowState = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(SET_VISITOR),
+    take(1),
+    map(() => {
+      return setWindowState(cache.getValue('app.windowOpened') || false);
+    }),
+  );
+
+const proactiveWindowClosedEpic = (action$, _, { cache }) =>
   action$.pipe(
     ofType(PROACTIVE_WINDOW_CLOSED, TOGGLE_WINDOW, CHAT_OPENED),
     take(1),
@@ -53,7 +62,43 @@ const toggleWindowEpic = (action$, _, { cache }) =>
     }),
     skip()
   );
-export const appEpic   = combineEpics(startupRedirectEpic, toggleWindowEpic);
+
+const toggleWindowEpic = (action$, state$, { cache }) =>
+  action$.pipe(
+    ofType(TOGGLE_WINDOW),
+    withLatestFrom(state$),
+    tap(([_, state]) => {
+      cache.setValue('app.windowOpened', state.app.windowState);
+    }),
+    skip()
+  );
+
+const openWindowEpic = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(OPEN_WINDOW_ONCE),
+    tap(() => {
+      cache.setValue('app.windowOpened', true);
+    }),
+    skip()
+  );
+
+const setWindowEpic = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(SET_WINDOW_STATE),
+    tap(({ payload }) => {
+      cache.setValue('app.windowOpened', !!payload);
+    }),
+    skip()
+  );
+
+export const appEpic   = combineEpics(
+  startupRedirectEpic,
+  proactiveWindowClosedEpic,
+  toggleWindowEpic,
+  openWindowEpic,
+  setWindowEpic,
+  restoreWindowState
+);
 //#endregion
 
 //#region REDUCER
