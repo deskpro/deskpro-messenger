@@ -35,6 +35,7 @@ class Main extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    this.props.cache.setValue('app.lastLocation', this.props.location.pathname);
     if (prevProps.config.locale !== this.props.config.locale) {
       this.loadLocale(true);
     }

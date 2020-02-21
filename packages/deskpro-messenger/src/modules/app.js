@@ -27,14 +27,16 @@ export const setWindowState        = (payload) => ({
 //#endregion
 
 //#region EPICS
-const startupRedirectEpic = (action$, _, { history, config }) =>
+const startupRedirectEpic = (action$, _, { history, config, cache }) =>
   action$.pipe(
     ofType(SET_VISITOR),
     take(1),
     tap(({ payload }) => {
       if (config.screens.startChat && Array.isArray(payload.chats)) {
         const activeChat = payload.chats.find((c) => c.status === 'open');
-        if (activeChat) {
+        if(cache.getValue('app.lastLocation')) {
+          history.push(cache.getValue('app.lastLocation'));
+        } else if (activeChat) {
           history.push(`/screens/active-chat/${activeChat.id}`);
         }
       }
