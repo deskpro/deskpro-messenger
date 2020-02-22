@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom'
+import { withFrameContext } from '../core/Frame';
 
 import MessageForm from './MessageForm';
 import { withConfig } from '../core/ConfigContext';
@@ -17,15 +18,15 @@ class PromptMessage extends PureComponent {
   };
 
   render() {
-    const { prompt, onSendMessage } = this.props;
+    const { prompt, onSendMessage, frameContext } = this.props;
 
     return (
       <Fragment>
         {!!prompt && <BotBubble message={prompt} />}
-        <MessageForm onSend={onSendMessage}/>
+        <MessageForm onSend={onSendMessage} frameContext={frameContext}/>
       </Fragment>
     );
   }
 }
 
-export default withRouter(withConfig(PromptMessage));
+export default withFrameContext(withRouter(withConfig(PromptMessage)));
