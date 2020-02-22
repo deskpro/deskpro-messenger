@@ -63,51 +63,52 @@ class TicketFormScreen extends React.Component {
     const immutableLayout = fromJSGreedy(converted);
 
     return (
-      <Block
-        title={intl.formatMessage({
-          id: `ticket_form.header`,
-          defaultMessage: 'New Ticket'
-        })}
-      >
-        {ticketSaving && (
-          <FormattedMessage
-            id="tickets.form.saving"
-            defaultMessage="We're saving your ticket. Please wait"
-          />
-        )}
-        {!ticketSaved && (
-          <TicketForm
-            initialValues={{ person: user }}
-            deskproLayout={immutableLayout}
-            departmentPropName="department"
-            departments={fromJSGreedy(departments)}
-            department={department}
-            fileUploadUrl={uploadTo}
-            csrfToken="not_used"
-            onSubmit={this.onSubmit}
-            errors={errors}
-          />
-        )}
-        {ticketSaved && !ticketSaving && (
-          [
-            <div className="dpmsg-BlockInnerIcon">
-              <i className="dpmsg-Icon dpmsg-Icon--Round dpmsg-IconRocket" />
-            </div>,
-            <div className="dpmsg-BlockInnerHeader">
-              <FormattedMessage
-              id="tickets.form.thanks_header"
-              defaultMessage="Your request on its way"
-                />
-            </div>,
-            <div className="dpmsg-BlockInnerContent">
-              <FormattedMessage
-                id="tickets.form.thanks"
-                defaultMessage="Thank you for contacting us. One of our team will be in touch with you via email."
+        <Block
+          title={intl.formatMessage({
+            id: `ticket_form.header`,
+            defaultMessage: 'New Ticket'
+          })}
+        >
+          {ticketSaving && (
+            <FormattedMessage
+              id="tickets.form.saving"
+              defaultMessage="We're saving your ticket. Please wait"
+            />
+          )}
+            {!ticketSaved && (
+              <TicketForm
+                initialValues={{ person: user }}
+                deskproLayout={immutableLayout}
+                departmentPropName="department"
+                departments={fromJSGreedy(departments)}
+                department={department}
+                fileUploadUrl={uploadTo}
+                csrfToken="not_used"
+                onSubmit={this.onSubmit}
+                errors={errors}
               />
-            </div>
-          ]
-        )}
-      </Block>
+            )}
+
+          {ticketSaved && !ticketSaving && (
+            [
+              <div className="dpmsg-BlockInnerIcon">
+                <i className="dpmsg-Icon dpmsg-Icon--Round dpmsg-IconRocket" />
+              </div>,
+              <div className="dpmsg-BlockInnerHeader">
+                <FormattedMessage
+                id="tickets.form.thanks_header"
+                defaultMessage="Your request on its way"
+                  />
+              </div>,
+              <div className="dpmsg-BlockInnerContent">
+                <FormattedMessage
+                  id="tickets.form.thanks"
+                  defaultMessage="Thank you for contacting us. One of our team will be in touch with you via email."
+                />
+              </div>
+            ]
+          )}
+        </Block>
     );
   }
 }

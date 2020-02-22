@@ -1,6 +1,6 @@
 import { combineEpics, ofType } from 'redux-observable';
 import { debounce, mergeMap, map, skipWhile, tap, skip, take } from 'rxjs/operators';
-import { timer, EMPTY } from 'rxjs';
+import { timer } from 'rxjs';
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
 import { SET_VISITOR } from './guest';

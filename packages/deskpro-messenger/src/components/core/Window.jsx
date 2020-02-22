@@ -37,6 +37,12 @@ const extraStyles = (
   </Fragment>
 );
 
+const getHeight = (height) => {
+  const maxHeight = Math.min(1000, window.parent.innerHeight * 0.9);
+  /// wooooooo, magic numbers!
+  return { height: height + 162 > maxHeight ? maxHeight : height + 162, maxHeight };
+};
+
 class MessengerWindow extends PureComponent {
   static propTypes = {
     opened: PropTypes.bool
@@ -51,24 +57,27 @@ class MessengerWindow extends PureComponent {
   shellRef = createRef();
 
   recalcIframeHeight = (force = false) => {
-    if (!this.shellRef.current) {
+    if (!this.shellRef.current || !this.shellRef.current.getBoundingClientRect) {
       return;
     }
-    const rect = this.shellRef.current.getBoundingClientRect();
-    const maxHeight = Math.min(1000, window.parent.innerHeight * 0.9);
-    const height = `${rect.height > maxHeight ? maxHeight : rect.height}px`;
-    if (parseInt(height, 10) > parseInt(this.state.iframeHeight, 10)
+    const { height, maxHeight } = getHeight(this.shellRef.current.getBoundingClientRect().height);
+
+    if (height > parseInt(this.state.iframeHeight, 10)
       || maxHeight !== this.state.maxHeight || force) {
-      this.setState({ iframeHeight: height, maxHeight });
+      this.setState({ iframeHeight: `${height}px`, maxHeight });
     }
   };
 
-  componentDidMount() {
-    this.interval = setInterval(this.recalcIframeHeight, 250);
-  }
+  onResize = (_, h) => {
+    const { height } = getHeight(h);
+
+     if(height >= parseInt(this.state.iframeHeight, 10) ) {
+      this.setState({ iframeHeight: `${height}px` });
+     }
+  };
 
   componentDidUpdate(prevProps) {
-    if(prevProps.opened !== this.props.opened) {
+    if(prevProps.opened !== this.props.opened && this.props.opened) {
       this.recalcIframeHeight(true);
     }
   }
@@ -111,6 +120,7 @@ class MessengerWindow extends PureComponent {
         <MessengerShell
           controls={this.renderToolbar()}
           ref={this.shellRef}
+          onResize={this.onResize}
           title={greetingTitle}
         >
           <div>

@@ -24,6 +24,7 @@ class MessengerShell extends PureComponent {
     introText: ''
   };
 
+
   render() {
     const {
       isMinimal,
@@ -38,7 +39,7 @@ class MessengerShell extends PureComponent {
     const headerImage = 'img/dp-logo-white.svg';
 
     return (
-      <div className="dpmsg-ScreenWrap" ref={forwardedRef} style={{ display: 'none' }}>
+      <div className="dpmsg-ScreenWrap" style={{ display: 'none' }}>
         <div
           className={classNames('dpmsg-Screen', {
             'is-minimal': isMinimal,
@@ -59,7 +60,7 @@ class MessengerShell extends PureComponent {
               <span className="dpmsg-ScreenHeaderText">{introText}</span>
             )}
           </div>
-          <ScreenContent>
+          <ScreenContent ref={forwardedRef} onResize={this.props.onResize}>
             {children}
           </ScreenContent>
           <div className="dpmsg-ScreenFooter">
