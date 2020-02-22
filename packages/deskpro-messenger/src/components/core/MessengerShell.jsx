@@ -6,7 +6,6 @@ import { ConfigConsumer } from './ConfigContext';
 import ScreenContent from './ScreenContent';
 import asset from '../../utils/asset';
 import { isLightColor } from '../../utils/color';
-import { Footer } from './Footer';
 
 class MessengerShell extends PureComponent {
   static propTypes = {

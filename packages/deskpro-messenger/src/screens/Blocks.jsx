@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 
@@ -6,7 +6,7 @@ import Block from '../components/core/Block';
 import QuickSearchBlock from '../components/search/QuickSearchBlock';
 import Button from '../components/form/Button';
 import { connect } from 'react-redux';
-import { getAgentsAvailable, canUseChat } from '../modules/info';
+import { canUseChat, getAgentsAvailable } from '../modules/info';
 import { getActiveChat } from '../modules/chat';
 import AvatarHeads from '../components/ui/AvatarHeads';
 import ScrollArea from 'react-scrollbar/dist/no-css';
