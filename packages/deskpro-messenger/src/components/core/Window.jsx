@@ -38,9 +38,9 @@ const extraStyles = (
 );
 
 const getHeight = (height) => {
-  const maxHeight = Math.min(1000, window.parent.innerHeight * 0.9);
+  const maxHeight = Math.ceil(Math.min(1000, window.parent.innerHeight * 0.9));
   /// wooooooo, magic numbers!
-  return { height: height + 162 > maxHeight ? maxHeight : height + 162, maxHeight };
+  return { height: Math.ceil(height + 162 > maxHeight ? maxHeight : height + 162), maxHeight };
 };
 
 class MessengerWindow extends PureComponent {

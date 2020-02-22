@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { getAgentsAvailable, canUseChat } from '../modules/info';
 import { getActiveChat } from '../modules/chat';
 import AvatarHeads from '../components/ui/AvatarHeads';
+import ScrollArea from 'react-scrollbar/dist/no-css';
 
 const transMessages = {
   startChatTitle: {
@@ -102,7 +103,11 @@ const blocksMapping = {
 };
 
 const Blocks = ({ blocks, agentsAvailable, activeChat, chatAvailable }) => (
-  <Fragment>
+  <ScrollArea
+    stopScrollPropagation={true}
+    horizontal={false}
+    style={{ height: '100%' }}
+  >
     {blocks.sort((blockA, blockB) => blockA.order - blockB.order).map(({ blockType, ...props }, index) => {
       if(blockType === 'StartChatBlock') {
         if (!Object.keys(agentsAvailable).length || !chatAvailable) {
@@ -119,7 +124,7 @@ const Blocks = ({ blocks, agentsAvailable, activeChat, chatAvailable }) => (
         <Component key={blockType + index} {...props} />
       ) : null;
     })}
-  </Fragment>
+  </ScrollArea>
 );
 
 const mapStateToProps = (state) => ({

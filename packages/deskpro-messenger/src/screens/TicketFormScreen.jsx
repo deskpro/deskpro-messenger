@@ -9,6 +9,7 @@ import { TicketForm } from '@deskpro/portal-components';
 import { getTicketSavedState, getTicketSavingState, getErrors, saveTicket, newTicket } from '../modules/tickets';
 import { getTicketDepartments } from '../modules/info';
 import { getUser, isUserSet } from '../modules/guest';
+import ScrollArea from 'react-scrollbar/dist/no-css';
 
 
 const mapStateToProps = (state, props) => ({
@@ -63,6 +64,11 @@ class TicketFormScreen extends React.Component {
     const immutableLayout = fromJSGreedy(converted);
 
     return (
+      <ScrollArea
+        stopScrollPropagation={true}
+        horizontal={false}
+        style={{ height: '100%' }}
+      >
         <Block
           title={intl.formatMessage({
             id: `ticket_form.header`,
@@ -109,6 +115,7 @@ class TicketFormScreen extends React.Component {
             ]
           )}
         </Block>
+      </ScrollArea>
     );
   }
 }
