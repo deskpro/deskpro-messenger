@@ -49,7 +49,18 @@ class TicketFormScreen extends React.Component {
   }
 
   render() {
-    const { intl, formConfig, uploadTo, departments, department, ticketSaved, ticketSaving, errors, user, isUserSet } = this.props;
+    const {
+      intl,
+      formConfig,
+      uploadTo,
+      departments,
+      department,
+      ticketSaved,
+      ticketSaving,
+      errors,
+      user,
+      isUserSet
+    } = this.props;
     const converted = formConfig.map((d) => {
       if(d.fields) {
         d.fields.forEach((f, i) => {

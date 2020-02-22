@@ -22,7 +22,11 @@ class ScreenContent extends PureComponent {
 
     return (
       <div ref={forwardedRef} className="dpmsg-ScreenContent">
-        <ReactResizeDetector handleHeight onResize={onResize}>
+        <ReactResizeDetector
+          handleHeight
+          onResize={onResize}
+          skipOnMount={true}
+        >
         {(width, height) => (
           <ScreenContentContext.Provider value={{ width, height, maxHeight }}>
             {children}

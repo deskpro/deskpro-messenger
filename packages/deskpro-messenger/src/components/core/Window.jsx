@@ -11,6 +11,7 @@ import MessengerShell from './MessengerShell';
 import MuteButton from '../../containers/MuteButton';
 import BackButton from '../../containers/BackButton';
 import { isWindowOpened } from '../../modules/app';
+import { withFrameContext } from '../core/Frame';
 
 const iframeStyle = {
   bottom: 'calc(60px + 14px + 14px)',
@@ -106,7 +107,7 @@ class MessengerWindow extends PureComponent {
   };
 
   render() {
-    const { opened, widget: { greetingTitle } } = this.props;
+    const { opened, widget: { greetingTitle }, frameContext } = this.props;
 
     return (
       <Frame
@@ -135,6 +136,7 @@ class MessengerWindow extends PureComponent {
                 {Object.entries(this.props.screens)
                   .map(([screenName, screen]) => (
                     <ScreenRoute
+                      frameContext={frameContext}
                       key={screenName}
                       path={`/screens/${screenName}`}
                       screen={screen}
@@ -143,12 +145,14 @@ class MessengerWindow extends PureComponent {
                   ))
                   .concat([
                     <ScreenRoute
+                      frameContext={frameContext}
                       key="chatScreen"
                       path="/screens/active-chat/:chatId"
                       screenName="chatScreen"
                       screen={{ screenType: 'ChatScreen' }}
                     />,
                     <ScreenRoute
+                      frameContext={frameContext}
                       key="quickSearchScreen"
                       path="/screens/search"
                       screenName="quickSearchScreen"
@@ -165,8 +169,8 @@ class MessengerWindow extends PureComponent {
   }
 }
 
-export default withConfig(
+export default withFrameContext(withConfig(
   injectIntl(
     connect((state) => ({ opened: isWindowOpened(state) }))(MessengerWindow)
-  )
+  ))
 );

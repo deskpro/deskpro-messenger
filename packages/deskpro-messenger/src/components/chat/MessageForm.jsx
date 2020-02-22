@@ -1,14 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-// import { FrameContextConsumer } from 'react-frame-component';
-// Import only JS files, styles are imported in Window.jsx inline into iframe.
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 import $ from 'jquery';
 import FroalaEditor from 'react-froala-wysiwyg';
 
 import { ConfigContext, withConfig } from '../core/ConfigContext';
-import { withFrameContext } from '../core/Frame';
 import { withVisitorId } from '../../containers/withVisitorId';
 
 window.$ = window.jQuery = $;
@@ -199,4 +196,4 @@ class MessageForm extends PureComponent {
   }
 }
 
-export default withVisitorId(withFrameContext(withConfig(MessageForm)));
+export default withVisitorId(withConfig(MessageForm));

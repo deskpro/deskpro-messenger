@@ -222,7 +222,7 @@ class Chat extends PureComponent {
           )}
         </ScrollArea>
         {!!chat && chat.status !== 'ended' && (
-          <MessageForm onSend={onSendMessage} style={{ flex: '0 0 auto' }} />
+          <MessageForm frameContext={this.props.frameContext} onSend={onSendMessage} style={{ flex: '0 0 auto' }} />
         )}
       </div>
     );
