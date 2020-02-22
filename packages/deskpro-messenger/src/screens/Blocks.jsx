@@ -10,6 +10,7 @@ import { getAgentsAvailable, canUseChat } from '../modules/info';
 import { getActiveChat } from '../modules/chat';
 import AvatarHeads from '../components/ui/AvatarHeads';
 import ScrollArea from 'react-scrollbar/dist/no-css';
+import { Footer } from '../components/core/Footer';
 
 const transMessages = {
   startChatTitle: {
@@ -124,6 +125,7 @@ const Blocks = ({ blocks, agentsAvailable, activeChat, chatAvailable }) => (
         <Component key={blockType + index} {...props} />
       ) : null;
     })}
+    <Footer />
   </ScrollArea>
 );
 

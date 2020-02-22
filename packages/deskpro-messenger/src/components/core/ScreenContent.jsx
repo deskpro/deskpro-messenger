@@ -4,7 +4,7 @@ import ReactResizeDetector from 'react-resize-detector';
 /* Height of the toggle button, its margins, and margins of the widget shell */
 const OUTER_ELEMENTS_HEIGHT = 102;
 /* Height of the widget header, footer and margins  */
-const INNER_ELEMENTS_HEIGHT = 200;
+const INNER_ELEMENTS_HEIGHT = 240;
 
 const getWidgetContentMaxHeight = () =>
   window.parent.innerHeight - OUTER_ELEMENTS_HEIGHT - INNER_ELEMENTS_HEIGHT;
@@ -25,7 +25,8 @@ class ScreenContent extends PureComponent {
         <ReactResizeDetector
           handleHeight
           onResize={onResize}
-          skipOnMount={true}
+          refreshRate={1}
+          refreshMode={'debounce'}
         >
         {(width, height) => (
           <ScreenContentContext.Provider value={{ width, height, maxHeight }}>

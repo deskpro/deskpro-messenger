@@ -10,6 +10,7 @@ import { getTicketSavedState, getTicketSavingState, getErrors, saveTicket, newTi
 import { getTicketDepartments } from '../modules/info';
 import { getUser, isUserSet } from '../modules/guest';
 import ScrollArea from 'react-scrollbar/dist/no-css';
+import { Footer } from '../components/core/Footer';
 
 
 const mapStateToProps = (state, props) => ({
@@ -126,6 +127,7 @@ class TicketFormScreen extends React.Component {
             ]
           )}
         </Block>
+        <Footer />
       </ScrollArea>
     );
   }

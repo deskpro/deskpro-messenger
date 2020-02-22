@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -19,6 +19,7 @@ import {
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 import { getChatDepartments } from '../modules/info';
+import { Footer } from '../components/core/Footer';
 
 class ChatScreen extends PureComponent {
   static propTypes = {
@@ -94,32 +95,35 @@ class ChatScreen extends PureComponent {
     };
 
     return (
-      <Block
-        title={intl.formatMessage(
-          {
-            id: `chat.header.title`,
-            defaultMessage: '{department} conversation'
-          },
-          { department: department.title }
-        )}
-        className="Block--chat"
-      >
-        {chatData.status !== 'ended' && (<div className="dpmsg-endChatButton">
-          <span onClick={this.onEndClick}>End chat</span>
-        </div>)}
-        <Chat
-          messages={this.props.messages}
-          onSendMessage={this.handleSendMessage}
-          onEndChat={this.handleEndChat}
-          onCancelEndChat={this.onCancelEndChat}
-          endChatBlock={this.state.endChatBlock}
-          typing={this.props.typing}
-          user={user}
-          agent={agent}
-          chat={chat}
-          chatConfig={chatConfig}
-        />
-      </Block>
+      <Fragment>
+        <Block
+          title={intl.formatMessage(
+            {
+              id: `chat.header.title`,
+              defaultMessage: '{department} conversation'
+            },
+            { department: department.title }
+          )}
+          className="Block--chat"
+        >
+          {chatData.status !== 'ended' && (<div className="dpmsg-endChatButton">
+            <span onClick={this.onEndClick}>End chat</span>
+          </div>)}
+          <Chat
+            messages={this.props.messages}
+            onSendMessage={this.handleSendMessage}
+            onEndChat={this.handleEndChat}
+            onCancelEndChat={this.onCancelEndChat}
+            endChatBlock={this.state.endChatBlock}
+            typing={this.props.typing}
+            user={user}
+            agent={agent}
+            chat={chat}
+            chatConfig={chatConfig}
+          />
+        </Block>
+        <Footer />
+      </Fragment>
     );
   }
 }

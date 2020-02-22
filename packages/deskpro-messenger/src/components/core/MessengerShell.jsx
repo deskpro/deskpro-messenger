@@ -6,6 +6,7 @@ import { ConfigConsumer } from './ConfigContext';
 import ScreenContent from './ScreenContent';
 import asset from '../../utils/asset';
 import { isLightColor } from '../../utils/color';
+import { Footer } from './Footer';
 
 class MessengerShell extends PureComponent {
   static propTypes = {
@@ -63,19 +64,6 @@ class MessengerShell extends PureComponent {
           <ScreenContent ref={forwardedRef} onResize={this.props.onResize}>
             {children}
           </ScreenContent>
-          <div className="dpmsg-ScreenFooter">
-            <span className="dpmsg-ScreenLine" />
-            <span className="dpmsg-ScreenFooterText">Powered by</span>
-            <span className="dpmsg-VertLine" />
-            <a href="https://deskpro.com" target="_blank" rel="noreferrer noopener" title="Deskpro">
-              <img
-                className="dpmsg-ScreenFooterLogo"
-                src={asset('img/deskpro-logo.svg')}
-                alt="Deskpro"
-              />
-            </a>
-            <span className="dpmsg-ScreenLine" />
-          </div>
         </div>
       </div>
     );

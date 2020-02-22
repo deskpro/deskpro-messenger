@@ -14,9 +14,9 @@ import { isWindowOpened } from '../../modules/app';
 import { withFrameContext } from '../core/Frame';
 
 const iframeStyle = {
-  bottom: 'calc(60px + 14px + 14px)',
+  bottom: 'calc(60px + 20px)',
   width: '400px',
-  maxHeight: 'calc(100vh - 60px - 14px - 14px - 14px)',
+  maxHeight: 'calc(90vh - 60px - 20px)',
   minHeight: '350px'
 };
 
@@ -41,7 +41,7 @@ const extraStyles = (
 const getHeight = (height) => {
   const maxHeight = Math.ceil(Math.min(1000, window.parent.innerHeight * 0.9));
   /// wooooooo, magic numbers!
-  return { height: Math.ceil(height + 162 > maxHeight ? maxHeight : height + 162), maxHeight };
+  return { height: Math.ceil(height + 132 > maxHeight ? maxHeight : height + 132), maxHeight };
 };
 
 class MessengerWindow extends PureComponent {
