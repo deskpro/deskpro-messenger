@@ -3,7 +3,8 @@ import { getSearchQuery, getSearchResults, search } from '../modules/search';
 import SearchBlock from '../components/common/SearchBlock';
 import ScrollArea from 'react-scrollbar/dist/no-css';
 import React from 'react';
-import { Footer } from '../components/core/Footer';
+import { Footer } from '../components/ui/Footer';
+import Header from '../components/ui/Header';
 
 class QuickSearchScreen extends SearchBlock {
   getSearchHint() {
@@ -27,6 +28,7 @@ export default connect((state) => ({ results: getSearchResults(state), query: ge
     horizontal={false}
     style={{ height: '100%' }}
   >
+    <Header />
     <QuickSearchScreen {...props} />
     <Footer />
   </ScrollArea>

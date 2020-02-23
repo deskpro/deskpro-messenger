@@ -1,20 +1,15 @@
-import React, { PureComponent, forwardRef } from 'react';
+import React, { forwardRef, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Isvg from 'react-inlinesvg';
 import { ConfigConsumer } from './ConfigContext';
 import ScreenContent from './ScreenContent';
-import asset from '../../utils/asset';
 import { isLightColor } from '../../utils/color';
 
 class MessengerShell extends PureComponent {
   static propTypes = {
     isMinimal: PropTypes.bool,
     isLight: PropTypes.bool,
-    title: PropTypes.string,
-    introText: PropTypes.string,
     children: PropTypes.any,
-    controls: PropTypes.any
   };
 
   static defaultProps = {
@@ -24,19 +19,16 @@ class MessengerShell extends PureComponent {
     introText: ''
   };
 
-
   render() {
     const {
       isMinimal,
       isLight,
-      title,
-      introText,
       children,
-      controls,
+
       forwardedRef
     } = this.props;
 
-    const headerImage = 'img/dp-logo-white.svg';
+
 
     return (
       <div className="dpmsg-ScreenWrap" style={{ display: 'none' }}>
@@ -46,20 +38,6 @@ class MessengerShell extends PureComponent {
             'is-light': isLight
           })}
         >
-          <div className="dpmsg-ScreenHeader">
-            <div className="dpmsg-ScreenControls dpmsg-Level">{controls}</div>
-            <div className="dpmsg-ScreenHeaderLogo">
-              {
-                headerImage.substr(-3) === 'svg'
-                  ? <Isvg src={asset(headerImage)} alt="" />
-                  : <img src={asset(headerImage)} alt="" />
-              }
-            </div>
-            <span className="dpmsg-ScreenHeaderTitle">{title}</span>
-            {!!introText && (
-              <span className="dpmsg-ScreenHeaderText">{introText}</span>
-            )}
-          </div>
           <ScreenContent ref={forwardedRef} onResize={this.props.onResize}>
             {children}
           </ScreenContent>

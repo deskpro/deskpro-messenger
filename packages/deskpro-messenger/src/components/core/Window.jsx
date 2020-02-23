@@ -87,27 +87,10 @@ class MessengerWindow extends PureComponent {
     clearInterval(this.interval);
   }
 
-  renderToolbar = () => {
-    return (
-      <Route path="/screens/:screenName">
-        {({ match }) => {
-          const { screenName } = match.params;
-          const screen = this.props.screens[screenName];
-          return (
-            <Fragment>
-              {screenName !== 'index' && (
-                <BackButton screen={screen} screenName={screenName} />
-              )}
-              {!!screen && screen.screenType === 'ChatScreen' && <MuteButton />}
-            </Fragment>
-          );
-        }}
-      </Route>
-    );
-  };
+
 
   render() {
-    const { opened, widget: { greetingTitle }, frameContext } = this.props;
+    const { opened, frameContext } = this.props;
 
     return (
       <Frame
@@ -119,10 +102,8 @@ class MessengerWindow extends PureComponent {
         }}
       >
         <MessengerShell
-          controls={this.renderToolbar()}
           ref={this.shellRef}
           onResize={this.onResize}
-          title={greetingTitle}
         >
           <div>
             <Suspense

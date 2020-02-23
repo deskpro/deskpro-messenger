@@ -19,7 +19,8 @@ import {
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 import { getChatDepartments } from '../modules/info';
-import { Footer } from '../components/core/Footer';
+import { Footer } from '../components/ui/Footer';
+import Header from '../components/ui/Header';
 
 class ChatScreen extends PureComponent {
   static propTypes = {
@@ -96,6 +97,7 @@ class ChatScreen extends PureComponent {
 
     return (
       <Fragment>
+        <Header />
         <Block
           title={intl.formatMessage(
             {

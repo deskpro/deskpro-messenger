@@ -10,9 +10,8 @@ import { getTicketSavedState, getTicketSavingState, getErrors, saveTicket, newTi
 import { getTicketDepartments } from '../modules/info';
 import { getUser, isUserSet } from '../modules/guest';
 import ScrollArea from 'react-scrollbar/dist/no-css';
-import { Footer } from '../components/core/Footer';
-import { withFrameContext } from '../components/core/Frame';
-
+import { Footer } from '../components/ui/Footer';
+import Header from '../components/ui/Header';
 
 const mapStateToProps = (state, props) => ({
     departments:  getTicketDepartments(state, props),
@@ -82,6 +81,7 @@ class TicketFormScreen extends React.Component {
         horizontal={false}
         style={{ height: '100%' }}
       >
+        <Header />
         <Block
           title={intl.formatMessage({
             id: `ticket_form.header`,

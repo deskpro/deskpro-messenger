@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
 
 export default ({ screenName }) => {
   if (screenName === 'index') {
@@ -8,8 +7,7 @@ export default ({ screenName }) => {
   }
   return (
     <Link to={`/screens/index`} className="dpmsg-BackBtn dpmsg-LevelLeft">
-      <i className="dpmsg-IconArrow iconArrow--left" />{' '}
-      <FormattedMessage id="app.buttons.back" defaultMessage="back" />
+      <i className="dpmsg-IconArrow iconArrow--left" />
     </Link>
   );
 };

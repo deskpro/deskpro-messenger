@@ -10,7 +10,8 @@ import { canUseChat, getAgentsAvailable } from '../modules/info';
 import { getActiveChat } from '../modules/chat';
 import AvatarHeads from '../components/ui/AvatarHeads';
 import ScrollArea from 'react-scrollbar/dist/no-css';
-import { Footer } from '../components/core/Footer';
+import { Footer } from '../components/ui/Footer';
+import Header from '../components/ui/Header';
 
 const transMessages = {
   startChatTitle: {
@@ -109,6 +110,7 @@ const Blocks = ({ blocks, agentsAvailable, activeChat, chatAvailable }) => (
     horizontal={false}
     style={{ height: '100%' }}
   >
+    <Header />
     {blocks.sort((blockA, blockB) => blockA.order - blockB.order).map(({ blockType, ...props }, index) => {
       if(blockType === 'StartChatBlock') {
         if (!Object.keys(agentsAvailable).length || !chatAvailable) {

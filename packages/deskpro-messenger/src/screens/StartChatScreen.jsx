@@ -9,6 +9,8 @@ import { getUser,  } from '../modules/guest';
 import PromptMessage from '../components/chat/PromptMessage';
 import { getChatDepartments } from '../modules/info';
 import { fromJSGreedy } from '../utils/common';
+import ScrollArea from 'react-scrollbar/dist/no-css';
+import Header from '../components/ui/Header';
 
 const TicketForm = lazy(() => import('../components/tickets/LazyTicketForm'));
 
@@ -91,42 +93,49 @@ class StartChatScreen extends PureComponent {
     const immutableLayout = fromJSGreedy(correctedForm);
 
     return (
-      <Block
-        title={intl.formatMessage(
-          {
-            id: `chat.header.title`,
-            defaultMessage: '{department} conversation'
-          },
-          { department: dept.title }
-        )}
+      <ScrollArea
+        stopScrollPropagation={true}
+        horizontal={false}
+        style={{ height: '100%' }}
       >
-        {viewMode === 'form' && correctedForm[0].fields.length !== hiddenCount && (
-          [
-            formMessageEnabled && <div key="form_message" className="dpmsg-StartChatScreen-FormMessage">
-              { formMessage }
-          </div>,
-            <Suspense fallback={<div>Loading...</div>}>
-              <TicketForm
-                key="ticket_form"
-                initialValues={initialValues}
-                deskproLayout={immutableLayout}
-                departmentPropName="chat_department"
-                departments={fromJSGreedy(departments)}
-                department={department}
-                fileUploadUrl={uploadTo}
-                csrfToken="not_used"
-                onSubmit={this.createChat}
-              />
-            </Suspense>
-          ]
-        )}
-        {(viewMode === 'prompt' || (viewMode === 'form' && correctedForm[0].fields.length === hiddenCount)) && (
-          <PromptMessage
-            prompt={this.promptMessage}
-            onSendMessage={this.onSendMessage}
-          />
-        )}
-      </Block>
+      <Header />
+        <Block
+          title={intl.formatMessage(
+            {
+              id: `chat.header.title`,
+              defaultMessage: '{department} conversation'
+            },
+            { department: dept.title }
+          )}
+        >
+          {viewMode === 'form' && correctedForm[0].fields.length !== hiddenCount && (
+            [
+              formMessageEnabled && <div key="form_message" className="dpmsg-StartChatScreen-FormMessage">
+                { formMessage }
+            </div>,
+              <Suspense fallback={<div>Loading...</div>}>
+                <TicketForm
+                  key="ticket_form"
+                  initialValues={initialValues}
+                  deskproLayout={immutableLayout}
+                  departmentPropName="chat_department"
+                  departments={fromJSGreedy(departments)}
+                  department={department}
+                  fileUploadUrl={uploadTo}
+                  csrfToken="not_used"
+                  onSubmit={this.createChat}
+                />
+              </Suspense>
+            ]
+          )}
+          {(viewMode === 'prompt' || (viewMode === 'form' && correctedForm[0].fields.length === hiddenCount)) && (
+            <PromptMessage
+              prompt={this.promptMessage}
+              onSendMessage={this.onSendMessage}
+            />
+          )}
+        </Block>
+      </ScrollArea>
     );
   }
 }
