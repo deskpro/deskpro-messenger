@@ -11,6 +11,7 @@ import { getTicketDepartments } from '../modules/info';
 import { getUser, isUserSet } from '../modules/guest';
 import ScrollArea from 'react-scrollbar/dist/no-css';
 import { Footer } from '../components/core/Footer';
+import { withFrameContext } from '../components/core/Frame';
 
 
 const mapStateToProps = (state, props) => ({
