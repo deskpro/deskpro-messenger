@@ -11,6 +11,7 @@ import { getChatDepartments } from '../modules/info';
 import { fromJSGreedy } from '../utils/common';
 import ScrollArea from 'react-scrollbar/dist/no-css';
 import Header from '../components/ui/Header';
+import { Footer } from '../components/ui/Footer';
 
 const TicketForm = lazy(() => import('../components/tickets/LazyTicketForm'));
 
@@ -135,6 +136,7 @@ class StartChatScreen extends PureComponent {
             />
           )}
         </Block>
+        <Footer />
       </ScrollArea>
     );
   }

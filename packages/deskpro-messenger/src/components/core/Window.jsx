@@ -1,6 +1,6 @@
-import React, { Fragment, PureComponent, createRef, Suspense } from 'react';
+import React, { createRef, Fragment, PureComponent, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 
@@ -8,9 +8,7 @@ import Frame from './Frame';
 import { withConfig } from './ConfigContext';
 import ScreenRoute from './ScreenRoute';
 import MessengerShell from './MessengerShell';
-import MuteButton from '../../containers/MuteButton';
-import BackButton from '../../containers/BackButton';
-import { isWindowOpened } from '../../modules/app';
+import { isWindowOpened, setWindowState } from '../../modules/app';
 import { withFrameContext } from '../core/Frame';
 
 const iframeStyle = {
@@ -38,11 +36,7 @@ const extraStyles = (
   </Fragment>
 );
 
-const getHeight = (height) => {
-  const maxHeight = Math.ceil(Math.min(1000, window.parent.innerHeight * 0.9));
-  /// wooooooo, magic numbers!
-  return { height: Math.ceil(height + 132 > maxHeight ? maxHeight : height + 132), maxHeight };
-};
+
 
 class MessengerWindow extends PureComponent {
   static propTypes = {
@@ -57,24 +51,34 @@ class MessengerWindow extends PureComponent {
 
   shellRef = createRef();
 
+  getHeight = (height) => {
+    const maxHeight = Math.ceil(Math.min(1000, this.props.frameContext.window.parent.innerHeight * 0.9));
+    /// wooooooo, magic numbers!
+    return { height: Math.ceil(height + 52 > maxHeight ? maxHeight : height + 52), maxHeight };
+  };
+
   recalcIframeHeight = (force = false) => {
     if (!this.shellRef.current || !this.shellRef.current.getBoundingClientRect) {
       return;
     }
-    const { height, maxHeight } = getHeight(this.shellRef.current.getBoundingClientRect().height);
+    const { height, maxHeight } = this.getHeight(this.shellRef.current.getBoundingClientRect().height);
 
     if (height > parseInt(this.state.iframeHeight, 10)
       || maxHeight !== this.state.maxHeight || force) {
-      this.setState({ iframeHeight: `${height}px`, maxHeight });
+      this.setState({ iframeHeight: `${height}px`, maxHeight: `${maxHeight}px` });
     }
   };
 
   onResize = (_, h) => {
-    const { height } = getHeight(h);
+    const { maxHeight, height } = this.getHeight(h);
 
      if(height >= parseInt(this.state.iframeHeight, 10) ) {
-      this.setState({ iframeHeight: `${height}px` });
+      this.setState({ iframeHeight: `${height}px`, maxHeight: `${maxHeight}px` });
      }
+  };
+
+  onClose = () => {
+    this.props.setWindowState(false);
   };
 
   componentDidUpdate(prevProps) {
@@ -87,8 +91,6 @@ class MessengerWindow extends PureComponent {
     clearInterval(this.interval);
   }
 
-
-
   render() {
     const { opened, frameContext } = this.props;
 
@@ -98,12 +100,15 @@ class MessengerWindow extends PureComponent {
         hidden={!opened}
         style={{
           ...iframeStyle,
-          height: this.state.iframeHeight
+          height: this.state.iframeHeight,
+          maxHeight: this.state.maxHeight
         }}
       >
         <MessengerShell
           ref={this.shellRef}
           onResize={this.onResize}
+          onClose={this.onClose}
+          screens={this.props.screens}
         >
           <div>
             <Suspense
@@ -152,6 +157,6 @@ class MessengerWindow extends PureComponent {
 
 export default withFrameContext(withConfig(
   injectIntl(
-    connect((state) => ({ opened: isWindowOpened(state) }))(MessengerWindow)
+    connect((state) => ({ opened: isWindowOpened(state) }), { setWindowState })(MessengerWindow)
   ))
 );
