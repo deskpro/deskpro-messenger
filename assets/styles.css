@@ -8,6 +8,7 @@
 .dpmsg-LevelRight,
 .dpmsg-TriggerBtn-wrapper,
 .dpmsg-TriggerBtn,
+.dpmsg-Control,
 .dpmsg-ScreenFrame,
 .dpmsg-ScreenWrap,
 .dpmsg-Screen,
@@ -59,13 +60,6 @@
 .dpmsg-AutoStart,
 .dpmsg-AutoStart-close,
 .dpmsg-AutoStart-widget,
-.dpmsg-BookTime,
-.dpmsg-BookAvatar,
-.dpmsg-BookName,
-.dpmsg-BookPost,
-.dpmsg-DateMeeting,
-.dpmsg-ConfirmDateMeeting,
-.dpmsg-BookTimeLink,
 .dpmsg-WrapInput,
 .dpmsg-InputError,
 .dpmsg-Input,
@@ -538,6 +532,21 @@
   background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17px" height="16px" viewBox="0 0 17 16" version="1.1"><g id="Cookie-Notification" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round"><g id="Homepage_desktop---COOKIES---APPROVED" transform="translate(-1012.000000, -14.000000)" stroke="%23FFFFFF" stroke-width="2"><g id="icon-close" transform="translate(1013.000000, 15.000000)"><path d="M0.75,0.75 L13.6970074,13.6970074" id="Line-2"/><path d="M0.75,0.75 L13.6970074,13.6970074" id="Line-2" transform="translate(7.500000, 7.500000) scale(-1, 1) translate(-7.500000, -7.500000) "/></g></g></g></svg>');
   height: 2em;
   width: 2em;
+}.dpmsg-Control {
+  background-image: -webkit-linear-gradient(top, #3d88f3 22%, rgb(61, 120, 204) 100%);
+  background-image: linear-gradient(-180deg, #3d88f3 22%, rgb(61, 120, 204) 100%);
+  background-image: -webkit-linear-gradient(top, var(--color-primary) 22%, var(--color-dark-primary) 100%);
+  background-image: linear-gradient(-180deg, var(--color-primary) 22%, var(--color-dark-primary) 100%);
+  border-radius: 0.25rem 0.25rem 0 0;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  color: #fff;
+  color: var(--header-icon-text-color);
+  height: 32px;
+  left: 2px;
+  position: fixed;
+  top: 0;
+  width: 388px;
+  z-index: 9999999999;
 }.dpmsg-ScreenFrame {
   height: 100%
 }.dpmsg-ScreenFrame .frame-content {
@@ -553,16 +562,13 @@
   margin: 0 var(--s-space);
   padding-bottom: 17px;
   padding-bottom: var(--space);
+  padding-top: 32px;
   vertical-align: top;
   width: 388px;
   -webkit-box-align: end;
 }.dpmsg-Screen {
   background-color: #6e8293;
   background-color: var(--color-secondary);
-  border-radius: 0.25rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 3px 8px 1px rgb(110, 161, 204);
-  box-shadow: 0 3px 8px 1px var(--color-dark-secondary);
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
@@ -584,18 +590,16 @@
       font-family: var(--font-family-base);
       font-size: 16px;
     }.dpmsg-ScreenHeader {
-  background-image: -webkit-linear-gradient(60deg, #3d88f3 0%, #3d88f3 22%, rgb(61, 120, 204) 100%);
-  background-image: linear-gradient(30deg, #3d88f3 0%, #3d88f3 22%, rgb(61, 120, 204) 100%);
-  background-image: -webkit-linear-gradient(60deg, var(--color-primary) 0%, var(--color-primary) 22%, var(--color-dark-primary) 100%);
-  background-image: linear-gradient(30deg, var(--color-primary) 0%, var(--color-primary) 22%, var(--color-dark-primary) 100%);
-  border-radius: 0.25rem 0.25rem 0 0;
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  background-image: -webkit-linear-gradient(bottom, #3d88f3 50%, rgb(61, 120, 204) 100%);
+  background-image: linear-gradient(0deg, #3d88f3 50%, rgb(61, 120, 204) 100%);
+  background-image: -webkit-linear-gradient(bottom, var(--color-primary) 50%, var(--color-dark-primary) 100%);
+  background-image: linear-gradient(0deg, var(--color-primary) 50%, var(--color-dark-primary) 100%);
   display: -webkit-box;
   display: flex;
   flex-wrap: wrap;
   margin-bottom: -50px;
-  min-height: 160px;
-  padding: 25px 25px 62px 25px;
+  min-height: 116px;
+  padding: 0 25px 62px 25px;
   width: 100%;
 }.dpmsg-ScreenHeaderLogo img {
   height: 30px;
@@ -609,7 +613,7 @@
   fill: #fff;
   fill: var(--header-icon-text-color);
 }.is-minimal .dpmsg-ScreenHeader {
-  padding: 25px 25px 65px 23px;
+  padding: 0 25px 65px 23px;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
           flex-direction: row;
@@ -704,9 +708,6 @@
 }.dpmsg-ScreenControls {
   -webkit-box-flex: 0;
           flex: 0 0 100%;
-  margin-top: -4px;
-  padding-bottom: 17px;
-  padding-bottom: var(--space);
 }.dpmsg-ScreenControls a,
 .dpmsg-ScreenControls a * {
   cursor: pointer;
@@ -716,10 +717,17 @@
 .dpmsg-ScreenControls a {
   color: #fff;
   color: var(--white)
+
 }.dpmsg-ScreenControls:hover, .dpmsg-ScreenControls a:hover {
     color: #9db2d8;
+  }.dpmsg-ScreenControls .dpmsg-BackBtn.dpmsg-LevelLeft, .dpmsg-ScreenControls a .dpmsg-BackBtn.dpmsg-LevelLeft {
+    position: relative;
+    left: 22px;
+    top: 8px;
   }.dpmsg-ScreenControls .dpmsg-IconArrow {
   background-image: url('data:image/svg+xml,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><style>.cls-1{fill:%23fff;}</style></defs><title>app_icons</title><path class="cls-1" d="M275,468.73a36.26,36.26,0,0,0,50.26,0l0,0L589.1,206a36.27,36.27,0,0,0-51.29-51.29L300.69,391.8,63.56,154.67A36.27,36.27,0,0,0,12.27,206Z"/></svg>');
+  width: 12px;
+  height: 12px;
 }.is-light .dpmsg-ScreenControls,
 .is-light .dpmsg-ScreenControls a {
   color: #5f7689
@@ -1243,165 +1251,7 @@
   width: 5.2em;
 }.dpmsg-AutoStart-widget-avatar img {
   max-width: 100%;
-}.dpmsg-BookTime {
-  color: #4c4f50;
-  color: var(--grey-darkest);
-  display: block;
-  font-size: 12px;
-  font-size: var(--h2)
-}.dpmsg-BookTime.is-empty {
-    margin-bottom: 0;
-  }a.dpmsg-BlockHeader:hover span {
-  color: #3d88f3;
-  color: var(--color-primary);
-}.dpmsg-BookTime .is-italic {
-  font-style: italic;
-}.dpmsg-BookTime .is-bold {
-  font-weight: 700;
-}.dpmsg-BookTime * {
-  color: inherit;
-}.dpmsg-BookAvatar {
-  display: block;
-  height: 42px;
-  margin: auto;
-  padding-top: 4px;
-  width: 37px;
-}.dpmsg-BookAvatar img {
-  border-radius: 50%;
-  overflow: hidden;
-}.dpmsg-BookName {
-  color: inherit;
-  display: block;
-  font-size: 14px;
-  font-size: var(--h1);
-  padding-top: 8px;
-  padding-top: var(--xs-space);
-  text-align: center;
-}.dpmsg-BookPost {
-  display: block;
-  padding-top: 5px;
-  text-align: center;
-}.dpmsg-BookTime .dpmsg-Level {
-  border-bottom: 2px solid #dce4eb;
-  border-bottom: var(--border);
-  padding: 13px 0;
-  padding: var(--sm-space) 0
-}.dpmsg-BookTime .dpmsg-Level.dpmsg-BookHeader {
-    padding-bottom: 8px;
-    padding-top: 17px;
-    padding-top: var(--space);
-  }.dpmsg-BookTime a.dpmsg-Level,
-.dpmsg-BookTime a.dpmsg-Level * {
-  cursor: pointer;
-}.dpmsg-BookTime .dpmsg-BackBtn {
-  cursor: pointer;
-  float: left;
-}.dpmsg-BookTime .dpmsg-Level .dpmsg-LevelLeft {
-  flex-wrap: wrap;
-}.dpmsg-BookTime .dpmsg-Level .dpmsg-LevelLeft span {
-  display: block;
-  padding-top: 1px;
-  width: 100%;
-}.dpmsg-BookTime .dpmsg-Level.dpmsg-BookFooter {
-  border-bottom: none;
-  color: #3d88f3;
-  color: var(--color-primary);
-  font-size: 11px;
-  font-size: var(--h3);
-  margin-top: 10px;
-  padding-bottom: 0;
-  padding-top: 0;
-}.dpmsg-BookFooter a {
-  cursor: pointer;
-}.dpmsg-BookTime .dpmsg-BtnRow {
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-pack: justify;
-          justify-content: space-between;
-  margin: 13px 0 17px;
-  margin: var(--sm-space) 0 var(--space);
-  overflow: hidden;
-  position: relative;
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-  -webkit-transition: all var(--animation-speed);
-  transition: all var(--animation-speed);
-  width: 100%;
-}.dpmsg-BookTime .Button-Time {
-  background: transparent;
-  border: 1px solid #3d88f3;
-  border: 1px solid var(--color-primary);
-  color: #4c4f50;
-  color: var(--grey-darkest);
-  display: inline-block;
-  height: 37px;
-  width: 100%
-}.dpmsg-BookTime .Button-Time:hover { background: #eceef0; background: var(--grey-100); }.dpmsg-BookTime .Button-Confirm {
-  background: #3d88f3;
-  background: var(--color-primary);
-  border: 1px solid #3d88f3;
-  border: 1px solid var(--color-primary);
-  color: #fefefe;
-  color: var(--text-light);
-  height: 37px;
-  margin-right: -50%;
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-  -webkit-transition: all var(--animation-speed);
-  transition: all var(--animation-speed);
-  width: calc(50% - 9px)
-}.dpmsg-BookTime .Button-Confirm:hover { background: rgb(61, 120, 204); background: var(--color-dark-primary); }.dpmsg-BookTime .for-confirm .Button-Time {
-  background: #6e8293;
-  background: var(--color-secondary);
-  border: 1px solid #6e8293;
-  border: 1px solid var(--color-secondary);
-  color: #fefefe;
-  color: var(--text-light);
-  margin-right: 9px;
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-  -webkit-transition: all var(--animation-speed);
-  transition: all var(--animation-speed);
-  width: calc(50% - 9px)
-}.dpmsg-BookTime .for-confirm .Button-Time:hover { background: rgb(110, 161, 204); background: var(--color-dark-secondary); }.dpmsg-BookTime .for-confirm .Button-Confirm {
-  margin-left: 9px;
-  margin-right: 0;
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-  -webkit-transition: all var(--animation-speed);
-  transition: all var(--animation-speed);
-}.dpmsg-DateMeeting {
-  border-bottom: 2px solid #dce4eb;
-  border-bottom: var(--border);
-  display: block;
-  padding: 21px;
-  text-align: center;
-}.dpmsg-Button.submit-bookTime {
-  font-size: 14px;
-  font-size: var(--h1);
-  height: 37px;
-  margin-top: 55px;
-}.dpmsg-ConfirmDateMeeting {
-  display: block;
-  font-size: 12px;
-  font-size: var(--h2);
-  font-style: italic;
-  padding-top: 17px;
-  padding-top: var(--space);
-  text-align: center;
-}.dpmsg-BookTimeLink {
-  color: #3d88f3;
-  color: var(--color-primary);
-  cursor: pointer;
-  display: block;
-  font-size: 10px;
-  font-size: var(--h4);
-  padding-top: 4px;
-  text-align: center
-}.dpmsg-BookTimeLink:hover {
-    color: rgb(61, 120, 204);
-    color: var(--color-dark-primary);
-  }.dpmsg-WrapInput {
+}.dpmsg-WrapInput {
   display: block;
   position: relative;
 }.dpmsg-InputError {
