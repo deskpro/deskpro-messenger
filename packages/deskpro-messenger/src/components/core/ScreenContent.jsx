@@ -1,7 +1,9 @@
-import React, { PureComponent, forwardRef } from 'react';
+import React, { PureComponent, forwardRef, createRef } from 'react';
+import PropTypes from 'prop-types';
 import ReactResizeDetector from 'react-resize-detector';
 import { FrameContextConsumer } from 'react-frame-component';
 import ScrollArea from 'react-scrollbar/dist/no-css';
+import { withRouter } from 'react-router-dom';
 
 /* Height of the toggle button, its margins, and margins of the widget shell */
 const OUTER_ELEMENTS_HEIGHT = 102;
@@ -14,10 +16,22 @@ const getWidgetContentMaxHeight = () =>
 export const ScreenContentContext = React.createContext();
 
 class ScreenContent extends PureComponent {
+
+  static propTypes = {
+    frameContext: PropTypes.object
+  };
+
   static defaultProps = {
-    onResize: () => {},
     frameContext: {}
   };
+
+  scrollArea = createRef();
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.scrollArea.current.scrollTop();
+    }
+  }
 
   render() {
     const { children, frameContext, forwardedRef } = this.props;
@@ -27,8 +41,6 @@ class ScreenContent extends PureComponent {
       <div className="dpmsg-ScreenContent">
         <ScrollArea
           horizontal={false}
-          style={{
-          }}
           ref={this.scrollArea}
           stopScrollPropagation={true}
           contentWindow={frameContext.window}
@@ -49,17 +61,18 @@ class ScreenContent extends PureComponent {
   }
 }
 
+const ScreenContentWithRouter = withRouter(ScreenContent);
+
 export default forwardRef((props, ref) => (
   <FrameContextConsumer>
     {(context) => (
-      <ScreenContent
+      <ScreenContentWithRouter
         {...props}
         forwardedRef={ref}
         frameContext={context}
       />
     )}
   </FrameContextConsumer>
-
 ));
 
 export const withScreenContentSize = (WrappedComponent) => (props) => (

@@ -1,10 +1,10 @@
 import React, { forwardRef, Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Route } from 'react-router-dom';
 import { ConfigConsumer } from './ConfigContext';
 import ScreenContent from './ScreenContent';
 import { isLightColor } from '../../utils/color';
-import { Route } from 'react-router-dom';
 import BackButton from '../../containers/BackButton';
 import MuteButton from '../../containers/MuteButton';
 import { Footer } from '../ui/Footer';
