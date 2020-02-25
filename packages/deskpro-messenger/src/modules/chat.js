@@ -26,7 +26,7 @@ import uuid from '../utils/uuid';
 import { hasAgentsAvailable } from './info';
 
 import { SET_VISITOR } from './guest';
-import { setWindowState } from './app';
+import { isWindowOpened, setWindowState } from './app';
 
 const spread = produce(Object.assign);
 
@@ -166,12 +166,6 @@ const createChatEpic = (action$, state$, { api }) =>
     })
   );
 
-const forceChatOpenEpic = (action$) =>
-  action$.pipe(
-    ofType(CHAT_SAVE_CHAT),
-    mergeMap(() => of(setWindowState(true)))
-  );
-
 const agentAssignementTimeout = (action$, _, { config }) =>
   action$.pipe(
     ofType(CHAT_SAVE_CHAT),
@@ -283,9 +277,28 @@ const soundEpic = (action$, state$) =>
         message.origin in sounds ? sounds[message.origin] : sounds.default;
       sound.play();
     }),
-    map(() => {
+    skip()
+  );
+
+const forceChatOpenEpic = (action$, state$, { history }) =>
+  action$.pipe(
+    ofType(CHAT_MESSAGE_RECEIVED),
+    withLatestFrom(state$),
+    filter(
+      ([{ type, payload: message }, state]) =>
+        isWindowOpened(state) && (message.type === 'chat.message' &&
+          message.origin === 'agent')
+    ),
+    map(([{ payload: message }]) => {
+      history.push(`/screens/active-chat/${message.chat.id}`);
       return setWindowState(true);
     })
+  );
+
+const forceChatOpenOnSaveEpic = (action$) =>
+  action$.pipe(
+    ofType(CHAT_SAVE_CHAT),
+    mergeMap(() => of(setWindowState(true)))
   );
 
 export const chatEpic = combineEpics(
@@ -298,7 +311,8 @@ export const chatEpic = combineEpics(
   deactivateChatEpic,
   soundEpic,
   agentAssignementTimeout,
-  forceChatOpenEpic
+  forceChatOpenEpic,
+  forceChatOpenOnSaveEpic
 );
 //#endregion
 

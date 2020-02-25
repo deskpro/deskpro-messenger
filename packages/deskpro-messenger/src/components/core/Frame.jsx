@@ -152,6 +152,8 @@ export default (props) => (
   </ConfigConsumer>
 );
 
+
+
 export const withFrameContext = (WrappedComponent) => (props) => (
   <FrameContextConsumer>
     {(context) => <WrappedComponent {...props} frameContext={context} />}

@@ -7,6 +7,7 @@ import { isLightColor } from '../../utils/color';
 import { Route } from 'react-router-dom';
 import BackButton from '../../containers/BackButton';
 import MuteButton from '../../containers/MuteButton';
+import { Footer } from '../ui/Footer';
 
 class MessengerShell extends PureComponent {
   static propTypes = {
@@ -14,7 +15,6 @@ class MessengerShell extends PureComponent {
     isLight: PropTypes.bool,
     children: PropTypes.any,
     screens: PropTypes.object,
-    onResize: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   };
 
@@ -55,19 +55,20 @@ class MessengerShell extends PureComponent {
 
     return (
       <div className="dpmsg-ScreenWrap" style={{ display: 'none' }}>
-        <div className="dpmsg-Control">
-          <div className="dpmsg-ScreenControls dpmsg-Level">
-            { this.renderToolbar() }
-          </div>
-        </div>
         <div
           className={classNames('dpmsg-Screen', {
             'is-minimal': isMinimal,
             'is-light': isLight
           })}
         >
-          <ScreenContent ref={forwardedRef} onResize={this.props.onResize}>
+          <div className="dpmsg-Control">
+            <div className="dpmsg-ScreenControls dpmsg-Level">
+              { this.renderToolbar() }
+            </div>
+          </div>
+          <ScreenContent ref={forwardedRef}>
             {children}
+            <Footer />
           </ScreenContent>
         </div>
       </div>

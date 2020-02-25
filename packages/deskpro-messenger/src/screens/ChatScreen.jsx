@@ -9,17 +9,17 @@ import Block from '../components/core/Block';
 import { withConfig } from '../components/core/ConfigContext';
 
 import {
-  sendMessage,
-  endChatMessage,
   chatOpened,
+  endChatMessage,
+  getChatAgent,
+  getChatData,
   getMessages,
   getTypingState,
-  getChatData,
-  getChatAgent, isChatAssigned
+  isChatAssigned,
+  sendMessage
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 import { getChatDepartments } from '../modules/info';
-import { Footer } from '../components/ui/Footer';
 import Header from '../components/ui/Header';
 
 class ChatScreen extends PureComponent {
@@ -124,7 +124,6 @@ class ChatScreen extends PureComponent {
             chatConfig={chatConfig}
           />
         </Block>
-        <Footer />
       </Fragment>
     );
   }

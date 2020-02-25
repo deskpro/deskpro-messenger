@@ -1,17 +1,15 @@
-import React, { Suspense, lazy, PureComponent } from 'react';
+import React, { Fragment, lazy, PureComponent, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 import Block from '../components/core/Block';
 import { createChat, sendMessage } from '../modules/chat';
-import { getUser,  } from '../modules/guest';
+import { getUser, } from '../modules/guest';
 import PromptMessage from '../components/chat/PromptMessage';
 import { getChatDepartments } from '../modules/info';
 import { fromJSGreedy } from '../utils/common';
-import ScrollArea from 'react-scrollbar/dist/no-css';
 import Header from '../components/ui/Header';
-import { Footer } from '../components/ui/Footer';
 
 const TicketForm = lazy(() => import('../components/tickets/LazyTicketForm'));
 
@@ -94,12 +92,8 @@ class StartChatScreen extends PureComponent {
     const immutableLayout = fromJSGreedy(correctedForm);
 
     return (
-      <ScrollArea
-        stopScrollPropagation={true}
-        horizontal={false}
-        style={{ height: '100%' }}
-      >
-      <Header />
+      <Fragment>
+        <Header />
         <Block
           title={intl.formatMessage(
             {
@@ -136,8 +130,7 @@ class StartChatScreen extends PureComponent {
             />
           )}
         </Block>
-        <Footer />
-      </ScrollArea>
+      </Fragment>
     );
   }
 }

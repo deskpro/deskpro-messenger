@@ -1,5 +1,7 @@
 import React, { PureComponent, forwardRef } from 'react';
 import ReactResizeDetector from 'react-resize-detector';
+import { FrameContextConsumer } from 'react-frame-component';
+import ScrollArea from 'react-scrollbar/dist/no-css';
 
 /* Height of the toggle button, its margins, and margins of the widget shell */
 const OUTER_ELEMENTS_HEIGHT = 102;
@@ -13,37 +15,51 @@ export const ScreenContentContext = React.createContext();
 
 class ScreenContent extends PureComponent {
   static defaultProps = {
-    onResize: () => {}
+    onResize: () => {},
+    frameContext: {}
   };
 
   render() {
-    const { children, onResize, forwardedRef } = this.props;
+    const { children, frameContext, forwardedRef } = this.props;
     const maxHeight = getWidgetContentMaxHeight();
 
     return (
-      <div ref={forwardedRef} className="dpmsg-ScreenContent">
-        <ReactResizeDetector
-          handleHeight
-          onResize={onResize}
-          refreshRate={1}
-          refreshMode={'debounce'}
+      <div className="dpmsg-ScreenContent">
+        <ScrollArea
+          horizontal={false}
+          style={{
+          }}
+          ref={this.scrollArea}
+          stopScrollPropagation={true}
+          contentWindow={frameContext.window}
+          ownerDocument={frameContext.document}
         >
-        {(width, height) => (
-          <ScreenContentContext.Provider value={{ width, height, maxHeight }}>
-            {children}
-          </ScreenContentContext.Provider>
-        )}
-        </ReactResizeDetector>
+          <div ref={forwardedRef}>
+            <ReactResizeDetector handleHeight>
+              {(width, height) => (
+                <ScreenContentContext.Provider value={{ width, height, maxHeight }}>
+                  {children}
+                </ScreenContentContext.Provider>
+              )}
+            </ReactResizeDetector>
+          </div>
+        </ScrollArea>
       </div>
     );
   }
 }
 
 export default forwardRef((props, ref) => (
-    <ScreenContent
-      {...props}
-      forwardedRef={ref}
-    />
+  <FrameContextConsumer>
+    {(context) => (
+      <ScreenContent
+        {...props}
+        forwardedRef={ref}
+        frameContext={context}
+      />
+    )}
+  </FrameContextConsumer>
+
 ));
 
 export const withScreenContentSize = (WrappedComponent) => (props) => (

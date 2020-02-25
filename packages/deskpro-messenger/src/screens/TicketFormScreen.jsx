@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -6,11 +6,9 @@ import { fromJSGreedy } from '../utils/common';
 
 import Block from '../components/core/Block';
 import { TicketForm } from '@deskpro/portal-components';
-import { getTicketSavedState, getTicketSavingState, getErrors, saveTicket, newTicket } from '../modules/tickets';
+import { getErrors, getTicketSavedState, getTicketSavingState, newTicket, saveTicket } from '../modules/tickets';
 import { getTicketDepartments } from '../modules/info';
 import { getUser, isUserSet } from '../modules/guest';
-import ScrollArea from 'react-scrollbar/dist/no-css';
-import { Footer } from '../components/ui/Footer';
 import Header from '../components/ui/Header';
 
 const mapStateToProps = (state, props) => ({
@@ -76,15 +74,11 @@ class TicketFormScreen extends React.Component {
     const immutableLayout = fromJSGreedy(converted);
 
     return (
-      <ScrollArea
-        stopScrollPropagation={true}
-        horizontal={false}
-        style={{ height: '100%' }}
-      >
+      <Fragment>
         <Header />
         <Block
           title={intl.formatMessage({
-            id: `ticket_form.header`,
+            id: `tickets.form.header`,
             defaultMessage: 'New Ticket'
           })}
         >
@@ -128,8 +122,7 @@ class TicketFormScreen extends React.Component {
             ]
           )}
         </Block>
-        <Footer />
-      </ScrollArea>
+      </Fragment>
     );
   }
 }

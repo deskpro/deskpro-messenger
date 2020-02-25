@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 
@@ -9,8 +9,6 @@ import { connect } from 'react-redux';
 import { canUseChat, getAgentsAvailable } from '../modules/info';
 import { getActiveChat } from '../modules/chat';
 import AvatarHeads from '../components/ui/AvatarHeads';
-import ScrollArea from 'react-scrollbar/dist/no-css';
-import { Footer } from '../components/ui/Footer';
 import Header from '../components/ui/Header';
 
 const transMessages = {
@@ -83,33 +81,29 @@ const blocksMapping = {
   )),
   ScreenLink: injectIntl(({ to, intl, label, blockTitle, ...props }) => (
     <Block
-      title={intl.formatMessage({ id: blockTitle, defaultMessage: blockTitle })}
+      title={blockTitle}
     >
       <Link title={props.description || ''} to={`/screens/${to}`} className="dpmsg-Button Button-FullWidth Button--primary">
-        {intl.formatMessage({ id: label, defaultMessage: label })}
+        {label}
       </Link>
     </Block>
   )),
   ButtonLink: injectIntl(({ to, intl, label, blockTitle, description, ...props }) => (
-    <Block title={intl.formatMessage({ id: blockTitle, defaultMessage: blockTitle })}>
+    <Block title={blockTitle}>
       {description &&
         <div className="dpmsg-BlockText">
           {description}
         </div>
       }
       <Button  title={props.description || ''} to={`/screens/${to}`} width="full" color="primary">
-        {intl.formatMessage({ id: label, defaultMessage: label })}
+        {label}
       </Button>
     </Block>
   ))
 };
 
 const Blocks = ({ blocks, agentsAvailable, activeChat, chatAvailable }) => (
-  <ScrollArea
-    stopScrollPropagation={true}
-    horizontal={false}
-    style={{ height: '100%' }}
-  >
+  <Fragment>
     <Header />
     {blocks.sort((blockA, blockB) => blockA.order - blockB.order).map(({ blockType, ...props }, index) => {
       if(blockType === 'StartChatBlock') {
@@ -127,8 +121,7 @@ const Blocks = ({ blocks, agentsAvailable, activeChat, chatAvailable }) => (
         <Component key={blockType + index} {...props} />
       ) : null;
     })}
-    <Footer />
-  </ScrollArea>
+  </Fragment>
 );
 
 const mapStateToProps = (state) => ({

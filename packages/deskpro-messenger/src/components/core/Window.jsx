@@ -10,6 +10,7 @@ import ScreenRoute from './ScreenRoute';
 import MessengerShell from './MessengerShell';
 import { isWindowOpened, setWindowState } from '../../modules/app';
 import { withFrameContext } from '../core/Frame';
+import AnimateHeight from 'react-animate-height';
 
 const iframeStyle = {
   bottom: 'calc(60px + 20px)',
@@ -45,8 +46,8 @@ class MessengerWindow extends PureComponent {
   state = {
     imageVisible: false,
     articleVisible: false,
-    iframeHeight: '350px',
-    maxHeight: 0
+    iframeHeight: 350,
+    maxHeight: '1000px'
   };
 
   shellRef = createRef();
@@ -54,35 +55,35 @@ class MessengerWindow extends PureComponent {
   getHeight = (height) => {
     const maxHeight = Math.ceil(Math.min(1000, this.props.frameContext.window.parent.innerHeight * 0.9));
     /// wooooooo, magic numbers!
-    return { height: Math.ceil(height + 52 > maxHeight ? maxHeight : height + 52), maxHeight };
+    return { height: Math.ceil(height + 34 > maxHeight ? maxHeight : height + 34), maxHeight };
   };
 
   recalcIframeHeight = (force = false) => {
     if (!this.shellRef.current || !this.shellRef.current.getBoundingClientRect) {
       return;
     }
-    const { height, maxHeight } = this.getHeight(this.shellRef.current.getBoundingClientRect().height);
 
-    if (height > parseInt(this.state.iframeHeight, 10)
-      || maxHeight !== this.state.maxHeight || force) {
-      this.setState({ iframeHeight: `${height}px`, maxHeight: `${maxHeight}px` });
+    const ref = this.shellRef.current;
+    const rect = ref.getBoundingClientRect();
+    const { height, maxHeight } = this.getHeight(rect.height);
+
+    if ((height > this.state.iframeHeight)
+      || maxHeight !== parseInt(this.state.maxHeight, 10) || force) {
+      this.setState({ iframeHeight: height, maxHeight: `${maxHeight}px` });
     }
-  };
-
-  onResize = (_, h) => {
-    const { maxHeight, height } = this.getHeight(h);
-
-     if(height >= parseInt(this.state.iframeHeight, 10) ) {
-      this.setState({ iframeHeight: `${height}px`, maxHeight: `${maxHeight}px` });
-     }
   };
 
   onClose = () => {
     this.props.setWindowState(false);
   };
 
+  componentDidMount() {
+    this.recalcIframeHeight(true);
+    this.interval = setInterval(this.recalcIframeHeight, 250);
+  }
+
   componentDidUpdate(prevProps) {
-    if(prevProps.opened !== this.props.opened && this.props.opened) {
+    if(prevProps.opened !== this.props.opened) {
       this.recalcIframeHeight(true);
     }
   }
@@ -100,17 +101,21 @@ class MessengerWindow extends PureComponent {
         hidden={!opened}
         style={{
           ...iframeStyle,
-          height: this.state.iframeHeight,
+          height: `${this.state.iframeHeight}px`,
           maxHeight: this.state.maxHeight
         }}
       >
-        <MessengerShell
-          ref={this.shellRef}
-          onResize={this.onResize}
-          onClose={this.onClose}
-          screens={this.props.screens}
+        <AnimateHeight
+          duration={500}
+          height={this.state.iframeHeight}
+          className="dpmsg-AnimationDiv"
+          style={{display: 'flex', alignItems: 'flex-end'}}
         >
-          <div>
+          <MessengerShell
+            ref={this.shellRef}
+            onClose={this.onClose}
+            screens={this.props.screens}
+          >
             <Suspense
               fallback={
                 <div className="dpmsg-Block">
@@ -148,8 +153,8 @@ class MessengerWindow extends PureComponent {
                   ])}
               </Switch>
             </Suspense>
-          </div>
-        </MessengerShell>
+          </MessengerShell>
+        </AnimateHeight>
       </Frame>
     );
   }
