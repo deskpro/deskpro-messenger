@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { injectIntl } from 'react-intl';
 
-import MessengerShell from "./MessengerShell";
+import AutoStartShell from "./AutoStartShell";
 import Block from "./Block";
 import AvatarHeads from "../ui/AvatarHeads";
 import { getAgentsAvailable } from "../../modules/info";
@@ -92,7 +92,7 @@ class AutoStart extends PureComponent {
       return this.renderAvatarWidget();
     }
     return (
-      <MessengerShell
+      <AutoStartShell
         controls={this.renderToolbar()}
         title={options.greetingTitle}
       >
@@ -116,7 +116,7 @@ class AutoStart extends PureComponent {
             </Button>
           }
         </Block>
-      </MessengerShell>
+      </AutoStartShell>
     );
   }
 }
