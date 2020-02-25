@@ -38,7 +38,7 @@ class AutoStartShell extends PureComponent {
     const headerImage = 'img/dp-logo-white.svg';
 
     return (
-      <div className="dpmsg-ScreenWrap" ref={forwardedRef} style={{ display: 'none' }}>
+      <div className="dpmsg-ScreenWrap" ref={forwardedRef} style={{ marginBottom: '20px', display: 'none' }}>
         <div
           className={classNames('dpmsg-Screen', {
             'is-minimal': isMinimal,
