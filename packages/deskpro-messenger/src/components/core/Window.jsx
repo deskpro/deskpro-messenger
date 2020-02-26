@@ -13,7 +13,7 @@ import { withFrameContext } from '../core/Frame';
 import AnimateHeight from 'react-animate-height';
 
 const iframeStyle = {
-  bottom: 'calc(60px + 20px)',
+  bottom: '90px',
   width: '400px',
   maxHeight: 'calc(90vh - 60px - 20px)',
   minHeight: '350px'
