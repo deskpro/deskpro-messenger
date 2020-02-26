@@ -46,7 +46,8 @@ class MessengerWindow extends PureComponent {
   state = {
     imageVisible: false,
     articleVisible: false,
-    iframeHeight: 350,
+    iframeHeight: 450,
+    contentHeight: 416,
     maxHeight: '1000px'
   };
 
@@ -55,7 +56,7 @@ class MessengerWindow extends PureComponent {
   getHeight = (height) => {
     const maxHeight = Math.ceil(Math.min(1000, this.props.frameContext.window.parent.innerHeight * 0.9));
     /// wooooooo, magic numbers!
-    return { height: Math.ceil(height + 34 > maxHeight ? maxHeight : height + 34), maxHeight };
+    return { height: Math.ceil(height + 67 > maxHeight ? maxHeight : height + 67), maxHeight };
   };
 
   recalcIframeHeight = (force = false) => {
@@ -67,10 +68,14 @@ class MessengerWindow extends PureComponent {
     const rect = ref.getBoundingClientRect();
     const { height, maxHeight } = this.getHeight(rect.height);
 
+    const stateToSet = { contentHeight: rect.height };
+
     if ((height > this.state.iframeHeight)
       || maxHeight !== parseInt(this.state.maxHeight, 10) || force) {
-      this.setState({ iframeHeight: height, maxHeight: `${maxHeight}px` });
+      stateToSet.maxHeight = `${maxHeight}px`;
+      stateToSet.iframeHeight = height;
     }
+    this.setState( stateToSet);
   };
 
   onClose = () => {
@@ -94,6 +99,7 @@ class MessengerWindow extends PureComponent {
 
   render() {
     const { opened, frameContext } = this.props;
+    const { maxHeight, contentHeight, iframeHeight } = this.state;
 
     return (
       <Frame
@@ -101,13 +107,13 @@ class MessengerWindow extends PureComponent {
         hidden={!opened}
         style={{
           ...iframeStyle,
-          height: `${this.state.iframeHeight}px`,
-          maxHeight: this.state.maxHeight
+          height: `${iframeHeight}px`,
+          maxHeight: maxHeight
         }}
       >
         <AnimateHeight
           duration={500}
-          height={this.state.iframeHeight}
+          height={iframeHeight}
           className="dpmsg-AnimationDiv"
           style={{display: 'flex', alignItems: 'flex-end'}}
         >
@@ -115,6 +121,9 @@ class MessengerWindow extends PureComponent {
             ref={this.shellRef}
             onClose={this.onClose}
             screens={this.props.screens}
+            maxHeight={maxHeight}
+            iframeHeight={iframeHeight}
+            contentHeight={contentHeight}
           >
             <Suspense
               fallback={

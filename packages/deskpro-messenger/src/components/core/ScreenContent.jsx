@@ -1,24 +1,19 @@
 import React, { PureComponent, forwardRef, createRef } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import ReactResizeDetector from 'react-resize-detector';
 import { FrameContextConsumer } from 'react-frame-component';
 import ScrollArea from 'react-scrollbar/dist/no-css';
 import { withRouter } from 'react-router-dom';
-
-/* Height of the toggle button, its margins, and margins of the widget shell */
-const OUTER_ELEMENTS_HEIGHT = 102;
-/* Height of the widget header, footer and margins  */
-const INNER_ELEMENTS_HEIGHT = 240;
-
-const getWidgetContentMaxHeight = () =>
-  window.parent.innerHeight - OUTER_ELEMENTS_HEIGHT - INNER_ELEMENTS_HEIGHT;
+import { Footer } from '../ui/Footer';
 
 export const ScreenContentContext = React.createContext();
 
 class ScreenContent extends PureComponent {
 
   static propTypes = {
-    frameContext: PropTypes.object
+    frameContext: PropTypes.object,
+    iframeHeight: PropTypes.number.isRequired
   };
 
   static defaultProps = {
@@ -34,27 +29,30 @@ class ScreenContent extends PureComponent {
   }
 
   render() {
-    const { children, frameContext, forwardedRef } = this.props;
-    const maxHeight = getWidgetContentMaxHeight();
-
+    const { children, contentHeight, iframeHeight, maxHeight, frameContext, forwardedRef } = this.props;
+    const fullHeight = iframeHeight > parseInt(contentHeight, 10) && this.scrollArea.current && this.scrollArea.current.state.realHeight < iframeHeight;
+    const height = iframeHeight >= contentHeight ? iframeHeight - 33 : contentHeight + 33;
     return (
       <div className="dpmsg-ScreenContent">
         <ScrollArea
           horizontal={false}
           ref={this.scrollArea}
+          className={classNames({ fullHeight })}
+          contentStyle={{height, display: 'flex', flexDirection: 'column'}}
           stopScrollPropagation={true}
           contentWindow={frameContext.window}
           ownerDocument={frameContext.document}
         >
-          <div ref={forwardedRef}>
+          <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper">
             <ReactResizeDetector handleHeight>
               {(width, height) => (
-                <ScreenContentContext.Provider value={{ width, height, maxHeight }}>
+                <ScreenContentContext.Provider value={{ width, height, maxHeight: parseInt(maxHeight, 10) - 34 }}>
                   {children}
                 </ScreenContentContext.Provider>
               )}
             </ReactResizeDetector>
           </div>
+          <Footer/>
         </ScrollArea>
       </div>
     );

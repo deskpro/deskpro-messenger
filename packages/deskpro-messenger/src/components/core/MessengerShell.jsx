@@ -13,6 +13,8 @@ class MessengerShell extends PureComponent {
   static propTypes = {
     isMinimal: PropTypes.bool,
     isLight: PropTypes.bool,
+    iframeHeight: PropTypes.number,
+    maxHeight: PropTypes.number,
     children: PropTypes.any,
     screens: PropTypes.object,
     onClose: PropTypes.func.isRequired,
@@ -22,6 +24,8 @@ class MessengerShell extends PureComponent {
     isMinimal: true,
     isLight: false,
     title: 'Get in touch',
+    iframeHeight: 0,
+    maxHeight: 0,
   };
 
   renderToolbar = () => {
@@ -49,7 +53,8 @@ class MessengerShell extends PureComponent {
       isMinimal,
       isLight,
       children,
-
+      contentHeight,
+      maxHeight,
       forwardedRef
     } = this.props;
 
@@ -66,9 +71,13 @@ class MessengerShell extends PureComponent {
               { this.renderToolbar() }
             </div>
           </div>
-          <ScreenContent ref={forwardedRef}>
+          <ScreenContent
+            maxHeight={maxHeight}
+            contentHeight={contentHeight}
+            ref={forwardedRef}
+            iframeHeight={this.props.iframeHeight}
+          >
             {children}
-            <Footer />
           </ScreenContent>
         </div>
       </div>
