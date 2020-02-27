@@ -10,6 +10,9 @@ import { isWindowOpened, toggleWindow, openWindowOnce, proactiveWindowClosed } f
 import { ConfigConsumer } from './ConfigContext';
 import AutoStart from './AutoStart';
 import cache from '../../services/Cache';
+import isMobile from 'is-mobile';
+
+const mobile = isMobile();
 
 const iframeStyle = {
   position: 'fixed',
@@ -171,6 +174,10 @@ class WidgetToggler extends PureComponent {
 
   render() {
     const { opened, themeVars, proactive: { autoStartStyle } } = this.props;
+
+    if (opened && mobile) {
+      return null;
+    }
 
     const style = {
       [themeVars.position === 'left' ? 'left' : 'right']: '14px'

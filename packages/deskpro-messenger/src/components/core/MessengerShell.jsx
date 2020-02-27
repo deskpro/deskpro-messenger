@@ -7,7 +7,6 @@ import ScreenContent from './ScreenContent';
 import { isLightColor } from '../../utils/color';
 import BackButton from '../../containers/BackButton';
 import MuteButton from '../../containers/MuteButton';
-import { Footer } from '../ui/Footer';
 
 class MessengerShell extends PureComponent {
   static propTypes = {
@@ -18,6 +17,7 @@ class MessengerShell extends PureComponent {
     children: PropTypes.any,
     screens: PropTypes.object,
     onClose: PropTypes.func.isRequired,
+    mobile: PropTypes.bool
   };
 
   static defaultProps = {
@@ -53,9 +53,11 @@ class MessengerShell extends PureComponent {
       isMinimal,
       isLight,
       children,
+      iframeHeight,
       contentHeight,
       maxHeight,
-      forwardedRef
+      forwardedRef,
+      mobile
     } = this.props;
 
     return (
@@ -75,7 +77,8 @@ class MessengerShell extends PureComponent {
             maxHeight={maxHeight}
             contentHeight={contentHeight}
             ref={forwardedRef}
-            iframeHeight={this.props.iframeHeight}
+            iframeHeight={iframeHeight}
+            mobile={mobile}
           >
             {children}
           </ScreenContent>

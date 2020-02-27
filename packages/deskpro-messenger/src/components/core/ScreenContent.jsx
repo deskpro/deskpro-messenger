@@ -13,7 +13,8 @@ class ScreenContent extends PureComponent {
 
   static propTypes = {
     frameContext: PropTypes.object,
-    iframeHeight: PropTypes.number.isRequired
+    iframeHeight: PropTypes.number.isRequired,
+    mobile:       PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -29,9 +30,17 @@ class ScreenContent extends PureComponent {
   }
 
   render() {
-    const { children, contentHeight, iframeHeight, maxHeight, frameContext, forwardedRef } = this.props;
-    const fullHeight = iframeHeight > parseInt(contentHeight, 10) && this.scrollArea.current && this.scrollArea.current.state.realHeight < iframeHeight;
-    const height = iframeHeight >= contentHeight ? iframeHeight - 33 : contentHeight + 33;
+    const { children, contentHeight, iframeHeight, maxHeight, frameContext, forwardedRef, mobile } = this.props;
+    let fullHeight = false;
+    let height;
+    if(!mobile) {
+      fullHeight = iframeHeight > parseInt(contentHeight, 10) && this.scrollArea.current && this.scrollArea.current.state.realHeight < iframeHeight;
+      height = iframeHeight >= contentHeight ? iframeHeight - 33 : contentHeight + 33;
+    } else {
+      fullHeight = true;
+      height = contentHeight + 33;
+    }
+
     return (
       <div className="dpmsg-ScreenContent">
         <ScrollArea
@@ -46,7 +55,7 @@ class ScreenContent extends PureComponent {
           <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper">
             <ReactResizeDetector handleHeight>
               {(width, height) => (
-                <ScreenContentContext.Provider value={{ width, height, maxHeight: parseInt(maxHeight, 10) - 34 }}>
+                <ScreenContentContext.Provider value={{ width, height, maxHeight: mobile ? '100%' : parseInt(maxHeight, 10) - 34 }}>
                   {children}
                 </ScreenContentContext.Provider>
               )}

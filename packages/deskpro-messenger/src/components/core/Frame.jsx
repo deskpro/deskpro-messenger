@@ -38,14 +38,17 @@ const iFrameContainer =
 class Frame extends PureComponent {
   static propTypes = {
     themeVars: PropTypes.object,
+    className: PropTypes.string,
     style: PropTypes.object,
-    head: PropTypes.node
+    head: PropTypes.node,
+    mobule: PropTypes.bool,
   };
 
   static defaultProps = {
     themeVars: {},
     style: {},
-    head: null
+    head: null,
+    mobile: false,
   };
 
   constructor(...args) {
@@ -115,9 +118,9 @@ class Frame extends PureComponent {
   };
 
   render() {
-    const { children, style = {}, head, themeVars, ...props } = this.props;
+    const { children, style = {}, head, themeVars, className, mobile, ...props } = this.props;
     const { extra } = this.state;
-    style[themeVars.position === 'left' ? 'left' : 'right'] = '14px';
+    style[themeVars.position === 'left' ? 'left' : 'right'] = mobile ? '0' : '14px';
 
     return ReactDOM.createPortal(
       <FrameComponent
@@ -135,7 +138,7 @@ class Frame extends PureComponent {
         frameBorder="0"
         scrolling="no"
         style={{ ...defaultIframeStyle, ...style }}
-        initialContent={`<!DOCTYPE html><html><head></head><body><div class="dpmsg-ScreenFrame frame-root"></div></body></html>`}
+        initialContent={`<!DOCTYPE html><html><head></head><body><div class="${mobile ? 'dpmsg-ScreenMobile ' : ''}dpmsg-ScreenFrame frame-root"></div></body></html>`}
         {...props}
         ref={this.frame}
       >

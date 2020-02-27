@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Switch } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-
+import isMobile from 'is-mobile';
 import Frame from './Frame';
 import { withConfig } from './ConfigContext';
 import ScreenRoute from './ScreenRoute';
@@ -12,11 +12,13 @@ import { isWindowOpened, setWindowState } from '../../modules/app';
 import { withFrameContext } from '../core/Frame';
 import AnimateHeight from 'react-animate-height';
 
+const mobile = isMobile();
+
 const iframeStyle = {
-  bottom: '90px',
-  width: '400px',
-  maxHeight: 'calc(90vh - 60px - 20px)',
-  minHeight: '350px'
+  bottom: mobile ? '0' : '90px',
+  width: mobile ? '100%' : '400px',
+  maxHeight: mobile ? '100%' : 'calc(90vh - 60px - 20px)',
+  minHeight: mobile ? '100%' : '350px'
 };
 
 const extraStyles = (
@@ -46,9 +48,9 @@ class MessengerWindow extends PureComponent {
   state = {
     imageVisible: false,
     articleVisible: false,
-    iframeHeight: 450,
+    iframeHeight: mobile ? '100%' : 450,
     contentHeight: 416,
-    maxHeight: '1000px'
+    maxHeight: mobile ? '100%' : '1000px'
   };
 
   shellRef = createRef();
@@ -85,12 +87,11 @@ class MessengerWindow extends PureComponent {
   componentDidMount() {
     this.recalcIframeHeight(true);
     this.interval = setInterval(this.recalcIframeHeight, 250);
+
   }
 
   componentDidUpdate(prevProps) {
-    if(prevProps.opened !== this.props.opened) {
-      this.recalcIframeHeight(true);
-    }
+    this.recalcIframeHeight(true);
   }
 
   componentWillUnmount() {
@@ -105,15 +106,16 @@ class MessengerWindow extends PureComponent {
       <Frame
         head={extraStyles}
         hidden={!opened}
+        mobile={mobile}
         style={{
           ...iframeStyle,
-          height: `${iframeHeight}px`,
-          maxHeight: maxHeight
+          height: mobile ? '100%' : `${iframeHeight}px`,
+          maxHeight: mobile? '100%' : maxHeight
         }}
       >
         <AnimateHeight
           duration={500}
-          height={iframeHeight}
+          height={mobile ? '100%' : iframeHeight}
           className="dpmsg-AnimationDiv"
           style={{display: 'flex', alignItems: 'flex-end'}}
         >
@@ -124,6 +126,7 @@ class MessengerWindow extends PureComponent {
             maxHeight={maxHeight}
             iframeHeight={iframeHeight}
             contentHeight={contentHeight}
+            mobile={mobile}
           >
             <Suspense
               fallback={
