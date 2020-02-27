@@ -129,14 +129,14 @@ class ChatScreen extends PureComponent {
   }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   user:         getUserData(state),
-  chatData:     getChatData(state, props),
-  agent:        getChatAgent(state, props),
-  messages:     getMessages(state, props),
-  typing:       getTypingState(state, props),
-  departments:  getChatDepartments(state, props),
-  chatAssigned: isChatAssigned(state, props)
+  chatData:     getChatData(state),
+  agent:        getChatAgent(state),
+  messages:     getMessages(state),
+  typing:       getTypingState(state),
+  departments:  getChatDepartments(state),
+  chatAssigned: isChatAssigned(state)
 });
 
 const mapProps = (WrappedComponent) => (props) => {

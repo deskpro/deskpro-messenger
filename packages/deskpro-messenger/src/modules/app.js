@@ -12,6 +12,9 @@ export const TOGGLE_WINDOW           = 'TOGGLE_WINDOW';
 export const PROACTIVE_WINDOW_CLOSED = 'PROACTIVE_WINDOW_CLOSED';
 export const OPEN_WINDOW_ONCE        = 'OPEN_WINDOW_ONCE'; // will be handled just once
 export const SET_WINDOW_STATE        = 'SET_WINDOW_STATE';
+
+export const SET_MESSAGE_FORM_FOCUS  = 'SET_MESSAGE_FORM_FOCUS';
+
 //#endregion
 
 //#region ACTIONS
@@ -22,6 +25,11 @@ export const openWindowOnce        = () => ({ type: OPEN_WINDOW_ONCE });
 export const proactiveWindowClosed = () => ({ type: PROACTIVE_WINDOW_CLOSED });
 export const setWindowState        = (payload) => ({
   type: SET_WINDOW_STATE,
+  payload
+});
+
+export const setMessageFormFocus = (payload) => ({
+  type: SET_MESSAGE_FORM_FOCUS,
   payload
 });
 //#endregion
@@ -113,14 +121,19 @@ export default produce(
         draft.windowState = !!payload;
         break;
 
+      case SET_MESSAGE_FORM_FOCUS:
+        draft.messageFormFocused = !!payload;
+        break;
+
       default:
         break;
     }
   },
-  { windowState: false }
+  { windowState: false, messageFormFocused: false }
 );
 //#endregion
 
 //#region SELECTORS
 export const isWindowOpened = (state) => state.app.windowState;
+export const isMessageFormFocused = (state) => state.app.messageFormFocused;
 //#endregion

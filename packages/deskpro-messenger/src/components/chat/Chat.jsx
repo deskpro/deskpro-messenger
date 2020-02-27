@@ -15,6 +15,12 @@ import CreateTicketBlock from './CreateTicketBlock';
 import { withScreenContentSize } from '../core/ScreenContent';
 import { withFrameContext } from '../core/Frame';
 import BotBubble from './BotBubble';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { isMessageFormFocused } from '../../modules/app';
+import isMobile from 'is-mobile';
+
+const mobile = isMobile();
 
 const transMessages = {
   agentAssigned: {
@@ -61,7 +67,14 @@ class Chat extends PureComponent {
     contentSize: PropTypes.shape({
       height: PropTypes.number,
       maxHeight: PropTypes.number
-    })
+    }),
+  };
+
+  static defaultProps = {
+    messages: [],
+    agent: {},
+    user: {},
+    contentSize: {height: undefined, maxHeight: undefined}
   };
 
   scrollArea = React.createRef();
@@ -109,8 +122,11 @@ class Chat extends PureComponent {
       chatConfig,
       endChatBlock,
       contentSize: { height, maxHeight },
-      frameContext
+      frameContext,
+      formFocused,
     } = this.props;
+
+    const maxHeightAltered = maxHeight - (formFocused && mobile ? 207 : 240);
 
     return (
       <div
@@ -118,7 +134,7 @@ class Chat extends PureComponent {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: height >= maxHeight - 240 ? maxHeight - 240 : undefined
+          height: height >= maxHeightAltered ? maxHeightAltered : undefined
         }}
       >
         <ScrollArea
@@ -126,8 +142,8 @@ class Chat extends PureComponent {
           style={{
             flexBasis: 0,
             flexGrow: 1,
-            overflow: height >= maxHeight - 240 ? 'hidden' : undefined,
-            minHeight: height >= maxHeight - 240 ? '1px' : undefined
+            overflow: height >= maxHeightAltered ? 'hidden' : undefined,
+            minHeight: height >= maxHeightAltered ? '1px' : undefined
           }}
           ref={this.scrollArea}
           stopScrollPropagation={true}
@@ -222,11 +238,25 @@ class Chat extends PureComponent {
           )}
         </ScrollArea>
         {!!chat && chat.status !== 'ended' && (
-          <MessageForm frameContext={this.props.frameContext} onSend={onSendMessage} style={{ flex: '0 0 auto' }} />
+          <MessageForm
+            frameContext={this.props.frameContext}
+            onSend={onSendMessage}
+            style={{ flex: '0 0 auto' }}
+          />
         )}
       </div>
     );
   }
 }
 
-export default injectIntl(withFrameContext(withScreenContentSize(Chat)));
+export default compose(
+  injectIntl,
+  withFrameContext,
+  withScreenContentSize,
+  connect(
+    (state) => ({ formFocused: isMessageFormFocused(state)})
+  )
+)(Chat);
+
+
+

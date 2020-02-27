@@ -7,6 +7,9 @@ import FroalaEditor from 'react-froala-wysiwyg';
 
 import { ConfigContext, withConfig } from '../core/ConfigContext';
 import { withVisitorId } from '../../containers/withVisitorId';
+import { setMessageFormFocus } from '../../modules/app';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 window.$ = window.jQuery = $;
 
@@ -31,12 +34,12 @@ const extendFroala = () => {
 
 class MessageForm extends PureComponent {
   static propTypes = {
-    visitorId: PropTypes.string.isRequired,
-    onSend: PropTypes.func.isRequired,
+    visitorId:    PropTypes.string.isRequired,
+    onSend:       PropTypes.func.isRequired,
     frameContext: PropTypes.object.isRequired,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    maxFileSize: PropTypes.number.isRequired,
+    className:    PropTypes.string,
+    style:        PropTypes.object,
+    maxFileSize:  PropTypes.number.isRequired,
   };
 
   static contextType = ConfigContext;
@@ -147,7 +150,9 @@ class MessageForm extends PureComponent {
       'froalaEditor.file.uploaded': this.fileUploaded,
       'froalaEditor.image.uploaded': this.imageUploaded,
       'froalaEditor.file.error': this.fileError,
-      'froalaEditor.image.error': this.fileError
+      'froalaEditor.image.error': this.fileError,
+      'froalaEditor.focus': () => (this.props.setMessageFormFocus(true)),
+      'froalaEditor.blur': () => (this.props.setMessageFormFocus(false)),
     },
     pluginsEnabled: ['file', 'image', 'emoticons'],
     scrollableContainer: $(this.props.frameContext.document).find('body')
@@ -196,4 +201,11 @@ class MessageForm extends PureComponent {
   }
 }
 
-export default withVisitorId(withConfig(MessageForm));
+export default compose(
+  connect(
+    null,
+    { setMessageFormFocus }
+  ),
+  withVisitorId,
+  withConfig
+)(MessageForm);
