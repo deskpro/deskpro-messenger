@@ -70,7 +70,7 @@ const blocksMapping = {
     )
   }),
   QuickSearchBlock: injectIntl(({ intl }) => (
-    <QuickSearchBlock title='Quick Search' />
+    <QuickSearchBlock title='Knowledgebase' />
   )),
   TicketsBlock: injectIntl(({ intl, ...props }) => (
     <Block title={intl.formatMessage(transMessages.ticketsTitle)}>
