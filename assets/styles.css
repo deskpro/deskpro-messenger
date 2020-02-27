@@ -574,15 +574,17 @@
   width: 400px;
   border-radius: 0.25rem;
   border-radius: var(--border-radius);
+  overflow: hidden;
 }.dpmsg-ScreenContent {
   align-self: flex-start;
   height: 100%;
   position: relative;
-  width: 100%
+  width: 100%;
+  overflow: hidden
 }.dpmsg-ScreenContent >.scrollarea {
     height: 100%;
     overflow: visible
-  }.dpmsg-ScreenContent >.scrollarea .scrollarea-content {
+  }.dpmsg-ScreenContent >.scrollarea >.scrollarea-content {
       height: 100%;
     }.dpmsg-ScreenContent >.scrollarea .dpmsg-ScreenContentWrapper {
       display: -webkit-box;
@@ -729,7 +731,7 @@
     color: #9db2d8;
   }.dpmsg-ScreenControls .dpmsg-BackBtn.dpmsg-LevelLeft, .dpmsg-ScreenControls a .dpmsg-BackBtn.dpmsg-LevelLeft {
     position: relative;
-    left: 22px;
+    left: 11px;
     top: 8px;
   }.dpmsg-ScreenControls .dpmsg-IconArrow {
   background-image: url('data:image/svg+xml,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><style>.cls-1{fill:%23fff;}</style></defs><title>app_icons</title><path class="cls-1" d="M275,468.73a36.26,36.26,0,0,0,50.26,0l0,0L589.1,206a36.27,36.27,0,0,0-51.29-51.29L300.69,391.8,63.56,154.67A36.27,36.27,0,0,0,12.27,206Z"/></svg>');
@@ -779,8 +781,10 @@
             width: 100%;
             border-radius: 0
           }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap .dpmsg-Screen .dpmsg-Control {
-              width: 100%;
-            }.dpmsg-Block {
+              width: 100%
+            }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap .dpmsg-Screen .dpmsg-Control .dpmsg-ScreenControls a.dpmsg-BackBtn.dpmsg-LevelLeft {
+                left: 22px;
+              }.dpmsg-Block {
   background-color: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 0.25rem;
@@ -1581,15 +1585,6 @@
     position: absolute;
     right: 12px;
     top: 12px;
-  }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--hint {
-    color: #4c4f50;
-    color: var(--grey-darkest);
-    font-family: Rubik, sans-serif;
-    font-size: 14px;
-    font-style: italic;
-    font-weight: normal;
-    margin-top: 15px;
-    word-break: break-all;
   }.dpmsg-QuickSearchResults {
   font-family: Rubik, sans-serif;
   margin-top: 7px
