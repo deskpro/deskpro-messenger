@@ -8,6 +8,7 @@ import {
   mergeMap,
   skip,
   switchMap,
+  switchMapTo,
   take,
   tap,
   withLatestFrom,
@@ -283,17 +284,11 @@ const soundEpic = (action$, state$) =>
 const forceChatOpenEpic = (action$, state$, { history }) =>
   action$.pipe(
     ofType(CHAT_MESSAGE_RECEIVED),
-    withLatestFrom(state$),
-    filter(
-      ([{ type, payload: message }, state]) =>
-        isWindowOpened(state) && (message.type === 'chat.message' &&
-          message.origin === 'agent')
-    ),
-    tap(([{ payload: message }]) => {
+    filter(({ type, payload: message }) => message.type === 'chat.message' && message.origin === 'agent'),
+    map(({ payload: message }) => {
       history.push(`/screens/active-chat/${message.chat.id}`);
-      // return of(setWindowState(true));
-    }),
-    skip()
+      return setWindowState(true);
+    })
   );
 
 const forceChatOpenOnSaveEpic = (action$) =>
@@ -311,6 +306,7 @@ export const chatEpic = combineEpics(
   cacheNewChatEpic,
   deactivateChatEpic,
   soundEpic,
+  forceChatOpenEpic,
   agentAssignementTimeout,
   forceChatOpenOnSaveEpic
 );
