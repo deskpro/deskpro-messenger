@@ -31,14 +31,6 @@ class SearchBlock extends React.Component {
   }
 
 
-  getSearchHint() {
-    return (
-      <span>
-        {this.state.query.length >= 3 ? `${(this.props.results.length < 1 ? 'No results' : 'Search results')} for "${this.state.query}"` : null }
-      </span>
-    );
-  }
-
   getResults() {
     return this.props.results.slice(0, 3);
   }
@@ -82,9 +74,6 @@ class SearchBlock extends React.Component {
                 <span aria-hidden={true}>Search</span>
               </label>
               { (this.state.query.length > 0) && <i className="dpmsg-Icon dpmsg-IconSearchClear" onClick={this.onClear} /> }
-            </div>
-            <div className="dpmsg-QuickSearchControl--hint">
-              {this.getSearchHint()}
             </div>
           </div>
 
