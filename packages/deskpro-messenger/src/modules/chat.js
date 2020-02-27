@@ -1,6 +1,7 @@
 import { empty, from, interval, merge, of, race } from 'rxjs';
 import { combineEpics, ofType } from 'redux-observable';
 import {
+  distinctUntilKeyChanged,
   filter,
   ignoreElements,
   map,
@@ -8,11 +9,9 @@ import {
   mergeMap,
   skip,
   switchMap,
-  switchMapTo,
   take,
   tap,
-  withLatestFrom,
-  distinctUntilKeyChanged
+  withLatestFrom
 } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
@@ -27,7 +26,7 @@ import uuid from '../utils/uuid';
 import { hasAgentsAvailable } from './info';
 
 import { SET_VISITOR } from './guest';
-import { isWindowOpened, setWindowState } from './app';
+import { setWindowState } from './app';
 
 const spread = produce(Object.assign);
 
