@@ -17,8 +17,8 @@ const mobile = isMobile();
 const iframeStyle = {
   bottom: mobile ? '0' : '90px',
   width: mobile ? '100%' : '400px',
-  maxHeight: mobile ? '100%' : 'calc(90vh - 60px - 20px)',
-  minHeight: mobile ? '100%' : '350px'
+  maxHeight: mobile ? 'calc(100vh)' : 'calc(90vh - 60px - 20px)',
+  minHeight: mobile ? '200px' : '350px'
 };
 
 const extraStyles = (
@@ -56,9 +56,19 @@ class MessengerWindow extends PureComponent {
   shellRef = createRef();
 
   getHeight = (height) => {
-    const maxHeight = Math.ceil(Math.min(1000, this.props.frameContext.window.parent.innerHeight * 0.9));
-    /// wooooooo, magic numbers!
-    return { height: Math.ceil(height + 67 > maxHeight ? maxHeight : height + 67), maxHeight };
+    const maxHeight = mobile
+      ? this.props.frameContext.window.parent.innerHeight
+      : Math.ceil(Math.min(1000, this.props.frameContext.window.parent.innerHeight * 0.9));
+
+    let iframeHeight;
+    if(!mobile) {
+      iframeHeight = Math.ceil(height + 67 > maxHeight ? maxHeight : height + 67);
+    } else {
+      iframeHeight = maxHeight;
+    }
+
+
+    return { height: iframeHeight, maxHeight };
   };
 
   recalcIframeHeight = (force = false) => {
@@ -109,8 +119,8 @@ class MessengerWindow extends PureComponent {
         mobile={mobile}
         style={{
           ...iframeStyle,
-          height: mobile ? '100%' : `${iframeHeight}px`,
-          maxHeight: mobile? '100%' : maxHeight
+          height: `${iframeHeight}px`,
+          maxHeight: maxHeight
         }}
       >
         <AnimateHeight

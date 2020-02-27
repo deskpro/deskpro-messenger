@@ -31,15 +31,9 @@ class ScreenContent extends PureComponent {
 
   render() {
     const { children, contentHeight, iframeHeight, maxHeight, frameContext, forwardedRef, mobile } = this.props;
-    let fullHeight = false;
-    let height;
-    if(!mobile) {
-      fullHeight = iframeHeight > parseInt(contentHeight, 10) && this.scrollArea.current && this.scrollArea.current.state.realHeight < iframeHeight;
-      height = iframeHeight >= contentHeight ? iframeHeight - 33 : contentHeight + 33;
-    } else {
-      fullHeight = true;
-      height = contentHeight + 33;
-    }
+
+    const fullHeight = iframeHeight > parseInt(contentHeight, 10) && this.scrollArea.current && this.scrollArea.current.state.realHeight < iframeHeight;
+    const height = iframeHeight >= contentHeight ? iframeHeight - 34 : contentHeight + 33;
 
     return (
       <div className="dpmsg-ScreenContent">
