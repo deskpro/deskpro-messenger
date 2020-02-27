@@ -576,11 +576,22 @@
   border-radius: var(--border-radius);
 }.dpmsg-ScreenContent {
   align-self: flex-start;
+  height: 100%;
   position: relative;
   width: 100%
 }.dpmsg-ScreenContent >.scrollarea {
     height: 100%;
-  }.dpmsg-ScreenContent .dp-pc_field .dp-pc_input {
+    overflow: visible
+  }.dpmsg-ScreenContent >.scrollarea .scrollarea-content {
+      height: 100%;
+    }.dpmsg-ScreenContent >.scrollarea .dpmsg-ScreenContentWrapper {
+      display: -webkit-box;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+              flex-direction: column;
+    }.dpmsg-ScreenContent >.scrollarea.fullHeight {
+    }.dpmsg-ScreenContent .dp-pc_field .dp-pc_input {
       font-family: Rubik, "Helvetica", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       font-family: var(--font-family-base);
       font-size: 16px;
@@ -649,6 +660,7 @@
   padding: 0 25px 8px;
   padding: 0 25px var(--xs-space);
   width: 100%;
+  align-self: flex-end;
 }.dpmsg-ScreenLine {
   background-color: #e4e4e4;
   display: block;
@@ -665,6 +677,8 @@
 }.dpmsg-ScreenFooterLogo {
   cursor: pointer;
   height: 20px;
+  margin-bottom: -4px;
+  position: relative;
 }.dpmsg-ScreenIconRow {
   margin-top: 13px;
   margin-top: var(--sm-space);
@@ -749,7 +763,24 @@
   font-weight: normal;
   line-height: 150%;
   margin: 25px 0;
-}.dpmsg-Block {
+}.dpmsg-ScreenMobile.dpmsg-ScreenFrame {
+  height: 100%;
+  width: 100%
+}.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content {
+    height: 100%
+  }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div {
+        height: 100%;
+        width: 100%
+      }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap {
+          width: 100%;
+          height: 100%;
+          margin: 0
+        }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap .dpmsg-Screen {
+            width: 100%;
+            border-radius: 0
+          }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap .dpmsg-Screen .dpmsg-Control {
+              width: 100%;
+            }.dpmsg-Block {
   background-color: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 0.25rem;
