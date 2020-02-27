@@ -289,10 +289,11 @@ const forceChatOpenEpic = (action$, state$, { history }) =>
         isWindowOpened(state) && (message.type === 'chat.message' &&
           message.origin === 'agent')
     ),
-    map(([{ payload: message }]) => {
+    tap(([{ payload: message }]) => {
       history.push(`/screens/active-chat/${message.chat.id}`);
-      return setWindowState(true);
-    })
+      // return of(setWindowState(true));
+    }),
+    skip()
   );
 
 const forceChatOpenOnSaveEpic = (action$) =>
@@ -311,7 +312,6 @@ export const chatEpic = combineEpics(
   deactivateChatEpic,
   soundEpic,
   agentAssignementTimeout,
-  forceChatOpenEpic,
   forceChatOpenOnSaveEpic
 );
 //#endregion

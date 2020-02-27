@@ -101,7 +101,9 @@ class MessengerWindow extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    this.recalcIframeHeight(true);
+    if(prevProps.opened !== this.props.opened) {
+      this.recalcIframeHeight(true);
+    }
   }
 
   componentWillUnmount() {
