@@ -1446,7 +1446,13 @@
   margin-right: 17px;
 }.dpmsg-TextareaActions [class*="dpmsg-Icon"] {
   cursor: pointer;
-}.fr-box.fr-basic.fr-bottom .fr-wrapper {
+}.fr-box.fr-basic.fr-top {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+          flex-direction: column-reverse;
+}.fr-box.fr-basic.fr-bottom .fr-wrapper, .fr-box.fr-basic.fr-top .fr-wrapper {
   background-color: #fff;
   border: none;
   border-top: 2px solid #3d88f3;
@@ -1469,7 +1475,7 @@
   white-space: pre;
   white-space: pre-wrap;
   word-wrap: break-word;
-}.fr-toolbar.fr-bottom {
+}.fr-toolbar.fr-bottom, .fr-toolbar.fr-top {
   border: none;
   box-shadow: none;
 }.fr-toolbar .fr-command.fr-btn {
