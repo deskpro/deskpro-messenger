@@ -141,6 +141,7 @@ class MessengerWindow extends PureComponent {
             iframeHeight={iframeHeight}
             contentHeight={contentHeight}
             mobile={mobile}
+            opened={opened}
           >
             <Suspense
               fallback={

@@ -102,27 +102,31 @@ const blocksMapping = {
   ))
 };
 
-const Blocks = ({ blocks, agentsAvailable, activeChat, chatAvailable }) => (
-  <Fragment>
-    <Header />
-    {blocks.sort((blockA, blockB) => blockA.order - blockB.order).map(({ blockType, ...props }, index) => {
-      if(blockType === 'StartChatBlock') {
-        if (!Object.keys(agentsAvailable).length || !chatAvailable) {
-          return null;
+class Blocks extends React.PureComponent {
+  render() {
+    const { blocks, agentsAvailable, activeChat, chatAvailable } = this.props;
+
+    return (<Fragment>
+      <Header />
+      {blocks.sort((blockA, blockB) => blockA.order - blockB.order).map(({ blockType, ...props }, index) => {
+        if(blockType === 'StartChatBlock') {
+          if (!Object.keys(agentsAvailable).length || !chatAvailable) {
+            return null;
+          }
+          if (activeChat) {
+            props.to = `active-chat/${activeChat}`;
+            props.activeChat = activeChat;
+          }
+          props.agentsAvailable = agentsAvailable;
         }
-        if (activeChat) {
-          props.to = `active-chat/${activeChat}`;
-          props.activeChat = activeChat;
-        }
-        props.agentsAvailable = agentsAvailable;
-      }
-      const Component = blocksMapping[blockType];
-      return Component ? (
-        <Component key={blockType + index} {...props} />
-      ) : null;
-    })}
-  </Fragment>
-);
+        const Component = blocksMapping[blockType];
+        return Component ? (
+          <Component key={blockType + index} {...props} />
+        ) : null;
+      })}
+    </Fragment>);
+  }
+}
 
 const mapStateToProps = (state) => ({
   agentsAvailable: getAgentsAvailable(state),

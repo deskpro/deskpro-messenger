@@ -31,7 +31,11 @@ class ScreenContent extends PureComponent {
   scrollArea = createRef();
 
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
+    if (
+      this.props.location !== prevProps.location ||
+      (this.props.opened && !prevProps.opened)
+    ) {
+      this.scrollArea.current.scrollArea.refresh();
       this.scrollArea.current.scrollTop();
     }
   }
