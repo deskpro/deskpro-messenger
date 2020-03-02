@@ -6,6 +6,13 @@ import { withFrameContext } from '../core/Frame';
 import MessageForm from './MessageForm';
 import { withConfig } from '../core/ConfigContext';
 import BotBubble from './BotBubble';
+import { compose } from 'redux';
+import { withScreenContentSize } from '../core/ScreenContent';
+import { connect } from 'react-redux';
+import { isMessageFormFocused } from '../../modules/app';
+import isMobile from 'is-mobile';
+
+const mobile = isMobile();
 
 class PromptMessage extends PureComponent {
   static propTypes = {
@@ -18,15 +25,38 @@ class PromptMessage extends PureComponent {
   };
 
   render() {
-    const { prompt, onSendMessage, frameContext } = this.props;
+    const {
+      contentSize: { maxHeight },
+      formFocused,
+      prompt,
+      onSendMessage,
+      frameContext
+    } = this.props;
 
+    const maxHeightAltered = maxHeight - (formFocused && mobile ? 207 : 240);
     return (
-      <Fragment>
+      <div
+        className="dpmsg-ChatMessagesWrapper"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: maxHeightAltered
+        }}
+      >
         {!!prompt && <BotBubble message={prompt} />}
-        <MessageForm onSend={onSendMessage} frameContext={frameContext}/>
-      </Fragment>
+        <MessageForm onSend={onSendMessage} frameContext={frameContext} style={{marginTop: 'auto'}}/>
+      </div>
     );
   }
 }
 
-export default withFrameContext(withRouter(withConfig(PromptMessage)));
+export default compose(
+  withConfig,
+  withRouter,
+  withFrameContext,
+  withScreenContentSize,
+  connect(
+    (state) => ({ formFocused: isMessageFormFocused(state)})
+  )
+)(PromptMessage);
+
