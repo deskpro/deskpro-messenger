@@ -395,9 +395,6 @@ export default produce(
           action
         );
       }
-      if (isEndEvent(payload) && payload.chat === draft.activeChat) {
-        delete draft.activeChat;
-      }
       if (payload.type === 'chat.agentAssigned' && payload.chat === draft.activeChat) {
         draft.chatAssigned = true;
       }

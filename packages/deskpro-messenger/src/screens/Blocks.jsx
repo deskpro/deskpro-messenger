@@ -7,7 +7,7 @@ import QuickSearchBlock from '../components/search/QuickSearchBlock';
 import Button from '../components/form/Button';
 import { connect } from 'react-redux';
 import { canUseChat, getAgentsAvailable } from '../modules/info';
-import { getActiveChat } from '../modules/chat';
+import { getActiveChat, getChatData } from '../modules/chat';
 import AvatarHeads from '../components/ui/AvatarHeads';
 import Header from '../components/ui/Header';
 
@@ -51,7 +51,7 @@ const blocksMapping = {
       link = intl.formatMessage(transMessages.continueChatLink, props);
       title = description = intl.formatMessage(transMessages.continueChatTitle, props);
     } else {
-      link = intl.formatMessage(linkText ? { id: linkText, defaultMessage: linkText } : transMessages.startChatLink, props);
+      link = linkText || intl.formatMessage(transMessages.startChatLink, props);
       title = props.title || intl.formatMessage(transMessages.startChatTitle);
       description = props.description || intl.formatMessage(transMessages.startChatDescription);
     }
@@ -104,7 +104,7 @@ const blocksMapping = {
 
 class Blocks extends React.PureComponent {
   render() {
-    const { blocks, agentsAvailable, activeChat, chatAvailable } = this.props;
+    const { blocks, agentsAvailable, activeChat, chatData, chatAvailable } = this.props;
 
     return (<Fragment>
       <Header />
@@ -113,7 +113,7 @@ class Blocks extends React.PureComponent {
           if (!Object.keys(agentsAvailable).length || !chatAvailable) {
             return null;
           }
-          if (activeChat) {
+          if (activeChat && chatData && chatData.status !== 'ended') {
             props.to = `active-chat/${activeChat}`;
             props.activeChat = activeChat;
           }
@@ -131,6 +131,7 @@ class Blocks extends React.PureComponent {
 const mapStateToProps = (state) => ({
   agentsAvailable: getAgentsAvailable(state),
   activeChat:      getActiveChat(state),
+  chatData:        getChatData(state),
   chatAvailable:   canUseChat(state)
 });
 
