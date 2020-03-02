@@ -172,6 +172,10 @@ export default class ApiService {
       postData.fields = fields;
     }
     postData.message = { message: values.message, format: 'html' };
+    if(values.cc) {
+      postData.cc = values.cc ? [ values.cc ] : '';
+    }
+
     return this.apiClient.post(`/api/messenger/ticket`, postData);
   }
 
