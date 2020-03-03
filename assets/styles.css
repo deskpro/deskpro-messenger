@@ -578,9 +578,9 @@
 }.dpmsg-ScreenContent {
   align-self: flex-start;
   height: 100%;
+  overflow: hidden;
   position: relative;
-  width: 100%;
-  overflow: hidden
+  width: 100%
 }.dpmsg-ScreenContent >.scrollarea {
     height: 100%;
     overflow: visible
@@ -717,8 +717,22 @@
   width: var(--width-icon);
 }.dpmsg-ScreenControls {
   -webkit-box-flex: 0;
-          flex: 0 0 100%;
-}.dpmsg-ScreenControls a,
+          flex: 0 0 100%
+}.dpmsg-ScreenControls .dpmsg-endChatButton {
+    background-color: white;
+    color: #4c4f50;
+    color: var(--grey-darkest);
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 0 3px;
+    position: absolute;
+    right: 66px;
+    top: 10px
+  }.dpmsg-ScreenControls .dpmsg-endChatButton:hover {
+      color: #3d88f3;
+      color: var(--color-primary);
+    }.dpmsg-ScreenControls a,
 .dpmsg-ScreenControls a * {
   cursor: pointer;
   font-size: 14px;
@@ -745,18 +759,7 @@
     color: #9db2d8;
   }.is-light .dpmsg-ScreenControls .dpmsg-IconArrow {
   background-image: url('data:image/svg+xml,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><style>.cls-1{fill: %234395d2;}</style></defs><title>app_icons</title><path class="cls-1" d="M275,468.73a36.26,36.26,0,0,0,50.26,0l0,0L589.1,206a36.27,36.27,0,0,0-51.29-51.29L300.69,391.8,63.56,154.67A36.27,36.27,0,0,0,12.27,206Z"/></svg>');
-}.dpmsg-Block .dpmsg-endChatButton {
-  color: #8b9293;
-  color: var(--grey-dark);
-  cursor: pointer;
-  font-size: 14px;
-  position: absolute;
-  right: 2px;
-  top: 3px
-}.dpmsg-Block .dpmsg-endChatButton:hover {
-    color: #3d88f3;
-    color: var(--color-primary);
-  }.dpmsg-StartChatScreen-FormMessage {
+}.dpmsg-StartChatScreen-FormMessage {
   color: #4c4f50;
   color: var(--grey-darkest);
   display: block;
@@ -2152,10 +2155,12 @@
     white-space: pre;
     word-wrap: normal;
   }body {
-  /* this is froala FF bug fix (wont affect webkit) */
-  margin-top: 22px;
+
   /* this is froala FF bug fix (wont affect webkit) */
   margin-left: 0;
+
+  /* this is froala FF bug fix (wont affect webkit) */
+  margin-top: 22px;
   padding: 0;
   position: static;
   position: initial;
