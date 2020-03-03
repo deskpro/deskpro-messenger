@@ -16,7 +16,8 @@ import {
   getMessages,
   getTypingState,
   isChatAssigned,
-  sendMessage
+  sendMessage,
+  toggleChatEndBlock
 } from '../modules/chat';
 import { getUserData } from '../modules/guest';
 import { getChatDepartments } from '../modules/info';
@@ -72,12 +73,8 @@ class ChatScreen extends PureComponent {
     }
   };
 
-  onEndClick = () => {
-    this.setState({endChatBlock: true});
-  };
-
   onCancelEndChat = () => {
-    this.setState({ endChatBlock: false });
+    this.props.toggleChatEndBlock(false);
   };
 
   handleEndChat = () => {
@@ -108,15 +105,11 @@ class ChatScreen extends PureComponent {
           )}
           className="Block--chat"
         >
-          {chatData.status !== 'ended' && (<div className="dpmsg-endChatButton">
-            <span onClick={this.onEndClick}>End chat</span>
-          </div>)}
           <Chat
             messages={this.props.messages}
             onSendMessage={this.handleSendMessage}
             onEndChat={this.handleEndChat}
             onCancelEndChat={this.onCancelEndChat}
-            endChatBlock={this.state.endChatBlock}
             typing={this.props.typing}
             user={user}
             agent={agent}
@@ -152,7 +145,7 @@ export default compose(
   withConfig,
   connect(
     mapStateToProps,
-    { sendMessage, endChatMessage, chatOpened }
+    { sendMessage, endChatMessage, chatOpened, toggleChatEndBlock }
   ),
   mapProps
 )(ChatScreen);

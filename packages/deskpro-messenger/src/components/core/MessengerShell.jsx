@@ -6,7 +6,9 @@ import { ConfigConsumer } from './ConfigContext';
 import ScreenContent from './ScreenContent';
 import { isLightColor } from '../../utils/color';
 import BackButton from '../../containers/BackButton';
-import MuteButton from '../../containers/MuteButton';
+import EndChatButton from '../../containers/EndChatButton';
+import { connect } from 'react-redux';
+import { getChatData } from '../../modules/chat';
 
 class MessengerShell extends PureComponent {
   static propTypes = {
@@ -29,17 +31,22 @@ class MessengerShell extends PureComponent {
   };
 
   renderToolbar = () => {
+    console.log(this.props);
+
+    const { chatData } = this.props;
+
     return (
       <Route path="/screens/:screenName">
         {({ match }) => {
           const { screenName } = match.params;
+          const isActiveChat = screenName === 'active-chat' && chatData && chatData.id && chatData.status !== 'ended';
           const screen = this.props.screens[screenName];
           return (
             <Fragment>
               {screenName !== 'index' && (
                 <BackButton screen={screen} screenName={screenName} />
               )}
-              {!!screen && screen.screenType === 'ChatScreen' && <MuteButton />}
+              {isActiveChat && <EndChatButton />}
               <button className='dpmsg-AutoStart-close' onClick={this.props.onClose}/>
             </Fragment>
           );
@@ -90,10 +97,14 @@ class MessengerShell extends PureComponent {
   }
 }
 
+const MessengerShellConnected = connect(
+  (state) => ({chatData:getChatData(state)})
+)(MessengerShell);
+
 export default forwardRef((props, ref) => (
   <ConfigConsumer>
     {({ themeVars }) => (
-      <MessengerShell
+      <MessengerShellConnected
         {...props}
         forwardedRef={ref}
         isLight={

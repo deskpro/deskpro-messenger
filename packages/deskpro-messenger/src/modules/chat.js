@@ -51,6 +51,7 @@ export const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
 export const CHAT_HISTORY_LOADED = 'CHAT_HISTORY_LOADED';
 export const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
 export const CHAT_OPENED = 'CHAT_OPENED';
+export const CHAT_END_BLOCK = 'CHAT_END_BLOCK';
 //#endregion
 
 //#region ACTION CREATORS
@@ -59,9 +60,16 @@ export const createChat = (data, meta) => ({
   payload: data,
   meta
 });
+
 export const chatOpened = () => ({
   type: CHAT_OPENED
 });
+
+export const toggleChatEndBlock = (payload) => ({
+  type: CHAT_END_BLOCK,
+  payload
+});
+
 export const saveChat = (payload, meta) => ({
   type: CHAT_SAVE_CHAT,
   payload,
@@ -368,6 +376,8 @@ export default produce(
     const { type, payload } = action;
     if (type === CHAT_TOGGLE_SOUND) {
       draft.mute = !draft.mute;
+    } else if (type === CHAT_END_BLOCK) {
+      draft.endBlock = !!payload;
     } else if (type === CHAT_SAVE_CHAT) {
       draft.chats[payload.id] = { ...emptyChat, data: payload };
       draft.activeChat = payload.id;
@@ -398,6 +408,9 @@ export default produce(
       if (payload.type === 'chat.agentAssigned' && payload.chat === draft.activeChat) {
         draft.chatAssigned = true;
       }
+      if (type === CHAT_MESSAGE_RECEIVED && payload.type === 'chat.ended') {
+        draft.endBlock = false;
+      }
     } else if (type === CHAT_HISTORY_LOADED) {
       const chatId = payload[0].chat || draft.activeChat;
       draft.chats[chatId].messages = payload.concat(
@@ -407,7 +420,7 @@ export default produce(
 
     return;
   },
-  { chats: {}, mute: false, activeChat: null, chatAssigned: false }
+  { chats: {}, mute: false, activeChat: null, chatAssigned: false, endBlock: false }
 );
 //#endregion
 
@@ -431,5 +444,6 @@ export const getChatData = createSelector(getChat, (chat) => chat.data);
 export const getMessages = createSelector(getChat, (chat) => chat.messages);
 export const getTypingState = createSelector(getChat, (chat) => chat.typing);
 export const isMuted = createSelector(getChatState, (state) => state.mute);
+export const endBlockShown = createSelector(getChatState, (state) => state.endBlock);
 export const isChatAssigned = createSelector(getChatState, (state) => state.chatAssigned);
 //#endregion

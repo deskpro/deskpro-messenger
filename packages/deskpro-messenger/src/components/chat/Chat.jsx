@@ -19,6 +19,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isMessageFormFocused } from '../../modules/app';
 import isMobile from 'is-mobile';
+import { endBlockShown } from '../../modules/chat';
 
 const mobile = isMobile();
 
@@ -254,7 +255,7 @@ export default compose(
   withFrameContext,
   withScreenContentSize,
   connect(
-    (state) => ({ formFocused: isMessageFormFocused(state)})
+    (state) => ({ formFocused: isMessageFormFocused(state), endChatBlock: endBlockShown(state) })
   )
 )(Chat);
 
