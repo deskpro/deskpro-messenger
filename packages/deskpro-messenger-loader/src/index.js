@@ -40,8 +40,15 @@ function setupFrames(config, manifest) {
 
   const iframeDoc = iframe.contentDocument;
 
-  const assets = manifest.entrypoints.main.js.map(fileName =>
-    `<script async src="${config.bundleUrl.isDev ? '' : `${config.helpdeskURL}${config.bundleUrl.path}`}${fileName}"></script>`
+  const assets = manifest.entrypoints.main.js.map((fileName) => {
+      let host = '';
+      if (!config.bundleUrl.isDev) {
+        host = `${config.bundleUrl.isAbsolute ? '' : config.helpdeskURL}${config.bundleUrl.path}`;
+      }
+
+      const final = `${host.replace(/\/$/, "")}${host ? '/' : ''}${fileName.replace(/^\//, "")}`;
+      return `<script async src="${final}"></script>`;
+    }
   ).join("\n");
 
   const initialContent = `<!DOCTYPE html><html>
@@ -62,7 +69,7 @@ function init() {
   const scriptTag = document.getElementById('dp-messenger-loader');
   const hdUrl = scriptTag.dataset.helpdeskUrl;
   return loadConfig(hdUrl).then((config) => {
-    fetch(`${config.bundleUrl.isDev ? '' : config.helpdeskURL}${config.bundleUrl.manifest}`)
+    fetch(`${config.bundleUrl.isDev || config.bundleUrl.isAbsolute ? '' : config.helpdeskURL}${config.bundleUrl.manifest}`)
       .then((res) => res.json())
       .then((manifest) => {
         setupFrames(config, manifest);

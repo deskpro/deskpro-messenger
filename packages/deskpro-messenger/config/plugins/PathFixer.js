@@ -22,7 +22,7 @@ class PathFixer {
             const asset = compilation.assets[file];
             const input = asset.source();
             if (input.indexOf('__webpack_require__.p + "static/js/"') !== -1) {
-              let output         = input.replace('__webpack_require__.p + "static/js/"', 'window.parent.DESKPRO_MESSENGER_ASSET_URL');
+              let output         = input.replace('__webpack_require__.p + "static/js/"', 'window.parent.DESKPRO_MESSENGER_ASSET_URL.replace(/\\/$/, "") + "/"');
               const outputSource = new webpackSources.RawSource(output);
               outputSource.sourceAndMap = null;
               processedAssets.add(compilation.assets[file] = outputSource);
