@@ -818,7 +818,6 @@
 }.dpmsg-BlockInnerContent {
   display: block;
   padding: 0 37px;
-  text-align: justify;
 }.dpmsg-BlockInnerHeader, .dpmsg-BlockInnerIcon {
   display: -webkit-box;
   display: flex;
@@ -875,8 +874,10 @@
   box-shadow: 3px 3px 7px 1px rgba(51, 51, 62, 0.1);
   display: block;
   margin-bottom: 20px;
-  margin-top: 42px;
-}.dpmsg-PromptHeader {
+  margin-top: 42px
+}.dpmsg-MessagePrompt.dpmsg-RatingBlock, .dpmsg-MessagePrompt.dpmsg-TranscriptBlock {
+    margin-top: 30px;
+  }.dpmsg-PromptHeader {
   -webkit-box-align: center;
           align-items: center;
   border-bottom: 2px solid #dce4eb;
@@ -917,10 +918,10 @@
 }.dpmsg-PromptBtn:first-child {
   border-right: 2px solid #dce4eb;
   border-right: var(--border);
-}.dpmsg-PromptBtn.is-agdee {
+}.dpmsg-PromptBtn.is-agree {
   color: #36a66c;
   color: var(--color-success)
-}.dpmsg-PromptBtn.is-agdee:hover { color: rgb(54, 204, 126); }.dpmsg-PromptBtn.is-disagree {
+}.dpmsg-PromptBtn.is-agree:hover { color: rgb(54, 204, 126); }.dpmsg-PromptBtn.is-disagree {
   color: #f25a6c;
   color: var(--color-danger)
 }.dpmsg-PromptBtn.is-disagree:hover { color: rgb(204, 90, 104); }.dpmsg-PromptContentEvaluation {
