@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import ChatPrompt from '../ui/ChatPrompt';
 import SaveTicketForm from './SaveTicketForm';
@@ -75,7 +75,13 @@ class SaveTicketBlock extends PureComponent {
     );
   };
 
-  handleCancel = () => this.setState({ viewMode: 'cancel' });
+  handleCancel = () => {
+    const { endChat, history } = this.props;
+    this.setState({ viewMode: 'cancel' }, () => {
+      endChat();
+      history.push('/screens/index')
+    });
+  };
 
   renderFormOrQuestion() {
     const { formConfig, intl, user, ticketParams, uploadTo } = this.props;

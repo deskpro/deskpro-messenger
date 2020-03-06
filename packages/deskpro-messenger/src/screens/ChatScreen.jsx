@@ -82,7 +82,7 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const { departments, chatConfig, chatData, intl, user, agent } = this.props;
+    const { departments, chatConfig, chatData, intl, user, agent, messages, history, typing } = this.props;
     const department = chatConfig.department
       ? departments[chatConfig.department]
       : {};
@@ -106,15 +106,16 @@ class ChatScreen extends PureComponent {
           className="Block--chat"
         >
           <Chat
-            messages={this.props.messages}
+            messages={messages}
             onSendMessage={this.handleSendMessage}
             onEndChat={this.handleEndChat}
             onCancelEndChat={this.onCancelEndChat}
-            typing={this.props.typing}
+            typing={typing}
             user={user}
             agent={agent}
             chat={chat}
             chatConfig={chatConfig}
+            history={history}
           />
         </Block>
       </Fragment>

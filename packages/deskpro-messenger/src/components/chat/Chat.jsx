@@ -125,6 +125,7 @@ class Chat extends PureComponent {
       contentSize: { height, maxHeight },
       frameContext,
       formFocused,
+      history
     } = this.props;
 
     const maxHeightAltered = maxHeight - (formFocused && mobile ? 207 : 240);
@@ -201,6 +202,8 @@ class Chat extends PureComponent {
                           ticketParams={chatConfig.ticketDefaults}
                           formConfig={chatConfig.ticketFormConfig}
                           onSend={onSendMessage}
+                          endChat={onEndChat}
+                          history={history}
                         />
                       )}
                       {chatConfig.noAnswerBehavior === 'create_ticket' && (
@@ -241,7 +244,7 @@ class Chat extends PureComponent {
         </ScrollArea>
         {!!chat && chat.status !== 'ended' && (
           <MessageForm
-            frameContext={this.props.frameContext}
+            frameContext={frameContext}
             onSend={onSendMessage}
             style={{ flex: '0 0 auto' }}
           />
