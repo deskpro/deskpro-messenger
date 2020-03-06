@@ -181,7 +181,10 @@ class MessageForm extends PureComponent {
         message,
         blobs: this.uploadedFiles.map(blob => blob.id)
       });
-      this.setState({ message: '' }, () => this.uploadedFiles = []);
+      this.setState({ message: '' }, () => {
+        this.uploadedFiles = [];
+        this.editor.events.focus();
+      });
     }
   };
 
