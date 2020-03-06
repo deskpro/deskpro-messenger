@@ -28,8 +28,8 @@ const transMessages = {
     id: 'chat.agent_assigned.message',
     defaultMessage: `{name} joined the conversation.`
   },
-  agentUnassigned: {
-    id: 'chat.agent_unassigned.message',
+  userLeft: {
+    id: 'message_user-left',
     defaultMessage: `{name} left the conversation.`
   },
   noAgentOnline: {
@@ -209,6 +209,7 @@ class Chat extends PureComponent {
                     </div>
                   );
                 case 'chat.userJoined':
+                case 'chat.userLeft':
                   return (
                     <SystemMessage
                       key={key}
