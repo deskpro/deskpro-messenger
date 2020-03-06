@@ -31,9 +31,9 @@ class MessageBubble extends React.Component {
   }
 
   isNotTheSameSender() {
-    const { origin, prev } = this.props;
+    const { origin, prev, author } = this.props;
 
-    return !(prev.origin && prev.origin === origin);
+    return !(prev.origin && prev.origin === origin) || !(prev.origin === origin && prev.author === author);
   }
 
   render() {
