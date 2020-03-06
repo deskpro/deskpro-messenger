@@ -59,6 +59,7 @@ export class RatingBlock extends PureComponent {
     return (
       <ChatPrompt
         header={intl.formatMessage(transMessages.questionHeader, agent)}
+        className={'dpmsg-RatingBlock'}
       >
         <div className="dpmsg-PromptContentEvaluation">
           <Button

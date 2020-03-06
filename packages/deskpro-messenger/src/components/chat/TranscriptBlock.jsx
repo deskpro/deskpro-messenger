@@ -112,6 +112,7 @@ export class TranscriptBlock extends PureComponent {
           transMessages[`${viewMode === 'final' ? 'answer' : 'question'}Header`]
         )}
         icon="Notes"
+        className={'dpmsg-TranscriptBlock'}
       >
         {viewMode === 'ask' && this.renderYesNo()}
         {viewMode === 'fields' && this.renderFields()}
