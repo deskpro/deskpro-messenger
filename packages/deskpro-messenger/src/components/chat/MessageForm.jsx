@@ -93,12 +93,29 @@ class MessageForm extends PureComponent {
     return false;
   };
 
+  imageInserted = (e, editor, img) => {
+    $(img).hide();
+  };
+
   imageUploaded = (e, editor, response) => {
     const { blob } = JSON.parse(response);
-    blob.is_inline_image = true;
-    this.uploadedFiles.push(blob);
+
+    if (blob) {
+      this.props.onSend({
+        message: 'chat.attachment',
+        type: 'chat.attachment',
+        blob: blob,
+      });
+    }
+
     editor.popups.hide('file.insert');
   };
+
+  imageLoaded(e, editor, $img) {
+    $img.parent().siblings('.fr-image-resizer').removeClass('fr-active');
+    $img.remove();
+    editor.events.focus();
+  }
 
   fileError = (event, editor, error, response) => {
     const err = [];
@@ -150,6 +167,8 @@ class MessageForm extends PureComponent {
       'froalaEditor.initialized': this.onFroalaInit,
       'froalaEditor.file.uploaded': this.fileUploaded,
       'froalaEditor.image.uploaded': this.imageUploaded,
+      'froalaEditor.image.loaded': this.imageLoaded,
+      'froalaEditor.image.beforePasteUpload': this.imageInserted,
       'froalaEditor.file.error': this.fileError,
       'froalaEditor.image.error': this.fileError,
       'froalaEditor.focus': () => (this.props.setMessageFormFocus(true)),
