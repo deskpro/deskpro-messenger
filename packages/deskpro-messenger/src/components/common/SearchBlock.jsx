@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import Isvg from 'react-inlinesvg';
 import asset from '../../utils/asset';
 
 class SearchBlock extends React.Component {
@@ -70,7 +69,7 @@ class SearchBlock extends React.Component {
 
               />
               <label className="dpmsg-QuickSearchControl--label" htmlFor="quickSearchInput">
-                <Isvg src={asset('img/search.svg')} />
+                <i className="fa fa-search" />
                 <span aria-hidden={true}>Search</span>
               </label>
               { (this.state.query.length > 0) && <i className="dpmsg-Icon dpmsg-IconSearchClear" onClick={this.onClear} /> }
