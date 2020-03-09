@@ -18,7 +18,9 @@ const iframeStyle = {
   bottom: mobile ? '0' : '90px',
   width: mobile ? '100%' : '400px',
   maxHeight: mobile ? 'calc(100vh)' : 'calc(90vh - 90px)',
-  minHeight: mobile ? '200px' : '350px'
+  minHeight: mobile ? '200px' : '350px',
+  boxShadow: '5px 0 20px rgba(29,62,85,0.3)',
+  borderRadius: '4px'
 };
 
 const extraStyles = (
@@ -50,7 +52,7 @@ class MessengerWindow extends PureComponent {
   state = {
     imageVisible: false,
     articleVisible: false,
-    iframeHeight: mobile ? '100%' : 450,
+    iframeHeight: mobile ? '100%' : 455,
     contentHeight: 416,
     maxHeight: mobile ? '100%' : '1000px'
   };
@@ -61,11 +63,11 @@ class MessengerWindow extends PureComponent {
     const { formFocused } = this.props;
     const maxHeight = mobile
       ? this.props.frameContext.window.parent.innerHeight
-      : Math.ceil(Math.min(1000, this.props.frameContext.window.parent.innerHeight * 0.9 - 90));
+      : Math.ceil(Math.min(1000, this.props.frameContext.window.parent.innerHeight * 0.9 - 90)) + 5;
 
     let iframeHeight;
     if(!mobile) {
-      iframeHeight = Math.ceil(height + (formFocused && mobile ? 34 : 67) > maxHeight ? maxHeight : height + (formFocused && mobile ? 34 : 67));
+      iframeHeight = Math.ceil(height + (formFocused && mobile ? 34 : 67) > maxHeight ? maxHeight : height + (formFocused && mobile ? 34 : 67)) + 5;
     } else {
       iframeHeight = maxHeight;
     }
