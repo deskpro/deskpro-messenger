@@ -254,6 +254,7 @@ class Chat extends PureComponent {
           <MessageForm
             frameContext={frameContext}
             onSend={onSendMessage}
+            scrollMessages={() => this.scrollToBottom()}
             style={{ flex: '0 0 auto' }}
           />
         )}
