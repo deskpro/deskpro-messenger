@@ -136,7 +136,7 @@ class Chat extends PureComponent {
       history
     } = this.props;
 
-    const maxHeightAltered = maxHeight - (formFocused && mobile ? 207 : 240);
+    const maxHeightAltered = maxHeight - (formFocused && mobile ? 207 : 242);
 
     return (
       <div
