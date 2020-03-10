@@ -1449,8 +1449,10 @@
     }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_submit {
       font-size: 16px;
       height: 36px;
-      margin-top: 1px;
-    }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .react-select__control {
+      margin-top: 1px
+    }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_submit:hover {
+        box-shadow: none;
+      }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .react-select__control {
         font-size: 16px !important;
       }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .dp-pc_label {
         margin-bottom: 12px !important;
@@ -1936,7 +1938,9 @@
   line-height: 100%;
   padding: 10px 1rem;
   padding: var(--button-padding) 1rem;
-  text-align: center
+  text-align: center;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all
 }.dpmsg-Button:hover { background: #eceef0; background: var(--grey-100); }.dpmsg-Button.Button--white {
     background: #fff;
     background: var(--white);
