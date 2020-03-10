@@ -16,7 +16,6 @@
 .dpmsg-ScreenHeader,
 .dpmsg-ScreenHeaderLogo,
 .dpmsg-ScreenHeaderTitle,
-.dpmsg-Block,
 .dpmsg-ScreenHeaderText,
 .dpmsg-ScreenFooter,
 .dpmsg-ScreenLine,
@@ -26,6 +25,7 @@
 .dpmsg-ScreenIconRow,
 .dpmsg-ScreenControls,
 .dpmsg-StartChatScreen-FormMessage,
+.dpmsg-Block,
 .dpmsg-BlockWrapper,
 .dpmsg-BlockInnerHeader,
 .dpmsg-BlockInnerContent,
@@ -146,7 +146,7 @@
   float: none;
   font-family: Rubik, "Helvetica", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-family: var(--font-family-base);
-  font-size: 0.875rem;
+  font-size: 16px;
   font-size: var(--font-size-base);
   font-style: normal;
   -webkit-font-feature-settings: normal;
@@ -203,7 +203,7 @@
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-family-base: var(--font-family-sans-serif);
 
-  --font-size-base: 0.875rem;
+  --font-size-base: 16px;
   --font-size-lg: calc(var(--font-size-base) * 1.25);
   --font-size-sm: calc(var(--font-size-base) * 0.85);
 
@@ -292,7 +292,7 @@
   --xs-space: 8px;
   --xxs-space: 5px;
 
-  --button-padding: var(--xs-space);
+  --button-padding: var(--s-space);
 
   --grey-border: #dce4eb;
   --border: 2px solid var(--grey-border);
@@ -642,9 +642,6 @@
 .is-minimal .dpmsg-ScreenHeaderTitle {
   -webkit-box-flex: 0;
           flex: 0 0 auto;
-}.dpmsg-Block {
-  margin: 0 8px 10px 8px;
-  margin: 0 var(--xs-space) 10px var(--xs-space);
 }.dpmsg-ScreenHeaderText {
   -webkit-box-flex: 0;
           flex: 0 0 100%;
@@ -661,8 +658,8 @@
   -webkit-box-pack: justify;
           justify-content: space-between;
   margin-top: auto;
-  padding: 0 25px 8px;
-  padding: 0 25px var(--xs-space);
+  padding: 0 25px 10px;
+  padding: 0 25px var(--s-space);
   width: 100%;
 }.dpmsg-ScreenLine {
   background-color: #e4e4e4;
@@ -795,9 +792,11 @@
   border-radius: var(--border-radius);
   box-shadow: 0 4px 8px 1px rgba(51, 51, 62, 0.1);
   display: block;
-  padding: 20px;
-  padding: var(--xl-space);
+  padding: 17px 20px 20px;
+  padding: 17px var(--xl-space) var(--xl-space);
   position: relative;
+  margin: 0 10px 15px 10px;
+  margin: 0 var(--s-space) 15px var(--s-space);
 }.dpmsg-BlockWrapper {
   display: block;
   position: relative;
@@ -810,8 +809,8 @@
   letter-spacing: 0.4px;
   margin-bottom: 30px;
   margin-bottom: var(--xxl-space);
-  padding-bottom: 15px;
-  padding-bottom: var(--space);
+  padding-bottom: 13px;
+  padding-bottom: var(--sm-space);
   position: relative;
 }.dpmsg-BlockInnerHeader {
   margin-bottom: 20px;
@@ -847,8 +846,7 @@
   color: #4c4f50;
   display: block;
   font-size: 16px;
-  margin-bottom: 20px;
-  margin-bottom: var(--xl-space);
+  margin-bottom: 16px;
 }.dpmsg-AvatarHeadsList {
   display: -webkit-box;
   display: flex;
@@ -1454,9 +1452,17 @@
   margin-right: 17px;
 }.dpmsg-TextareaActions [class*="dpmsg-Icon"] {
   cursor: pointer;
-}.dpmsg-BlockWrapper .dp-pc_field .react-select__control {
-  font-size: 16px !important;
-}.fr-box.fr-basic.fr-top {
+}.dpmsg-BlockWrapper .dp-pc_form {
+
+    margin-top: -5px
+
+  }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .react-select__control {
+      padding: 0 15px 0 14px !important;
+    }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .react-select__control {
+        font-size: 16px !important;
+      }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .dp-pc_label{
+        margin-bottom: 12px !important;
+      }.fr-box.fr-basic.fr-top {
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
@@ -1933,10 +1939,10 @@
   color: var(--text-dark);
   cursor: pointer;
   display: inline-block;
-  font-size: 0.875rem;
+  font-size: 16px;
   font-size: var(--font-size-base);
   line-height: 100%;
-  padding: 8px 1rem;
+  padding: 10px 1rem;
   padding: var(--button-padding) 1rem;
   text-align: center
 }.dpmsg-Button:hover { background: #eceef0; background: var(--grey-100); }.dpmsg-Button.Button--white {
@@ -2041,18 +2047,18 @@
     cursor: not-allowed;
     opacity: 0.55;
   }.dpmsg-Button.Button--small {
-    font-size: calc(0.875rem * 0.875);
+    font-size: calc(16px * 0.875);
     font-size: calc(var(--font-size-base) * 0.875);
   }.dpmsg-Button.Button--medium {
     border-radius: calc(0.25rem * 1.14);
     border-radius: calc(var(--border-radius) * 1.14);
-    font-size: calc(0.875rem * 1.14);
+    font-size: calc(16px * 1.14);
     font-size: calc(var(--font-size-base) * 1.14);
     padding: calc(0.7rem * 1.14) calc(1rem * 1.14);
   }.dpmsg-Button.Button--large {
     border-radius: calc(0.25rem * 1.4);
     border-radius: calc(var(--border-radius) * 1.4);
-    font-size: calc(0.875rem * 1.4);
+    font-size: calc(16px * 1.4);
     font-size: calc(var(--font-size-base) * 1.4);
     padding: calc(0.7rem * 1.4) calc(1rem * 1.4);
   }.dpmsg-Button.Button-FullWidth {
