@@ -67,7 +67,7 @@ class MessengerWindow extends PureComponent {
 
     let iframeHeight;
     if(!mobile) {
-      iframeHeight = Math.ceil(height + (formFocused && mobile ? 34 : 67) > maxHeight ? maxHeight : height + (formFocused && mobile ? 34 : 67)) + 5;
+      iframeHeight = Math.ceil(height + (formFocused && mobile ? 34 : 67) > maxHeight ? maxHeight : height + (formFocused && mobile ? 34 : 67));
     } else {
       iframeHeight = maxHeight;
     }
