@@ -474,20 +474,21 @@
 }.dpmsg-TriggerBtn {
   -webkit-box-align: center;
           align-items: center;
+  background-image: none;
   border-radius: 50%;
+  box-shadow: 0 5px 8px 1px rgba(51, 51, 62, 0.3);
   cursor: pointer;
-  display: block;
   display: -webkit-box;
   display: flex;
   font-size: 9px;
   font-size: var(--p1);
-  height: 5.2em;
+  height: 50px;
   -webkit-box-pack: center;
           justify-content: center;
   margin-bottom: 8px;
   margin-right: 8px;
   position: relative;
-  width: 5.2em;
+  width: 50px;
 }.dpmsg-TriggerBtn img {
   border-radius: 50%;
   overflow: hidden;
@@ -498,19 +499,6 @@
   position: absolute;
   right: -0.2em;
   top: -0.2em;
-}.dpmsg-TriggerBtn {
-  -webkit-box-align: center;
-          align-items: center;
-  background-image: none;
-  box-shadow: 0 5px 8px 1px rgba(51, 51, 62, 0.3);
-  display: -webkit-box;
-  display: flex;
-  font-size: 9px;
-  font-size: var(--p1);
-  height: 5.2em;
-  -webkit-box-pack: center;
-          justify-content: center;
-  width: 5.2em
 }.dpmsg-TriggerBtn.is-blue {
     background-color: #3d88f3;
     background-color: var(--color-primary);
@@ -606,7 +594,7 @@
   flex-wrap: wrap;
   height: 116px;
   margin-bottom: -50px;
-  padding: 0 25px 62px 25px;
+  padding: 0 25px 62px 30px;
   width: 100%;
 }.dpmsg-ScreenHeaderLogo img {
   height: 30px;
@@ -623,7 +611,7 @@
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
           flex-direction: row;
-  padding: 0 25px 65px 23px;
+  padding: 0 25px 65px 30px;
 }.dpmsg-ScreenHeaderLogo {
   -webkit-box-flex: 0;
           flex: 0 0 100%;
@@ -724,7 +712,7 @@
     font-weight: 500;
     padding: 0 3px;
     position: absolute;
-    right: 66px;
+    right: 56px;
     top: 10px
   }.dpmsg-ScreenControls .dpmsg-endChatButton:hover {
       color: #3d88f3;
@@ -742,7 +730,7 @@
 }.dpmsg-ScreenControls:hover, .dpmsg-ScreenControls a:hover {
     color: #9db2d8;
   }.dpmsg-ScreenControls .dpmsg-BackBtn.dpmsg-LevelLeft, .dpmsg-ScreenControls a .dpmsg-BackBtn.dpmsg-LevelLeft {
-    left: 11px;
+    left: 10px;
     position: relative;
     top: 8px;
   }.dpmsg-ScreenControls .dpmsg-IconArrow {
@@ -1206,7 +1194,7 @@
   cursor: pointer;
   height: 12px;
   position: absolute;
-  right: 20px;
+  right: 10px;
   top: 10px;
   width: 12px;
 }.dpmsg-AutoStart-input input {
