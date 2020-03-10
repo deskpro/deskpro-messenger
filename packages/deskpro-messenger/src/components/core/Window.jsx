@@ -50,6 +50,7 @@ class MessengerWindow extends PureComponent {
 
   };
   state = {
+    animating: false,
     imageVisible: false,
     articleVisible: false,
     iframeHeight: mobile ? '100%' : 455,
@@ -72,7 +73,6 @@ class MessengerWindow extends PureComponent {
       iframeHeight = maxHeight;
     }
 
-
     return { height: iframeHeight, maxHeight };
   };
 
@@ -92,7 +92,7 @@ class MessengerWindow extends PureComponent {
       stateToSet.maxHeight = `${maxHeight}px`;
       stateToSet.iframeHeight = height;
     }
-    this.setState( stateToSet);
+    this.setState( stateToSet );
   };
 
   onClose = () => {
@@ -115,8 +115,8 @@ class MessengerWindow extends PureComponent {
   }
 
   render() {
-    const { opened, frameContext } = this.props;
-    const { maxHeight, contentHeight, iframeHeight } = this.state;
+    const { opened, frameContext, screens } = this.props;
+    const { maxHeight, contentHeight, iframeHeight, animating } = this.state;
 
     return (
       <Frame
@@ -134,16 +134,19 @@ class MessengerWindow extends PureComponent {
           height={mobile ? '100%' : iframeHeight}
           className="dpmsg-AnimationDiv"
           style={{display: 'flex', alignItems: 'flex-end'}}
+          onAnimationStart={() => this.setState({animating: true})}
+          onAnimationEnd={() => this.setState({animating: false})}
         >
           <MessengerShell
             ref={this.shellRef}
             onClose={this.onClose}
-            screens={this.props.screens}
+            screens={screens}
             maxHeight={maxHeight}
             iframeHeight={iframeHeight}
             contentHeight={contentHeight}
             mobile={mobile}
             opened={opened}
+            animating={animating}
           >
             <Suspense
               fallback={

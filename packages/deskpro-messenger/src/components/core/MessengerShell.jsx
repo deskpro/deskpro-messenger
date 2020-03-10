@@ -31,8 +31,6 @@ class MessengerShell extends PureComponent {
   };
 
   renderToolbar = () => {
-    console.log(this.props);
-
     const { chatData } = this.props;
 
     return (
@@ -64,8 +62,7 @@ class MessengerShell extends PureComponent {
       contentHeight,
       maxHeight,
       forwardedRef,
-      mobile,
-      opened,
+      mobile
     } = this.props;
 
     return (
@@ -87,7 +84,7 @@ class MessengerShell extends PureComponent {
             ref={forwardedRef}
             iframeHeight={iframeHeight}
             mobile={mobile}
-            opened={opened}
+            animating={this.props.animating}
           >
             {children}
           </ScreenContent>

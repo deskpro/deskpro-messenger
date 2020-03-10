@@ -17,7 +17,7 @@ import { withFrameContext } from '../core/Frame';
 import BotBubble from './BotBubble';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { isMessageFormFocused, isWindowOpened } from '../../modules/app';
+import { isMessageFormFocused } from '../../modules/app';
 import isMobile from 'is-mobile';
 import { endBlockShown } from '../../modules/chat';
 
@@ -66,6 +66,7 @@ class Chat extends PureComponent {
       status: PropTypes.string.isRequired
     }),
     contentSize: PropTypes.shape({
+      animating: PropTypes.bool,
       height: PropTypes.number,
       maxHeight: PropTypes.number
     }),
@@ -75,7 +76,7 @@ class Chat extends PureComponent {
     messages: [],
     agent: {},
     user: {},
-    contentSize: {height: undefined, maxHeight: undefined}
+    contentSize: {animating: false, height: undefined, maxHeight: undefined}
   };
 
   scrollArea = React.createRef();
@@ -87,27 +88,31 @@ class Chat extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.opened && this.props.opened) {
-      setTimeout(() => this.scrollToBottom(), 100)
-    }
     const changedSize =
-      prevProps.contentSize.height < this.props.contentSize.height;
-    const lastPrevChat = prevProps.messages[prevProps.messages.length-1];
-    const lastCurrentChat = this.props.messages[this.props.messages.length-1];
+            prevProps.contentSize.height < this.props.contentSize.height;
+    const lastPrevChat = prevProps.messages[prevProps.messages.length - 1];
+    const lastCurrentChat = this.props.messages[this.props.messages.length - 1];
+
     if (
-      prevProps.messages.length !== this.props.messages.length ||
-      (lastPrevChat && lastPrevChat.id !== lastCurrentChat.id) ||
-      changedSize || prevProps.endChatBlock !== this.props.endChatBlock
+      !this.props.contentSize.animating && (
+        prevProps.contentSize.animating ||
+        prevProps.messages.length !== this.props.messages.length ||
+        (lastPrevChat && lastPrevChat.id !== lastCurrentChat.id) ||
+        changedSize || prevProps.endChatBlock !== this.props.endChatBlock
+      )
     ) {
       this.scrollToBottom();
     }
   }
 
   scrollToBottom() {
-    this.scrollArea.current.setSizesToState();
+
     setTimeout(() => {
       if (this.scrollArea.current) {
-        this.scrollArea.current.scrollBottom();
+        this.scrollArea.current.setState(
+          {containerHeight: this.scrollArea.current.wrapper.offsetHeight},
+          () => this.scrollArea.current.scrollBottom()
+        );
       }
     }, 10);
   }
@@ -262,7 +267,7 @@ export default compose(
   withFrameContext,
   withScreenContentSize,
   connect(
-    (state) => ({ opened: isWindowOpened(state), formFocused: isMessageFormFocused(state), endChatBlock: endBlockShown(state) })
+    (state) => ({ formFocused: isMessageFormFocused(state), endChatBlock: endBlockShown(state) })
   )
 )(Chat);
 

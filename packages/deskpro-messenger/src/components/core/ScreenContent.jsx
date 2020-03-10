@@ -33,7 +33,7 @@ class ScreenContent extends PureComponent {
   componentDidUpdate(prevProps) {
     if (
       this.props.location !== prevProps.location ||
-      (this.props.opened && !prevProps.opened)
+      (!this.props.animating && prevProps.animating)
     ) {
       this.scrollArea.current.scrollArea.refresh();
       this.scrollArea.current.scrollTop();
@@ -60,7 +60,7 @@ class ScreenContent extends PureComponent {
           <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper">
             <ReactResizeDetector handleHeight>
               {(width, height) => (
-                <ScreenContentContext.Provider value={{ width, height, maxHeight: parseInt(maxHeight, 10) }}>
+                <ScreenContentContext.Provider value={{ animating: this.props.animating, width, height, maxHeight: parseInt(maxHeight, 10) }}>
                   {children}
                 </ScreenContentContext.Provider>
               )}
