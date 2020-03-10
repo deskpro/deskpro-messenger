@@ -15,7 +15,7 @@ class MessengerShell extends PureComponent {
     isMinimal: PropTypes.bool,
     isLight: PropTypes.bool,
     iframeHeight: PropTypes.number,
-    maxHeight: PropTypes.number,
+    maxHeight: PropTypes.string,
     children: PropTypes.any,
     screens: PropTypes.object,
     onClose: PropTypes.func.isRequired,

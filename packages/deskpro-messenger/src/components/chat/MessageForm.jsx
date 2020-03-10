@@ -34,17 +34,21 @@ const extendFroala = () => {
 
 class MessageForm extends PureComponent {
   static propTypes = {
-    visitorId:    PropTypes.string.isRequired,
-    onSend:       PropTypes.func.isRequired,
-    frameContext: PropTypes.object.isRequired,
-    className:    PropTypes.string,
-    style:        PropTypes.object,
-    maxFileSize:  PropTypes.number.isRequired,
+    visitorId:      PropTypes.string.isRequired,
+    onSend:         PropTypes.func.isRequired,
+    frameContext:   PropTypes.object.isRequired,
+    className:      PropTypes.string,
+    style:          PropTypes.object,
+    maxFileSize:    PropTypes.number.isRequired,
+    scrollMessages: PropTypes.func,
   };
 
   static contextType = ConfigContext;
 
-  state = { message: '' };
+  state = {
+    message: '',
+    wrapperHeight: 0,
+  };
   uploadedFiles = [];
   wrapperRef = React.createRef();
   froalaRef = React.createRef();
@@ -187,6 +191,10 @@ class MessageForm extends PureComponent {
   onChange = (message) => {
     if(message !== this.state.message) {
       this.setState({ message }, () => this.handleTyping(message));
+    }
+    if (this.wrapperRef.current.scrollHeight !== this.state.wrapperHeight) {
+      this.setState({ wrapperHeight: this.wrapperRef.current.scrollHeight });
+      this.props.scrollMessages();
     }
   };
 
