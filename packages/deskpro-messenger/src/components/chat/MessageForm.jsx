@@ -193,8 +193,8 @@ class MessageForm extends PureComponent {
       this.setState({ message }, () => this.handleTyping(message));
     }
     if (this.wrapperRef.current.scrollHeight !== this.state.wrapperHeight) {
-      this.setState({ wrapperHeight: this.wrapperRef.current.scrollHeight });
-      this.props.scrollMessages();
+      this.setState({ wrapperHeight: this.wrapperRef.current.scrollHeight },
+        () => this.props.scrollMessages());
     }
   };
 
