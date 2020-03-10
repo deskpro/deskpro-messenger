@@ -16,7 +16,7 @@ const mobile = isMobile();
 
 const iframeStyle = {
   position: 'fixed',
-  bottom:   '14px',
+  bottom:   '12px',
   width:    '60px',
   height:   '60px'
 };
