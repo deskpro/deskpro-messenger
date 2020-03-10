@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import asset from '../../utils/asset';
 
 class SearchBlock extends React.Component {
   static propTypes = {
