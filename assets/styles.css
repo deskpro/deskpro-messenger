@@ -1446,9 +1446,13 @@
 
   }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .react-select__control {
       padding: 0 15px 0 14px !important;
+    }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_submit {
+      font-size: 16px;
+      height: 36px;
+      margin-top: 1px;
     }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .react-select__control {
         font-size: 16px !important;
-      }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .dp-pc_label{
+      }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .dp-pc_label {
         margin-bottom: 12px !important;
       }.fr-box.fr-basic.fr-top {
   display: -webkit-box;
