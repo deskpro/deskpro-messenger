@@ -17,7 +17,7 @@ import { withFrameContext } from '../core/Frame';
 import BotBubble from './BotBubble';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { isMessageFormFocused } from '../../modules/app';
+import { isMessageFormFocused, isWindowOpened } from '../../modules/app';
 import isMobile from 'is-mobile';
 import { endBlockShown } from '../../modules/chat';
 
@@ -87,6 +87,9 @@ class Chat extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    if (!prevProps.opened && this.props.opened) {
+      setTimeout(() => this.scrollToBottom(), 100)
+    }
     const changedSize =
       prevProps.contentSize.height < this.props.contentSize.height;
     const lastPrevChat = prevProps.messages[prevProps.messages.length-1];
@@ -259,7 +262,7 @@ export default compose(
   withFrameContext,
   withScreenContentSize,
   connect(
-    (state) => ({ formFocused: isMessageFormFocused(state), endChatBlock: endBlockShown(state) })
+    (state) => ({ opened: isWindowOpened(state), formFocused: isMessageFormFocused(state), endChatBlock: endBlockShown(state) })
   )
 )(Chat);
 
