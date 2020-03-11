@@ -83,8 +83,6 @@ class Chat extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const changedSize =
-            prevProps.contentSize.height < this.props.contentSize.height;
     const lastPrevChat = prevProps.messages[prevProps.messages.length - 1];
     const lastCurrentChat = this.props.messages[this.props.messages.length - 1];
 
@@ -93,7 +91,7 @@ class Chat extends PureComponent {
         prevProps.contentSize.animating ||
         prevProps.messages.length !== this.props.messages.length ||
         (lastPrevChat && lastPrevChat.id !== lastCurrentChat.id) ||
-        changedSize || prevProps.endChatBlock !== this.props.endChatBlock
+        prevProps.endChatBlock !== this.props.endChatBlock
       )
     ) {
       this.scrollToBottom();
@@ -102,9 +100,20 @@ class Chat extends PureComponent {
 
   scrollToBottom() {
 
+    const { contentSize: { scrollArea, height }} = this.props;
+
     setTimeout(() => {
-      if (this.props.contentSize.scrollArea.current) {
-        this.props.contentSize.scrollArea.current.scrollBottom();
+      if (scrollArea.current) {
+        scrollArea.current.setState(
+          {
+            containerHeight: scrollArea.current.wrapper.offsetHeight,
+            realHeight: height
+          },
+          () => {
+            setTimeout(() => scrollArea.current.scrollBottom(), 10);
+
+          }
+        );
       }
     }, 10);
   }
