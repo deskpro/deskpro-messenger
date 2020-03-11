@@ -95,7 +95,7 @@ class MessengerShell extends PureComponent {
 }
 
 const MessengerShellConnected = connect(
-  (state) => ({chatData:getChatData(state)})
+  (state) => ({chatData: getChatData(state)})
 )(MessengerShell);
 
 export default forwardRef((props, ref) => (

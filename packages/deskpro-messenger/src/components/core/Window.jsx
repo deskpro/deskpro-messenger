@@ -1,6 +1,6 @@
 import React, { createRef, Fragment, PureComponent, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect, Switch } from 'react-router-dom';
+import { Redirect, Switch, withRouter } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import isMobile from 'is-mobile';
@@ -11,6 +11,7 @@ import MessengerShell from './MessengerShell';
 import { isWindowOpened, setWindowState } from '../../modules/app';
 import { withFrameContext } from '../core/Frame';
 import AnimateHeight from 'react-animate-height';
+import { compose } from 'redux';
 
 const mobile = isMobile();
 
@@ -67,13 +68,17 @@ class MessengerWindow extends PureComponent {
       : Math.ceil(Math.min(995, (this.props.frameContext.window.parent.innerHeight  - 95) * 0.9)) + 5;
 
     let iframeHeight;
-    if(!mobile) {
+    if(!mobile && !this.isChat() ) {
       iframeHeight = Math.ceil(height + (formFocused && mobile ? 34 : 69) > maxHeight ? maxHeight : height + (formFocused && mobile ? 34 : 69));
     } else {
       iframeHeight = maxHeight;
     }
 
     return { height: iframeHeight, maxHeight };
+  };
+
+  isChat = () => {
+    return this.props.location.pathname.indexOf('active-chat') !== -1;
   };
 
   recalcIframeHeight = (force = false) => {
@@ -192,8 +197,10 @@ class MessengerWindow extends PureComponent {
   }
 }
 
-export default withFrameContext(withConfig(
-  injectIntl(
-    connect((state) => ({ opened: isWindowOpened(state) }), { setWindowState })(MessengerWindow)
-  ))
-);
+export default compose(
+  withFrameContext,
+  withConfig,
+  withRouter,
+  injectIntl,
+  connect((state) => ({ opened: isWindowOpened(state) }), { setWindowState })
+)(MessengerWindow);
