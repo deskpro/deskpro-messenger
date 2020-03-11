@@ -1,15 +1,18 @@
-import React, { createRef, forwardRef, PureComponent } from 'react';
+import React, { createRef, forwardRef, Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import ReactResizeDetector from 'react-resize-detector';
 import { FrameContextConsumer } from 'react-frame-component';
 import ScrollArea from 'react-scrollbar/dist/no-css';
 import { withRouter } from 'react-router-dom';
-import { Footer } from '../ui/Footer';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { isMessageFormFocused } from '../../modules/app';
 import isMobile from 'is-mobile';
+
+import { isMessageFormFocused } from '../../modules/app';
+import { getChatData, sendMessage } from '../../modules/chat';
+import { Footer } from '../ui/Footer';
+import MessageForm from '../chat/MessageForm';
 
 const mobile = isMobile();
 export const ScreenContentContext = React.createContext();
@@ -40,14 +43,48 @@ class ScreenContent extends PureComponent {
     }
   }
 
+  scrollToBottom() {
+
+    setTimeout(() => {
+      if (this.scrollArea.current) {
+        this.scrollArea.current.setState(
+          {containerHeight: this.scrollArea.current.wrapper.offsetHeight},
+          () => this.scrollArea.current.scrollBottom()
+        );
+      }
+    }, 10);
+  }
+
+  isChat = () => {
+    return this.props.location.pathname.indexOf('active-chat') !== -1;
+  };
+
+  handleSendMessage = (message, type = 'chat.message') => {
+    if (message) {
+      const messageModel = {
+        origin: 'user',
+        type: type,
+        ...(typeof message === 'string' ? { message } : message)
+      };
+      this.props.sendMessage(messageModel, this.props.chatData);
+    }
+  };
+
   render() {
     const { children, contentHeight, iframeHeight, maxHeight, frameContext, forwardedRef, formFocused } = this.props;
 
     const fullHeight = iframeHeight > parseInt(contentHeight, 10) && this.scrollArea.current && this.scrollArea.current.state.realHeight < iframeHeight;
-    const height = iframeHeight >= contentHeight ? iframeHeight - 34 : contentHeight + (mobile && formFocused ? 0 : 33);
+    let height = iframeHeight >= contentHeight ? iframeHeight - 34 : contentHeight + ((mobile && formFocused) || this.isChat() ? 0 : 33);
+    if(this.isChat()) {
+      height = parseInt(maxHeight, 10) - 157;
+    }
+    const { chatData } = this.props;
 
     return (
-      <div className="dpmsg-ScreenContent">
+      <div
+        className={classNames('dpmsg-ScreenContent', {'dpmsg-isChatScreenContent': this.isChat()})}
+
+      >
         <ScrollArea
           horizontal={false}
           ref={this.scrollArea}
@@ -57,17 +94,37 @@ class ScreenContent extends PureComponent {
           contentWindow={frameContext.window}
           ownerDocument={frameContext.document}
         >
-          <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper">
+          <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper" style={{height: this.isChat() ? height : undefined }}>
             <ReactResizeDetector handleHeight>
               {(width, height) => (
-                <ScreenContentContext.Provider value={{ animating: this.props.animating, width, height, maxHeight: parseInt(maxHeight, 10) }}>
+                <ScreenContentContext.Provider value={{
+                    animating: this.props.animating,
+                    width,
+                    height,
+                    maxHeight: parseInt(maxHeight, 10),
+                    scrollArea: this.scrollArea
+                  }}
+                >
                   {children}
                 </ScreenContentContext.Provider>
               )}
             </ReactResizeDetector>
           </div>
-          {formFocused && mobile ? null : <Footer />}
+          { !this.isChat() && <Footer />}
         </ScrollArea>
+        {this.isChat() &&
+          <Fragment>
+            {!!chatData && chatData.status !== 'ended' && (
+              <MessageForm
+                frameContext={frameContext}
+                onSend={this.handleSendMessage}
+                scrollMessages={() => this.scrollToBottom()}
+                style={{ flex: '0 0 auto' }}
+              />
+            )}
+            <Footer />
+          </Fragment>
+        }
       </div>
     );
   }
@@ -76,8 +133,10 @@ class ScreenContent extends PureComponent {
 const ScreenContentWithRouter = compose(
   connect(
     (state) => ({
-      formFocused: isMessageFormFocused(state)
-    })
+      formFocused: isMessageFormFocused(state),
+      chatData:    getChatData(state)
+    }),
+    { sendMessage }
   ),
   withRouter
 )(ScreenContent);
