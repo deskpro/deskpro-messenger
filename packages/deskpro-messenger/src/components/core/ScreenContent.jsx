@@ -57,8 +57,17 @@ class ScreenContent extends PureComponent {
     }, 10);
   }
 
-  isChat = () => {
-    return this.props.location.pathname.indexOf('active-chat') !== -1 || this.props.location.pathname.indexOf('startChat') !== -1;
+  isChat = (strict = false) => {
+    return this.props.location.pathname.indexOf('active-chat') !== -1 || (!strict && this.isStartChat());
+  };
+
+  isStartChat = () => {
+    return this.props.location.pathname.indexOf('startChat') !== -1;
+  };
+
+  isChatEnded = () => {
+    const { chatData } = this.props;
+    return this.isChat(true) && !!chatData && chatData.status === 'ended';
   };
 
   handleSendMessage = (message, type = 'chat.message') => {
@@ -113,8 +122,10 @@ class ScreenContent extends PureComponent {
 
     return (
       <div
-        className={classNames('dpmsg-ScreenContent', {'dpmsg-isChatScreenContent': this.isChat(), 'dpmsg-isChatEnded': chatData && chatData.status === 'ended'})}
-
+        className={classNames(
+          'dpmsg-ScreenContent',
+          {'dpmsg-isChatScreenContent': this.isChat(), 'dpmsg-isChatEnded': this.isChatEnded()}
+        )}
       >
         <ScrollArea
           horizontal={false}
@@ -145,7 +156,7 @@ class ScreenContent extends PureComponent {
         </ScrollArea>
         {this.isChat() &&
           <Fragment>
-            {((!!chatData && chatData.status !== 'ended') || this.props.location.pathname.indexOf('startChat') !== -1) && (
+            {(!this.isChatEnded() || this.isStartChat()) && (
               <MessageForm
                 frameContext={frameContext}
                 onSend={!!chatData ? this.handleSendMessage : this.onSendMessage}
