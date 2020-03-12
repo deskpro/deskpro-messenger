@@ -1,11 +1,9 @@
 import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
-import ScrollArea from 'react-scrollbar/dist/no-css';
 
 import MessageBubble from './MessageBubble';
 import SystemMessage from './SystemMessage';
-import MessageForm from './MessageForm';
 import TypingMessage from './TypingMessage';
 import TranscriptBlock from './TranscriptBlock';
 import RatingBlock from './RatingBlock';
@@ -18,10 +16,7 @@ import BotBubble from './BotBubble';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isMessageFormFocused } from '../../modules/app';
-import isMobile from 'is-mobile';
 import { endBlockShown } from '../../modules/chat';
-
-const mobile = isMobile();
 
 const transMessages = {
   agentAssigned: {
@@ -82,7 +77,7 @@ class Chat extends PureComponent {
   scrollArea = React.createRef();
 
   componentDidMount() {
-    if (this.props.messages.length > 0 && this.scrollArea.current) {
+    if (this.props.messages.length > 0 && this.props.contentSize.scrollArea.current) {
       this.scrollToBottom();
     }
   }
@@ -107,14 +102,22 @@ class Chat extends PureComponent {
 
   scrollToBottom() {
 
+    const { contentSize: { scrollArea, height }} = this.props;
+
     setTimeout(() => {
-      if (this.scrollArea.current) {
-        this.scrollArea.current.setState(
-          {containerHeight: this.scrollArea.current.wrapper.offsetHeight},
-          () => this.scrollArea.current.scrollBottom()
+      if (scrollArea.current) {
+        scrollArea.current.setState(
+          {
+            containerHeight: scrollArea.current.wrapper.offsetHeight,
+            realHeight: height
+          },
+          () => {
+            setTimeout(() => scrollArea.current.scrollBottom(), 50);
+
+          }
         );
       }
-    }, 10);
+    }, 50);
   }
 
   render() {
@@ -130,36 +133,11 @@ class Chat extends PureComponent {
       chat,
       chatConfig,
       endChatBlock,
-      contentSize: { height, maxHeight },
-      frameContext,
-      formFocused,
       history
     } = this.props;
 
-    const maxHeightAltered = maxHeight - (formFocused && mobile ? 207 : 242);
-
     return (
-      <div
-        className="dpmsg-ChatMessagesWrapper"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: maxHeightAltered
-        }}
-      >
-        <ScrollArea
-          horizontal={false}
-          style={{
-            flexBasis: 0,
-            flexGrow: 1,
-            overflow: height >= maxHeightAltered ? 'hidden' : undefined,
-            minHeight: height >= maxHeightAltered ? '1px' : undefined
-          }}
-          ref={this.scrollArea}
-          stopScrollPropagation={true}
-          contentWindow={frameContext.window}
-          ownerDocument={frameContext.document}
-        >
+        <Fragment>
           {!!chatConfig.prompt && (
             <BotBubble message={chatConfig.prompt} />
           )}
@@ -249,16 +227,7 @@ class Chat extends PureComponent {
           {!!chat && chat.status !== 'ended' && endChatBlock && (
             <ChatEndBlock onCancelEnd={onCancelEndChat} onEnd={onEndChat} />
           )}
-        </ScrollArea>
-        {!!chat && chat.status !== 'ended' && (
-          <MessageForm
-            frameContext={frameContext}
-            onSend={onSendMessage}
-            scrollMessages={() => this.scrollToBottom()}
-            style={{ flex: '0 0 auto' }}
-          />
-        )}
-      </div>
+      </Fragment>
     );
   }
 }
