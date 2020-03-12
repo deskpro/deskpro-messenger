@@ -194,7 +194,7 @@ class MessageForm extends PureComponent {
     }
     if (this.wrapperRef.current.scrollHeight !== this.state.wrapperHeight) {
       this.setState({ wrapperHeight: this.wrapperRef.current.scrollHeight },
-        () => this.props.scrollMessages());
+        () => this.props.scrollMessages(this.state.wrapperHeight));
     }
   };
 
@@ -239,7 +239,7 @@ class MessageForm extends PureComponent {
 export default compose(
   connect(
     null,
-    { setMessageFormFocus }
+    { setMessageFormFocus },
   ),
   withVisitorId,
   withConfig

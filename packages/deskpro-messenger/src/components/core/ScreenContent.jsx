@@ -33,7 +33,14 @@ class ScreenContent extends PureComponent {
     formFocused: false
   };
 
-  scrollArea = createRef();
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      formHeight: 90
+    };
+    this.scrollArea = createRef();
+  }
 
   componentDidUpdate(prevProps) {
     if (
@@ -115,8 +122,13 @@ class ScreenContent extends PureComponent {
   render() {
     const { children, contentHeight, iframeHeight, maxHeight, frameContext, forwardedRef, formFocused } = this.props;
 
-    const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight <= iframeHeight - (this.isChat() ? 171 : 67);
-    const height = iframeHeight - (this.isChat() ? 171 : 67) >= contentHeight ? iframeHeight - (this.isChat() ? 171 : 34) : contentHeight + ((mobile && formFocused) || this.isChat() ? 0 : 33);
+    let messageFormHeightAndFooter = 137;
+    if(this.isChat(true)) {
+      messageFormHeightAndFooter = 47 + this.state.formHeight;
+    }
+
+    const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight <= iframeHeight - (this.isChat() ? messageFormHeightAndFooter : 67);
+    const height = iframeHeight - (this.isChat() ? messageFormHeightAndFooter : 67) >= contentHeight ? iframeHeight - (this.isChat() ? messageFormHeightAndFooter : 34) : contentHeight + ((mobile && formFocused) || this.isChat() ? 0 : 33);
 
     const { chatData } = this.props;
 
@@ -131,6 +143,7 @@ class ScreenContent extends PureComponent {
           horizontal={false}
           ref={this.scrollArea}
           className={classNames({ fullHeight })}
+          style={{ height: `calc(100% - ${messageFormHeightAndFooter}px)`}}
           contentStyle={{height, display: 'flex', flexDirection: 'column'}}
           stopScrollPropagation={true}
           contentWindow={frameContext.window}
@@ -160,7 +173,12 @@ class ScreenContent extends PureComponent {
               <MessageForm
                 frameContext={frameContext}
                 onSend={!!chatData ? this.handleSendMessage : this.onSendMessage}
-                scrollMessages={() => !!chatData && this.scrollToBottom()}
+                scrollMessages={(wrapperHeight) => {
+                  if(!!chatData) {
+                    this.setState({formHeight: wrapperHeight});
+                    this.scrollToBottom();
+                  }
+                }}
               />
             )}
             <Footer />
