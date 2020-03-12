@@ -73,7 +73,7 @@ class ScreenContent extends PureComponent {
   };
 
   createChat = (values, meta = {}) => {
-    const { createChat, screenName, user } = this.props;
+    const { createChat, user } = this.props;
     const postData = { fields: {} };
     for(const [key, value] of Object.entries(values)) {
       if(key.match(/^chat_field/)) {
@@ -83,7 +83,7 @@ class ScreenContent extends PureComponent {
       }
     }
     createChat(postData, {
-      fromScreen: screenName,
+      fromScreen: 'startChat',
       name: user.name,
       email: user.email,
       ...meta
