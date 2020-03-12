@@ -10,9 +10,11 @@ import { connect } from 'react-redux';
 import isMobile from 'is-mobile';
 
 import { isMessageFormFocused } from '../../modules/app';
-import { getChatData, sendMessage } from '../../modules/chat';
+import { getChatData, sendMessage, createChat } from '../../modules/chat';
 import { Footer } from '../ui/Footer';
 import MessageForm from '../chat/MessageForm';
+import { getUser } from '../../modules/guest';
+import { getChatDepartments } from '../../modules/info';
 
 const mobile = isMobile();
 export const ScreenContentContext = React.createContext();
@@ -70,6 +72,37 @@ class ScreenContent extends PureComponent {
     }
   };
 
+  createChat = (values, meta = {}) => {
+    const { createChat, screenName, user } = this.props;
+    const postData = { fields: {} };
+    for(const [key, value] of Object.entries(values)) {
+      if(key.match(/^chat_field/)) {
+        postData.fields[key.split('_').splice(-1, 1).join('')] = value;
+      } else {
+        postData[key] = value;
+      }
+    }
+    createChat(postData, {
+      fromScreen: screenName,
+      name: user.name,
+      email: user.email,
+      ...meta
+    });
+  };
+
+  onSendMessage = (message, type = 'chat.message') => {
+    if (message && type === 'chat.message') {
+      const { user, screens: { startChat: { department }} } = this.props;
+
+      const messageModel = {
+        origin: 'user',
+        type: 'chat.message',
+        ...(typeof message === 'string' ? { message } : message)
+      };
+      this.createChat({ chat_department: department, name: user.name, email: user.email }, { message: messageModel });
+    }
+  };
+
   render() {
     const { children, contentHeight, iframeHeight, maxHeight, frameContext, forwardedRef, formFocused } = this.props;
 
@@ -115,8 +148,8 @@ class ScreenContent extends PureComponent {
             {((!!chatData && chatData.status !== 'ended') || this.props.location.pathname.indexOf('startChat') !== -1) && (
               <MessageForm
                 frameContext={frameContext}
-                onSend={this.handleSendMessage}
-                scrollMessages={() => this.scrollToBottom()}
+                onSend={!!chatData ? this.handleSendMessage : this.onSendMessage}
+                scrollMessages={() => !!chatData && this.scrollToBottom()}
               />
             )}
             <Footer />
@@ -129,11 +162,13 @@ class ScreenContent extends PureComponent {
 
 const ScreenContentWithRouter = compose(
   connect(
-    (state) => ({
+    (state, props) => ({
       formFocused: isMessageFormFocused(state),
-      chatData:    getChatData(state)
+      chatData:    getChatData(state),
+      user:        getUser(state),
+      departments: getChatDepartments(state, props)
     }),
-    { sendMessage }
+    { sendMessage, createChat }
   ),
   withRouter
 )(ScreenContent);

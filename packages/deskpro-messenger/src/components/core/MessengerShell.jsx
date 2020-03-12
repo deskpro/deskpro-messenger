@@ -62,7 +62,9 @@ class MessengerShell extends PureComponent {
       contentHeight,
       maxHeight,
       forwardedRef,
-      mobile
+      mobile,
+      screens,
+      animating
     } = this.props;
 
     return (
@@ -84,7 +86,8 @@ class MessengerShell extends PureComponent {
             ref={forwardedRef}
             iframeHeight={iframeHeight}
             mobile={mobile}
-            animating={this.props.animating}
+            screens={screens}
+            animating={animating}
           >
             {children}
           </ScreenContent>
