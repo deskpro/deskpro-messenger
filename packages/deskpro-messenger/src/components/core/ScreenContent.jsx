@@ -143,7 +143,7 @@ class ScreenContent extends PureComponent {
           horizontal={false}
           ref={this.scrollArea}
           className={classNames({ fullHeight })}
-          style={{ height: `calc(100% - ${messageFormHeightAndFooter}px)`}}
+          style={{ height: this.isChat(true) ? `calc(100% - ${messageFormHeightAndFooter}px)` : undefined}}
           contentStyle={{height, display: 'flex', flexDirection: 'column'}}
           stopScrollPropagation={true}
           contentWindow={frameContext.window}
