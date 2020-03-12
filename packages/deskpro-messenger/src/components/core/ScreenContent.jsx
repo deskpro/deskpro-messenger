@@ -1,6 +1,7 @@
 import React, { createRef, forwardRef, Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Dropzone from 'react-dropzone';
 import ReactResizeDetector from 'react-resize-detector';
 import { FrameContextConsumer } from 'react-frame-component';
 import ScrollArea from 'react-scrollbar/dist/no-css';
@@ -15,6 +16,9 @@ import { Footer } from '../ui/Footer';
 import MessageForm from '../chat/MessageForm';
 import { getUser } from '../../modules/guest';
 import { getChatDepartments } from '../../modules/info';
+import AJAXSubmit from "../../utils/AJAXSubmit";
+import { withVisitorId } from "../../containers/withVisitorId";
+import { ConfigContext, withConfig } from "../core/ConfigContext";
 
 const mobile = isMobile();
 export const ScreenContentContext = React.createContext();
@@ -22,6 +26,7 @@ export const ScreenContentContext = React.createContext();
 class ScreenContent extends PureComponent {
 
   static propTypes = {
+    visitorId: PropTypes.string.isRequired,
     frameContext: PropTypes.object,
     iframeHeight: PropTypes.number.isRequired,
     mobile:       PropTypes.bool.isRequired,
@@ -33,11 +38,13 @@ class ScreenContent extends PureComponent {
     formFocused: false
   };
 
+  static contextType = ConfigContext;
 
   constructor(props) {
     super(props);
     this.state = {
-      formHeight: 90
+      formHeight: 90,
+      progress: -1
     };
     this.scrollArea = createRef();
   }
@@ -51,6 +58,48 @@ class ScreenContent extends PureComponent {
       this.scrollArea.current.scrollTop();
     }
   }
+
+  handleDrop = (accepted) => {
+    if (accepted.length) {
+      AJAXSubmit({
+        url:              `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
+        files:            accepted,
+        name:             'blob',
+        token:            this.props.csrfToken,
+        transferComplete: this.handleTransferComplete,
+        transferFailed:   this.handleTransferFailed,
+        updateProgress:   this.handleUpdateProgress,
+        requestHeaders: {
+          'X-DESKPRO-VISITORID': this.props.visitorId
+        },
+      });
+      this.setState({ progress: 0 });
+    }
+  };
+
+  handleTransferComplete = (e) => {
+    this.setState({ progress: -1 });
+    if (e.target.response && e.target.response.blob) {
+      this.props.onSendMessage({
+        message: 'chat.attachment',
+        type: 'chat.attachment',
+        blob: e.target.response.blob,
+      });
+    }
+  };
+
+  handleTransferFailed = () => {
+    this.setState({ progress: -1 });
+  };
+
+  handleUpdateProgress = (e) => {
+    if (e.lengthComputable) {
+      const percentComplete = e.loaded / e.total * 100;
+      this.setState({ progress: percentComplete });
+    } else {
+      this.setState({ progress: -1 });
+    }
+  };
 
   scrollToBottom() {
 
@@ -132,59 +181,92 @@ class ScreenContent extends PureComponent {
 
     const { chatData } = this.props;
 
+    const { progress } = this.state;
+
     return (
-      <div
-        className={classNames(
-          'dpmsg-ScreenContent',
-          {'dpmsg-isChatScreenContent': this.isChat(), 'dpmsg-isChatEnded': this.isChatEnded()}
-        )}
+      <Dropzone
+        onDrop={this.handleDrop}
+        noClick={true}
+        noKeyboard={true}
+        disabled={!this.isChat() || this.isChatEnded()}
       >
-        <ScrollArea
-          horizontal={false}
-          ref={this.scrollArea}
-          className={classNames({ fullHeight })}
-          style={{ height: this.isChat(true) ? `calc(100% - ${messageFormHeightAndFooter}px)` : undefined}}
-          contentStyle={{height, display: 'flex', flexDirection: 'column'}}
-          stopScrollPropagation={true}
-          contentWindow={frameContext.window}
-          ownerDocument={frameContext.document}
-        >
-          <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper" style={{height: fullHeight ? height : undefined}}>
-            <ReactResizeDetector handleHeight>
-              {(width, height) => (
-                <ScreenContentContext.Provider value={{
-                    animating: this.props.animating,
-                    width,
-                    height,
-                    maxHeight: parseInt(maxHeight, 10),
-                    scrollArea: this.scrollArea
-                  }}
-                >
-                  {children}
-                </ScreenContentContext.Provider>
-              )}
-            </ReactResizeDetector>
-          </div>
-          { !this.isChat() && <Footer />}
-        </ScrollArea>
-        {this.isChat() &&
-          <Fragment>
-            {(!this.isChatEnded() || this.isStartChat()) && (
-              <MessageForm
-                frameContext={frameContext}
-                onSend={!!chatData ? this.handleSendMessage : this.onSendMessage}
-                scrollMessages={(wrapperHeight) => {
-                  if(!!chatData) {
-                    this.setState({formHeight: wrapperHeight});
-                    this.scrollToBottom();
-                  }
-                }}
-              />
+        {({getRootProps, getInputProps, isDragActive}) => (
+          <div
+            className={classNames(
+              'dpmsg-ScreenContent',
+              {'dpmsg-isChatScreenContent': this.isChat(), 'dpmsg-isChatEnded': this.isChatEnded()}
             )}
-            <Footer />
-          </Fragment>
-        }
-      </div>
+           {...getRootProps()}
+          >
+            <div
+              className="dpmsg-ChatMessagesDropZone"
+              style={{
+                display: isDragActive || progress !== -1 ? 'block' : 'none'
+              }}
+            >
+              {progress === -1 ?
+                <div>
+                  <i className="fa fa-3x fa-image" />
+                  <p>
+                    Drag and drop file here
+                  </p>
+                </div> :
+                <div>
+                  <span>{progress} %</span>
+                  <p>Uploading...</p>
+                </div>
+              }
+            </div>
+            <input {...getInputProps()} />
+
+            <ScrollArea
+              horizontal={false}
+              ref={this.scrollArea}
+              className={classNames({ fullHeight })}
+              style={{ height: this.isChat(true) ? `calc(100% - ${messageFormHeightAndFooter}px)` : undefined}}
+              contentStyle={{height, display: 'flex', flexDirection: 'column'}}
+              stopScrollPropagation={true}
+              contentWindow={frameContext.window}
+              ownerDocument={frameContext.document}
+            >
+              <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper" style={{height: fullHeight ? height : undefined}}>
+                <ReactResizeDetector handleHeight>
+                  {(width, height) => (
+                    <ScreenContentContext.Provider value={{
+                        animating: this.props.animating,
+                        width,
+                        height,
+                        maxHeight: parseInt(maxHeight, 10),
+                        scrollArea: this.scrollArea
+                      }}
+                    >
+                      {children}
+                    </ScreenContentContext.Provider>
+                  )}
+                </ReactResizeDetector>
+              </div>
+              { !this.isChat() && <Footer />}
+            </ScrollArea>
+            {this.isChat() &&
+              <Fragment>
+                {(!this.isChatEnded() || this.isStartChat()) && (
+                  <MessageForm
+                    frameContext={frameContext}
+                    onSend={!!chatData ? this.handleSendMessage : this.onSendMessage}
+                    scrollMessages={(wrapperHeight) => {
+                      if(!!chatData) {
+                        this.setState({formHeight: wrapperHeight});
+                        this.scrollToBottom();
+                      }
+                    }}
+                  />
+                )}
+                <Footer />
+              </Fragment>
+            }
+          </div>
+        )}
+      </Dropzone>
     );
   }
 }
@@ -199,7 +281,9 @@ const ScreenContentWithRouter = compose(
     }),
     { sendMessage, createChat }
   ),
-  withRouter
+  withRouter,
+  withVisitorId,
+  withConfig
 )(ScreenContent);
 
 export default forwardRef((props, ref) => (
