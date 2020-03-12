@@ -44,7 +44,7 @@ class PromptMessage extends PureComponent {
         }}
       >
         {!!prompt && <BotBubble message={prompt} />}
-        <MessageForm onSend={onSendMessage} frameContext={frameContext} style={{marginTop: 'auto'}}/>
+        <MessageForm onSend={onSendMessage} frameContext={frameContext} style={{marginTop: 'auto'}} scrollMessages={() => {}} />
       </div>
     );
   }
