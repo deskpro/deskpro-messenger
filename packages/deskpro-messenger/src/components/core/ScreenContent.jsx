@@ -19,6 +19,7 @@ import { getChatDepartments } from '../../modules/info';
 import AJAXSubmit from "../../utils/AJAXSubmit";
 import { withVisitorId } from "../../containers/withVisitorId";
 import { ConfigContext, withConfig } from "../core/ConfigContext";
+import DropArea from "../chat/DropArea";
 
 const mobile = isMobile();
 export const ScreenContentContext = React.createContext();
@@ -88,7 +89,7 @@ class ScreenContent extends PureComponent {
     }
   };
 
-  handleTransferFailed = () => {
+  handleTransferFailed = (e) => {
     this.setState({ progress: -1 });
   };
 
@@ -198,26 +199,11 @@ class ScreenContent extends PureComponent {
             )}
            {...getRootProps()}
           >
-            <div
-              className="dpmsg-ChatMessagesDropZone"
-              style={{
-                display: isDragActive || progress !== -1 ? 'block' : 'none'
-              }}
-            >
-              {progress === -1 ?
-                <div>
-                  <i className="fa fa-3x fa-image" />
-                  <p>
-                    Drag and drop file here
-                  </p>
-                </div> :
-                <div>
-                  <span>{progress} %</span>
-                  <p>Uploading...</p>
-                </div>
-              }
-            </div>
-            <input {...getInputProps()} />
+            <DropArea
+              isDragActive={isDragActive}
+              progress={progress}
+              {...getInputProps()}
+            />
 
             <ScrollArea
               horizontal={false}
