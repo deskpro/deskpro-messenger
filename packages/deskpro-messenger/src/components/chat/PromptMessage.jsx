@@ -26,26 +26,11 @@ class PromptMessage extends PureComponent {
 
   render() {
     const {
-      contentSize: { maxHeight },
-      formFocused,
-      prompt,
-      onSendMessage,
-      frameContext
+      prompt
     } = this.props;
 
-    const maxHeightAltered = maxHeight - (formFocused && mobile ? 207 : 240);
     return (
-      <div
-        className="dpmsg-ChatMessagesWrapper"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: maxHeightAltered
-        }}
-      >
-        {!!prompt && <BotBubble message={prompt} />}
-        <MessageForm onSend={onSendMessage} frameContext={frameContext} style={{marginTop: 'auto'}}/>
-      </div>
+      !!prompt && <BotBubble message={prompt} />
     );
   }
 }

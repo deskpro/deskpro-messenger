@@ -95,6 +95,7 @@ class StartChatScreen extends PureComponent {
       <Fragment>
         <Header />
         <Block
+          className="Block--chat"
           title={intl.formatMessage(
             {
               id: `chat.header.title`,

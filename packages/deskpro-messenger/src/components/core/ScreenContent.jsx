@@ -56,7 +56,7 @@ class ScreenContent extends PureComponent {
   }
 
   isChat = () => {
-    return this.props.location.pathname.indexOf('active-chat') !== -1;
+    return this.props.location.pathname.indexOf('active-chat') !== -1 || this.props.location.pathname.indexOf('startChat') !== -1;
   };
 
   handleSendMessage = (message, type = 'chat.message') => {
@@ -112,7 +112,7 @@ class ScreenContent extends PureComponent {
         </ScrollArea>
         {this.isChat() &&
           <Fragment>
-            {!!chatData && chatData.status !== 'ended' && (
+            {((!!chatData && chatData.status !== 'ended') || this.props.location.pathname.indexOf('startChat') !== -1) && (
               <MessageForm
                 frameContext={frameContext}
                 onSend={this.handleSendMessage}

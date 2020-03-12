@@ -78,7 +78,7 @@ class MessengerWindow extends PureComponent {
   };
 
   isChat = () => {
-    return this.props.location.pathname.indexOf('active-chat') !== -1;
+    return this.props.location.pathname.indexOf('active-chat') !== -1 || this.props.location.pathname.indexOf('startChat') !== -1;
   };
 
   recalcIframeHeight = (force = false) => {
