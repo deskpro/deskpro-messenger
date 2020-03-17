@@ -120,7 +120,7 @@ class Frame extends PureComponent {
   render() {
     const { children, style = {}, head, themeVars, className, mobile, ...props } = this.props;
     const { extra } = this.state;
-    style[themeVars.position === 'left' ? 'left' : 'right'] = mobile ? '0' : '14px';
+   style[themeVars.position === 'left' ? 'left' : 'right'] = mobile ? '0' : '14px';
 
     return ReactDOM.createPortal(
       <FrameComponent
@@ -138,7 +138,11 @@ class Frame extends PureComponent {
         frameBorder="0"
         scrolling="no"
         style={{ ...defaultIframeStyle, ...style }}
-        initialContent={`<!DOCTYPE html><html><head></head><body><div class="${mobile ? 'dpmsg-ScreenMobile ' : ''}dpmsg-ScreenFrame frame-root"></div></body></html>`}
+        initialContent={`<!DOCTYPE html>
+<html><head></head><body>
+<div class="${className ? `${className} ` : ''}${mobile ? 'dpmsg-ScreenMobile ' : ''}dpmsg-ScreenFrame frame-root"></div>
+</body></html>`
+        }
         {...props}
         ref={this.frame}
       >

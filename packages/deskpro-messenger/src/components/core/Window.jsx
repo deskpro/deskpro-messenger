@@ -16,11 +16,10 @@ import { compose } from 'redux';
 const mobile = isMobile();
 
 const iframeStyle = {
-  bottom: mobile ? '0' : '90px',
-  width: mobile ? '100%' : '400px',
-  maxHeight: mobile ? 'calc(100vh)' : 'calc(90vh - 90px)',
+  bottom: mobile ? '0' : '70px',
+  width: mobile ? '100%' : '440px',
+  maxHeight: mobile ? 'calc(100vh)' : 'calc(90vh - 50px)',
   minHeight: mobile ? '200px' : '350px',
-  boxShadow: '5px 0 20px rgba(29,62,85,0.3)',
   borderRadius: '4px'
 };
 
@@ -65,7 +64,7 @@ class MessengerWindow extends PureComponent {
     const { formFocused } = this.props;
     const maxHeight = mobile
       ? this.props.frameContext.window.parent.innerHeight
-      : Math.ceil(Math.min(995, (this.props.frameContext.window.parent.innerHeight  - 95) * 0.9)) + 5;
+      : Math.ceil(Math.min(1040, (this.props.frameContext.window.parent.innerHeight  - 55) * 0.9));
 
     let iframeHeight;
     if(!mobile && !this.isChat() ) {
@@ -128,6 +127,7 @@ class MessengerWindow extends PureComponent {
         head={extraStyles}
         hidden={!opened}
         mobile={mobile}
+        className="dpmsg-MessengerFrame"
         style={{
           ...iframeStyle,
           height: `${iframeHeight}px`,
@@ -136,9 +136,9 @@ class MessengerWindow extends PureComponent {
       >
         <AnimateHeight
           duration={500}
-          height={mobile ? '100%' : iframeHeight}
+          height={mobile ? '100%' : iframeHeight - 40}
           className="dpmsg-AnimationDiv"
-          style={{display: 'flex', alignItems: 'flex-end'}}
+          style={{width: mobile ? '100%' : '400px'}}
           onAnimationStart={() => this.setState({animating: true})}
           onAnimationEnd={() => this.setState({animating: false})}
         >
@@ -147,7 +147,7 @@ class MessengerWindow extends PureComponent {
             onClose={this.onClose}
             screens={screens}
             maxHeight={maxHeight}
-            iframeHeight={iframeHeight}
+            iframeHeight={iframeHeight - 40}
             contentHeight={contentHeight}
             mobile={mobile}
             opened={opened}
