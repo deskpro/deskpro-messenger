@@ -534,7 +534,7 @@
 
           align-items: flex-end;
   border-radius: 4px;
-  box-shadow: 5px 0 20px rgba(29,62,85, 0.3);
+  box-shadow: 5px 0 20px rgba(29, 62, 85, 0.3);
   display: -webkit-box;
   display: flex
 }.dpmsg-AnimationDiv > div {
@@ -617,15 +617,15 @@
         margin-bottom: 0;
         padding-bottom: 0;
       }.dpmsg-ScreenContent.dpmsg-isChatScreenContent > .scrollarea .Block--chat {
-        margin-bottom: 0;
-        border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-bottom: 0;
       }.dpmsg-ScreenContent.dpmsg-isChatScreenContent > .scrollarea .scrollbar-container {
         height: auto;
         height: initial;
       }.dpmsg-ScreenContent.dpmsg-isChatScreenContent .dpmsg-WrapTextarea {
-      margin: -5px 22px 0;
       box-shadow: 0 5px 5px rgba(29, 62, 85, 0.15);
+      margin: -5px 22px 0;
       width: 356px;
     }.dpmsg-ScreenContent .dp-pc_field .dp-pc_input {
       font-family: Rubik, "Helvetica", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -890,8 +890,8 @@
   border: 2px solid #3d88f3;
   border: 2px solid var(--brand-primary);
   border-radius: 4px;
-  bottom: 50px;
-  left: 11px;
+  bottom: 11px;
+  left: 10px;
   position: absolute;
   right: 10px;
   top: 0;
@@ -908,6 +908,9 @@
   -webkit-box-pack: center;
           justify-content: center;
   text-align: center;
+}.dpmsg-ChatMessagesDropZone .dpmsg-ChatMessagesDropZoneProgress {
+  font-size: 28px;
+  margin-bottom: 25px;
 }.dpmsg-ChatMessagesDropZone i {
   color: #a9b0b0;
   color: var(--grey);
@@ -921,6 +924,8 @@
   font-family: "Rubik", sans-serif;
   font-size: 16px;
   line-height: 150%;
+}.dpmsg-ChatMessagesDropZone .dp-progress {
+  width: 90%;
 }.dpmsg-AvatarHeadsList {
   display: -webkit-box;
   display: flex;
@@ -1525,7 +1530,6 @@
 }.dpmsg-BlockWrapper .dp-pc_form {
 
     margin-top: -5px
-
   }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .react-select__control {
       padding: 0 15px 0 14px;
     }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .react-select-multi .react-select__control {
@@ -1540,7 +1544,12 @@
         font-size: 16px !important;
       }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .dp-pc_label {
         margin-bottom: 12px !important;
-      }.fr-box.fr-basic.fr-top {
+      }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_full-dnd_droparea {
+      bottom: -20px;
+      left: -21px;
+      right: -21px;
+      top: -18px;
+    }.fr-box.fr-basic.fr-top {
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
@@ -1691,15 +1700,15 @@
 }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry {
     margin-top: 15px
   }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerpt {
+      color: #4c4f50;
+      color: var(--grey-darkest);
       font-size: 12px;
       height: 34px;
       line-height: 150%;
       overflow: hidden;
       padding-right: 12px;
       position: relative;
-      text-align: justify;
-      color: #4c4f50;
-      color: var(--grey-darkest)
+      text-align: justify
     }.dpmsg-QuickSearchResults .dpmsg-QuickSearchEntry .dpmsg-QuickSearchExcerpt::before {
         bottom: -2px;
         content: "...";
@@ -2768,7 +2777,7 @@
   }/******************************
       Input radio
   *******************************/.dp-pc_field .dp-pc_radios {
-    padding: 23px 10px 11px 0;
+    padding: 23px 10px 0 0;
     width: 100%;
   }.dp-pc_field .dp-pc_radio {
     margin-top: 10px;
@@ -3010,6 +3019,7 @@
       color: #4c4f50;
       color: var(--text-color);
       border: none;
+      margin-bottom: 1px;
     }.dp-pc_field .dp-pc_date-picker svg {
       width: 20px;
       margin-left: 5px;
@@ -3169,7 +3179,9 @@
       color: #8b9293;
       color: #8b9293;
       color: var(--grey-dark);
-    }.dp-pc_field.dp-pc_multi-select .react-select__control {
+    }.dp-pc_full-dnd__droparea .dp-progress {
+    width: 80%;
+  }.dp-pc_field.dp-pc_multi-select .react-select__control {
   height: inherit;
 }.dp-pc_form.show-hover .dp-pc_likert .dp-pc_likert_input:hover .dp-pc_likert_number {
       background-color: #3d88f3;
