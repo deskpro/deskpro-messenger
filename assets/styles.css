@@ -31,6 +31,7 @@
 .dpmsg-BlockInnerContent,
 .dpmsg-BlockInnerIcon,
 .dpmsg-BlockText,
+.dpmsg-ChatMessagesDropZone,
 .dpmsg-AvatarHeadsList,
 .dpmsg-AvatarHeadsIcon,
 .dpmsg-MessagePrompt,
@@ -829,11 +830,11 @@
   border-radius: var(--border-radius);
   box-shadow: 0 4px 8px 1px rgba(51, 51, 62, 0.1);
   display: block;
+  margin: 0 10px 15px 10px;
+  margin: 0 var(--s-space) 15px var(--s-space);
   padding: 17px 20px 20px;
   padding: 17px var(--xl-space) var(--xl-space);
   position: relative;
-  margin: 0 10px 15px 10px;
-  margin: 0 var(--s-space) 15px var(--s-space);
 }.dpmsg-BlockWrapper {
   display: block;
   position: relative;
@@ -884,6 +885,42 @@
   display: block;
   font-size: 16px;
   margin-bottom: 16px;
+}.dpmsg-ChatMessagesDropZone {
+  background-color: white;
+  border: 2px solid #3d88f3;
+  border: 2px solid var(--brand-primary);
+  border-radius: 4px;
+  bottom: 50px;
+  left: 11px;
+  position: absolute;
+  right: 10px;
+  top: 0;
+  z-index: 10;
+}.dpmsg-ChatMessagesDropZone > div {
+  -webkit-box-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  height: 100%;
+  -webkit-box-pack: center;
+          justify-content: center;
+  text-align: center;
+}.dpmsg-ChatMessagesDropZone i {
+  color: #a9b0b0;
+  color: var(--grey);
+  display: -webkit-box;
+  display: flex;
+}.dpmsg-ChatMessagesDropZone p {
+  color: #8b9293;
+  color: var(--grey-dark);
+  display: -webkit-box;
+  display: flex;
+  font-family: "Rubik", sans-serif;
+  font-size: 16px;
+  line-height: 150%;
 }.dpmsg-AvatarHeadsList {
   display: -webkit-box;
   display: flex;
@@ -1490,7 +1527,9 @@
     margin-top: -5px
 
   }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .react-select__control {
-      padding: 0 15px 0 14px !important;
+      padding: 0 15px 0 14px;
+    }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_field .react-select-multi .react-select__control {
+      padding-left: 6px;
     }.dpmsg-BlockWrapper .dp-pc_form .dp-pc_submit {
       font-size: 16px;
       height: 36px;
@@ -1580,6 +1619,7 @@
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
           flex-direction: column;
+  position: relative;
 }.dpmsg-ChatMessagesWrapper .scrollarea {
   flex-basis: 0;
   -webkit-box-flex: 1;
