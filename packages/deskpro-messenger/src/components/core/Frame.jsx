@@ -2,6 +2,7 @@ import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import FrameComponent, { FrameContextConsumer } from 'react-frame-component';
+import classNames from 'classnames';
 
 import { ConfigConsumer } from './ConfigContext';
 import asset from '../../utils/asset';
@@ -120,7 +121,21 @@ class Frame extends PureComponent {
   render() {
     const { children, style = {}, head, themeVars, className, mobile, ...props } = this.props;
     const { extra } = this.state;
-   style[themeVars.position === 'left' ? 'left' : 'right'] = mobile ? '0' : '14px';
+    let offset = '14px';
+    if(mobile) {
+      offset = '0';
+    } else if (className === 'dpmsg-MessengerFrame') {
+      offset = themeVars.position === 'left' ? '5px' : '12px'
+    }
+    style[themeVars.position === 'left' ? 'left' : 'right'] = offset;
+    const frameClasses = classNames({
+        'dpmsg-MessengerFrame--right': themeVars.position === 'right',
+        'dpmsg-MessengerFrame--left':  themeVars.position === 'left',
+        'dpmsg-ScreenMobile': mobile
+      },
+      className,
+      'dpmsg-ScreenFrame frame-root'
+    );
 
     return ReactDOM.createPortal(
       <FrameComponent
@@ -138,11 +153,7 @@ class Frame extends PureComponent {
         frameBorder="0"
         scrolling="no"
         style={{ ...defaultIframeStyle, ...style }}
-        initialContent={`<!DOCTYPE html>
-<html><head></head><body>
-<div class="${className ? `${className} ` : ''}${mobile ? 'dpmsg-ScreenMobile ' : ''}dpmsg-ScreenFrame frame-root"></div>
-</body></html>`
-        }
+        initialContent={`<!DOCTYPE html><html><head></head><body><div class="${frameClasses}"></div></body></html>`}
         {...props}
         ref={this.frame}
       >
