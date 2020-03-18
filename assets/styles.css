@@ -523,9 +523,12 @@
   height: 2em;
   width: 2em;
 }.dpmsg-MessengerFrame.frame-root {
-  left: 10px;
-  bottom: 20px;
-}.dpmsg-AnimationDiv {
+  bottom: 20px
+}.dpmsg-MessengerFrame.frame-root.dpmsg-MessengerFrame--right {
+    right: 10px;
+  }.dpmsg-MessengerFrame.frame-root.dpmsg-MessengerFrame--left {
+    left: 10px;
+  }.dpmsg-AnimationDiv {
 
   -webkit-box-align: end;
 
