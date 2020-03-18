@@ -1,7 +1,8 @@
 import React, { Fragment, PureComponent } from 'react';
+import { Progress } from '@deskpro/portal-components';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 class DropArea extends PureComponent {
   static propTypes = {
@@ -28,7 +29,8 @@ class DropArea extends PureComponent {
     const { progress } = this.props;
     return (
       <div>
-        {progress > 0 ? <span>{progress} %</span> : null}
+        {progress > 0 ? <span className="dpmsg-ChatMessagesDropZoneProgress">{Math.round(progress)} %</span> : null}
+        <Progress percent={progress} />
         <p><FormattedMessage
           id="chat.dragdrop.uploading"
           defaultMessage="Uploading"

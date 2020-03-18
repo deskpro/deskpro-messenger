@@ -40,8 +40,9 @@ class TicketFormScreen extends React.Component {
     user: {name: '', email: ''}
   };
 
-  onSubmit = (values) =>
-    this.props.saveTicket(values);
+  onSubmit = (values) => {
+    return this.props.saveTicket(values);
+  };
 
   componentDidMount() {
     this.props.newTicket();

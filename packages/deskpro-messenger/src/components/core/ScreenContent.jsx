@@ -81,7 +81,7 @@ class ScreenContent extends PureComponent {
   handleTransferComplete = (e) => {
     this.setState({ progress: -1 });
     if (e.target.response && e.target.response.blob) {
-      this.props.onSendMessage({
+      this.onSendMessage({
         message: 'chat.attachment',
         type: 'chat.attachment',
         blob: e.target.response.blob,
