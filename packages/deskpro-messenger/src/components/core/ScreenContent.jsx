@@ -24,6 +24,11 @@ import DropArea from "../chat/DropArea";
 const mobile = isMobile();
 export const ScreenContentContext = React.createContext();
 
+
+const HEADER_HEIGHT = 34;
+const FOOTER_HEIGHT = 33;
+const HEADER_FOOTER_HEIGHT = HEADER_HEIGHT + FOOTER_HEIGHT;
+
 class ScreenContent extends PureComponent {
 
   static propTypes = {
@@ -179,8 +184,9 @@ class ScreenContent extends PureComponent {
       messageFormHeightAndFooter = 47 + this.state.formHeight;
     }
 
-    const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight <= iframeHeight - (this.isChat() ? messageFormHeightAndFooter : 67);
-    const height = iframeHeight - (this.isChat() ? messageFormHeightAndFooter : 67) >= contentHeight ? iframeHeight - (this.isChat() ? messageFormHeightAndFooter : 34) : contentHeight + ((mobile && formFocused) || this.isChat() ? 0 : 33);
+    const innerContentMaxHeight = iframeHeight - (this.isChat() ? messageFormHeightAndFooter : HEADER_FOOTER_HEIGHT);
+    const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight <= innerContentMaxHeight;
+    const height = innerContentMaxHeight >= contentHeight ? iframeHeight - (this.isChat() ? messageFormHeightAndFooter : HEADER_HEIGHT) : contentHeight + ((mobile && formFocused) || this.isChat() ? 0 : FOOTER_HEIGHT);
 
     const { chatData } = this.props;
 
