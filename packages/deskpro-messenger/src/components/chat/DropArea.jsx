@@ -1,8 +1,7 @@
 import React, { Fragment, PureComponent } from 'react';
 import { Progress } from '@deskpro/portal-components';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 class DropArea extends PureComponent {
   static propTypes = {
@@ -62,6 +61,4 @@ class DropArea extends PureComponent {
   }
 }
 
-export default compose(
-  injectIntl
-)(DropArea);
+export default DropArea;

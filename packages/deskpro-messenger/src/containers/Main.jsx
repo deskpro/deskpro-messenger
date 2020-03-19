@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { addLocaleData, IntlProvider } from 'react-intl';
-import enLocale from 'react-intl/locale-data/en';
+import { IntlProvider } from 'react-intl';
 
 import enTranslations from '../translations/en.json';
 import WithData from './WithData';
@@ -14,7 +13,15 @@ import { ConfigProvider } from '../components/core/ConfigContext';
 import MessengerAPI from '../components/core/MessengerAPI';
 import { appInit, appShutdown } from '../modules/app';
 
-addLocaleData(enLocale);
+if (!Intl.PluralRules) {
+  require('@formatjs/intl-pluralrules/polyfill');
+  require('@formatjs/intl-pluralrules/dist/locale-data/en'); // Add locale data for en
+}
+
+if (!Intl.RelativeTimeFormat) {
+  require('@formatjs/intl-relativetimeformat/polyfill');
+  require('@formatjs/intl-relativetimeformat/dist/locale-data/en'); // Add locale data for en
+}
 
 class Main extends PureComponent {
   static propTypes = {
@@ -52,12 +59,13 @@ class Main extends PureComponent {
       this.setState({ translations: enTranslations });
     } else if (locale && !locale.startsWith('en')) {
       const lang = locale.substring(0, 2);
-      Promise.all([
-        import(`react-intl/locale-data/${lang}`),
-        import(`../translations/${lang}.json`)
-      ])
-        .then(([localeData, translations]) => {
-          addLocaleData(localeData);
+      const promises = [import(`../translations/${lang}.json`)];
+      if (!Intl.PluralRules || !Intl.RelativeTimeFormat) {
+        promises.push(import(`@formatjs/intl-pluralrules/dist/locale-data/${lang}`));
+        promises.push(import(`@formatjs/intl-relativetimeformat/dist/locale-data/${lang}`));
+      }
+      Promise.all(promises)
+        .then(([translations]) => {
           this.setState({ translations });
         })
         .catch((err) => console.log(err.message));

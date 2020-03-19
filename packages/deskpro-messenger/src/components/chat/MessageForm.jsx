@@ -98,7 +98,7 @@ class MessageForm extends PureComponent {
   };
 
   imageInserted = (e, editor, img) => {
-    $(img).hide();
+    img.style.display = 'none';
   };
 
   imageUploaded = (e, editor, response) => {
@@ -179,7 +179,7 @@ class MessageForm extends PureComponent {
       'froalaEditor.blur': () => (this.props.setMessageFormFocus(false)),
     },
     pluginsEnabled: ['file', 'image', 'emoticons'],
-    scrollableContainer: $(this.props.frameContext.document).find('body')
+    scrollableContainer: this.props.frameContext.document.querySelector('body')
   };
 
   handleTyping = (message) => {

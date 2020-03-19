@@ -62,30 +62,32 @@ class ScreenContent extends PureComponent {
 
   handleDrop = (accepted) => {
     if (accepted.length) {
-      AJAXSubmit({
-        url:              `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
-        files:            accepted,
-        name:             'blob',
-        token:            this.props.csrfToken,
-        transferComplete: this.handleTransferComplete,
-        transferFailed:   this.handleTransferFailed,
-        updateProgress:   this.handleUpdateProgress,
-        requestHeaders: {
-          'X-DESKPRO-VISITORID': this.props.visitorId
-        },
-      });
       this.setState({ progress: 0 });
+      accepted.forEach((file) => {
+        AJAXSubmit({
+          url: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
+          files: [file],
+          name: 'blob',
+          token: this.props.csrfToken,
+          transferComplete: this.handleTransferComplete,
+          transferFailed: this.handleTransferFailed,
+          updateProgress: this.handleUpdateProgress,
+          requestHeaders: {
+            'X-DESKPRO-VISITORID': this.props.visitorId
+          },
+        });
+      });
     }
   };
 
   handleTransferComplete = (e) => {
     this.setState({ progress: -1 });
     if (e.target.response && e.target.response.blob) {
-      this.onSendMessage({
+      this.props.sendMessage({
         message: 'chat.attachment',
         type: 'chat.attachment',
-        blob: e.target.response.blob,
-      });
+        blob: e.target.response.blob
+      }, this.props.chatData);
     }
   };
 

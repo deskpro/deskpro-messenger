@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { formatFileSize } from '@deskpro/js-utils/dist/numbers';
 import asset from '../../utils/asset';
 
 class MessageBubble extends React.Component {
@@ -13,7 +14,7 @@ class MessageBubble extends React.Component {
         <div className="dpmsg-BubbleAttachmentContent">
           <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>
             {meta.isImage && <div className="dpmsg-BubbleAttachmentContentPreview"><img alt={newMessage[1]} src={`${meta.downloadUrl}?s=245`} /></div>}
-            {newMessage[1]} ({meta.filesize})
+            {newMessage[1]} ({formatFileSize(meta.filesize)})
           </a>
         </div>
       </div>

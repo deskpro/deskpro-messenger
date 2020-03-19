@@ -53,7 +53,9 @@ class AutoStart extends PureComponent {
   }
 
   componentDidMount() {
+    // eslint-disable-next-line no-unused-expressions
     import('../../screens/ChatScreen');
+    // eslint-disable-next-line no-unused-expressions
     import('../../screens/StartChatScreen');
   }
 
