@@ -61,8 +61,9 @@ export const createChat = (data, meta) => ({
   meta
 });
 
-export const chatOpened = () => ({
-  type: CHAT_OPENED
+export const chatOpened = (chat) => ({
+  type: CHAT_OPENED,
+  payload: chat
 });
 
 export const toggleChatEndBlock = (payload) => ({
@@ -150,6 +151,7 @@ const loadHistoryEpic = (action$, _, { api }) =>
       return empty();
     })
   );
+
 const createChatEpic = (action$, state$, { api }) =>
   action$.pipe(
     ofType(CHAT_START),
@@ -172,6 +174,26 @@ const createChatEpic = (action$, state$, { api }) =>
         })
       );
     })
+  );
+
+let pingInterval;
+
+const pingChatStartEpic = (action$, state$, { api }) =>
+  action$.pipe(
+    ofType(CHAT_OPENED),
+    tap(({ payload: chat }) => {
+      pingInterval = setInterval(() => api.pingChat(chat), 110 * 1000)
+    }),
+    skip()
+  );
+
+const pingChatEndEpic = (action$, _, { api }) =>
+  action$.pipe(
+    ofType(CHAT_SEND_END_CHAT),
+    tap(() => {
+      clearInterval(pingInterval);
+    }),
+    skip()
   );
 
 const agentAssignementTimeout = (action$, _, { config }) =>
@@ -315,7 +337,9 @@ export const chatEpic = combineEpics(
   soundEpic,
   forceChatOpenEpic,
   agentAssignementTimeout,
-  forceChatOpenOnSaveEpic
+  forceChatOpenOnSaveEpic,
+  pingChatStartEpic,
+  pingChatEndEpic
 );
 //#endregion
 

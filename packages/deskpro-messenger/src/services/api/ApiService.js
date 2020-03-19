@@ -75,6 +75,12 @@ export default class ApiService {
     );
   }
 
+  pingChat(chat) {
+    return this.apiClient.post(
+      `/api/messenger/chat/${chat.id}-${chat.access_token}/ping`
+    );
+  }
+
   /**
    * Send user's message to the chat.
    * @param {object} message Message model
