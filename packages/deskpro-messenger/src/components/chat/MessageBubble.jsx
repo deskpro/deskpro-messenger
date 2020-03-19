@@ -10,12 +10,10 @@ class MessageBubble extends React.Component {
     const newMessage = message.match(/<a href.*>(.*)<\/a>/);
     return (
       <div className={classNames("dpmsg-BubbleAttachment", {'dpmsg-SameSender': !this.isNotTheSameSender()})}>
-        <div className="dpmsg-BubbleAttachmentHeader">
-          <i className="dpmsg-Icon dpmsg-IconPaperclip" /> Attachment
-        </div>
         <div className="dpmsg-BubbleAttachmentContent">
-          <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>{newMessage[1]} ({meta.filesize})
-            {meta.isImage && <div><img alt={newMessage[1]} src={`${meta.downloadUrl}?s=50`} /></div>}
+          <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>
+            {meta.isImage && <div className="dpmsg-BubbleAttachmentContentPreview"><img alt={newMessage[1]} src={`${meta.downloadUrl}?s=245`} /></div>}
+            {newMessage[1]} ({meta.filesize})
           </a>
         </div>
       </div>
