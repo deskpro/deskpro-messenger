@@ -64,11 +64,11 @@ class MessengerWindow extends PureComponent {
     const { formFocused } = this.props;
     const maxHeight = mobile
       ? this.props.frameContext.window.parent.innerHeight
-      : Math.ceil(Math.min(1040, (this.props.frameContext.window.parent.innerHeight  - 55) * 0.9));
+      : Math.ceil(Math.min(1040, (this.props.frameContext.window.parent.innerHeight  - 52) * 0.9));
 
     let iframeHeight;
     if(!mobile && !this.isChat() ) {
-      iframeHeight = Math.ceil(height + (formFocused && mobile ? 34 : 69) > maxHeight ? maxHeight : height + (formFocused && mobile ? 34 : 69));
+      iframeHeight = Math.ceil(height + (formFocused && mobile ? 74 : 110) > maxHeight ? maxHeight : height + (formFocused && mobile ? 74 : 110));
     } else {
       iframeHeight = maxHeight;
     }
@@ -136,7 +136,7 @@ class MessengerWindow extends PureComponent {
       >
         <AnimateHeight
           duration={500}
-          height={mobile ? '100%' : iframeHeight - 40}
+          height={mobile ? '100%' : iframeHeight - 28}
           className="dpmsg-AnimationDiv"
           style={{width: mobile ? '100%' : '400px'}}
           onAnimationStart={() => this.setState({animating: true})}
@@ -146,8 +146,8 @@ class MessengerWindow extends PureComponent {
             ref={this.shellRef}
             onClose={this.onClose}
             screens={screens}
-            maxHeight={maxHeight}
-            iframeHeight={iframeHeight - 40}
+            maxHeight={maxHeight - 68}
+            iframeHeight={iframeHeight - 68}
             contentHeight={contentHeight}
             mobile={mobile}
             opened={opened}
