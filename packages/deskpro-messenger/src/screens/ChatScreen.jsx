@@ -57,8 +57,9 @@ class ChatScreen extends PureComponent {
   };
 
   componentDidMount() {
-    if(this.props.chatData.id) {
-      this.props.chatOpened();
+    const {chatData, chatOpened } = this.props;
+    if(chatData.id) {
+      chatOpened(chatData);
     }
   }
 
