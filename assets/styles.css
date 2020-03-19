@@ -1087,24 +1087,19 @@
   margin-bottom: var(--xxs-space);
   margin-top: 10px;
   margin-top: var(--s-space);
-  padding: 13px;
-  padding: var(--sm-space)
-}.dpmsg-BubbleAttachment .dpmsg-BubbleAttachmentHeader {
-    border-bottom: 1px solid #eff0f0;
-    border-bottom: 1px solid var(--grey-lighter);
-    display: -webkit-box;
-    display: flex;
-    padding: 10px
-  }.dpmsg-BubbleAttachment .dpmsg-BubbleAttachmentHeader .dpmsg-IconPaperclip {
-      height: 20px;
-      margin-right: 8px;
-      margin-top: -2px;
-      width: 10px;
-    }.dpmsg-BubbleAttachment .dpmsg-BubbleAttachmentContent {
-    padding: 10px 20px;
+  padding: 15px;
+  padding: var(--space)
+}.dpmsg-BubbleAttachment .dpmsg-BubbleAttachmentContent {
+    font-size: 14px;
     white-space: pre-wrap;
-    word-break: break-word;
-  }.dpmsg-BubbleAttachment.dpmsg-SameSender {
+    word-break: break-word
+  }.dpmsg-BubbleAttachment .dpmsg-BubbleAttachmentContent .dpmsg-BubbleAttachmentContentPreview {
+      margin-bottom: 5px;
+      margin-bottom: var(--xxs-space)
+    }.dpmsg-BubbleAttachment .dpmsg-BubbleAttachmentContent .dpmsg-BubbleAttachmentContentPreview img {
+        max-width: 245px;
+        max-height: 138px;
+      }.dpmsg-BubbleAttachment.dpmsg-SameSender {
     margin-bottom: 5px;
     margin-bottom: var(--xxs-space);
     margin-top: 5px;
