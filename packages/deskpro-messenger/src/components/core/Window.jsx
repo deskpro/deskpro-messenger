@@ -20,7 +20,6 @@ const iframeStyle = {
   width: mobile ? '100%' : '440px',
   maxHeight: mobile ? 'calc(100vh)' : 'calc(90vh - 50px)',
   minHeight: mobile ? '200px' : '350px',
-  borderRadius: '4px'
 };
 
 const extraStyles = (
