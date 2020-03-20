@@ -216,6 +216,7 @@
 
   --white: #fff;
   --black: #000;
+  --grey: #a9b0b0;
   --grey-100: #eceef0;
   --grey-200: #d0dae2;
   --grey-300: #b0c0cc;
@@ -483,6 +484,10 @@
     right: 10px;
   }.dpmsg-MessengerFrame.frame-root.dpmsg-MessengerFrame--left {
     left: 10px;
+  }.dpmsg-MessengerFrame.frame-root.dpmsg-ScreenMobile {
+    bottom: 0;
+    left: 0;
+    right: unset;
   }.dpmsg-AnimationDiv {
 
   align-items: flex-end;
@@ -568,6 +573,8 @@
       margin: -5px 22px 0;
       width: 356px;
     }.dpmsg-ScreenContent .dp-pc_field .dp-pc_input {
+      border-color: #d3d6d7;
+      border-color: var(--grey-light);
       font-family: Rubik, "Helvetica", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       font-family: var(--font-family-base);
       font-size: 16px;
@@ -735,7 +742,10 @@
   width: 100%
 }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content {
     height: 100%
-  }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div {
+  }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv {
+      border-radius: 0;
+      box-shadow: none
+    }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div {
         height: 100%;
         width: 100%
       }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap {
@@ -746,7 +756,8 @@
             border-radius: 0;
             width: 100%
           }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap .dpmsg-Screen .dpmsg-Control {
-              width: 100%
+              width: 100%;
+              border-radius: 0
             }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap .dpmsg-Screen .dpmsg-Control .dpmsg-ScreenControls a.dpmsg-BackBtn.dpmsg-LevelLeft {
                 left: 22px;
               }.dpmsg-Block {
@@ -811,7 +822,7 @@
 }.dpmsg-ChatMessagesDropZone {
   background-color: white;
   border: 2px solid #3d88f3;
-  border: 2px solid var(--brand-primary);
+  border: 2px solid var(--color-primary);
   border-radius: 4px;
   bottom: 11px;
   left: 10px;
@@ -998,8 +1009,8 @@
       margin-bottom: 5px;
       margin-bottom: var(--xxs-space)
     }.dpmsg-BubbleAttachment .dpmsg-BubbleAttachmentContent .dpmsg-BubbleAttachmentContentPreview img {
-        max-width: 245px;
         max-height: 138px;
+        max-width: 245px;
       }.dpmsg-BubbleAttachment.dpmsg-SameSender {
     margin-bottom: 5px;
     margin-bottom: var(--xxs-space);
