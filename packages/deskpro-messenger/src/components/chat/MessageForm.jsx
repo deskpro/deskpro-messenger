@@ -21,12 +21,8 @@ const PATH = '<path d="M12 18L8.25003 26.925L29.25 18L8.25003 9.07501L12 18Z" st
 const extendFroala = () => {
   $.FroalaEditor.ICON_TEMPLATES['dpmsg'] = '<i class="dpmsg-Icon dpmsg-Icon[NAME]"></i>';
   $.FroalaEditor.DefineIcon('emoticons', { NAME: 'Smile', template: 'dpmsg' });
-  $.FroalaEditor.DefineIcon('insertFile', {
+  $.FroalaEditor.DefineIcon('attachFile', {
     NAME: 'Attach',
-    template: 'dpmsg'
-  });
-  $.FroalaEditor.DefineIcon('insertImage', {
-    NAME: 'ImageUpload',
     template: 'dpmsg'
   });
   $.FroalaEditor.DefineIcon('sendMessage', { PATH: PATH, template: 'svg' });
@@ -49,7 +45,7 @@ class MessageForm extends PureComponent {
     message: '',
     wrapperHeight: 0,
   };
-  uploadedFiles = [];
+
   wrapperRef = React.createRef();
   froalaRef = React.createRef();
 
@@ -60,10 +56,28 @@ class MessageForm extends PureComponent {
 
   onFroalaManualInit = (controls) => {
     this.editorControls = controls;
+    const { handleFileSend } = this.props;
     extendFroala();
     $.FroalaEditor.RegisterCommand('sendMessage', {
       title: 'Send Message',
       callback: this.handleSubmit
+    });
+    $.FroalaEditor.RegisterCommand('attachFile', {
+      title: 'Attach File',
+      focus: false,
+      undo: false,
+      refreshAfterCallback: false,
+      callback: function () {
+        const input = document.createElement('input');
+        input.type = 'file';
+
+        input.onchange = e => {
+          const file = e.target.files[0];
+          handleFileSend(file);
+        };
+
+        input.click();
+      }
     });
     this.editorControls.initialize();
   };
@@ -81,85 +95,13 @@ class MessageForm extends PureComponent {
     return e;
   };
 
-
-  fileUploaded = (e, editor, response) => {
-    const { blob } = JSON.parse(response);
-
-    if (blob) {
-      this.props.onSend({
-        message: 'chat.attachment',
-        type: 'chat.attachment',
-        blob: blob,
-      });
-    }
-    editor.popups.hide('file.insert');
-
-    return false;
-  };
-
-  imageInserted = (e, editor, img) => {
-    img.style.display = 'none';
-  };
-
-  imageUploaded = (e, editor, response) => {
-    const { blob } = JSON.parse(response);
-
-    if (blob) {
-      this.props.onSend({
-        message: 'chat.attachment',
-        type: 'chat.attachment',
-        blob: blob,
-      });
-    }
-
-    editor.popups.hide('file.insert');
-  };
-
-  imageLoaded(e, editor, $img) {
-    $img.parent().siblings('.fr-image-resizer').removeClass('fr-active');
-    $img.remove();
-    editor.events.focus();
-  }
-
-  fileError = (event, editor, error, response) => {
-    const err = [];
-    if (!response && error) {
-      err.push(error.message);
-    } else if (error && response) {
-      err.push(error.message);
-      if(error.code === 3 || error.code === 4 || error.code === 5) {
-        err.push("Contact server administrator for more info.");
-      }
-    } else {
-      try {
-        const { errors } = JSON.parse(response);
-        for (let [, error] of Object.entries(errors)) {
-          err.push(error);
-        }
-      } catch (e) {
-        err.push(e.message);
-      }
-    }
-    if(err.length > 0) {
-      const $popup = editor.popups.get('file.insert');
-      const $layer = $popup.find('.fr-layer');
-      $layer.find('h3').text(err.join(' '));
-    }
-
-  };
-
   froalaConfig = {
     requestHeaders: {
       'X-DESKPRO-VISITORID': this.props.visitorId
     },
-    imageUploadMethod: 'POST',
-    imageUploadURL: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
-    fileUploadMethod: 'POST',
-    fileUploadURL: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
-    fileMaxSize: this.props.maxFileSize || (1024*1024*10),
     toolbarBottom: true,
     toolbarSticky: false,
-    toolbarButtons: ['emoticons', 'insertFile', 'sendMessage'],
+    toolbarButtons: ['emoticons', 'attachFile', 'sendMessage'],
     imageEditButtons: [],
     shortcutsEnabled: ['bold', 'italic', 'underline'],
     enter: $.FroalaEditor.ENTER_BR,
@@ -169,16 +111,10 @@ class MessageForm extends PureComponent {
     key: 'MC1D2D1G2lG4J4A14A7D3D6F6C2C3F3gSXSE1LHAFJVCXCLS==',
     events: {
       'froalaEditor.initialized': this.onFroalaInit,
-      'froalaEditor.file.uploaded': this.fileUploaded,
-      'froalaEditor.image.uploaded': this.imageUploaded,
-      'froalaEditor.image.loaded': this.imageLoaded,
-      'froalaEditor.image.beforePasteUpload': this.imageInserted,
-      'froalaEditor.file.error': this.fileError,
-      'froalaEditor.image.error': this.fileError,
       'froalaEditor.focus': () => (this.props.setMessageFormFocus(true)),
       'froalaEditor.blur': () => (this.props.setMessageFormFocus(false)),
     },
-    pluginsEnabled: ['file', 'image', 'emoticons'],
+    pluginsEnabled: ['emoticons'],
     scrollableContainer: this.props.frameContext.document.querySelector('body')
   };
 
@@ -207,11 +143,9 @@ class MessageForm extends PureComponent {
 
     if (message) {
       this.props.onSend({
-        message,
-        blobs: this.uploadedFiles.map(blob => blob.id)
+        message
       });
       this.setState({ message: '' }, () => {
-        this.uploadedFiles = [];
         this.editor.events.focus();
       });
     }
