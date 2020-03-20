@@ -756,8 +756,8 @@
             border-radius: 0;
             width: 100%
           }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap .dpmsg-Screen .dpmsg-Control {
-              width: 100%;
-              border-radius: 0
+              border-radius: 0;
+              width: 100%
             }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap .dpmsg-Screen .dpmsg-Control .dpmsg-ScreenControls a.dpmsg-BackBtn.dpmsg-LevelLeft {
                 left: 22px;
               }.dpmsg-Block {
