@@ -89,12 +89,18 @@ class ScreenContent extends PureComponent {
 
   handleTransferComplete = (e) => {
     this.setState({ progress: -1 });
+    const { chatData } = this.props;
     if (e.target.response && e.target.response.blob) {
-      this.props.sendMessage({
+      const messageModel = {
         message: 'chat.attachment',
         type: 'chat.attachment',
         blob: e.target.response.blob
-      }, this.props.chatData);
+      };
+      if (!!chatData) {
+        this.props.sendMessage(messageModel, this.props.chatData);
+      } else {
+        this.createChat('attachment', 'chat.attachment', messageModel)
+      }
     }
   };
 
@@ -147,11 +153,11 @@ class ScreenContent extends PureComponent {
     }
   };
 
-  createChat = (message, type = 'chat.message') => {
-    if (message && type === 'chat.message') {
+  createChat = (message, type = 'chat.message', useModel = undefined) => {
+    if (message && (type === 'chat.message' || type === 'chat.attachment')) {
       const { createChat, user, screens: { startChat: { department }} } = this.props;
 
-      const messageModel = {
+      const messageModel = useModel ? useModel : {
         origin: 'user',
         type: 'chat.message',
         ...(typeof message === 'string' ? { message } : message)
