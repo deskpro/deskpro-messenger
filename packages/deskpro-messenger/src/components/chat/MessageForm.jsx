@@ -92,6 +92,14 @@ class MessageForm extends PureComponent {
       this.handleSubmit(e);
       return false;
     }
+
+    if (this.props.scrollMessages) {
+      if (this.wrapperRef.current.scrollHeight !== this.state.wrapperHeight) {
+        this.setState({ wrapperHeight: this.wrapperRef.current.scrollHeight },
+          () => this.props.scrollMessages(this.state.wrapperHeight));
+      }
+    }
+
     return e;
   };
 
