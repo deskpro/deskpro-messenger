@@ -66,7 +66,7 @@ class MessengerWindow extends PureComponent {
       : Math.ceil(Math.min(1040, (this.props.frameContext.window.parent.innerHeight  - 52) * 0.9));
 
     let iframeHeight;
-    if(!mobile && !this.isChat() ) {
+    if(!mobile || this.isIndex() ) {
       iframeHeight = Math.ceil(height + (formFocused && mobile ? 74 : 110) > maxHeight ? maxHeight : height + (formFocused && mobile ? 74 : 110));
     } else {
       iframeHeight = maxHeight;
@@ -75,8 +75,8 @@ class MessengerWindow extends PureComponent {
     return { height: iframeHeight, maxHeight };
   };
 
-  isChat = () => {
-    return this.props.location.pathname.indexOf('active-chat') !== -1 || this.props.location.pathname.indexOf('startChat') !== -1;
+  isIndex = () => {
+    return this.props.location.pathname.indexOf('index') !== -1;
   };
 
   recalcIframeHeight = (force = false) => {
