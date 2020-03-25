@@ -822,9 +822,9 @@
 }.dpmsg-ChatMessagesDropZone {
   background-color: white;
   border: 2px solid #3d88f3;
-  border: 2px solid var(--color-primary);
+  border: 2px solid var(--brand-primary);
   border-radius: 4px;
-  bottom: 11px;
+  bottom: 50px;
   left: 10px;
   position: absolute;
   right: 10px;
@@ -853,6 +853,11 @@
   line-height: 150%;
 }.dpmsg-ChatMessagesDropZone .dp-progress {
   width: 90%;
+}.dpmsg-BlockWrapper .dp-pc_full-dnd__droparea {
+  bottom: -20px;
+  left: -21px;
+  right: -21px;
+  top: -18px;
 }.dpmsg-AvatarHeadsList {
   display: flex;
   margin-bottom: 5px;
