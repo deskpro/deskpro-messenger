@@ -224,7 +224,7 @@ class ScreenContent extends PureComponent {
               contentWindow={frameContext.window}
               ownerDocument={frameContext.document}
             >
-              <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper" style={{height: fullHeight ? innerContentMaxHeight - 67 : undefined }}>
+              <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper" style={{height: fullHeight && this.isChat() ? innerContentMaxHeight - 67 : undefined }}>
                 <ReactResizeDetector handleHeight>
                   {(width, height) => (
                     <ScreenContentContext.Provider value={{

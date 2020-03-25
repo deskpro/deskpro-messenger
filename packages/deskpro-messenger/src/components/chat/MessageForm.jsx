@@ -82,6 +82,27 @@ class MessageForm extends PureComponent {
     this.editorControls.initialize();
   };
 
+  updateHeight = () => {
+    if (this.props.scrollMessages) {
+      if (this.wrapperRef.current.offsetHeight !== this.state.wrapperHeight) {
+        this.setState({ wrapperHeight: this.wrapperRef.current.offsetHeight },
+          () => this.props.scrollMessages(this.state.wrapperHeight));
+      }
+    }
+  };
+
+  componentDidMount() {
+    this.interval = setInterval(this.updateHeight, 10);
+  }
+
+  componentDidCatch(error, errorInfo) {
+    clearInterval(this.interval);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
   handleKeydown = (e) => {
     if (
       e.keyCode === 13 &&
@@ -93,12 +114,7 @@ class MessageForm extends PureComponent {
       return false;
     }
 
-    if (this.props.scrollMessages) {
-      if (this.wrapperRef.current.offsetHeight !== this.state.wrapperHeight) {
-        this.setState({ wrapperHeight: this.wrapperRef.current.offsetHeight },
-          () => this.props.scrollMessages(this.state.wrapperHeight));
-      }
-    }
+
 
     return e;
   };
@@ -134,13 +150,8 @@ class MessageForm extends PureComponent {
 
   onChange = (message) => {
     if(message !== this.state.message) {
-      this.setState({ message }, () => this.handleTyping(message));
-    }
-    if (this.props.scrollMessages) {
-      if (this.wrapperRef.current.scrollHeight !== this.state.wrapperHeight) {
-        this.setState({ wrapperHeight: this.wrapperRef.current.scrollHeight },
-          () => this.props.scrollMessages(this.state.wrapperHeight));
-      }
+      this.setState({ message });
+      this.handleTyping(message);
     }
   };
 
@@ -154,6 +165,7 @@ class MessageForm extends PureComponent {
         message
       });
       this.setState({ message: '' }, () => {
+        this.updateHeight();
         this.editor.events.focus();
       });
     }
