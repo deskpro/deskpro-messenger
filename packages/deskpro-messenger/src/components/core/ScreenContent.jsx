@@ -181,17 +181,17 @@ class ScreenContent extends PureComponent {
   };
 
   render() {
-    const { children, iframeHeight, frameContext, forwardedRef, formFocused } = this.props;
+    const { chatData, children, iframeHeight, frameContext, forwardedRef, formFocused } = this.props;
 
     let messageFormHeightAndFooter = 130;
     if(this.isChat(true)) {
-      messageFormHeightAndFooter = 40 + this.state.formHeight;
+      messageFormHeightAndFooter = 40 + (!!chatData && chatData.status !== 'ended' ? this.state.formHeight : 7);
     }
 
     const innerContentMaxHeight = iframeHeight - (this.isChat() ? messageFormHeightAndFooter + HEADER_HEIGHT : HEADER_HEIGHT);
     const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight < innerContentMaxHeight;
 
-    const { chatData } = this.props;
+
     const { progress } = this.state;
 
     return (
