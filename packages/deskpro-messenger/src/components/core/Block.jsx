@@ -11,10 +11,10 @@ class Block extends PureComponent {
   };
 
   render() {
-    const { title, children, className } = this.props;
+    const { title, children, className, style } = this.props;
 
     return (
-      <div className={classNames('dpmsg-Block', className)}>
+      <div className={classNames('dpmsg-Block', className)} style={style}>
         <div className="dpmsg-BlockWrapper">
           {!!title && <div className="dpmsg-BlockHeader">{title}</div>}
           {children}
