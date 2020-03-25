@@ -188,7 +188,7 @@ class ScreenContent extends PureComponent {
       messageFormHeightAndFooter = 47 + this.state.formHeight;
     }
 
-    const innerContentMaxHeight = iframeHeight - (this.isChat() ? messageFormHeightAndFooter : HEADER_FOOTER_HEIGHT);
+    const innerContentMaxHeight = iframeHeight - (this.isChat() ? messageFormHeightAndFooter : HEADER_HEIGHT);
     const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight <= innerContentMaxHeight;
     const height = innerContentMaxHeight >= contentHeight ? iframeHeight - (this.isChat() ? messageFormHeightAndFooter : HEADER_HEIGHT) : contentHeight + ((mobile && formFocused) || this.isChat() ? 0 : FOOTER_HEIGHT);
 
