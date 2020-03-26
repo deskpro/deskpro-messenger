@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import isMobile from 'is-mobile';
 
 import { isMessageFormFocused } from '../../modules/app';
-import { getChatData, sendMessage, createChat } from '../../modules/chat';
+import { createChat, getChatData, sendMessage } from '../../modules/chat';
 import { Footer } from '../ui/Footer';
 import MessageForm from '../chat/MessageForm';
 import { getUser } from '../../modules/guest';
@@ -26,8 +26,6 @@ export const ScreenContentContext = React.createContext();
 
 
 const HEADER_HEIGHT = 34;
-const FOOTER_HEIGHT = 35;
-const HEADER_FOOTER_HEIGHT = HEADER_HEIGHT + FOOTER_HEIGHT + 3;
 
 class ScreenContent extends PureComponent {
 
