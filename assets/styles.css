@@ -539,23 +539,22 @@
 }.dpmsg-ScreenContent > .scrollarea {
     height: 100%;
     overflow: visible
-  }.dpmsg-ScreenContent > .scrollarea > .scrollarea-content {
-      height: 100%;
-    }.dpmsg-ScreenContent > .scrollarea .dpmsg-ScreenContentWrapper {
-      display: flex;
-      flex-direction: column;
-    }.dpmsg-ScreenContent > .scrollarea.fullHeight .dpmsg-ScreenContentWrapper .Block--chat {
+  }.dpmsg-ScreenContent > .scrollarea.fullHeight .dpmsg-ScreenContentWrapper .Block--chat {
           height: 100%;
         }.dpmsg-ScreenContent > .scrollarea.fullHeight .scrollbar-container.vertical {
         display: none;
+      }.dpmsg-ScreenContent > .scrollarea.fullHeight .dpmsg-ScreenFooter {
+        position: absolute;
+        bottom: 0;
+        left: 0;
       }.dpmsg-ScreenContent.dpmsg-isChatScreenContent {
 
     display: flex;
     flex-direction: column
   }.dpmsg-ScreenContent.dpmsg-isChatScreenContent.dpmsg-isChatEnded > .scrollarea {
-        height: calc(100% - 47px);
+        height: calc(100% - 40px);
       }.dpmsg-ScreenContent.dpmsg-isChatScreenContent > .scrollarea {
-      height: calc(100% - 137px);
+      height: calc(100% - 130px);
       overflow: hidden
 
     }.dpmsg-ScreenContent.dpmsg-isChatScreenContent > .scrollarea .dpmsg-ScreenContentWrapper {
@@ -1462,7 +1461,7 @@
   font-size: 14px;
   font-size: var(--h1);
   line-height: 150%;
-  max-height: calc(50vh - 47px);
+  max-height: calc(50vh - 89px);
   overflow-x: auto;
   padding: 13px;
   padding: var(--sm-space);
