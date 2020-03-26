@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import isMobile from 'is-mobile';
 
 import { isMessageFormFocused } from '../../modules/app';
-import { getChatData, sendMessage, createChat } from '../../modules/chat';
+import { createChat, getChatData, sendMessage } from '../../modules/chat';
 import { Footer } from '../ui/Footer';
 import MessageForm from '../chat/MessageForm';
 import { getUser } from '../../modules/guest';
@@ -26,8 +26,6 @@ export const ScreenContentContext = React.createContext();
 
 
 const HEADER_HEIGHT = 34;
-const FOOTER_HEIGHT = 33;
-const HEADER_FOOTER_HEIGHT = HEADER_HEIGHT + FOOTER_HEIGHT;
 
 class ScreenContent extends PureComponent {
 
@@ -181,18 +179,16 @@ class ScreenContent extends PureComponent {
   };
 
   render() {
-    const { children, contentHeight, iframeHeight, maxHeight, frameContext, forwardedRef, formFocused } = this.props;
+    const { chatData, children, iframeHeight, frameContext, forwardedRef, formFocused } = this.props;
 
-    let messageFormHeightAndFooter = 137;
+    let messageFormHeightAndFooter = 130;
     if(this.isChat(true)) {
-      messageFormHeightAndFooter = 47 + this.state.formHeight;
+      messageFormHeightAndFooter = 40 + (!!chatData && chatData.status !== 'ended' ? this.state.formHeight : 7);
     }
 
-    const innerContentMaxHeight = iframeHeight - (this.isChat() ? messageFormHeightAndFooter : HEADER_HEIGHT);
-    const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight <= innerContentMaxHeight;
-    const height = innerContentMaxHeight >= contentHeight ? iframeHeight - (this.isChat() ? messageFormHeightAndFooter : HEADER_HEIGHT) : contentHeight + ((mobile && formFocused) || this.isChat() ? 0 : FOOTER_HEIGHT);
+    const innerContentMaxHeight = iframeHeight - (this.isChat() ? messageFormHeightAndFooter + HEADER_HEIGHT : HEADER_HEIGHT);
+    const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight < innerContentMaxHeight;
 
-    const { chatData } = this.props;
 
     const { progress } = this.state;
 
@@ -222,19 +218,18 @@ class ScreenContent extends PureComponent {
               ref={this.scrollArea}
               className={classNames({ fullHeight })}
               style={{ height: this.isChat(true) ? `calc(100% - ${messageFormHeightAndFooter}px)` : undefined}}
-              contentStyle={{height, display: 'flex', flexDirection: 'column'}}
               stopScrollPropagation={true}
               contentWindow={frameContext.window}
               ownerDocument={frameContext.document}
             >
-              <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper" style={{height: fullHeight ? height : undefined}}>
+              <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper" style={{height: fullHeight && this.isChat() ? innerContentMaxHeight - 67 : undefined }}>
                 <ReactResizeDetector handleHeight>
                   {(width, height) => (
                     <ScreenContentContext.Provider value={{
                       animating: this.props.animating,
                       width,
                       height,
-                      maxHeight: parseInt(maxHeight, 10),
+                      fullHeight,
                       scrollArea: this.scrollArea
                     }}
                     >
@@ -260,7 +255,7 @@ class ScreenContent extends PureComponent {
                   }}
                 />
               )}
-              <Footer />
+              {!(mobile && formFocused) && <Footer />}
             </Fragment>
             }
           </div>

@@ -145,8 +145,8 @@ class MessengerWindow extends PureComponent {
             ref={this.shellRef}
             onClose={this.onClose}
             screens={screens}
-            maxHeight={maxHeight - 68}
-            iframeHeight={iframeHeight - 68}
+            maxHeight={parseInt(maxHeight, 10)}
+            iframeHeight={iframeHeight}
             contentHeight={contentHeight}
             mobile={mobile}
             opened={opened}
