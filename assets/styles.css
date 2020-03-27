@@ -554,7 +554,6 @@
   }.dpmsg-ScreenContent.dpmsg-isChatScreenContent.dpmsg-isChatEnded > .scrollarea {
         height: calc(100% - 40px);
       }.dpmsg-ScreenContent.dpmsg-isChatScreenContent > .scrollarea {
-      height: calc(100% - 130px);
       overflow: hidden
 
     }.dpmsg-ScreenContent.dpmsg-isChatScreenContent > .scrollarea .dpmsg-ScreenContentWrapper {
@@ -1036,6 +1035,7 @@
   display: block;
   font-size: 14px;
   font-size: var(--h1);
+  line-height: 150%;
   margin-bottom: 5px;
   margin-bottom: var(--xxs-space);
   margin-top: 15px;
