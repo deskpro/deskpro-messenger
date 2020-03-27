@@ -1,9 +1,12 @@
 import { combineEpics, ofType } from 'redux-observable';
 import { skip, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { produce } from 'immer';
+import isMobile from 'is-mobile';
 
 import { SET_VISITOR } from './guest';
 import { CHAT_OPENED } from './chat';
+
+const mobile = isMobile();
 
 //#region ACTION TYPES
 export const APP_INIT                = 'APP_INIT';
@@ -119,10 +122,16 @@ export default produce(
     switch (type) {
       case TOGGLE_WINDOW:
         draft.windowState = !draft.windowState;
+        if (mobile) {
+          window.parent.document.getElementsByTagName('body')[0].style.overflow = draft.windowState ? 'hidden' : 'initial';
+        }
         break;
 
       case SET_WINDOW_STATE:
         draft.windowState = !!payload;
+        if (mobile) {
+          window.parent.document.getElementsByTagName('body')[0].style.overflow = draft.windowState ? 'hidden' : 'initial';
+        }
         break;
 
       case SET_MESSAGE_FORM_FOCUS:
