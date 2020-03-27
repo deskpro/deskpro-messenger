@@ -135,9 +135,15 @@ class ScreenContent extends PureComponent {
     return this.props.location.pathname.indexOf('startChat') !== -1;
   };
 
+  isStartForm = () => {
+    const { screens: { startChat: { preChatForm }}} = this.props;
+
+    return preChatForm.length > 0 && preChatForm[0].fields.length > 0
+  };
+
   isChatEnded = () => {
     const { chatData } = this.props;
-    return this.isChat(true) && !!chatData && chatData.status === 'ended';
+    return this.isChat() && !!chatData && chatData.status === 'ended';
   };
 
   handleSendMessage = (message, type = 'chat.message') => {
@@ -178,15 +184,35 @@ class ScreenContent extends PureComponent {
     }
   };
 
+  shouldShowForm() {
+    return (this.isChat(true) && !this.isChatEnded()) || (this.isStartChat() && !this.isStartForm());
+  }
+
+  renderMessageForm() {
+    const { chatData, frameContext } = this.props;
+
+    return (<MessageForm
+      frameContext={frameContext}
+      onSend={!!chatData ? this.handleSendMessage : this.createChat}
+      handleFileSend={this.handleFileSend}
+      scrollMessages={(wrapperHeight) => {
+        if(!!chatData) {
+          this.setState({formHeight: wrapperHeight});
+          this.scrollToBottom();
+        }
+      }}
+    />);
+  }
+
   render() {
     const { chatData, children, iframeHeight, frameContext, forwardedRef, formFocused } = this.props;
 
     let messageFormHeightAndFooter = 130;
-    if(this.isChat(true)) {
+    if(this.shouldShowForm()) {
       messageFormHeightAndFooter = 40 + (!!chatData && chatData.status !== 'ended' ? this.state.formHeight : 7);
     }
 
-    const innerContentMaxHeight = iframeHeight - (this.isChat() ? messageFormHeightAndFooter + HEADER_HEIGHT : HEADER_HEIGHT);
+    const innerContentMaxHeight = iframeHeight - (this.shouldShowForm() ? messageFormHeightAndFooter + HEADER_HEIGHT : HEADER_HEIGHT);
     const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight < innerContentMaxHeight;
 
 
@@ -217,7 +243,7 @@ class ScreenContent extends PureComponent {
               horizontal={false}
               ref={this.scrollArea}
               className={classNames({ fullHeight })}
-              style={{ height: this.isChat(true) ? `calc(100% - ${messageFormHeightAndFooter}px)` : undefined}}
+              style={{ height: this.shouldShowForm() ? `calc(100% - ${messageFormHeightAndFooter}px)` : undefined}}
               stopScrollPropagation={true}
               contentWindow={frameContext.window}
               ownerDocument={frameContext.document}
@@ -242,19 +268,7 @@ class ScreenContent extends PureComponent {
             </ScrollArea>
             {this.isChat() &&
             <Fragment>
-              {(!this.isChatEnded() || this.isStartChat()) && (
-                <MessageForm
-                  frameContext={frameContext}
-                  onSend={!!chatData ? this.handleSendMessage : this.createChat}
-                  handleFileSend={this.handleFileSend}
-                  scrollMessages={(wrapperHeight) => {
-                    if(!!chatData) {
-                      this.setState({formHeight: wrapperHeight});
-                      this.scrollToBottom();
-                    }
-                  }}
-                />
-              )}
+              {this.shouldShowForm() && this.renderMessageForm()}
               {!(mobile && formFocused) && <Footer />}
             </Fragment>
             }
