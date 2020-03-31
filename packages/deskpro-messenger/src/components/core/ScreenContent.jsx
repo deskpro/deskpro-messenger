@@ -53,6 +53,7 @@ class ScreenContent extends PureComponent {
     this.scrollArea = createRef();
   }
 
+  // this trick may be removed after https://github.com/souhe/reactScrollbar/pull/147 will be merged
   componentDidMount() {
     const updateFunction = () => {
       if(this.scrollArea.current) {
