@@ -53,6 +53,24 @@ class ScreenContent extends PureComponent {
     this.scrollArea = createRef();
   }
 
+  componentDidMount() {
+    const updateFunction = () => {
+      if(this.scrollArea.current) {
+        const { lineHeightPx } = this.scrollArea.current;
+        if(!isNaN(lineHeightPx) && lineHeightPx) {
+          clearInterval(this.scrollAreaLineHeightUpdateInterval);
+        } else {
+          this.scrollArea.current.lineHeightPx = 10;
+        }
+      }
+    };
+    this.scrollAreaLineHeightUpdateInterval = setInterval(updateFunction, 100);
+  }
+
+  componentWillUnmount() {
+    this.scrollAreaLineHeightUpdateInterval && clearInterval(this.scrollAreaLineHeightUpdateInterval);
+  }
+
   componentDidUpdate(prevProps) {
     if (
       this.props.location !== prevProps.location ||
