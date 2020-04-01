@@ -1028,17 +1028,24 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@deskpro/js-utils@1.0.7", "@deskpro/js-utils@^1.0.7":
+"@deskpro/js-utils@1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@deskpro/js-utils/-/js-utils-1.0.11.tgz#850d4b73d0d7696c9560415af52a2407d2b85ec4"
+  integrity sha512-NiFSPddaDHPwSDrW6rQPNzw9ny5LGCYGyLuU6S44hq24F/LgNnwDrwo+IA+0XTfOyb4EVJPKuHeHihFLll3wpQ==
+  dependencies:
+    immutable "3.8.2"
+
+"@deskpro/js-utils@^1.0.7":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@deskpro/js-utils/-/js-utils-1.0.7.tgz#cc1b97be3af31ec53882da5a6a7239c45e36ef42"
   integrity sha512-XqPLn1hXCUCCFZbNRpxp8CqGBKrT3obMHvtTWAITDUfSurJKisF9HxtzJ23Lzc/Mq9PqTOfpHaCqAjWKJuHtUA==
 
-"@deskpro/portal-components@0.3.77":
-  version "0.3.77"
-  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.3.77.tgz#10f935ed79ade898570e5bdcaa3b637d7affaa49"
-  integrity sha512-ea1RHjRiZLh+usbY17kTX8uei7+Jr9QUWnhqSgPq64xFY5zEzrZYQDHc4xvnHRRSO+N/ZobCkhT66K+tMrON3A==
+"@deskpro/portal-components@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.4.0.tgz#76bc1d24ab27f904e25ac9fd0bde2a1805aa6082"
+  integrity sha512-48pQ2OpZDse8MJFsNDGfCvUAnObd9RpC7pllXp8443UA2EGG1vkppqQA/b6ng/LI0qIHeXidQy3rohz5iKmw+g==
   dependencies:
-    "@deskpro/js-utils" "1.0.7"
+    "@deskpro/js-utils" "1.0.11"
     "@deskpro/react-datepicker-hijri" "^1.5.0"
     classnames "^2.2.5"
     date-fns "^2.11.0"
@@ -7760,7 +7767,7 @@ immer@^1.7.3:
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.12.1.tgz#40c6e5b292c00560836c2993bda3a24379d466f5"
   integrity sha512-3fmKM6ovaqDt0CdC9daXpNi5x/YCYS3i4cwLdTVkhJdk5jrDXoPs7lCm3IqM3yhfSnz4tjjxbRG2CziQ7m8ztg==
 
-immutable@^3.8.1, immutable@^3.8.2:
+immutable@3.8.2, immutable@^3.8.1, immutable@^3.8.2:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
   integrity sha1-wkOZUUVbs5kT2vKBN28VMOEErfM=
