@@ -95,7 +95,7 @@ class SaveTicketForm extends PureComponent {
       departmentPropName="department"
       department={department}
       onSubmit={onSubmit}
-      i18n{{
+      i18n={{
         name:        intl.formatMessage(transMessages.name),
         email:       intl.formatMessage(transMessages.email),
         department:  intl.formatMessage(transMessages.department),
