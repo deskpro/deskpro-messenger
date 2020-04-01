@@ -860,6 +860,8 @@
   height: 1px;
   position: absolute;
   width: 1px;
+}.dpmsg-BlockWrapper .dp-pc_field .dp-pc_description {
+  color: #8b9293;
 }.dpmsg-AvatarHeadsList {
   display: flex;
   margin-bottom: 5px;
@@ -2346,6 +2348,7 @@
         display: none;
       }.dp-pc_field textarea ~ .dp-pc_label .react-select__indicators .react-select__dropdown-indicator, .dp-pc_field .react-select__control .react-select__indicators .react-select__dropdown-indicator {
         position: relative;
+        cursor: pointer;
       }.dp-pc_field textarea ~ .dp-pc_label .react-select__indicators .react-select__dropdown-indicator svg, .dp-pc_field .react-select__control .react-select__indicators .react-select__dropdown-indicator svg {
           display: none;
         }.dp-pc_field textarea ~ .dp-pc_label .react-select__indicators .react-select__dropdown-indicator:before,
@@ -2368,7 +2371,14 @@
           left: 9px;
           transform: rotate(45deg);
           transition: 0.2s ease all;
-        }.dp-pc_field textarea ~ .dp-pc_label.react-select__control--is-focused .react-select__dropdown-indicator, .dp-pc_field .react-select__control.react-select__control--is-focused .react-select__dropdown-indicator {
+        }.dp-pc_field textarea ~ .dp-pc_label .react-select__indicators .dp-react-select__dropdown-indicator, .dp-pc_field .react-select__control .react-select__indicators .dp-react-select__dropdown-indicator {
+        position: absolute;
+        top: -10px;
+        left: -15px;
+        bottom: -10px;
+        right: -5px;
+        cursor: pointer;
+      }.dp-pc_field textarea ~ .dp-pc_label.react-select__control--is-focused .react-select__dropdown-indicator, .dp-pc_field .react-select__control.react-select__control--is-focused .react-select__dropdown-indicator {
         top: 0;
       }.dp-pc_field textarea ~ .dp-pc_label.react-select__control--is-focused .react-select__dropdown-indicator:before, .dp-pc_field .react-select__control.react-select__control--is-focused .react-select__dropdown-indicator:before {
           transform: rotate(45deg);
@@ -2489,6 +2499,9 @@
         border: 2px solid var(--checkbox-border);
         margin-top: 0;
         margin-bottom: 6px;
+      }.dp-pc_field .react-select-multi .react-select__control .react-select__value-container--is-multi > [class$=-Input] {
+        margin-top: 0;
+        padding-top: 0;
       }.dp-pc_field .react-select-multi .react-select__control .react-select__multi-value__label {
       position: static;
       font-size: 14px;
@@ -2675,8 +2688,8 @@
     }.dp-pc_field .dp-pc_radio > input:checked + i::after {
         width: 6px;
         height: 6px;
-        top: 30%;
-        left: 30%;
+        top: 4px;
+        left: 4px;
         transition: .2s;
       }.dp-pc_field .dp-pc_radio > input:checked ~ span.label {
       color: #4c4f50;
