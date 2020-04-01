@@ -1040,10 +1040,10 @@
   resolved "https://registry.yarnpkg.com/@deskpro/js-utils/-/js-utils-1.0.7.tgz#cc1b97be3af31ec53882da5a6a7239c45e36ef42"
   integrity sha512-XqPLn1hXCUCCFZbNRpxp8CqGBKrT3obMHvtTWAITDUfSurJKisF9HxtzJ23Lzc/Mq9PqTOfpHaCqAjWKJuHtUA==
 
-"@deskpro/portal-components@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.4.0.tgz#76bc1d24ab27f904e25ac9fd0bde2a1805aa6082"
-  integrity sha512-48pQ2OpZDse8MJFsNDGfCvUAnObd9RpC7pllXp8443UA2EGG1vkppqQA/b6ng/LI0qIHeXidQy3rohz5iKmw+g==
+"@deskpro/portal-components@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.4.1.tgz#ee3251642fbc658a82728ae02b0a5539614a8b65"
+  integrity sha512-oHZU5dgKZKrJykADMxmBoSqo44mXFaXx/MktTYSIv5QIfI1C6aWXXqaSzHpJ9onWWsjocSEqa5ycWMblCMb4Yw==
   dependencies:
     "@deskpro/js-utils" "1.0.11"
     "@deskpro/react-datepicker-hijri" "^1.5.0"

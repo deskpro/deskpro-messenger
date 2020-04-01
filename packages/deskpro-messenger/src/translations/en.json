@@ -38,5 +38,19 @@
   "tickets.form.header": "New Ticket",
   "tickets.form.thanks_header": "Your request on its way",
   "tickets.form.thanks": "Thank you for contacting us. One of our team will be in touch with you via email.",
-  "tickets.form.submit_button": "Save Ticket"
+  "tickets.form.submit_button": "Save Ticket",
+  "tickets.form.name": "Name",
+  "tickets.form.email": "Email",
+  "tickets.form.department": "Department",
+  "tickets.form.message": "Message",
+  "tickets.form.product": "Product",
+  "tickets.form.priority": "Priority",
+  "tickets.form.category": "Category",
+  "tickets.form.submit": "Submit",
+  "tickets.form.dragNDrop": "Drag and drop",
+  "tickets.form.or": "or",
+  "tickets.form.chooseAFile": "Choose a file",
+  "tickets.form.chooseFiles": "Choose files",
+  "tickets.form.select": "Select",
+  "tickets.form.back": "Back"
 }
