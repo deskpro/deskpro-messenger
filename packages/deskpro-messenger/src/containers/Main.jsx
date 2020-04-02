@@ -54,9 +54,9 @@ class Main extends PureComponent {
 
   loadLocale = (force = false) => {
     const { language: { id, locale } } = this.props.config;
-    if (locale && id) {
+    if (locale) {
       const lang = locale.substring(0, 2);
-      const promises = [this.props.api.getTranslation(id)];
+      const promises = [this.props.api.getTranslation(id ? id : locale)];
       if (!Intl.PluralRules || !Intl.RelativeTimeFormat) {
         promises.push(import(`@formatjs/intl-pluralrules/dist/locale-data/${lang}`));
         promises.push(import(`@formatjs/intl-relativetimeformat/dist/locale-data/${lang}`));

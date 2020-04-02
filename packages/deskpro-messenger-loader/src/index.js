@@ -13,6 +13,9 @@ function loadConfig(helpdeskURL) {
         ...transformConfig(adminConfig),
         ...window.DESKPRO_MESSENGER_OPTIONS
       };
+      if(window.DESKPRO_MESSENGER_OPTIONS.language) {
+        config.language = window.DESKPRO_MESSENGER_OPTIONS.language;
+      }
       window.DESKPRO_MESSENGER_OPTIONS = config;
       return config;
     });
