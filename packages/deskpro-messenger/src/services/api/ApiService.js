@@ -81,6 +81,12 @@ export default class ApiService {
     );
   }
 
+  getTranslation(language) {
+    return this.apiClient.get(
+      `/api/messenger/service/translation?language=${language}`
+    );
+  }
+
   /**
    * Send user's message to the chat.
    * @param {object} message Message model

@@ -53,13 +53,10 @@ class Main extends PureComponent {
   }
 
   loadLocale = (force = false) => {
-    const { locale } = this.props.config;
-
-    if (force && locale.startsWith('en')) {
-      this.setState({ translations: enTranslations });
-    } else if (locale && !locale.startsWith('en')) {
+    const { language: { id, locale } } = this.props.config;
+    if (locale && id) {
       const lang = locale.substring(0, 2);
-      const promises = [import(`../translations/${lang}.json`)];
+      const promises = [this.props.api.getTranslation(id)];
       if (!Intl.PluralRules || !Intl.RelativeTimeFormat) {
         promises.push(import(`@formatjs/intl-pluralrules/dist/locale-data/${lang}`));
         promises.push(import(`@formatjs/intl-relativetimeformat/dist/locale-data/${lang}`));

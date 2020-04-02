@@ -74,6 +74,7 @@ export default (settings) => {
   }
 
   return {
+    language: settings.language,
     widget: settings.widget,
     proactive: {
       options: settings.proactive.options,

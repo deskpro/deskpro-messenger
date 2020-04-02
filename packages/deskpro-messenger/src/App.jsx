@@ -19,6 +19,6 @@ const store = createStore(undefined, { config, history, api, cache });
 
 export default () => <Provider store={store}>
   <Router history={history}>
-    <Main config={config} cache={cache} />
+    <Main config={config} cache={cache} api={api} />
   </Router>
 </Provider>;
