@@ -43,8 +43,8 @@ class Main extends PureComponent {
 
   componentDidUpdate(prevProps) {
     this.props.cache.setValue('app.lastLocation', this.props.location.pathname);
-    if (prevProps.config.locale !== this.props.config.locale) {
-      this.loadLocale(true);
+    if (prevProps.config.language.locale !== this.props.config.language.locale) {
+      this.loadLocale();
     }
   }
 
@@ -52,18 +52,26 @@ class Main extends PureComponent {
     this.props.appShutdown();
   }
 
-  loadLocale = (force = false) => {
+  loadLocale = () => {
     const { language: { id, locale } } = this.props.config;
+    const { cache, api } = this.props;
     if (locale) {
       const lang = locale.substring(0, 2);
-      const promises = [this.props.api.getTranslation(id ? id : locale)];
+      let localePromise;
+      const cacheKey  = `app.translation.${locale}_${id}`;
+      if(cache.getValue(cacheKey)) {
+        localePromise = new Promise((resolve) => { resolve({data: cache.getValue(cacheKey)}); });
+      } else {
+        localePromise = api.getTranslation(id ? id : locale)
+      }
+      const promises = [localePromise];
       if (!Intl.PluralRules || !Intl.RelativeTimeFormat) {
         promises.push(import(`@formatjs/intl-pluralrules/dist/locale-data/${lang}`));
         promises.push(import(`@formatjs/intl-relativetimeformat/dist/locale-data/${lang}`));
       }
       Promise.all(promises)
         .then(([translations]) => {
-          this.setState({ translations: translations.data });
+          this.setState({ translations: translations.data }, () => { cache.setValue(cacheKey, translations.data)});
         })
         .catch((err) => console.log(err.message));
     }
