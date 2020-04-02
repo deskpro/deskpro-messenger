@@ -11,6 +11,65 @@ import { getTicketDepartments } from '../modules/info';
 import { getUser, isUserSet } from '../modules/guest';
 import Header from '../components/ui/Header';
 
+const transMessages = {
+  name: {
+    id: 'tickets.form.name',
+    defaultMessage: 'Name',
+  },
+  email: {
+    id: 'tickets.form.email',
+    defaultMessage: 'Email',
+  },
+  department: {
+    id: 'tickets.form.department',
+    defaultMessage: 'Department',
+  },
+  message: {
+    id: 'tickets.form.message',
+    defaultMessage: 'Message',
+  },
+  product: {
+    id: 'tickets.form.product',
+    defaultMessage: 'Product',
+  },
+  priority: {
+    id: 'tickets.form.priority',
+    defaultMessage: 'Priority',
+  },
+  category: {
+    id: 'tickets.form.category',
+    defaultMessage: 'Category',
+  },
+  submit: {
+    id: 'tickets.form.submit',
+    defaultMessage: 'Submit',
+  },
+  dragNDrop: {
+    id: 'tickets.form.dragNDrop',
+    defaultMessage: 'Drag and drop',
+  },
+  or: {
+    id: 'tickets.form.or',
+    defaultMessage: 'or',
+  },
+  chooseAFile: {
+    id: 'tickets.form.chooseAFile',
+    defaultMessage: 'Choose a file',
+  },
+  chooseFiles: {
+    id: 'tickets.form.chooseFiles',
+    defaultMessage: 'Choose files',
+  },
+  select: {
+    id: 'tickets.form.select',
+    defaultMessage: 'Select',
+  },
+  back: {
+    id: 'tickets.form.back',
+    defaultMessage: 'Back',
+  },
+};
+
 const mapStateToProps = (state, props) => ({
     departments:  getTicketDepartments(state, props),
     ticketSaved:  getTicketSavedState(state),
@@ -100,6 +159,22 @@ class TicketFormScreen extends React.Component {
                 csrfToken="not_used"
                 onSubmit={this.onSubmit}
                 errors={errors}
+                i18n={{
+                  name:        intl.formatMessage(transMessages.name),
+                  email:       intl.formatMessage(transMessages.email),
+                  department:  intl.formatMessage(transMessages.department),
+                  message:     intl.formatMessage(transMessages.message),
+                  product:     intl.formatMessage(transMessages.product),
+                  priority:    intl.formatMessage(transMessages.priority),
+                  category:    intl.formatMessage(transMessages.category),
+                  submit:      intl.formatMessage(transMessages.submit),
+                  dragNDrop:   intl.formatMessage(transMessages.dragNDrop),
+                  or:          intl.formatMessage(transMessages.or),
+                  chooseAFile: intl.formatMessage(transMessages.chooseAFile),
+                  chooseFiles: intl.formatMessage(transMessages.chooseFiles),
+                  select:      intl.formatMessage(transMessages.select),
+                  back:        intl.formatMessage(transMessages.back),
+                }}
               />
             )}
 
