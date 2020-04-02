@@ -63,7 +63,7 @@ class Main extends PureComponent {
       }
       Promise.all(promises)
         .then(([translations]) => {
-          this.setState({ translations });
+          this.setState({ translations: translations.data });
         })
         .catch((err) => console.log(err.message));
     }
