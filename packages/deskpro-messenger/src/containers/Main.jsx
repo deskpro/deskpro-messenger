@@ -42,7 +42,9 @@ class Main extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    this.props.cache.setValue('app.lastLocation', this.props.location.pathname);
+    if(this.props.location.pathname.startsWith('/screens')) {
+      this.props.cache.setValue('app.lastLocation', this.props.location.pathname);
+    }
     if (prevProps.config.language.locale !== this.props.config.language.locale) {
       this.loadLocale();
     }
