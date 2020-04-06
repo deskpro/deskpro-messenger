@@ -13,7 +13,7 @@ function loadConfig(helpdeskURL) {
         ...transformConfig(adminConfig),
         ...window.DESKPRO_MESSENGER_OPTIONS
       };
-      if(window.DESKPRO_MESSENGER_OPTIONS.language) {
+      if(typeof window.DESKPRO_MESSENGER_OPTIONS !== 'undefined' && window.DESKPRO_MESSENGER_OPTIONS.language) {
         config.language = window.DESKPRO_MESSENGER_OPTIONS.language;
       }
       window.DESKPRO_MESSENGER_OPTIONS = config;
