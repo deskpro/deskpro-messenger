@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
-
+import { withScreenContentSize } from '../components/core/ScreenContent';
 import Chat from '../components/chat/Chat';
 import Block from '../components/core/Block';
 import { withConfig } from '../components/core/ConfigContext';
@@ -44,7 +44,13 @@ class ChatScreen extends PureComponent {
     typing: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
     sendMessage: PropTypes.func.isRequired,
     endChatMessage: PropTypes.func.isRequired,
-    chatOpened: PropTypes.func.isRequired
+    chatOpened: PropTypes.func.isRequired,
+    contentSize: PropTypes.shape({
+      animating: PropTypes.bool,
+      height: PropTypes.number,
+      maxHeight: PropTypes.number,
+      fullHeight: PropTypes.bool,
+    }),
   };
 
   static defaultProps = {
@@ -84,6 +90,7 @@ class ChatScreen extends PureComponent {
 
   render() {
     const { departments, chatConfig, chatData, intl, user, agent, messages, history, typing } = this.props;
+    const { contentSize: { maxHeight }} = this.props;
     const department = chatConfig.department
       ? departments[chatConfig.department]
       : {};
@@ -104,6 +111,7 @@ class ChatScreen extends PureComponent {
             },
             { department: department.title }
           )}
+          style={{minHeight: maxHeight}}
           className="Block--chat"
         >
           <Chat
@@ -145,6 +153,7 @@ const mapProps = (WrappedComponent) => (props) => {
 export default compose(
   injectIntl,
   withConfig,
+  withScreenContentSize,
   connect(
     mapStateToProps,
     { sendMessage, endChatMessage, chatOpened, toggleChatEndBlock }

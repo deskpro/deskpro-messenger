@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 import Block from '../components/core/Block';
 import { createChat, sendMessage } from '../modules/chat';
+import { withScreenContentSize } from '../components/core/ScreenContent';
 import { getUser, } from '../modules/guest';
 import PromptMessage from '../components/chat/PromptMessage';
 import { getChatDepartments } from '../modules/info';
@@ -68,6 +69,7 @@ class StartChatScreen extends PureComponent {
 
   render() {
     const { department, departments, preChatForm, intl, user, uploadTo, formMessageEnabled, formMessage } = this.props;
+    const { contentSize: { maxHeight }} = this.props;
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
     const initialValues = { ...user };
@@ -103,6 +105,7 @@ class StartChatScreen extends PureComponent {
             },
             { department: dept.title }
           )}
+          style={{ minHeight: maxHeight}}
         >
           {viewMode === 'form' && correctedForm[0].fields.length !== hiddenCount && (
             [
@@ -142,6 +145,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default compose(
+  withScreenContentSize,
   connect(
     mapStateToProps,
     { createChat, sendMessage }

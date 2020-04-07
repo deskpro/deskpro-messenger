@@ -229,7 +229,7 @@ class ScreenContent extends PureComponent {
 
     let messageFormHeightAndFooter = 130;
     if(this.shouldShowForm()) {
-      messageFormHeightAndFooter = 40 + ((!!chatData && chatData.status !== 'ended') || this.isStartChat() ? this.state.formHeight : 7);
+      messageFormHeightAndFooter = ((!!chatData && chatData.status !== 'ended') || this.isStartChat() ? this.state.formHeight : 0) + FOOTER_HEIGHT;
     }
 
     const innerContentMaxHeight = iframeHeight - (this.shouldShowForm() ? messageFormHeightAndFooter + HEADER_HEIGHT : HEADER_HEIGHT + FOOTER_HEIGHT);
@@ -268,7 +268,7 @@ class ScreenContent extends PureComponent {
               contentWindow={frameContext.window}
               ownerDocument={frameContext.document}
             >
-              <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper" style={{height: fullHeight && this.isChat() ? innerContentMaxHeight - 67 : undefined }}>
+              <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper">
                 <ReactResizeDetector handleHeight>
                   {(width, height) => (
                     <ScreenContentContext.Provider value={{
@@ -276,6 +276,7 @@ class ScreenContent extends PureComponent {
                       width,
                       height,
                       fullHeight,
+                      maxHeight: innerContentMaxHeight - 97,
                       scrollArea: this.scrollArea
                     }}
                     >
