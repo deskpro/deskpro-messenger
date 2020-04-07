@@ -569,6 +569,7 @@
       }.dpmsg-ScreenContent.dpmsg-isChatScreenContent .dpmsg-WrapTextarea {
       box-shadow: 0 5px 5px rgba(29, 62, 85, 0.15);
       margin: -5px 22px 0;
+      min-height: 90px;
       width: 356px;
     }.dpmsg-ScreenContent .dp-pc_field .dp-pc_input {
       border-color: #d3d6d7;
