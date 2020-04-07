@@ -2,6 +2,7 @@ import React, { Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import FrameComponent, { FrameContextConsumer } from 'react-frame-component';
+import debounce from '@deskpro/js-utils/dist/debounce';
 import classNames from 'classnames';
 
 import { ConfigConsumer } from './ConfigContext';
@@ -42,7 +43,7 @@ class Frame extends PureComponent {
     className: PropTypes.string,
     style: PropTypes.object,
     head: PropTypes.node,
-    mobule: PropTypes.bool,
+    mobile: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -94,16 +95,17 @@ class Frame extends PureComponent {
     iFrameContainer.removeChild(this.el);
   }
 
-  updateStyles = () => {
-    if (this.frame.current.node) {
-      const html = this.frame.current.getDoc().getElementsByTagName('html')[0];
-      Object.entries(this.props.themeVars).forEach(([name, value]) => {
-        html.style.setProperty(name, value);
-        if(['--color-primary', '--color-secondary', '--brand-primary', '--brand-secondary'].indexOf(name) !== -1) {
-          const darkName = name.replace('color', 'color-dark').replace('brand', 'brand-dark');
-          html.style.setProperty(darkName, darker(value, 20));
-        }
-      });
+  debouncedUpdateStyles = debounce(() => {
+    console.log('debouncedUpdateStyles');
+    const html = this.frame.current.getDoc().getElementsByTagName('html')[0];
+    Object.entries(this.props.themeVars).forEach(([name, value]) => {
+      html.style.setProperty(name, value);
+      if(['--color-primary', '--color-secondary', '--brand-primary', '--brand-secondary'].indexOf(name) !== -1) {
+        const darkName = name.replace('color', 'color-dark').replace('brand', 'brand-dark');
+        html.style.setProperty(darkName, darker(value, 20));
+      }
+    });
+    if (process.env.NODE_ENV === 'development') {
       const style = Array.from(document.head.querySelectorAll('style'))
         .map((el) => el.innerText)
         .join('\n');
@@ -114,6 +116,17 @@ class Frame extends PureComponent {
             extra
           });
         }
+      }, 100);
+    }
+  }, 100, true);
+
+  updateStyles = () => {
+    console.log('updateStyles');
+    if (this.frame.current.node) {
+      this.debouncedUpdateStyles();
+    } else {
+      setTimeout(() => {
+        this.updateStyles()
       }, 100);
     }
   };
