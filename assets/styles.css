@@ -2510,6 +2510,9 @@
       border-right: none;
       font-size: 18px;
       padding: 0 5px;
+    }.dp-pc_field .react-select-multi .react-select__control .react-select__indicators {
+      align-self: flex-start;
+      margin-top: 12px;
     }.dp-pc_field .react-select-multi .react-select__control .react-select__input > input {
       margin-top: 0;
     }.dp-pc_field .react-select__menu .react-select__menu-list--is-multi .dp-pc_checkbox {
