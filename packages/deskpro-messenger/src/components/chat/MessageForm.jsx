@@ -84,9 +84,10 @@ class MessageForm extends PureComponent {
 
   updateHeight = () => {
     if (this.props.scrollMessages) {
-      if (this.wrapperRef.current.offsetHeight !== this.state.wrapperHeight) {
-        this.setState({ wrapperHeight: this.wrapperRef.current.offsetHeight },
-          () => this.props.scrollMessages(this.state.wrapperHeight));
+      const wrapperHeight = Math.ceil(this.wrapperRef.current.offsetHeight);
+      if (wrapperHeight !== this.state.wrapperHeight) {
+        this.setState({ wrapperHeight },
+          () => this.props.scrollMessages(wrapperHeight));
       }
     }
   };
