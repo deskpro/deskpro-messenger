@@ -26,6 +26,7 @@ export const ScreenContentContext = React.createContext();
 
 
 const HEADER_HEIGHT = 34;
+const FOOTER_HEIGHT = 33;
 
 class ScreenContent extends PureComponent {
 
@@ -231,7 +232,7 @@ class ScreenContent extends PureComponent {
       messageFormHeightAndFooter = 40 + ((!!chatData && chatData.status !== 'ended') || this.isStartChat() ? this.state.formHeight : 7);
     }
 
-    const innerContentMaxHeight = iframeHeight - (this.shouldShowForm() ? messageFormHeightAndFooter + HEADER_HEIGHT : HEADER_HEIGHT);
+    const innerContentMaxHeight = iframeHeight - (this.shouldShowForm() ? messageFormHeightAndFooter + HEADER_HEIGHT : HEADER_HEIGHT + FOOTER_HEIGHT);
     const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight < innerContentMaxHeight;
 
 
