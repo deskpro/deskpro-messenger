@@ -1035,10 +1035,12 @@
   dependencies:
     immutable "3.8.2"
 
-"@deskpro/js-utils@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@deskpro/js-utils/-/js-utils-1.0.7.tgz#cc1b97be3af31ec53882da5a6a7239c45e36ef42"
-  integrity sha512-XqPLn1hXCUCCFZbNRpxp8CqGBKrT3obMHvtTWAITDUfSurJKisF9HxtzJ23Lzc/Mq9PqTOfpHaCqAjWKJuHtUA==
+"@deskpro/js-utils@1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@deskpro/js-utils/-/js-utils-1.0.12.tgz#0e08a7d6fa8d7d0fe2a416c9a66bf84887cbe640"
+  integrity sha512-JJxRLGOPNRXvUqKc98XeNxDXpRyTGpaDrjqLFEqdvRjjtHgUCf5OFiXLsf4Pe+HgX/3Qj+uxB/K3SnCZMk1r5g==
+  dependencies:
+    immutable "3.8.2"
 
 "@deskpro/portal-components@0.4.8":
   version "0.4.8"
