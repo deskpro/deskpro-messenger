@@ -213,7 +213,7 @@ class ScreenContent extends PureComponent {
 
     return (<MessageForm
       frameContext={frameContext}
-      onSend={!!chatData ? this.handleSendMessage : this.createChat}
+      onSend={!!chatData && chatData.status !== 'ended' ? this.handleSendMessage : this.createChat}
       handleFileSend={this.handleFileSend}
       scrollMessages={(wrapperHeight) => {
         if(!!chatData) {
