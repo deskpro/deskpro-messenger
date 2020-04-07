@@ -228,7 +228,7 @@ class ScreenContent extends PureComponent {
 
     let messageFormHeightAndFooter = 130;
     if(this.shouldShowForm()) {
-      messageFormHeightAndFooter = 40 + (!!chatData && chatData.status !== 'ended' ? this.state.formHeight : 7);
+      messageFormHeightAndFooter = 40 + ((!!chatData && chatData.status !== 'ended') || this.isStartChat() ? this.state.formHeight : 7);
     }
 
     const innerContentMaxHeight = iframeHeight - (this.shouldShowForm() ? messageFormHeightAndFooter + HEADER_HEIGHT : HEADER_HEIGHT);
