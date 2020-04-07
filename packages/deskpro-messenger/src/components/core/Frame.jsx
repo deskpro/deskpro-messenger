@@ -56,17 +56,15 @@ class Frame extends PureComponent {
   constructor(...args) {
     super(...args);
 
-    let extra;
-
+    let style;
     // in development mode styles are injected on the fly with HMR, so we need to
     // extract them on component rendering.
     if (process.env.NODE_ENV === 'development') {
       // pull css from all style tags because we might not know which one is
       // generated and inserted by webpack HMR.
-      const style = Array.from(document.head.querySelectorAll('style'))
+      style = Array.from(document.head.querySelectorAll('style'))
         .map((el) => el.innerText)
         .join('\n');
-      extra = <style type="text/css">{style}</style>;
     }
 
     this.el = window.parent.document.createElement('span');
@@ -75,7 +73,7 @@ class Frame extends PureComponent {
     baseHead = <link rel="stylesheet" href={assetsPath} />;
 
     this.state ={
-      extra
+      extra: style
     };
   }
 
@@ -96,7 +94,6 @@ class Frame extends PureComponent {
   }
 
   debouncedUpdateStyles = debounce(() => {
-    console.log('debouncedUpdateStyles');
     const html = this.frame.current.getDoc().getElementsByTagName('html')[0];
     Object.entries(this.props.themeVars).forEach(([name, value]) => {
       html.style.setProperty(name, value);
@@ -110,10 +107,9 @@ class Frame extends PureComponent {
         .map((el) => el.innerText)
         .join('\n');
       setTimeout(() => {
-        const extra = <style type="text/css">{style}</style>;
-        if (extra !== this.state.extra) {
+        if (style !== this.state.extra) {
           this.setState({
-            extra
+            extra: style
           });
         }
       }, 100);
@@ -121,7 +117,6 @@ class Frame extends PureComponent {
   }, 100, true);
 
   updateStyles = () => {
-    console.log('updateStyles');
     if (this.frame.current.node) {
       this.debouncedUpdateStyles();
     } else {
@@ -160,7 +155,7 @@ class Frame extends PureComponent {
             />
             {head}
             {baseHead}
-            {extra}
+            {extra ? <style type="text/css" key="extra-style">{extra}</style> : null}
           </Fragment>
         }
         frameBorder="0"
