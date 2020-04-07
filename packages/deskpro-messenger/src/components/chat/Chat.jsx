@@ -154,7 +154,7 @@ class Chat extends PureComponent {
                 case 'chat.ended':
                 case 'chat.userTimeout':
                 case 'chat.waitTimeout':
-                  return chat.assigned && (
+                  return (
                     <Fragment key={key}>
                       <SystemMessage
                         {...message}
@@ -162,12 +162,16 @@ class Chat extends PureComponent {
                           ...createTrans(message, 'chatEnded')
                         )}
                       />
-                      <TranscriptBlock onSend={onSendMessage} user={user} />
-                      <RatingBlock
-                        onSend={onSendMessage}
-                        user={user}
-                        agent={agent}
-                      />
+                      {chat.assigned &&
+                      <Fragment key={`${key}_end`}>
+                        <TranscriptBlock onSend={onSendMessage} user={user} />
+                        <RatingBlock
+                          onSend={onSendMessage}
+                          user={user}
+                          agent={agent}
+                        />
+                      </Fragment>
+                      }
                     </Fragment>
                   );
                 case 'chat.noAgents':
