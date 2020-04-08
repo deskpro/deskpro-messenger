@@ -5,6 +5,13 @@ import React, { Fragment } from 'react';
 import Header from '../components/ui/Header';
 
 class QuickSearchScreen extends SearchBlock {
+
+  getSearchHint() {
+    return this.state.query.length >= 3 && this.props.results.length < 1
+      ? `No results for "${this.state.query}"`
+      : null
+  }
+
   getResults() {
     return this.props.results;
   }
