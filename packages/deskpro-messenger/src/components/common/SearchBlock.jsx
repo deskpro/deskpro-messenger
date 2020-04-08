@@ -47,7 +47,7 @@ class SearchBlock extends React.Component {
   }
 
   getSeeMore() {
-    return this.props.results.length > 3  && !this.props.searching &&
+    return this.props.results.length > 3  && !this.props.searching && this.state.query.length >= 3 &&
       <Link to="/screens/search" className="dpmsg-QuickSearchFooter">See more results</Link>;
   }
 
