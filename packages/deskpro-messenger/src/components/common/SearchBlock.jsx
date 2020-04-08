@@ -93,7 +93,7 @@ class SearchBlock extends React.Component {
             </div>
             <div className={classNames('dpmsg-QuickSearchControl--hint', {'dpmsg-QuickSearchControl--is-loading': this.props.searching})}>
               {this.getSearchHint()}
-              {this.props.searching && <Loader size='small' />}
+              {this.props.searching && this.state.query.length >=3 && <Loader size='small' />}
             </div>
 
           </div>
@@ -101,8 +101,8 @@ class SearchBlock extends React.Component {
           <div className="dpmsg-QuickSearchResults">
             {this.state.query.length >= 3 && !this.props.searching && this.getResults().map((r, i) => (
               <div className="dpmsg-QuickSearchEntry" key={`search_entry_${i}`}>
-                <h4 className="dpmsg-QuickSearchEntryHeaderLink"><a rel="noreferrer noopener" target="_blank"
-                                                                    href={r.link}>{r.title}</a></h4>
+                <h4 className="dpmsg-QuickSearchEntryHeaderLink">
+                  <a rel="noreferrer noopener" target="_blank" href={r.link}>{r.title}</a></h4>
                 <div className="dpmsg-QuickSearchExcerpt">
                   {r.excerpt}
                 </div>
