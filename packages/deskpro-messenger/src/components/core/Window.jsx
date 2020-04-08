@@ -63,7 +63,7 @@ class MessengerWindow extends PureComponent {
     const { formFocused } = this.props;
     const maxHeight = mobile
       ? this.props.frameContext.window.parent.innerHeight
-      : Math.ceil(Math.min(1040, (this.props.frameContext.window.parent.innerHeight  - 52) * 0.9));
+      : Math.ceil(Math.min(1060, (this.props.frameContext.window.parent.innerHeight  - 52) * 0.9));
 
     let iframeHeight;
     if(this.isIndex() && !mobile) {
@@ -135,7 +135,7 @@ class MessengerWindow extends PureComponent {
       >
         <AnimateHeight
           duration={500}
-          height={mobile ? '100%' : iframeHeight - 28}
+          height={mobile ? '100%' : iframeHeight - 48}
           className="dpmsg-AnimationDiv"
           style={{width: mobile ? '100%' : '400px'}}
           onAnimationStart={() => this.setState({animating: true})}

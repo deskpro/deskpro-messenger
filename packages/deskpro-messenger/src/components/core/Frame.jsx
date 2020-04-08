@@ -126,7 +126,7 @@ class Frame extends PureComponent {
     if(mobile) {
       offset = '0';
     } else if (className === 'dpmsg-MessengerFrame') {
-      offset = themeVars.position === 'left' ? '5px' : '12px'
+      offset = themeVars.position === 'left' ? '5px' : '0'
     }
     style[themeVars.position === 'left' ? 'left' : 'right'] = offset;
     const frameClasses = classNames({
