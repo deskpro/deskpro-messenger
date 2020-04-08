@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Isvg from 'react-inlinesvg';
 import asset from '../../utils/asset';
+import { Loader } from "@deskpro/react-components";
 
 class SearchBlock extends React.Component {
   static propTypes = {
@@ -44,7 +45,7 @@ class SearchBlock extends React.Component {
   }
 
   getSeeMore() {
-    return this.props.results.length > 3 &&
+    return this.props.results.length > 3  && !this.props.searching &&
       <Link to="/screens/search" className="dpmsg-QuickSearchFooter">See more results</Link>;
   }
 
@@ -84,13 +85,15 @@ class SearchBlock extends React.Component {
               {(this.state.query.length > 0) &&
               <i className="dpmsg-Icon dpmsg-IconSearchClear" onClick={this.onClear}/>}
             </div>
-            <div className="dpmsg-QuickSearchControl--hint">
+            <div className={classNames('dpmsg-QuickSearchControl--hint', {'dpmsg-QuickSearchControl--is-loading': this.props.searching})}>
               {this.getSearchHint()}
+              {this.props.searching && <Loader size='small' />}
             </div>
+
           </div>
 
           <div className="dpmsg-QuickSearchResults">
-            {this.state.query.length >= 3 && this.getResults().map((r, i) => (
+            {this.state.query.length >= 3 && !this.props.searching && this.getResults().map((r, i) => (
               <div className="dpmsg-QuickSearchEntry" key={`search_entry_${i}`}>
                 <h4 className="dpmsg-QuickSearchEntryHeaderLink"><a rel="noreferrer noopener" target="_blank"
                                                                     href={r.link}>{r.title}</a></h4>

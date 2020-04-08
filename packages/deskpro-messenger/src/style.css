@@ -1,3 +1,4 @@
 @import "../styles/src/style.css";
 @import "../node_modules/@deskpro/portal-components/dist/style.css";
 @import "../node_modules/react-datepicker/dist/react-datepicker.css";
+@import "../node_modules/@deskpro/react-components/dist/main.css";
