@@ -29,7 +29,9 @@ class SearchBlock extends React.Component {
   }
 
   componentDidMount() {
-    this.props.search(this.state.query)
+    if(this.state.query.length >= 3) {
+      this.props.search(this.state.query)
+    }
   }
 
   getSearchHint() {
@@ -51,7 +53,11 @@ class SearchBlock extends React.Component {
 
   onChange = (e) => {
     const value = e.target.value;
-    this.setState({ query: value }, () => this.props.search(value));
+    this.setState({ query: value }, () => {
+      if(value && value.length >= 3) {
+        this.props.search(value);
+      }
+    });
   };
 
   onClear = (e) => {
