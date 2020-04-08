@@ -109,18 +109,20 @@ export default produce((draft, { type, payload }) => {
     case SEARCH_QUICK_SEARCH_COMPLETE:
     case SEARCH_FULL_COMPLETE:
       draft.results = payload;
+      draft.searching = false;
       return;
 
     case SEARCH_QUICK_SEARCH:
     case SEARCH_FULL:
     case SEARCH_RESTORE:
       draft.query = payload;
+      draft.searching = true;
       return;
 
     default:
       return;
   }
-}, {query: '', results: []});
+}, {query: '', results: [], searching: false});
 
 //#endregion
 
@@ -128,4 +130,5 @@ export default produce((draft, { type, payload }) => {
 const getSearchState = (state) => state.search;
 export const getSearchResults = createSelector(getSearchState, (search) => search.results || []);
 export const getSearchQuery = createSelector(getSearchState, (search) => search.query || '');
+export const getSearching = createSelector(getSearchState, (search) => search.searching);
 //#endregion
