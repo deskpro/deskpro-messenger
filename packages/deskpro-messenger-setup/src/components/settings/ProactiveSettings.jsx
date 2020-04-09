@@ -152,7 +152,6 @@ class ProactiveSettings extends React.Component {
               disabled={config.getIn(['chat', 'preChatForm', 'enabled'])}
               checked={autoStartStyle === 'text-input'}
               onChange={this.handleRadioChange}
-              // style={{ display: 'none' }}
             />
             <label className='dp-ms-widget-style' htmlFor='widget-style-text-input'>
               Text & input
@@ -165,7 +164,6 @@ class ProactiveSettings extends React.Component {
               value="avatar-widget"
               checked={autoStartStyle === 'avatar-widget'}
               onChange={this.handleRadioChange}
-              // style={{ display: 'none' }}
             />
             <label className='dp-ms-widget-style' htmlFor='widget-style-avatar-widget'>
               Agent with widget button

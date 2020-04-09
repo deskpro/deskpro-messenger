@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import classNames from 'classnames';
@@ -418,9 +418,9 @@ class ChatSettings extends React.PureComponent {
                   />
                 </Group>
               }
-              {config.getIn(['chat', 'noAnswerBehavior']) === 'save_ticket' ?
-                [
-                  <Subheading size={4}>Missed chat ticket properties</Subheading>,
+              {config.getIn(['chat', 'noAnswerBehavior']) === 'save_ticket' &&
+                <Fragment>
+                  <Subheading size={4}>Missed chat ticket properties</Subheading>
                   <Group
                     label="Department"
                     htmlFor="ms-chat-ticketDefaults-department"
@@ -437,7 +437,7 @@ class ChatSettings extends React.PureComponent {
                       name="chat.ticketDefaults.department"
                       id="ms-chat-ticketDefaults-department"
                     />
-                  </Group>,
+                  </Group>
                   <Group
                     label="Subject"
                     htmlFor="ms-chat-ticketDefaults-subject"
@@ -452,7 +452,7 @@ class ChatSettings extends React.PureComponent {
                       name="chat.ticketDefaults.subjectType"
                       id="ms-chat-ticketDefaults-subject"
                     />
-                  </Group>,
+                  </Group>
                   config.getIn(['chat', 'ticketDefaults', 'subjectType']) === 'setSubject' &&
                   <Group
                     htmlFor="ms-chat-ticket-defaults-subject"
@@ -466,7 +466,7 @@ class ChatSettings extends React.PureComponent {
                       id="ms-chat-ticket-defaults-subject"
                     />
                   </Group>
-                ]: null}
+                </Fragment>}
             </Section>
           </Section>
         </Section>
