@@ -59,9 +59,11 @@ class AutoStartShell extends PureComponent {
               <span className="dpmsg-ScreenHeaderText">{introText}</span>
             )}
           </div>
-          <ScreenContent>
-            {children}
-          </ScreenContent>
+          <div className="dpmsg-ScreenContent">
+            <div className="dpmsg-ScreenContentWrapper">
+              {children}
+            </div>
+          </div>
         </div>
       </div>
     );

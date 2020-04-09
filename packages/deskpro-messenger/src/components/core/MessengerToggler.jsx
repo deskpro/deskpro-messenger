@@ -55,7 +55,7 @@ class WidgetToggler extends PureComponent {
       return;
     }
     const rect   = this.autoStartShellRef.current.getBoundingClientRect();
-    const height = `${rect.height + 60}px`;
+    const height = `${rect.height + 80}px`;
     if (height !== this.state.iframeHeight) {
       this.setState({ iframeHeight: height });
     }
