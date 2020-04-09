@@ -10,7 +10,7 @@ const TypingMessage = ({ value }) => (
         </div>
       )}
       <div className="dpmsg-BubbleCol is-center">
-        <span className="dpmsg-BubbleItem is-typing">...</span>
+        <span className="dpmsg-BubbleItem is-typing"><span>.</span><span>.</span><span>.</span></span>
       </div>
     </div>
   </div>
