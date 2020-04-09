@@ -570,7 +570,7 @@
       box-shadow: 0 5px 5px rgba(29, 62, 85, 0.15);
       margin: -5px 22px 0;
       min-height: 90px;
-      width: 356px;
+      width: calc(100% - 44px);
     }.dpmsg-ScreenContent .dp-pc_field .dp-pc_input, .dpmsg-ScreenContent .dp-pc_field .dp-pc_date-picker {
       border: 1px solid #d3d6d7;
       border: 1px solid var(--grey-light);
@@ -590,6 +590,8 @@
   width: 100%;
 }.dpmsg-ScreenHeaderLogo img {
   height: 30px;
+}.dpmsg-AutoStart .dpmsg-Screen {
+  box-shadow: 0 5px 10px rgba(29, 62, 85, 0.3);
 }.is-minimal .dpmsg-ScreenHeaderLogo img {
   height: 37px;
 }.is-minimal .dpmsg-ScreenHeaderLogo svg {
@@ -602,6 +604,9 @@
 }.is-minimal .dpmsg-ScreenHeader {
   flex-direction: row;
   padding: 0 25px 65px 30px;
+}.dpmsg-AutoStart .dpmsg-ScreenHeader {
+  padding-bottom: 110px;
+  padding-top: 34px;
 }.dpmsg-ScreenHeaderLogo {
   flex: 0 0 100%;
   margin-right: 9px;
@@ -1098,6 +1103,32 @@
   text-align: left;
 }.dpmsg-BubbleNotification.is-right {
   text-align: right;
+}@-webkit-keyframes blink {
+
+  0% {
+    opacity: 0.2;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.2;
+  }
+}@keyframes blink {
+
+  0% {
+    opacity: 0.2;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.2;
+  }
 }.dpmsg-BubbleItem.is-typing {
   align-items: flex-start;
   display: flex;
@@ -1108,9 +1139,24 @@
   margin-bottom: 0;
   margin-left: 0;
   margin-right: auto;
-  padding: 0;
-  width: 44px;
-}.dpmsg-WrapGreetings {
+  padding: 1px 0 0;
+  width: 44px
+}.dpmsg-BubbleItem.is-typing span {
+    -webkit-animation-duration: 1.4s;
+            animation-duration: 1.4s;
+    -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+    -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+    -webkit-animation-name: blink;
+            animation-name: blink;
+  }.dpmsg-BubbleItem.is-typing span:nth-child(2) {
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+  }.dpmsg-BubbleItem.is-typing span:nth-child(3) {
+    -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+  }.dpmsg-WrapGreetings {
   display: block;
 }.dpmsg-WrapGreetings .dpmsg-Button {
   display: block;
@@ -1195,6 +1241,10 @@
   cursor: pointer;
 }.dpmsg-AutoStart {
   display: block !important;
+  padding: 0 10px;
+}.dpmsg-AutoStart .dpmsg-ScreenWrap {
+  position: relative;
+  width: 380px;
 }.dpmsg-AutoStartHeader {
   border-radius: 4px 4px 0 0;
   border-radius: var(--border-radius) var(--border-radius) 0 0;
