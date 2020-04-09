@@ -453,19 +453,19 @@ class ChatSettings extends React.PureComponent {
                       id="ms-chat-ticketDefaults-subject"
                     />
                   </Group>
-                  config.getIn(['chat', 'ticketDefaults', 'subjectType']) === 'setSubject' &&
-                  <Group
-                    htmlFor="ms-chat-ticket-defaults-subject"
-                  >
-                    <Input
-                      type="text"
-                      value={config.getIn(['chat', 'ticketDefaults', 'subject'])}
-                      placeholder="Missed chat from {name}"
-                      onChange={handleChange}
-                      name="chat.ticketDefaults.subject"
-                      id="ms-chat-ticket-defaults-subject"
-                    />
-                  </Group>
+                  {config.getIn(['chat', 'ticketDefaults', 'subjectType']) === 'setSubject' &&
+                    <Group
+                      htmlFor="ms-chat-ticket-defaults-subject"
+                    >
+                      <Input
+                        type="text"
+                        value={config.getIn(['chat', 'ticketDefaults', 'subject'])}
+                        placeholder="Missed chat from {name}"
+                        onChange={handleChange}
+                        name="chat.ticketDefaults.subject"
+                        id="ms-chat-ticket-defaults-subject"
+                      />
+                    </Group>}
                 </Fragment>}
             </Section>
           </Section>
