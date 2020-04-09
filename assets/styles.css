@@ -571,12 +571,14 @@
       margin: -5px 22px 0;
       min-height: 90px;
       width: 356px;
-    }.dpmsg-ScreenContent .dp-pc_field .dp-pc_input {
-      border-color: #d3d6d7;
-      border-color: var(--grey-light);
+    }.dpmsg-ScreenContent .dp-pc_field .dp-pc_input, .dpmsg-ScreenContent .dp-pc_field .dp-pc_date-picker {
+      border: 1px solid #d3d6d7;
+      border: 1px solid var(--grey-light);
       font-family: Rubik, "Helvetica", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       font-family: var(--font-family-base);
       font-size: 16px;
+    }.dpmsg-ScreenContent .dp-pc_field .dp-pc_radio > i {
+      top: 4px;
     }.dpmsg-ScreenHeader {
   background-color: #3d88f3;
   background-color: var(--color-primary);
