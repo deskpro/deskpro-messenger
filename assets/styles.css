@@ -867,10 +867,6 @@
   left: -21px;
   right: -21px;
   top: -18px;
-}.dpmsg-BlockWrapper .react-select span[class$=a11yText] {
-  height: 1px;
-  position: absolute;
-  width: 1px;
 }.dpmsg-BlockWrapper .dp-pc_field .dp-pc_description {
   color: #8b9293;
 }.dpmsg-AvatarHeadsList {
@@ -1554,6 +1550,52 @@
   border-radius: 10px;
   height: 20px;
   width: 8px;
+}.dpmsg-BlockWrapper .react-select span[class$=a11yText] {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}.dpmsg-BlockWrapper .react-select input[class$=dummyInput] {
+  background: 0;
+  border: 0;
+  left: -100px;
+  opacity: 0;
+  outline: 0;
+  padding: 0;
+  position: relative;
+  transform: scale(0);
+  width: 1px;
+}.dpmsg-BlockWrapper .react-select div[class$=singleValue] {
+  max-width: calc(100% - 8px);
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}.dpmsg-BlockWrapper .react-select div[class$=-indicatorContainer] {
+  box-sizing: border-box;
+  display: flex;
+  padding: 8px;
+}.dpmsg-BlockWrapper .react-select div[class$=-control] {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}.dpmsg-BlockWrapper .react-select div[class$=-menu] {
+  border-radius: 4px;
+  margin-top: 8px;
+  position: absolute;
+  top: 100%;
+  z-index: 1;
+}.dpmsg-BlockWrapper .react-select div[class$=-MenuList] {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  position: relative;
 }.dpmsg-QuickSearchControl {
   font-family: Rubik, sans-serif;
   position: relative;
@@ -1588,6 +1630,9 @@
     width: 16px
   }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--label span {
       display: none;
+    }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--label svg {
+      height: 16px;
+      width: 16px
     }.dpmsg-QuickSearchControl .dpmsg-QuickSearchControl--label svg path {
         fill: #3d88f3 !important;
         fill: var(--color-primary) !important;
