@@ -102,15 +102,13 @@ class Frame extends PureComponent {
           html.style.setProperty(darkName, darker(value, 20));
         }
       });
-      if (process.env.NODE_ENV === 'development') {
-        const style = Array.from(document.head.querySelectorAll('style'))
-          .map((el) => el.innerText)
-          .join('\n');
-        if (style !== this.state.extra) {
-          this.setState({
-            extra: style
-          });
-        }
+      const style = Array.from(document.head.querySelectorAll('style'))
+        .map((el) => el.innerText)
+        .join('\n');
+      if (style !== this.state.extra) {
+        this.setState({
+          extra: style
+        });
       }
     } else {
       setTimeout(() => {
@@ -148,7 +146,7 @@ class Frame extends PureComponent {
             />
             {head}
             {baseHead}
-            {extra ? <style type="text/css" key="extra-style">{extra}</style> : null}
+            <style type="text/css" key="extra-style">{extra}</style>
           </Fragment>
         }
         frameBorder="0"
