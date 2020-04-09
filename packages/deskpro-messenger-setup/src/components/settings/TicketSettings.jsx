@@ -16,7 +16,7 @@ import {
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import classNames from "classnames";
 
-class EmailUsSettings extends React.PureComponent {
+class TicketSettings extends React.PureComponent {
   static propTypes = {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
@@ -58,7 +58,7 @@ class EmailUsSettings extends React.PureComponent {
     return (
       <ListElement {...drawerProps}>
         <Heading onClick={onClick} className="dp-ms-section-header">
-          Email Us settings
+          Ticket Settings
           &nbsp;
           <Icon
             key="icon"
@@ -201,4 +201,4 @@ class EmailUsSettings extends React.PureComponent {
     );
   }
 }
-export default EmailUsSettings;
+export default TicketSettings;

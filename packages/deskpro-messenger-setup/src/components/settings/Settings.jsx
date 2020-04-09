@@ -7,7 +7,7 @@ import ChatSettings from './ChatSettings';
 import EmbedWidget from './EmbedWidget';
 import ProactiveSettings from './ProactiveSettings';
 import WidgetSettings from './WidgetSettings';
-import EmailUsSettings from './EmailUsSettings';
+import TicketSettings from './TicketSettings';
 
 class Settings extends React.Component {
   static propTypes = {
@@ -59,7 +59,7 @@ class Settings extends React.Component {
             config={settings}
             handleChange={handleChange}
           />
-          <EmailUsSettings
+          <TicketSettings
             id="ticket"
             config={settings}
             handleChange={handleChange}
