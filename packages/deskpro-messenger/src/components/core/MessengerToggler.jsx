@@ -160,7 +160,10 @@ class WidgetToggler extends PureComponent {
       <div
         className='dpmsg-AutoStart'
         ref={this.autoStartShellRef}
-        style={{ display: 'none' }}
+        style={{
+          display: 'none',
+          marginBottom: autoStartStyle !== 'avatar-widget' ? 20 : 0
+        }}
       >
         <AutoStart
           onClose={this.onProactiveClose}
