@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Isvg from 'react-inlinesvg';
 import { ConfigConsumer } from './ConfigContext';
-import ScreenContent from './ScreenContent';
 import asset from '../../utils/asset';
 import { isLightColor } from '../../utils/color';
 
