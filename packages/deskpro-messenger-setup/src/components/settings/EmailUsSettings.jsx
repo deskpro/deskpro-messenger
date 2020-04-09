@@ -122,14 +122,30 @@ class EmailUsSettings extends React.PureComponent {
                 label="Subject"
                 htmlFor="ms-tickets-default-subject"
               >
-                <Input
+                <Radio
+                  checked={config.getIn(['tickets', 'subjectOption']) === 'user'}
+                  name="tickets.subjectOption"
+                  onChange={this.handleRadioChange}
+                  value="user"
+                >
+                  Selected by the user in the ticket form
+                </Radio>
+                <Radio
+                  checked={config.getIn(['tickets', 'subjectOption']) === 'preset'}
+                  name="tickets.subjectOption"
+                  onChange={this.handleRadioChange}
+                  value="preset"
+                >
+                  Preset by admin (removes from the ticket form)
+                </Radio>
+                {config.getIn(['tickets', 'subjectOption']) === 'preset' && <Input
                   type="text"
                   value={config.getIn(['tickets', 'subject'])}
                   placeholder="Ticket from {name}"
                   onChange={handleChange}
                   name="tickets.subject"
                   id="ms-tickets-default-subject"
-                />
+                />}
               </Group>
             </Section>
             <Subheading
