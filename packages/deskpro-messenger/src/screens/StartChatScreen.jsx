@@ -11,6 +11,7 @@ import PromptMessage from '../components/chat/PromptMessage';
 import { getChatDepartments } from '../modules/info';
 import { fromJSGreedy } from '../utils/common';
 import Header from '../components/ui/Header';
+import { getErrors } from '../modules/chat';
 
 const TicketForm = lazy(() => import('../components/tickets/LazyTicketForm'));
 
@@ -69,7 +70,7 @@ class StartChatScreen extends PureComponent {
 
   render() {
     const { department, departments, preChatForm, intl, user, uploadTo, formMessageEnabled, formMessage } = this.props;
-    const { contentSize: { maxHeight }} = this.props;
+    const { contentSize: { maxHeight }, errors } = this.props;
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
     const initialValues = { ...user };
@@ -121,6 +122,7 @@ class StartChatScreen extends PureComponent {
                   departments={fromJSGreedy(departments)}
                   department={department}
                   fileUploadUrl={uploadTo}
+                  errors={errors}
                   csrfToken="not_used"
                   onSubmit={this.createChat}
                 />
@@ -141,7 +143,8 @@ class StartChatScreen extends PureComponent {
 
 const mapStateToProps = (state, props) => ({
   user:        getUser(state),
-  departments: getChatDepartments(state, props)
+  departments: getChatDepartments(state, props),
+  errors:      getErrors(state)
 });
 
 export default compose(

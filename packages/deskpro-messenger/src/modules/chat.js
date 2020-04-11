@@ -1,6 +1,7 @@
 import { empty, from, interval, merge, of, race } from 'rxjs';
 import { combineEpics, ofType } from 'redux-observable';
 import {
+  catchError,
   distinctUntilKeyChanged,
   filter,
   ignoreElements,
@@ -27,6 +28,7 @@ import { hasAgentsAvailable } from './info';
 
 import { SET_VISITOR } from './guest';
 import { setWindowState } from './app';
+import { TICKET_SAVE_NEW_ERROR, TICKET_SAVE_NEW_SUCCESS } from './tickets';
 
 const spread = produce(Object.assign);
 
@@ -52,7 +54,22 @@ export const CHAT_HISTORY_LOADED = 'CHAT_HISTORY_LOADED';
 export const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
 export const CHAT_OPENED = 'CHAT_OPENED';
 export const CHAT_END_BLOCK = 'CHAT_END_BLOCK';
+export const CHAT_CREATE_ERROR = 'CHAT_CREATE_ERROR';
 //#endregion
+
+const flattenErrors = (errors = {}, field, key) => {
+  if(!errors[key]) errors[key] = {};
+  if(field.errors) {
+    errors[key] = field.errors
+      .map(error => error.message)
+      .filter((item, pos, self) => self.indexOf(item) === pos)
+      .join(' ');
+  } else if (field.fields) {
+    Object.keys(field.fields).forEach((k) => {
+      flattenErrors(errors[key], field.fields[k], k);
+    });
+  }
+};
 
 //#region ACTION CREATORS
 export const createChat = (data, meta) => ({
@@ -156,6 +173,7 @@ const createChatEpic = (action$, state$, { api }) =>
   action$.pipe(
     ofType(CHAT_START),
     switchMap(({ payload, meta }) => {
+      const flatErrors = {};
       return from(api.createChat(payload)).pipe(
         withLatestFrom(state$),
         mergeMap(([chat, state]) => {
@@ -171,6 +189,17 @@ const createChatEpic = (action$, state$, { api }) =>
             streams.push(of(noAgentsMessage(chat.id)));
           }
           return merge(...streams);
+        }),
+        catchError((e) => {
+          if (e.response.status === 400) {
+            const { errors } = e.response.data;
+            if (errors) {
+              Object.keys(errors.fields).forEach((key) => {
+                flattenErrors(flatErrors, errors.fields[key], key);
+              });
+            }
+          }
+          return merge(of({ type: CHAT_CREATE_ERROR, payload: flatErrors }));
         })
       );
     })
@@ -441,11 +470,13 @@ export default produce(
       draft.chats[chatId].messages = payload.concat(
         draft.chats[chatId].messages
       );
+    } else if (type === CHAT_CREATE_ERROR) {
+      draft.errors = payload;
     }
 
     return;
   },
-  { chats: {}, mute: false, activeChat: null, chatAssigned: false, endBlock: false }
+  { chats: {}, mute: false, activeChat: null, chatAssigned: false, endBlock: false, errors: {} }
 );
 //#endregion
 
@@ -471,4 +502,5 @@ export const getTypingState = createSelector(getChat, (chat) => chat.typing);
 export const isMuted = createSelector(getChatState, (state) => state.mute);
 export const endBlockShown = createSelector(getChatState, (state) => state.endBlock);
 export const isChatAssigned = createSelector(getChatState, (state) => state.chatAssigned);
+export const getErrors  = (state) => state.chat.errors;
 //#endregion
