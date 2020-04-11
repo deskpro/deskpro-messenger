@@ -35,9 +35,9 @@ class CustomFieldCheckBox extends React.Component
         <div className="dp-ms-chat_field_required_wrapper">
           <Checkbox
             key={`chat_custom_field_${field.get('id')}_required`}
-            onChange={(checked, value, name) => handleChange(checked, name)}
+            disabled={true}
             checked={config.getIn(['chat', 'preChatForm', 'fields', `${field.get('id')}`, 'required'])}
-            name={`chat.preChatForm.fields.${field.get('id')}.required`}>
+          >
             Required? (<a href={`#/chat/fields/${field.get('id')}`}>change</a>)
           </Checkbox>
         </div>
