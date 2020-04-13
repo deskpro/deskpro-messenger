@@ -28,7 +28,6 @@ import { hasAgentsAvailable } from './info';
 
 import { SET_VISITOR } from './guest';
 import { setWindowState } from './app';
-import { TICKET_SAVE_NEW_ERROR, TICKET_SAVE_NEW_SUCCESS } from './tickets';
 
 const spread = produce(Object.assign);
 
