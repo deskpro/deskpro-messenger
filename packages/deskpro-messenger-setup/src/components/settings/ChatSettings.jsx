@@ -2,10 +2,23 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import classNames from 'classnames';
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Group, Heading, Icon, Input, Label, ListElement, Section, Select, Textarea, Toggle, Checkbox, Subheading } from '@deskpro/react-components';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import {
+  Checkbox,
+  Group,
+  Heading,
+  Icon,
+  Input,
+  Label,
+  ListElement,
+  Section,
+  Select,
+  Subheading,
+  Textarea,
+  Toggle
+} from '@deskpro/react-components';
 import arrayMove from 'array-move';
-import { SortableElement, SortableContainer } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 
 class CustomFieldCheckBox extends React.Component
 {
@@ -17,7 +30,7 @@ class CustomFieldCheckBox extends React.Component
   };
 
   render() {
-    const { field, config, handleChange, handleCheckboxChange } = this.props;
+    const { field, config, handleCheckboxChange } = this.props;
     return (
       <div className="dp-ms-chat_field_wrapper">
         <div className="dp-ms-chat_field_enabled_wrapper">
