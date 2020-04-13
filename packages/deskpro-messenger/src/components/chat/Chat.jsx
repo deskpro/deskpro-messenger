@@ -46,7 +46,7 @@ const createTrans = ({ message, ...data }, type) => {
   return [];
 };
 
-class Chat extends PureComponent {
+class Chat extends React.Component {
   static propTypes = {
     messages: PropTypes.array,
     onSendMessage: PropTypes.func.isRequired,

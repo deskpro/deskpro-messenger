@@ -423,7 +423,7 @@ const chatReducer = produce((draft, { type, payload }) => {
     default:
       return;
   }
-}, emptyChat);
+}, { ...emptyChat });
 
 export default produce(
   (draft, action) => {
@@ -433,14 +433,14 @@ export default produce(
     } else if (type === CHAT_END_BLOCK) {
       draft.endBlock = !!payload;
     } else if (type === CHAT_SAVE_CHAT) {
-      draft.chats[payload.id] = { ...emptyChat, data: payload };
+      draft.chats[payload.id] = { messages: [], data: payload };
       draft.activeChat = payload.id;
       draft.chatAssigned = false;
     } else if (type === CHAT_INIT_CHATS) {
       payload.sort((a,b) => a.id - b.id).forEach((chat) => {
         const id = chat.id;
         draft.chats[id] = spread(
-          draft.chats[id] ? draft.chats[id] : emptyChat,
+          draft.chats[id] ? draft.chats[id] : { ...emptyChat },
           { data: chat }
         );
         if (chat.status === 'open') {
