@@ -45,7 +45,6 @@ const extraStyles = (
 class MessengerWindow extends PureComponent {
   static propTypes = {
     opened: PropTypes.bool,
-    formFocused: PropTypes.bool,
 
   };
   state = {
@@ -60,14 +59,13 @@ class MessengerWindow extends PureComponent {
   shellRef = createRef();
 
   getHeight = (height) => {
-    const { formFocused } = this.props;
     const maxHeight = mobile
       ? this.props.frameContext.window.parent.innerHeight
       : Math.ceil(Math.min(1060, (this.props.frameContext.window.parent.innerHeight  - 52) * 0.9));
 
     let iframeHeight;
     if(this.isIndex() && !mobile) {
-      iframeHeight = Math.ceil(height + (formFocused && mobile ? 74 : 125) > maxHeight ? maxHeight : height + (formFocused && mobile ? 74 : 125));
+      iframeHeight = Math.ceil(height +  125 > maxHeight ? maxHeight : height +  125);
     } else {
       iframeHeight = maxHeight;
     }
