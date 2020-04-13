@@ -264,6 +264,7 @@ class ScreenContent extends PureComponent {
               ref={this.scrollArea}
               className={classNames({ fullHeight })}
               style={{ height: this.shouldShowForm() ? `calc(100% - ${messageFormHeightAndFooter}px)` : undefined}}
+              contentStyle={{ height: fullHeight ? `100%` : undefined}}
               stopScrollPropagation={true}
               contentWindow={frameContext.window}
               ownerDocument={frameContext.document}
