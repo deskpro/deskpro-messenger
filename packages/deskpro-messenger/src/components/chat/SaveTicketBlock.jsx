@@ -136,7 +136,7 @@ class SaveTicketBlock extends PureComponent {
 
     return (
       <ChatPrompt
-        className="dpmsg-PromptLeftAligned"
+        className="dpmsg-PromptLeftAligned dpmsg-PromptReducedMargin"
         header={intl.formatMessage(transMessages.header)}
         icon='Headset'
       >

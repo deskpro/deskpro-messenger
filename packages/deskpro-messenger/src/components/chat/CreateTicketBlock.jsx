@@ -38,7 +38,7 @@ class CreateTicketBlock extends PureComponent {
     const { intl } = this.props;
 
     return <ChatPrompt
-      className="dpmsg-PromptLeftAligned"
+      className="dpmsg-PromptLeftAligned dpmsg-PromptReducedMargin"
       icon='Email'
       header={intl.formatMessage(transMessages.header)}>
       <div className="dpmsg-PromptText">
