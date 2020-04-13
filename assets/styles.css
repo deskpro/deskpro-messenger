@@ -966,6 +966,8 @@
 }.dpmsg-PromptText .dpmsg-Button {
     display: block;
     margin-top: 20px;
+  }.dpmsg-PromptLeftAligned.dpmsg-PromptReducedMargin {
+    margin-top: 24px;
   }.dpmsg-PromptLeftAligned .dpmsg-PromptHeader {
     justify-content: initial;
     text-align: left
