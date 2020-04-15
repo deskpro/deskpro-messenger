@@ -1,10 +1,11 @@
 import React, { lazy, PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 import { fromJSGreedy } from '../../utils/common';
-import { connect } from 'react-redux';
 import { getUser } from '../../modules/guest';
-import PropTypes from 'prop-types';
+import { withConfig } from '../core/ConfigContext';
 
 const TicketForm = lazy(() => import('../tickets/LazyTicketForm'));
 
@@ -65,12 +66,17 @@ const transMessages = {
     id: 'tickets.form.back',
     defaultMessage: 'Back',
   },
+  required: {
+    id: 'tickets.form.required',
+    defaultMessage: 'Back',
+  },
 };
 
 class SaveTicketForm extends PureComponent {
 
   static propTypes = {
     user: PropTypes.object,
+    language: PropTypes.object,
     formConfig: PropTypes.array,
     department: PropTypes.number.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -79,6 +85,7 @@ class SaveTicketForm extends PureComponent {
 
   static defaultProps = {
     user: {},
+    language: {},
     formConfig: [],
   };
 
@@ -95,6 +102,7 @@ class SaveTicketForm extends PureComponent {
       departmentPropName="department"
       department={department}
       onSubmit={onSubmit}
+      languageId={parseInt(this.props.language.id, 10)}
       i18n={{
         name:        intl.formatMessage(transMessages.name),
         email:       intl.formatMessage(transMessages.email),
@@ -110,6 +118,7 @@ class SaveTicketForm extends PureComponent {
         chooseFiles: intl.formatMessage(transMessages.chooseFiles),
         select:      intl.formatMessage(transMessages.select),
         back:        intl.formatMessage(transMessages.back),
+        required:    intl.formatMessage(transMessages.required),
       }}
     />);
   }
@@ -121,6 +130,7 @@ const mapStateToProps = (state) => ({
 
 
 export default compose(
+  withConfig,
   connect(
     mapStateToProps
   ),

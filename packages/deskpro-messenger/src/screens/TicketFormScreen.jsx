@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from "redux";
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { fromJSGreedy } from '../utils/common';
 
@@ -10,6 +11,7 @@ import { getErrors, getTicketSavedState, getTicketSavingState, newTicket, saveTi
 import { getTicketDepartments } from '../modules/info';
 import { getUser, isUserSet } from '../modules/guest';
 import Header from '../components/ui/Header';
+import { withConfig } from '../components/core/ConfigContext';
 
 const transMessages = {
   name: {
@@ -88,6 +90,7 @@ class TicketFormScreen extends React.Component {
     departments:  PropTypes.object.isRequired,
     intl:         PropTypes.object.isRequired,
     user:         PropTypes.object,
+    language:     PropTypes.object,
     userId:       PropTypes.bool,
     ticketSaved:  PropTypes.bool,
     ticketSaving: PropTypes.bool
@@ -96,7 +99,8 @@ class TicketFormScreen extends React.Component {
   static defaultProps = {
     ticketSaved: false,
     ticketSaving: false,
-    user: {name: '', email: ''}
+    user: {name: '', email: ''},
+    language: {},
   };
 
   onSubmit = (values) => {
@@ -159,6 +163,7 @@ class TicketFormScreen extends React.Component {
                 csrfToken="not_used"
                 onSubmit={this.onSubmit}
                 errors={errors}
+                languageId={parseInt(this.props.language.id, 10)}
                 i18n={{
                   name:        intl.formatMessage(transMessages.name),
                   email:       intl.formatMessage(transMessages.email),
@@ -203,7 +208,11 @@ class TicketFormScreen extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { saveTicket, newTicket }
-)(injectIntl(TicketFormScreen));
+export default compose(
+  withConfig,
+  connect(
+    mapStateToProps,
+    { saveTicket, newTicket }
+  ),
+  injectIntl
+)(TicketFormScreen);

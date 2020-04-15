@@ -55,7 +55,13 @@ class Main extends PureComponent {
   }
 
   loadLocale = () => {
-    const { language: { id, locale } } = this.props.config;
+    let locale;
+    let id;
+    const { language } = this.props.config;
+    if (language) {
+      id = language.id;
+      locale = language.locale;
+    }
     const { cache, api } = this.props;
     if (locale) {
       const lang = locale.substring(0, 2);

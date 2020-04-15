@@ -12,12 +12,73 @@ import { getChatDepartments } from '../modules/info';
 import { fromJSGreedy } from '../utils/common';
 import Header from '../components/ui/Header';
 import { getErrors } from '../modules/chat';
+import { withConfig } from '../components/core/ConfigContext';
 
 const TicketForm = lazy(() => import('../components/tickets/LazyTicketForm'));
+
+const transMessages = {
+  name: {
+    id: 'tickets.form.name',
+    defaultMessage: 'Name',
+  },
+  email: {
+    id: 'tickets.form.email',
+    defaultMessage: 'Email',
+  },
+  department: {
+    id: 'tickets.form.department',
+    defaultMessage: 'Department',
+  },
+  message: {
+    id: 'tickets.form.message',
+    defaultMessage: 'Message',
+  },
+  product: {
+    id: 'tickets.form.product',
+    defaultMessage: 'Product',
+  },
+  priority: {
+    id: 'tickets.form.priority',
+    defaultMessage: 'Priority',
+  },
+  category: {
+    id: 'tickets.form.category',
+    defaultMessage: 'Category',
+  },
+  submit: {
+    id: 'tickets.form.submit',
+    defaultMessage: 'Submit',
+  },
+  dragNDrop: {
+    id: 'tickets.form.dragNDrop',
+    defaultMessage: 'Drag and drop',
+  },
+  or: {
+    id: 'tickets.form.or',
+    defaultMessage: 'or',
+  },
+  chooseAFile: {
+    id: 'tickets.form.chooseAFile',
+    defaultMessage: 'Choose a file',
+  },
+  chooseFiles: {
+    id: 'tickets.form.chooseFiles',
+    defaultMessage: 'Choose files',
+  },
+  select: {
+    id: 'tickets.form.select',
+    defaultMessage: 'Select',
+  },
+  back: {
+    id: 'tickets.form.back',
+    defaultMessage: 'Back',
+  },
+};
 
 class StartChatScreen extends PureComponent {
   static propTypes = {
     user: PropTypes.object,
+    language: PropTypes.object,
     preChatForm: PropTypes.array,
     prompt: PropTypes.string,
     departments: PropTypes.object.isRequired
@@ -25,6 +86,7 @@ class StartChatScreen extends PureComponent {
 
   static defaultProps = {
     user: {},
+    language: {},
     preChatForm: [],
     prompt: ''
   };
@@ -125,6 +187,24 @@ class StartChatScreen extends PureComponent {
                   errors={errors}
                   csrfToken="not_used"
                   onSubmit={this.createChat}
+                  languageId={parseInt(this.props.language.id, 10)}
+                  i18n={{
+                    name:        intl.formatMessage(transMessages.name),
+                    email:       intl.formatMessage(transMessages.email),
+                    department:  intl.formatMessage(transMessages.department),
+                    message:     intl.formatMessage(transMessages.message),
+                    product:     intl.formatMessage(transMessages.product),
+                    priority:    intl.formatMessage(transMessages.priority),
+                    category:    intl.formatMessage(transMessages.category),
+                    submit:      intl.formatMessage(transMessages.submit),
+                    dragNDrop:   intl.formatMessage(transMessages.dragNDrop),
+                    or:          intl.formatMessage(transMessages.or),
+                    chooseAFile: intl.formatMessage(transMessages.chooseAFile),
+                    chooseFiles: intl.formatMessage(transMessages.chooseFiles),
+                    select:      intl.formatMessage(transMessages.select),
+                    back:        intl.formatMessage(transMessages.back),
+                    required:    intl.formatMessage(transMessages.required),
+                  }}
                 />
               </Suspense>
             ]
@@ -148,6 +228,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default compose(
+  withConfig,
   withScreenContentSize,
   connect(
     mapStateToProps,
