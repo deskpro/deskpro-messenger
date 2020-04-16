@@ -10,9 +10,6 @@ export default (settings) => {
     const chatBlockConfig = settings.getIn(['chat', 'options']);
     screens.index.blocks.push({
       blockType: 'StartChatBlock',
-      title: chatBlockConfig.get('title', 'Conversation'),
-      description: chatBlockConfig.get('description'),
-      linkText: chatBlockConfig.get('buttonText', 'Start a chat'),
       inputPlaceholder: chatBlockConfig.get('inputPlaceholder', 'Type your message here'),
       showAgentPhotos: chatBlockConfig.get('showAgentPhotos'),
       to: 'startChat'
@@ -45,12 +42,8 @@ export default (settings) => {
   }
 
   if (settings.getIn(['tickets', 'enabled'])) {
-    const ticketBlockConfig = settings.getIn(['tickets', 'options']);
     screens.index.blocks.push({
       blockType: 'ScreenLink',
-      blockTitle: ticketBlockConfig.get('title'),
-      description: ticketBlockConfig.get('description'),
-      label: ticketBlockConfig.get('buttonText'),
       to: 'newTicket'
     });
     screens.newTicket = settings.get('tickets').toJS();

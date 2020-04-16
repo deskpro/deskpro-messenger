@@ -165,9 +165,6 @@ class TicketSettings extends React.PureComponent {
                 <Input
                   id="ms-tickets-options-title"
                   type="text"
-                  value={config.getIn(['tickets', 'options', 'title'])}
-                  name="tickets.options.title"
-                  onChange={handleChange}
                 />
               </Group>
               <Group
@@ -177,9 +174,6 @@ class TicketSettings extends React.PureComponent {
                 <Input
                   id="ms-tickets-options-description"
                   type="text"
-                  value={config.getIn(['tickets', 'options', 'description'])}
-                  name="tickets.options.description"
-                  onChange={handleChange}
                 />
               </Group>
               <Group
@@ -189,9 +183,6 @@ class TicketSettings extends React.PureComponent {
                 <Input
                   id="ms-tickets-options-button-text"
                   type="text"
-                  value={config.getIn(['tickets', 'options', 'buttonText'])}
-                  name="tickets.options.buttonText"
-                  onChange={handleChange}
                 />
               </Group>
             </Section>

@@ -332,9 +332,6 @@ class ChatSettings extends React.PureComponent {
                 <Input
                   id="ms-chat-options-title"
                   type="text"
-                  value={config.getIn(['chat', 'options', 'title'])}
-                  name="chat.options.title"
-                  onChange={handleChange}
                 />
               </Group>
               <Toggle
@@ -351,9 +348,6 @@ class ChatSettings extends React.PureComponent {
                 <Input
                   id="ms-chat-options-description"
                   type="text"
-                  value={config.getIn(['chat', 'options', 'description'])}
-                  name="chat.options.description"
-                  onChange={handleChange}
                 />
               </Group>
               <Group
@@ -363,9 +357,6 @@ class ChatSettings extends React.PureComponent {
                 <Input
                   id="ms-chat-options-button-text"
                   type="text"
-                  value={config.getIn(['chat', 'options', 'buttonText'])}
-                  name="chat.options.buttonText"
-                  onChange={handleChange}
                 />
               </Group>
             </Section>
