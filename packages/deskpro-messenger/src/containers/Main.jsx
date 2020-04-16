@@ -57,17 +57,20 @@ class Main extends PureComponent {
   loadLocale = () => {
     let locale;
     let id;
+    let version;
     const { language } = this.props.config;
     if (language) {
       id = language.id;
       locale = language.locale;
+      version = `${language.version}`;
     }
-    const { cache, api, isDev } = this.props;
+    const { cache, api, config: { isDev } } = this.props;
     if (locale) {
       const lang = locale.substring(0, 2);
       let localePromise;
       const cacheKey  = `app.translation.${locale}_${id}`;
-      if(!isDev && cache.getValue(cacheKey)) {
+      const versionKey  = `app.translation.version`;
+      if(!isDev && cache.getValue(cacheKey) && cache.getValue(versionKey) === version) {
         localePromise = new Promise((resolve) => { resolve({data: cache.getValue(cacheKey)}); });
       } else {
         localePromise = api.getTranslation(id ? id : locale)
@@ -79,7 +82,12 @@ class Main extends PureComponent {
       }
       Promise.all(promises)
         .then(([translations]) => {
-          this.setState({ translations: translations.data }, () => { cache.setValue(cacheKey, translations.data)});
+          this.setState(
+            { translations: translations.data },
+            () => {
+              cache.setValue(cacheKey, translations.data)
+              cache.setValue(versionKey, version)
+            });
         })
         .catch((err) => console.log(err.message));
     }
