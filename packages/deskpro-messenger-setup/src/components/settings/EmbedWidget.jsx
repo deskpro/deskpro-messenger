@@ -6,7 +6,6 @@ import { faCaretUp, faCaretDown, faCopy, faCheck, faPaste, faLaptop } from '@for
 import { faDrupal, faJoomla, faMagento, faShopify, faWordpress } from '@fortawesome/free-brands-svg-icons';
 import {
   Button,
-  Card,
   Group,
   Heading,
   Icon,
@@ -101,30 +100,30 @@ class EmbedWidget extends React.PureComponent {
             </TabLink>
           </Tabs>
           <Section className='dp-ms-section' hidden={activeTab !== 'manually'}>
-            <Card>
+            <div className="dp-card">
               <List>
                 <ListElement>
                   <h3><Icon name={faCopy} /> Copy the code<br /></h3>
                   Set up your widget then copy the embed code above.
                 </ListElement>
               </List>
-            </Card>
-            <Card>
+            </div>
+            <div className="dp-card">
               <List>
                 <ListElement>
                   <h3><Icon name={faPaste} /> Paste on your site<br /></h3>
                   Place the embed code in the &gt;head&lt; section of your website.
                 </ListElement>
               </List>
-            </Card>
-            <Card>
+            </div>
+            <div className="dp-card">
               <List>
                 <ListElement>
                   <h3><Icon name={faLaptop} /> Get started.<br /></h3>
                   Save the changes and users can start using the widget!
                 </ListElement>
               </List>
-            </Card>
+            </div>
           </Section>
           <Section className='dp-ms-section' hidden={activeTab !== 'cms'}>
             <table>
