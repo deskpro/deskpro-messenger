@@ -16,7 +16,8 @@ class Settings extends React.Component {
     chatDepartments: PropTypes.object,
     ticketDepartments: PropTypes.object,
     chatCustomFields: PropTypes.object,
-    usergroups: PropTypes.object
+    usergroups: PropTypes.object,
+    code: PropTypes.string,
   };
 
   static defaultProps = {
@@ -31,6 +32,7 @@ class Settings extends React.Component {
       chatCustomFields,
       ticketDepartments,
       usergroups,
+      code,
     } = this.props;
 
     return (
@@ -69,6 +71,7 @@ class Settings extends React.Component {
             id="embed"
             config={settings}
             handleChange={handleChange}
+            code={code}
           />
         </ToggleableList>
         { this.props.children }

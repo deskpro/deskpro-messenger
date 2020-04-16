@@ -118,6 +118,7 @@ class ChatSettings extends React.PureComponent {
   static defaultProps = {
     config: Immutable.fromJS({}),
     chatCustomFields: Immutable.fromJS({}),
+    usergroups: Immutable.fromJS([]),
   };
 
   noAnswerOptions = [

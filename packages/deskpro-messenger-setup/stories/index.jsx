@@ -25,7 +25,20 @@ const settings = {
     ticketDefaults: {
       department: 3,
     },
-    ticketSubject: 'Missed chat from {name}'
+    ticketSubject: 'Missed chat from {name}',
+    usergroups: [
+      1,
+      2,
+      5,
+      6,
+      7
+    ],
+    options: {
+      title: 'Start a conversation',
+      description: 'Start a chat with one of our agents',
+      buttonText: 'Start a new conversation',
+      showAgentPhotos: false
+    }
   },
   tickets: {
     enabled: false
@@ -50,8 +63,10 @@ const settings = {
 };
 
 const departments = [
-  { id: 3, title: 'Sales' }, { id: 4, title: 'Support' }
+  { id: 3, title: 'Sales', children: [] }, { id: 4, title: 'Support', children: [] }
 ];
+
+const code = "<script type=\"text\/javascript\">\n    window.parent.DESKPRO_MESSENGER_ASSET_URL = \"https:\/\/localhost:3001\";\n    window.parent.DESKPRO_MESSENGER_OPTIONS = {\n      language: {\n        id: \"7\",\n        locale: \"sv\"\n      },\n      helpdeskURL: \"https:\/\/deskpro5.local\",\n      baseUrl: \"https:\/\/localhost:3001\",\n    }\n<\/script>\n<script id=\"dp-messenger-loader\" src=\"\/dyn-assets\/pub\/build\/messenger\/loader.js?v=1522067551\" data-helpdesk-url=\"https:\/\/deskpro5.local\"><\/script>";
 
 class SetupStory extends React.Component {
   constructor(props) {
@@ -88,6 +103,7 @@ class SetupStory extends React.Component {
         <App
           settings={Immutable.fromJS(settings)}
           handleChange={this.onChange}
+          code={code}
           ticketDepartments={Immutable.fromJS(departments)}
           chatDepartments={Immutable.fromJS(departments)}
         />
