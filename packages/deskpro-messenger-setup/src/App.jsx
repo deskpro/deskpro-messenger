@@ -37,6 +37,7 @@ class App extends React.Component {
           ticketDepartments={ticketDepartments}
           chatCustomFields={chatCustomFields}
           usergroups={usergroups}
+          handleSubmit={this.props.handleSubmit}
           code={code}
         >
           <div className={"dp-ms-children"}>

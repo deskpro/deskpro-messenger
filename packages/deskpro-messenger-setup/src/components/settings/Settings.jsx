@@ -32,6 +32,7 @@ class Settings extends React.Component {
       chatCustomFields,
       ticketDepartments,
       usergroups,
+      handleSubmit,
       code,
     } = this.props;
 
@@ -55,6 +56,7 @@ class Settings extends React.Component {
             ticketDepartments={ticketDepartments}
             chatCustomFields={chatCustomFields}
             usergroups={usergroups}
+            handleSubmit={handleSubmit}
           />
           <ProactiveSettings
             id="messenger"
@@ -66,6 +68,7 @@ class Settings extends React.Component {
             config={settings}
             handleChange={handleChange}
             ticketDepartments={ticketDepartments}
+            handleSubmit={handleSubmit}
           />
           <EmbedWidget
             id="embed"

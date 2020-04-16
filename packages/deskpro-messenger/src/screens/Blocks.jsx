@@ -25,7 +25,7 @@ const transMessages = {
     defaultMessage: 'Start a new conversation'
   },
   continueChatTitle: {
-    id: 'blocks.continue_chat.title',
+      id: 'blocks.continue_chat.title',
     defaultMessage: 'Continue existing chat'
   },
   continueChatLink: {

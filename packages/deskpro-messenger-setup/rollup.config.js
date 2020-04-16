@@ -81,7 +81,9 @@ module.exports = [
             'ToggleableList',
             'Radio',
             'Subheading',
-            'Group'
+            'Group',
+            'TranslateButton',
+            'Modal'
           ],
           'node_modules/immutable/dist/immutable.js': [
             'fromJS',

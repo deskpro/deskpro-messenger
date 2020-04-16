@@ -31,9 +31,15 @@
 .dp-ms-container  input:not([type=checkbox]) {
     width: 100%;
 }
+
 .dp-ms-container .dp-input {
     width: 100%;
 }
+
+.dp-input.dp-input--with-prefix input, .dp-input.dp-input--with-suffix input {
+    width: initial;
+}
+
 .dp-ms-container .dp-input.small {
     width: 50px;
 }
