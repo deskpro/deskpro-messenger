@@ -13,6 +13,9 @@ function loadConfig(helpdeskURL) {
         ...transformConfig(adminConfig),
         ...window.DESKPRO_MESSENGER_OPTIONS
       };
+      if(bundleUrl.isDev) {
+        config.isDev = true;
+      }
       if(typeof window.DESKPRO_MESSENGER_OPTIONS !== 'undefined' && window.DESKPRO_MESSENGER_OPTIONS.language) {
         config.language = window.DESKPRO_MESSENGER_OPTIONS.language;
       }

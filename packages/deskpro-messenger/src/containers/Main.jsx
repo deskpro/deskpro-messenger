@@ -62,12 +62,12 @@ class Main extends PureComponent {
       id = language.id;
       locale = language.locale;
     }
-    const { cache, api } = this.props;
+    const { cache, api, isDev } = this.props;
     if (locale) {
       const lang = locale.substring(0, 2);
       let localePromise;
       const cacheKey  = `app.translation.${locale}_${id}`;
-      if(cache.getValue(cacheKey)) {
+      if(!isDev && cache.getValue(cacheKey)) {
         localePromise = new Promise((resolve) => { resolve({data: cache.getValue(cacheKey)}); });
       } else {
         localePromise = api.getTranslation(id ? id : locale)

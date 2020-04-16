@@ -17,9 +17,9 @@ export default (settings) => {
     const chatBlockConfig = settings.chat;
     const startChatBlock = {
       blockType:       'StartChatBlock',
-      title:           chatBlockConfig.options.title,
-      description:     chatBlockConfig.options.description,
-      linkText:        chatBlockConfig.options.buttonText,
+      title:           'blocks.start_chat.title',
+      description:     'blocks.start_chat.description',
+      linkText:        'blocks.start_chat.button',
       showAgentPhotos: chatBlockConfig.options.showAgentPhotos,
       to:              'startChat',
       order:           10
@@ -59,12 +59,11 @@ export default (settings) => {
   }
 
   if (settings.tickets.enabled) {
-    const ticketBlockConfig = settings.tickets.options;
     screens.index.blocks.push({
       blockType: 'ButtonLink',
-      blockTitle: ticketBlockConfig.title,
-      description: ticketBlockConfig.description,
-      label: ticketBlockConfig.buttonText,
+      blockTitle: 'blocks.ticket.title',
+      description: 'blocks.ticket.description',
+      label: 'blocks.ticket.button',
       to: 'newTicket',
       order: 20
     });

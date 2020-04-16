@@ -14,15 +14,15 @@ import Header from '../components/ui/Header';
 const transMessages = {
   startChatTitle: {
     id: 'blocks.start_chat.title',
-    defaultMessage: 'Chat with us'
+    defaultMessage: 'Start a conversation'
   },
   startChatDescription: {
     id: 'blocks.start_chat.description',
-    defaultMessage: 'Need help? Just reply to start a live conversation with one of our team'
+    defaultMessage: 'Start a chat with one of our agents'
   },
-  startChatLink: {
-    id: 'blocks.start_chat.link',
-    defaultMessage: 'Start Chat'
+  startChatButton: {
+    id: 'blocks.start_chat.button',
+    defaultMessage: 'Start a new conversation'
   },
   continueChatTitle: {
     id: 'blocks.continue_chat.title',
@@ -51,9 +51,9 @@ const blocksMapping = {
       link = intl.formatMessage(transMessages.continueChatLink, props);
       title = description = intl.formatMessage(transMessages.continueChatTitle, props);
     } else {
-      link = linkText || intl.formatMessage(transMessages.startChatLink, props);
-      title = props.title || intl.formatMessage(transMessages.startChatTitle);
-      description = props.description || intl.formatMessage(transMessages.startChatDescription);
+      link = intl.formatMessage(transMessages.startChatButton, props);
+      title = intl.formatMessage(transMessages.startChatTitle);
+      description = intl.formatMessage(transMessages.startChatDescription);
     }
     return (
       <Block title={title}>
@@ -89,14 +89,14 @@ const blocksMapping = {
     </Block>
   )),
   ButtonLink: injectIntl(({ to, intl, label, blockTitle, description, ...props }) => (
-    <Block title={blockTitle}>
+    <Block title={intl.formatMessage({id: blockTitle})}>
       {description &&
         <div className="dpmsg-BlockText">
-          {description}
+          {intl.formatMessage({id: description})}
         </div>
       }
-      <Button  title={props.description || ''} to={`/screens/${to}`} width="full" color="primary">
-        {label}
+      <Button  title={intl.formatMessage({id: description}) || ''} to={`/screens/${to}`} width="full" color="primary">
+        {intl.formatMessage({id: label})}
       </Button>
     </Block>
   ))
