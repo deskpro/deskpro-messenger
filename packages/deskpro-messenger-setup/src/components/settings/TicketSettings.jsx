@@ -12,25 +12,17 @@ import {
   Select,
   Subheading,
   Toggle,
-  TranslateButton,
-  Modal,
-  Button,
 } from '@deskpro/react-components';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import classNames from "classnames";
 import PhraseModal from './PhraseModal';
 import TranslationButton from './TranslationButton';
 
-const phrasesTitles = {
-  'blocks_ticket_button':      'Button',
-  'blocks_ticket_title':       'Title',
-  'blocks_ticket_description': 'Desciprion',
-};
-
 class TicketSettings extends React.PureComponent {
   static propTypes = {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     ticketDepartments: PropTypes.object,
   };
 
@@ -62,27 +54,11 @@ class TicketSettings extends React.PureComponent {
     this.props.handleChange(value, name)
   };
 
-  calculatePercent = (modalPhrase) => {
-    const translations = this.props.config.getIn(['translations', modalPhrase]);
-    if(!translations || translations.size < 1) {
-      return 0;
-    }
-    const done = translations.reduce((sum, i) => sum += i.get('text')?1:0);
-    return Math.ceil((done / translations.size) * 100)
-  }
-
-  calculateText = (modalPhrase) => {
-    const translations = this.props.config.getIn(['translations', modalPhrase]);
-    if(!translations || translations.size < 1) {
-      return '0/0';
-    }
-    return `${translations.reduce((sum, i) => sum += i.get('text')?1:0, 0)}/${translations.size}`;
-  }
-
   render() {
     const {
       config,
       handleChange,
+      handleSubmit,
       ticketDepartments,
       opened,
       onClick
@@ -100,6 +76,7 @@ class TicketSettings extends React.PureComponent {
           phrase={modalPhrase}
           translations={config.get('translations')}
           handleChange={handleChange}
+          handleSubmit={handleSubmit}
           closeModal={() => this.setState({modal: false})}
         />}
         <ListElement {...drawerProps}>
@@ -219,43 +196,23 @@ class TicketSettings extends React.PureComponent {
                   label="Description"
                   htmlFor="ms-tickets-options-description"
                 >
-                  <Input
+                  <TranslationButton
+                    translations={config.get('translations')}
                     id="ms-tickets-options-description"
-                    type="text"
-                    value={config.getIn(['translations', 'blocks_ticket_description'])
-                      ? config.getIn(['translations', 'blocks_ticket_description']).first().get('text')
-                      : ''
-                    }
-                    disabled={true}
-                  />
-                  <TranslateButton
-                    percent={this.calculatePercent('blocks_ticket_description')}
-                    size="medium"
+                    phrase={'blocks_ticket_description'}
                     onClick={() => this.setState({modal: true, modalPhrase: 'blocks_ticket_description'})}
-                  >
-                    {this.calculateText('blocks_ticket_description')}
-                  </TranslateButton>
+                  />
                 </Group>
                 <Group
                   label="Button text"
                   htmlFor="ms-tickets-options-button-text"
                 >
-                  <Input
+                  <TranslationButton
+                    translations={config.get('translations')}
                     id="ms-tickets-options-button-text"
-                    type="text"
-                    value={config.getIn(['translations', 'blocks_ticket_button'])
-                      ? config.getIn(['translations', 'blocks_ticket_button']).first().get('text')
-                      : ''
-                    }
-                    disabled={true}
-                  />
-                  <TranslateButton
-                    percent={this.calculatePercent('blocks_ticket_button')}
-                    size="medium"
+                    phrase={'blocks_ticket_button'}
                     onClick={() => this.setState({modal: true, modalPhrase: 'blocks_ticket_button'})}
-                  >
-                    {this.calculateText('blocks_ticket_button')}
-                  </TranslateButton>
+                  />
                 </Group>
               </Section>
             </Section>

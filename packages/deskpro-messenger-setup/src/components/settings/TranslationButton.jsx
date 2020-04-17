@@ -33,14 +33,14 @@ class TranslationButton extends React.Component {
 
   render() {
 
-    const { onClick, translations, id } = this.props;
+    const { onClick, translations, id, phrase } = this.props;
 
     return (
       <Fragment>
         <Input
           id={id}
           type="text"
-          value={translations ? translations.get('blocks_ticket_title').first().get('text') : ''}
+          value={translations ? translations.get(phrase).first().get('text') : ''}
           disabled={true}
         />
         <TranslateButton

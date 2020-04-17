@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { Button, Input, Modal, } from '@deskpro/react-components';
 
 const phrasesTitles = {
-  'blocks_ticket_button':      'Button',
-  'blocks_ticket_title':       'Title',
-  'blocks_ticket_description': 'Desciprion',
+  'blocks_ticket_button':          'Ticket block. Button',
+  'blocks_ticket_title':           'Ticket block. Title',
+  'blocks_ticket_description':     'Ticket block. Description',
+  'blocks_start_chat_description': 'Start chat block. Description',
+  'blocks_start_chat_title':       'Start chat block. Title',
+  'blocks_start_chat_button':      'Start chat block. Button',
 };
 
 class PhraseModal extends React.Component {
@@ -13,22 +16,23 @@ class PhraseModal extends React.Component {
   static propTypes = {
     translations: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     phrase:       PropTypes.string.isRequired,
     closeModal:   PropTypes.func.isRequired
   };
 
   render() {
 
-    const { phrase, closeModal, handleChange, translations } = this.props;
+    const { phrase, closeModal, handleSubmit, handleChange, translations } = this.props;
 
     return (
       <Modal
-        title={`Ticket block. ${phrasesTitles[phrase]} translation.`}
+        title={`${phrasesTitles[phrase]} translation.`}
         closeModal={closeModal}
         buttons={
           <div>
             <Button
-              onClick={this.props.handleSubmit}
+              onClick={handleSubmit}
               className="dp-button--l dp-button--cta right">
               Save
             </Button>
