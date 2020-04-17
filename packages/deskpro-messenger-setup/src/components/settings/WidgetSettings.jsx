@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import {
@@ -13,11 +13,14 @@ import {
   Input, Group
 } from '@deskpro/react-components';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import PhraseModal from './PhraseModal';
+import TranslationButton from './TranslationButton';
 
 class WidgetSettings extends React.PureComponent {
   static propTypes = {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     opened: PropTypes.bool
   };
 
@@ -26,18 +29,37 @@ class WidgetSettings extends React.PureComponent {
     opened: true
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false,
+      modalPhrase: ''
+    }
+  }
+
   handleRadioChange = (checked, value, name) => {
     this.props.handleChange(value, name)
   };
 
   render() {
-    const { config, handleChange, opened, onClick } = this.props;
+    const { config, handleChange, handleSubmit, opened, onClick } = this.props;
     const drawerProps = {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
       className: 'dp-column-drawer'
     };
+
+    const { modal, modalPhrase } = this.state;
+
     return (
-      <ListElement {...drawerProps}>
+      <Fragment>
+        {modal && <PhraseModal
+          phrase={modalPhrase}
+          translations={config.get('translations')}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          closeModal={() => this.setState({modal: false})}
+        />}
+        <ListElement {...drawerProps}>
         <Heading onClick={onClick} className={'dp-ms-section-header'}>
           Widget Settings
           &nbsp;
@@ -79,12 +101,11 @@ class WidgetSettings extends React.PureComponent {
               label="Greeting Title"
               htmlFor="ms-messenger-title"
             >
-              <Input
+              <TranslationButton
+                translations={config.get('translations')}
                 id="ms-messenger-title"
-                type="text"
-                value={config.getIn(['widget', 'greetingTitle'])}
-                name="widget.greetingTitle"
-                onChange={handleChange}
+                phrase={'greeting'}
+                onClick={() => this.setState({modal: true, modalPhrase: 'greeting'})}
               />
             </Group>
           </Section>
@@ -112,6 +133,7 @@ class WidgetSettings extends React.PureComponent {
           </Section>
         </Section>
       </ListElement>
+      </Fragment>
     );
   }
 }

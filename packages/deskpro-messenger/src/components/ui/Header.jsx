@@ -2,13 +2,14 @@ import React, { PureComponent } from 'react';
 import asset from '../../utils/asset';
 import Isvg from 'react-inlinesvg';
 import { withConfig } from '../core/ConfigContext';
+import { injectIntl } from 'react-intl';
 
 const headerImage = 'img/dp-logo-white.svg';
 
 class Header extends PureComponent {
 
   render() {
-    const { widget: { greetingTitle }} = this.props;
+    const { intl, widget: { greetingTitle }} = this.props;
 
     return (
       <div className="dpmsg-ScreenHeader">
@@ -19,10 +20,10 @@ class Header extends PureComponent {
               : <img src={asset(headerImage)} alt="" />
           }
         </div>
-        <span className="dpmsg-ScreenHeaderTitle">{greetingTitle}</span>
+        <span className="dpmsg-ScreenHeaderTitle">{intl.formatMessage({id: greetingTitle})}</span>
       </div>
     )
   }
 }
 
-export default withConfig(Header);
+export default injectIntl(withConfig(Header));

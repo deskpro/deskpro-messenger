@@ -47,6 +47,7 @@ class Settings extends React.Component {
             id="style"
             config={settings}
             handleChange={handleChange}
+            handleSubmit={handleSubmit}
           />
           <ChatSettings
             id="chat"

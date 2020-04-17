@@ -26,6 +26,10 @@ class TicketSettings extends React.PureComponent {
     ticketDepartments: PropTypes.object,
   };
 
+  static defaultProps = {
+    config: Immutable.fromJS({})
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -33,10 +37,6 @@ class TicketSettings extends React.PureComponent {
       modalPhrase: ''
     }
   }
-
-  static defaultProps = {
-    config: Immutable.fromJS({})
-  };
 
   handleSelectChange = (option, name) => {
     const value = typeof option === 'object' ? option.value : option;
