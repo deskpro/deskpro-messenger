@@ -18,6 +18,8 @@ import {
 } from '@deskpro/react-components';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import classNames from "classnames";
+import PhraseModal from './PhraseModal';
+import TranslationButton from './TranslationButton';
 
 const phrasesTitles = {
   'blocks_ticket_button':      'Button',
@@ -77,38 +79,6 @@ class TicketSettings extends React.PureComponent {
     return `${translations.reduce((sum, i) => sum += i.get('text')?1:0, 0)}/${translations.size}`;
   }
 
-  getModal = () => {
-    const { modalPhrase } = this.state;
-    const { config, handleChange } = this.props;
-
-    return <Modal
-      title={`Ticket block. ${phrasesTitles[modalPhrase]} translation.`}
-      closeModal={() => this.setState({modal: false}, () => this.props.handleSubmit())}
-      buttons={
-        <div>
-          <Button
-            onClick={this.props.handleSubmit}
-            className="dp-button--l dp-button--cta right">
-            Save
-          </Button>
-        </div>
-      }
-    >
-      {config.getIn(['translations', modalPhrase]).map((l) => {
-        const lang = l.get('language');
-        return (
-          <Input
-            value={l.get('text')}
-            name={`translations.${modalPhrase}.${lang.get('id')}.text`}
-            onChange={handleChange}
-            suffix={<img src={lang.get('flag_image')} title={lang.get('title')} alt={lang.get('lang_code')}/>}
-            prefix={lang.get('title')}
-          />
-        );
-      }).toArray()}
-    </Modal>
-  }
-
   render() {
     const {
       config,
@@ -117,13 +87,21 @@ class TicketSettings extends React.PureComponent {
       opened,
       onClick
     } = this.props;
+
+    const { modal, modalPhrase } = this.state;
+
     const drawerProps = {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
       className: 'dp-column-drawer'
     };
     return (
       <Fragment>
-        {this.state.modal ? this.getModal() : null}
+        {modal && <PhraseModal
+          phrase={modalPhrase}
+          translations={config.get('translations')}
+          handleChange={handleChange}
+          closeModal={() => this.setState({modal: false})}
+        />}
         <ListElement {...drawerProps}>
           <Heading onClick={onClick} className="dp-ms-section-header">
             Ticket Settings
@@ -230,22 +208,12 @@ class TicketSettings extends React.PureComponent {
                   label="Title"
                   htmlFor="ms-tickets-options-title"
                 >
-                  <Input
+                  <TranslationButton
+                    translations={config.get('translations')}
                     id="ms-tickets-options-title"
-                    type="text"
-                    value={config.getIn(['translations', 'blocks_ticket_title'])
-                      ? config.getIn(['translations', 'blocks_ticket_title']).first().get('text')
-                      : ''
-                    }
-                    disabled={true}
-                  />
-                  <TranslateButton
-                    percent={this.calculatePercent('blocks_ticket_title')}
-                    size="medium"
+                    phrase={'blocks_ticket_title'}
                     onClick={() => this.setState({modal: true, modalPhrase: 'blocks_ticket_title'})}
-                  >
-                    {this.calculateText('blocks_ticket_title')}
-                  </TranslateButton>
+                  />
                 </Group>
                 <Group
                   label="Description"
