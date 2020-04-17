@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import classNames from 'classnames';
@@ -20,16 +20,28 @@ import {
   Subheading,
   Toggle
 } from '@deskpro/react-components';
+import TranslationButton from './TranslationButton';
+import PhraseModal from './PhraseModal';
 
 class ProactiveSettings extends React.Component {
   static propTypes = {
     config: PropTypes.object,
-    handleChange: PropTypes.func.isRequired
+    handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired
+
   };
 
   static defaultProps = {
     config: Immutable.fromJS({})
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false,
+      modalPhrase: ''
+    }
+  }
 
   ensureTimeoutIsPositive = (value, name) => {
     if (value < 0) {
@@ -43,15 +55,26 @@ class ProactiveSettings extends React.Component {
   };
 
   render() {
-    const { config, handleChange, opened, onClick } = this.props;
+    const { config, handleChange, handleSubmit, opened, onClick } = this.props;
 
     const autoStartStyle = config.getIn(['proactive', 'autoStartStyle']);
     const drawerProps = {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
       className: 'dp-column-drawer'
     };
+
+    const { modal, modalPhrase } = this.state;
+
     return (
-      <ListElement {...drawerProps}>
+      <Fragment>
+        {modal && <PhraseModal
+          phrase={modalPhrase}
+          translations={config.get('translations')}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          closeModal={() => this.setState({modal: false})}
+        />}
+        <ListElement {...drawerProps}>
         <Heading onClick={onClick} className="dp-ms-section-header">
           Proactive chat settings
           &nbsp;
@@ -179,12 +202,11 @@ class ProactiveSettings extends React.Component {
               label="Greeting title"
               htmlFor="ms-proactive-options-greeting-title"
             >
-              <Input
+              <TranslationButton
+                translations={config.get('translations')}
                 id="ms-proactive-options-greeting-title"
-                type="text"
-                value={config.getIn(['proactive', 'options','greetingTitle'])}
-                name="proactive.options.greetingTitle"
-                onChange={handleChange}
+                phrase={'proactive_greeting'}
+                onClick={() => this.setState({ modal: true, modalPhrase: 'proactive_greeting' })}
               />
             </Group>
           </Section>
@@ -194,12 +216,11 @@ class ProactiveSettings extends React.Component {
               label="Title"
               htmlFor="ms-proactive-options-title"
             >
-              <Input
+              <TranslationButton
+                translations={config.get('translations')}
                 id="ms-proactive-options-title"
-                type="text"
-                value={config.getIn(['proactive', 'options','title'])}
-                name="proactive.options.title"
-                onChange={handleChange}
+                phrase={'proactive_title'}
+                onClick={() => this.setState({ modal: true, modalPhrase: 'proactive_title' })}
               />
             </Group>
             <Group
@@ -207,12 +228,11 @@ class ProactiveSettings extends React.Component {
               htmlFor="ms-proactive-options-description"
               className={classNames({hidden: !autoStartStyle || ['avatar-widget', 'avatar-button'].includes(autoStartStyle)})}
             >
-              <Input
+              <TranslationButton
+                translations={config.get('translations')}
                 id="ms-proactive-options-description"
-                type="text"
-                value={config.getIn(['proactive', 'options','description'])}
-                name="proactive.options.description"
-                onChange={handleChange}
+                phrase={'proactive_description'}
+                onClick={() => this.setState({ modal: true, modalPhrase: 'proactive_description' })}
               />
             </Group>
             <Group
@@ -220,12 +240,11 @@ class ProactiveSettings extends React.Component {
               htmlFor="ms-proactive-options-button-text"
               className={classNames({hidden: !autoStartStyle || autoStartStyle.indexOf('button') === -1})}
             >
-              <Input
+              <TranslationButton
+                translations={config.get('translations')}
                 id="ms-proactive-options-button-text"
-                type="text"
-                value={config.getIn(['proactive', 'options','buttonText'])}
-                name="proactive.options.buttonText"
-                onChange={handleChange}
+                phrase={'proactive_button'}
+                onClick={() => this.setState({ modal: true, modalPhrase: 'proactive_button' })}
               />
             </Group>
             <Group
@@ -233,17 +252,17 @@ class ProactiveSettings extends React.Component {
               htmlFor="ms-proactive-options-input-placeholder"
               className={classNames({hidden: !autoStartStyle || autoStartStyle.indexOf('input') === -1})}
             >
-              <Input
+              <TranslationButton
+                translations={config.get('translations')}
                 id="ms-proactive-options-input-placeholder"
-                type="text"
-                value={config.getIn(['proactive', 'options','inputPlaceholder'])}
-                name="proactive.options.inputPlaceholder"
-                onChange={handleChange}
+                phrase={'proactive_placeholder'}
+                onClick={() => this.setState({ modal: true, modalPhrase: 'proactive_placeholder' })}
               />
             </Group>
           </Section>
         </Section>
       </ListElement>
+      </Fragment>
     );
   }
 }

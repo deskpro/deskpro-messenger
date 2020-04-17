@@ -62,6 +62,7 @@ class Settings extends React.Component {
             id="messenger"
             config={settings}
             handleChange={handleChange}
+            handleSubmit={handleSubmit}
           />
           <TicketSettings
             id="ticket"

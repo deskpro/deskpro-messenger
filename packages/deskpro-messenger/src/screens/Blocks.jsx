@@ -13,15 +13,15 @@ import Header from '../components/ui/Header';
 
 const transMessages = {
   startChatTitle: {
-    id: 'blocks.start_chat.title',
+    id: 'blocks.start-chat.title',
     defaultMessage: 'Start a conversation'
   },
   startChatDescription: {
-    id: 'blocks.start_chat.description',
+    id: 'blocks.start-chat.description',
     defaultMessage: 'Start a chat with one of our agents'
   },
   startChatButton: {
-    id: 'blocks.start_chat.button',
+    id: 'blocks.start-chat.button',
     defaultMessage: 'Start a new conversation'
   },
   continueChatTitle: {

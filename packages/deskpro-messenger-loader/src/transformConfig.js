@@ -17,9 +17,9 @@ export default (settings) => {
     const chatBlockConfig = settings.chat;
     const startChatBlock = {
       blockType:       'StartChatBlock',
-      title:           'blocks.start_chat.title',
-      description:     'blocks.start_chat.description',
-      linkText:        'blocks.start_chat.button',
+      title:           'blocks.start-chat.title',
+      description:     'blocks.start-chat.description',
+      linkText:        'blocks.start-chat.button',
       showAgentPhotos: chatBlockConfig.options.showAgentPhotos,
       to:              'startChat',
       order:           10

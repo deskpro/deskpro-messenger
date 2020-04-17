@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
-import { injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import AutoStartShell from "./AutoStartShell";
 import Block from "./Block";
@@ -71,13 +71,13 @@ class AutoStart extends PureComponent {
   };
 
   renderAvatarWidget() {
-    const { agentsAvailable, startChat, options } = this.props;
+    const { agentsAvailable, startChat, options, intl } = this.props;
 
     const agent = Object.values(agentsAvailable).pop();
     return (
       <button className='dpmsg-AutoStart-widget' onClick={() => startChat()}>
         <div className='dpmsg-AutoStart-widget-text'>
-          {options.title}
+          {intl.formatMessage({id: options.title})}
         </div>
         <div className="dpmsg-AutoStart-widget-avatar" key={agent.id}>
           <img src={agent.avatar} alt=""/>
@@ -87,7 +87,7 @@ class AutoStart extends PureComponent {
   };
 
   render() {
-    const { autoStartStyle, startChat, options} = this.props;
+    const { autoStartStyle, startChat, options, intl} = this.props;
 
 
     if (autoStartStyle === 'avatar-widget') {
@@ -96,25 +96,25 @@ class AutoStart extends PureComponent {
     return (
       <AutoStartShell
         controls={this.renderToolbar()}
-        title={options.greetingTitle}
+        title={intl.formatMessage({id: options.greetingTitle})}
       >
-        <Block title={options.title}>
+        <Block title={intl.formatMessage({id: options.title})}>
           {autoStartStyle.indexOf('avatar') !== -1 ? <AvatarHeads agentsAvailable={this.props.agentsAvailable}/> : null}
           {autoStartStyle.indexOf('text') !== -1 ?
           <div className="dpmsg-BlockText">
-            {options.description}
+            {intl.formatMessage({id: options.description})}
           </div> : null}
           {autoStartStyle.indexOf('input') !== -1 ?
             <Input
               onClick={() => startChat(this.state.message)}
               width="full"
               color="primary"
-              placeholder={options.inputPlaceholder}
+              placeholder={intl.formatMessage({id: options.inputPlaceholder})}
               value={this.state.message}
               onChange={this.onInputChange}
             /> :
             <Button onClick={() => startChat(this.state.message)} width="full" color="primary">
-              {options.buttonText}
+              {intl.formatMessage({id: options.buttonText})}
             </Button>
           }
         </Block>

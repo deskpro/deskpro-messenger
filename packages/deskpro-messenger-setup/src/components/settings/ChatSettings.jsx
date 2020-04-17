@@ -267,8 +267,10 @@ class ChatSettings extends React.PureComponent {
             ticketDepartments,
             opened,
             onClick,
-            usergroups
-          }           = this.props;
+            usergroups,
+            handleSubmit
+          } = this.props;
+
     const drawerProps = {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
       className:           'dp-column-drawer'
@@ -284,6 +286,7 @@ class ChatSettings extends React.PureComponent {
           phrase={modalPhrase}
           translations={config.get('translations')}
           handleChange={handleChange}
+          handleSubmit={handleSubmit}
           closeModal={() => this.setState({ modal: false })}
         />}
         <ListElement {...drawerProps}>
@@ -369,8 +372,8 @@ class ChatSettings extends React.PureComponent {
                   <TranslationButton
                     translations={config.get('translations')}
                     id="ms-chat-options-title"
-                    phrase={'blocks_start_chat_title'}
-                    onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start_chat_title' })}
+                    phrase={'blocks_start-chat_title'}
+                    onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start-chat_title' })}
                   />
                 </Group>
                 <Group
@@ -380,8 +383,8 @@ class ChatSettings extends React.PureComponent {
                   <TranslationButton
                     translations={config.get('translations')}
                     id="ms-chat-options-description"
-                    phrase={'blocks_start_chat_description'}
-                    onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start_chat_description' })}
+                    phrase={'blocks_start-chat_description'}
+                    onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start-chat_description' })}
                   />
                 </Group>
                 <Group
@@ -391,8 +394,8 @@ class ChatSettings extends React.PureComponent {
                   <TranslationButton
                     translations={config.get('translations')}
                     id="ms-chat-options-button-text"
-                    phrase={'blocks_start_chat_button'}
-                    onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start_chat_button' })}
+                    phrase={'blocks_start-chat_button'}
+                    onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start-chat_button' })}
                   />
                 </Group>
               </Section>
