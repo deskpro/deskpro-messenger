@@ -179,7 +179,7 @@ class StartChatScreen extends PureComponent {
               formMessageEnabled && <div key="form_message" className="dpmsg-StartChatScreen-FormMessage">
                 { formMessage }
             </div>,
-              <Suspense fallback={<div key="loading">Loading...</div>}>
+              <Suspense key="ticket_form_suspense" fallback={<div>Loading...</div>}>
                 <TicketForm
                   key="ticket_form"
                   initialValues={initialValues}
