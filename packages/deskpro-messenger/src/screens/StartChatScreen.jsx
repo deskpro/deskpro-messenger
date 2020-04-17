@@ -73,6 +73,10 @@ const transMessages = {
     id: 'tickets.form.back',
     defaultMessage: 'Back',
   },
+  required: {
+    id: 'tickets.form.required',
+    defaultMessage: 'Required',
+  },
 };
 
 class StartChatScreen extends PureComponent {
@@ -175,7 +179,7 @@ class StartChatScreen extends PureComponent {
               formMessageEnabled && <div key="form_message" className="dpmsg-StartChatScreen-FormMessage">
                 { formMessage }
             </div>,
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div key="loading">Loading...</div>}>
                 <TicketForm
                   key="ticket_form"
                   initialValues={initialValues}
