@@ -139,7 +139,7 @@ module.exports = {
         terserOptions: {
           parse: {
             // we want terser to parse ecma 8 code. However, we don't want it
-            // to apply any minfication steps that turns valid ecma 5 code
+            // to apply any minification steps that turns valid ecma 5 code
             // into invalid ecma 5 code. This is why the 'compress' and 'output'
             // sections only apply transformations that are ecma 5 safe
             // https://github.com/facebook/create-react-app/pull/4234

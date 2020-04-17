@@ -73,7 +73,7 @@ function setupFrames(config, manifest) {
 
 function init() {
   const scriptTag = document.getElementById('dp-messenger-loader');
-  const hdUrl = scriptTag.dataset.helpdeskUrl;
+  const hdUrl = window.DESKPRO_MESSENGER_OPTIONS.helpdeskURL;
   return loadConfig(hdUrl).then((config) => {
     fetch(`${config.bundleUrl.isDev || config.bundleUrl.isAbsolute ? '' : config.helpdeskURL}${config.bundleUrl.manifest}`)
       .then((res) => res.json())
