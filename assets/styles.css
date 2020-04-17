@@ -1060,7 +1060,14 @@
   padding: var(--s-space) var(--s-space) var(--s-space) var(--space);
   white-space: pre-wrap;
   word-break: break-word
-}.dpmsg-BubbleItem.dpmsg-SameSender {
+}.dpmsg-BubbleItem pre {
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+  }.dpmsg-BubbleItem.dpmsg-SameSender {
     margin-bottom: 5px;
     margin-bottom: var(--xxs-space);
     margin-top: 5px;
