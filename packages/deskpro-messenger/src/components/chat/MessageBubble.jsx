@@ -24,7 +24,7 @@ class MessageBubble extends React.Component {
     const { message } = this.props;
     return <div
       className={classNames("dpmsg-BubbleItem", {'dpmsg-SameSender': !this.isNotTheSameSender()})}
-      dangerouslySetInnerHTML={{ __html: message }}
+      dangerouslySetInnerHTML={{ __html: message.replace("<a", '<a target="_blank" rel="noreferrer noopener"') }}
     />
   }
 
