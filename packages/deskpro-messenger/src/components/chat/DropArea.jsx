@@ -3,6 +3,17 @@ import { Progress } from '@deskpro/portal-components';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
+const transMessages = {
+  dragAndDrop: {
+    id: 'chat.dragdrop.drag_and_drop',
+    defaultMessage: 'Drag and drop file here'
+  },
+  uploading: {
+    id: 'chat.dragdrop.uploading',
+    defaultMessage: 'Uploading'
+  },
+};
+
 class DropArea extends PureComponent {
   static propTypes = {
     progress: PropTypes.number,
@@ -17,10 +28,7 @@ class DropArea extends PureComponent {
     <div>
       <i className="fa fa-3x fa-image" />
       <p>
-        <FormattedMessage
-          id="chat.dragdrop.drag_and_drop"
-          defaultMessage="Drag and drop file here"
-        />
+        <FormattedMessage {...transMessages.dragAndDrop} />
       </p>
     </div>;
 
@@ -30,10 +38,7 @@ class DropArea extends PureComponent {
       <div>
         {progress > 0 ? <span className="dpmsg-ChatMessagesDropZoneProgress">{Math.round(progress)} %</span> : null}
         <Progress percent={progress} />
-        <p><FormattedMessage
-          id="chat.dragdrop.uploading"
-          defaultMessage="Uploading"
-        />...</p>
+        <p><FormattedMessage {...transMessages.uploading} />...</p>
       </div>
     );
   };

@@ -2,7 +2,7 @@ import React, { Fragment, lazy, PureComponent, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Block from '../components/core/Block';
 import { createChat, sendMessage } from '../modules/chat';
 import { withScreenContentSize } from '../components/core/ScreenContent';
@@ -49,6 +49,10 @@ const transMessages = {
     id: 'tickets.form.submit',
     defaultMessage: 'Submit',
   },
+  addAttachment: {
+    id: 'tickets.form.addAttachment',
+    defaultMessage: 'Add attachment',
+  },
   dragNDrop: {
     id: 'tickets.form.dragNDrop',
     defaultMessage: 'Drag and drop',
@@ -76,6 +80,10 @@ const transMessages = {
   required: {
     id: 'tickets.form.required',
     defaultMessage: 'Required',
+  },
+  loading: {
+    id: 'loading',
+    defaultMessage: 'Loading',
   },
 };
 
@@ -179,7 +187,12 @@ class StartChatScreen extends PureComponent {
               formMessageEnabled && <div key="form_message" className="dpmsg-StartChatScreen-FormMessage">
                 { formMessage }
             </div>,
-              <Suspense key="ticket_form_suspense" fallback={<div>Loading...</div>}>
+              <Suspense
+                key="ticket_form_suspense"
+                fallback={
+                  <div><FormattedMessage {...transMessages.loading} />...</div>
+                }
+              >
                 <TicketForm
                   key="ticket_form"
                   initialValues={initialValues}
@@ -193,21 +206,22 @@ class StartChatScreen extends PureComponent {
                   onSubmit={this.createChat}
                   languageId={parseInt(this.props.language.id, 10)}
                   i18n={{
-                    name:        intl.formatMessage(transMessages.name),
-                    email:       intl.formatMessage(transMessages.email),
-                    department:  intl.formatMessage(transMessages.department),
-                    message:     intl.formatMessage(transMessages.message),
-                    product:     intl.formatMessage(transMessages.product),
-                    priority:    intl.formatMessage(transMessages.priority),
-                    category:    intl.formatMessage(transMessages.category),
-                    submit:      intl.formatMessage(transMessages.submit),
-                    dragNDrop:   intl.formatMessage(transMessages.dragNDrop),
-                    or:          intl.formatMessage(transMessages.or),
-                    chooseAFile: intl.formatMessage(transMessages.chooseAFile),
-                    chooseFiles: intl.formatMessage(transMessages.chooseFiles),
-                    select:      intl.formatMessage(transMessages.select),
-                    back:        intl.formatMessage(transMessages.back),
-                    required:    intl.formatMessage(transMessages.required),
+                    name:          intl.formatMessage(transMessages.name),
+                    email:         intl.formatMessage(transMessages.email),
+                    department:    intl.formatMessage(transMessages.department),
+                    message:       intl.formatMessage(transMessages.message),
+                    product:       intl.formatMessage(transMessages.product),
+                    priority:      intl.formatMessage(transMessages.priority),
+                    category:      intl.formatMessage(transMessages.category),
+                    submit:        intl.formatMessage(transMessages.submit),
+                    addAttachment: intl.formatMessage(transMessages.addAttachment),
+                    dragNDrop:     intl.formatMessage(transMessages.dragNDrop),
+                    or:            intl.formatMessage(transMessages.or),
+                    chooseAFile:   intl.formatMessage(transMessages.chooseAFile),
+                    chooseFiles:   intl.formatMessage(transMessages.chooseFiles),
+                    select:        intl.formatMessage(transMessages.select),
+                    back:          intl.formatMessage(transMessages.back),
+                    required:      intl.formatMessage(transMessages.required),
                   }}
                 />
               </Suspense>

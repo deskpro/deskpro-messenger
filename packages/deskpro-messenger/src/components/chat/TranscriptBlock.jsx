@@ -31,7 +31,15 @@ const transMessages = {
   sendButton: {
     id: 'chat.transcript_block.send_button',
     defaultMessage: 'Send Message'
-  }
+  },
+  name: {
+    id: 'tickets.form.name',
+    defaultMessage: 'Name'
+  },
+  email: {
+    id: 'tickets.form.email',
+    defaultMessage: 'Email'
+  },
 };
 
 export class TranscriptBlock extends PureComponent {
@@ -143,17 +151,18 @@ export class TranscriptBlock extends PureComponent {
   }
 
   renderFields() {
+    const { intl } = this.props;
     return (
       <div className="dpmsg-GroupInputs">
         <input
           className="dpmsg-Input"
-          placeholder="name"
+          placeholder={intl.formatMessage(transMessages.name)}
           name="name"
           onChange={this.handleInputChange}
         />
         <input
           className="dpmsg-Input"
-          placeholder="email"
+          placeholder={intl.formatMessage(transMessages.email)}
           name="email"
           onChange={this.handleInputChange}
         />

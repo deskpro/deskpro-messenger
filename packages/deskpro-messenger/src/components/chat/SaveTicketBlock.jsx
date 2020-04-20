@@ -84,7 +84,7 @@ class SaveTicketBlock extends PureComponent {
   };
 
   renderFormOrQuestion() {
-    const { formConfig, intl, user, ticketParams, uploadTo } = this.props;
+    const { formConfig, user, ticketParams, uploadTo } = this.props;
 
     if (user.email) {
       return (
@@ -95,7 +95,7 @@ class SaveTicketBlock extends PureComponent {
             name="yes"
             onClick={() => this.handleSubmit(user)}
           >
-            {intl.formatMessage(transMessages.buttonYes)}
+            <FormattedMessage {...transMessages.buttonYes} />
           </Button>
           <Button
             width="limited"
@@ -103,7 +103,7 @@ class SaveTicketBlock extends PureComponent {
             name="no"
             onClick={this.handleCancel}
           >
-            {intl.formatMessage(transMessages.buttonNo)}
+            <FormattedMessage {...transMessages.buttonNo} />
           </Button>
         </div>
       );

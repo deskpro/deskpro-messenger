@@ -1,7 +1,7 @@
 import React, { createRef, Fragment, PureComponent, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Switch, withRouter } from 'react-router-dom';
-import { injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import isMobile from 'is-mobile';
 import Frame from './Frame';
@@ -40,6 +40,12 @@ const extraStyles = (
   </Fragment>
 );
 
+const transMessages = {
+  loading: {
+    id: 'loading',
+    defaultMessage: 'Loading',
+  },
+}
 
 
 class MessengerWindow extends PureComponent {
@@ -153,7 +159,7 @@ class MessengerWindow extends PureComponent {
             <Suspense
               fallback={
                 <div className="dpmsg-Block">
-                  <p>Loading...</p>
+                  <p><FormattedMessage {...transMessages.loading} />...</p>
                 </div>
               }
             >

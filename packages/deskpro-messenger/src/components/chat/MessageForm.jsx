@@ -10,10 +10,22 @@ import { withVisitorId } from '../../containers/withVisitorId';
 import { setMessageFormFocus } from '../../modules/app';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { injectIntl } from "react-intl";
 
 window.$ = window.jQuery = $;
 
 const PATH = '<path d="M12 18L8.25003 26.925L29.25 18L8.25003 9.07501L12 18Z" stroke="#4C4F50" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>\n<path d="M29.25 18H12" stroke="#4C4F50" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>';
+
+const transMessages = {
+  sendMessage: {
+    id: 'chat.send_message',
+    defaultMessage: 'Send Message'
+  },
+  attachFile: {
+    id: 'chat.attach_file',
+    defaultMessage: 'Attach File'
+  },
+};
 
 /**
  * Extends Froala editor.
@@ -37,6 +49,8 @@ class MessageForm extends PureComponent {
     style:          PropTypes.object,
     maxFileSize:    PropTypes.number.isRequired,
     scrollMessages: PropTypes.func,
+    language:       PropTypes.object,
+    intl:           PropTypes.object.isRequired,
   };
 
   static contextType = ConfigContext;
@@ -56,14 +70,14 @@ class MessageForm extends PureComponent {
 
   onFroalaManualInit = (controls) => {
     this.editorControls = controls;
-    const { handleFileSend } = this.props;
+    const { handleFileSend, intl } = this.props;
     extendFroala();
     $.FroalaEditor.RegisterCommand('sendMessage', {
-      title: 'Send Message',
+      title: intl.formatMessage(transMessages.sendMessage),
       callback: this.handleSubmit
     });
     $.FroalaEditor.RegisterCommand('attachFile', {
-      title: 'Attach File',
+      title: intl.formatMessage(transMessages.attachFile),
       focus: false,
       undo: false,
       refreshAfterCallback: false,
@@ -173,7 +187,7 @@ class MessageForm extends PureComponent {
   };
 
   render() {
-    const { className, style } = this.props;
+    const { className, style, language } = this.props;
 
     return (
       <div
@@ -186,7 +200,10 @@ class MessageForm extends PureComponent {
           model={this.state.message}
           onModelChange={this.onChange}
           onManualControllerReady={this.onFroalaManualInit}
-          config={this.froalaConfig}
+          config={{
+            language: language.locale,
+            ...this.froalaConfig
+          }}
         />
       </div>
     );
@@ -198,6 +215,7 @@ export default compose(
     null,
     { setMessageFormFocus },
   ),
+  injectIntl,
   withVisitorId,
   withConfig
 )(MessageForm);

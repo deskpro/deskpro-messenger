@@ -46,6 +46,10 @@ const transMessages = {
     id: 'tickets.form.submit',
     defaultMessage: 'Submit',
   },
+  addAttachment: {
+    id: 'tickets.form.addAttachment',
+    defaultMessage: 'Add attachment',
+  },
   dragNDrop: {
     id: 'tickets.form.dragNDrop',
     defaultMessage: 'Drag and drop',
@@ -165,20 +169,21 @@ class TicketFormScreen extends React.Component {
                 errors={errors}
                 languageId={parseInt(this.props.language.id, 10)}
                 i18n={{
-                  name:        intl.formatMessage(transMessages.name),
-                  email:       intl.formatMessage(transMessages.email),
-                  department:  intl.formatMessage(transMessages.department),
-                  message:     intl.formatMessage(transMessages.message),
-                  product:     intl.formatMessage(transMessages.product),
-                  priority:    intl.formatMessage(transMessages.priority),
-                  category:    intl.formatMessage(transMessages.category),
-                  submit:      intl.formatMessage(transMessages.submit),
-                  dragNDrop:   intl.formatMessage(transMessages.dragNDrop),
-                  or:          intl.formatMessage(transMessages.or),
-                  chooseAFile: intl.formatMessage(transMessages.chooseAFile),
-                  chooseFiles: intl.formatMessage(transMessages.chooseFiles),
-                  select:      intl.formatMessage(transMessages.select),
-                  back:        intl.formatMessage(transMessages.back),
+                  name:          intl.formatMessage(transMessages.name),
+                  email:         intl.formatMessage(transMessages.email),
+                  department:    intl.formatMessage(transMessages.department),
+                  message:       intl.formatMessage(transMessages.message),
+                  product:       intl.formatMessage(transMessages.product),
+                  priority:      intl.formatMessage(transMessages.priority),
+                  category:      intl.formatMessage(transMessages.category),
+                  submit:        intl.formatMessage(transMessages.submit),
+                  addAttachment: intl.formatMessage(transMessages.addAttachment),
+                  dragNDrop:     intl.formatMessage(transMessages.dragNDrop),
+                  or:            intl.formatMessage(transMessages.or),
+                  chooseAFile:   intl.formatMessage(transMessages.chooseAFile),
+                  chooseFiles:   intl.formatMessage(transMessages.chooseFiles),
+                  select:        intl.formatMessage(transMessages.select),
+                  back:          intl.formatMessage(transMessages.back),
                 }}
               />
             )}

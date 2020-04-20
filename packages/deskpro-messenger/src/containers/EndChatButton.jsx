@@ -1,7 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { toggleChatEndBlock} from '../modules/chat'
+
+const transMessages = {
+  endChat: {
+    id: 'chat.end_chat',
+    defaultMessage: 'End chat'
+  }
+}
 
 class EndChatButton extends PureComponent
 {
@@ -13,7 +21,9 @@ class EndChatButton extends PureComponent
   render() {
     return (
       <div className="dpmsg-endChatButton">
-        <span onClick={() => this.props.toggleChatEndBlock(true)}>End chat</span>
+        <span onClick={() => this.props.toggleChatEndBlock(true)}>
+          <FormattedMessage {...transMessages.endChat} />
+        </span>
       </div>
     );
   }

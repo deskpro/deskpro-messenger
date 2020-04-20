@@ -1,14 +1,22 @@
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from "react-intl";
 import { getSearching, getSearchQuery, getSearchResults, search } from '../modules/search';
 import SearchBlock from '../components/common/SearchBlock';
-import React, { Fragment } from 'react';
 import Header from '../components/ui/Header';
+
+const transMessages = {
+  noResults: {
+    id: 'blocks.search_block.no_results',
+    defaultMessage: 'No results for {query}'
+  }
+}
 
 class QuickSearchScreen extends SearchBlock {
 
   getSearchHint() {
     return this.state.query.length >= 3 && this.props.results.length < 1 && !this.props.searching
-      ? `No results for "${this.state.query}"`
+      ? <FormattedMessage {...transMessages.noResults} values={{query: this.state.query}} />
       : null
   }
 

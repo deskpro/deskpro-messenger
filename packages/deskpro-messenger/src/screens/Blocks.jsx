@@ -39,7 +39,11 @@ const transMessages = {
   ticketsViewAllLink: {
     id: 'blocks.tickets.view_all_link',
     defaultMessage: 'view all'
-  }
+  },
+  knowledgebaseTitle: {
+    id: 'blocks.knowledgebase.title',
+    defaultMessage: 'Knowledgebase'
+  },
 };
 
 const blocksMapping = {
@@ -70,7 +74,7 @@ const blocksMapping = {
     )
   }),
   QuickSearchBlock: injectIntl(({ intl }) => (
-    <QuickSearchBlock title='Knowledgebase' />
+    <QuickSearchBlock title={intl.formatMessage(transMessages.knowledgebaseTitle)} />
   )),
   TicketsBlock: injectIntl(({ intl, ...props }) => (
     <Block title={intl.formatMessage(transMessages.ticketsTitle)}>

@@ -5,6 +5,22 @@ import { Link } from 'react-router-dom';
 import Isvg from 'react-inlinesvg';
 import asset from '../../utils/asset';
 import { Loader } from "@deskpro/react-components";
+import { FormattedMessage } from 'react-intl';
+
+const transMessages = {
+  seeMoreResults: {
+    id: 'blocks.search_block.see_more_results',
+    defaultMessage: 'See more results'
+  },
+  noResults: {
+    id: 'blocks.search_block.no_results',
+    defaultMessage: 'No results for {query}'
+  },
+  searchLabel: {
+    id: 'blocks.search_block.search_label',
+    defaultMessage: 'Search'
+  }
+};
 
 class SearchBlock extends React.Component {
   static propTypes = {
@@ -37,7 +53,7 @@ class SearchBlock extends React.Component {
   getSearchHint() {
     return this.state.query.length >= 3 && this.props.results.length < 1 && !this.props.searching ? (
       <span>
-        {`No results for "${this.state.query}"`}
+        <FormattedMessage {...transMessages.noResults} values={{query: this.state.query}} />
       </span>
     ) : null;
   }
@@ -48,7 +64,9 @@ class SearchBlock extends React.Component {
 
   getSeeMore() {
     return this.props.results.length > 3  && !this.props.searching && this.state.query.length >= 3 &&
-      <Link to="/screens/search" className="dpmsg-QuickSearchFooter">See more results</Link>;
+      <Link to="/screens/search" className="dpmsg-QuickSearchFooter">
+        <FormattedMessage {...transMessages.seeMoreResults}/>
+      </Link>;
   }
 
   onChange = (e) => {
@@ -86,7 +104,11 @@ class SearchBlock extends React.Component {
               />
               <label className="dpmsg-QuickSearchControl--label" htmlFor="quickSearchInput">
                 <Isvg src={asset('img/search.svg')}/>
-                <span aria-hidden={true}>Search</span>
+                <span aria-hidden={true}>
+                  <FormattedMessage
+                    {...transMessages.searchLabel}
+                  />
+                </span>
               </label>
               {(this.state.query.length > 0) &&
               <i className="dpmsg-Icon dpmsg-IconSearchClear" onClick={this.onClear}/>}
