@@ -56,6 +56,7 @@
   "message_unassigned": "{name} unassigned from the chat.",
   "message_user-joined": "{name} joined the conversation.",
   "message_user-left": "{name} left the conversation.",
+  "ok": "OK",
   "powered_by": "Powered by",
   "tickets.create_form_block.header": "Create a ticket",
   "tickets.create_form_block.link_label": "Create new ticket",

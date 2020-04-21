@@ -1,17 +1,3 @@
-if (!XMLHttpRequest.prototype.sendAsBinary) {
-  // eslint-disable-next-line func-names
-  XMLHttpRequest.prototype.sendAsBinary = function (sData) {
-    const nBytes = sData.length;
-    const ui8Data = new Uint8Array(nBytes);
-    for (let nIdx = 0; nIdx < nBytes; nIdx++) {
-      ui8Data[nIdx] = sData.charCodeAt(nIdx) & 0xff; // eslint-disable-line  no-bitwise
-    }
-    /* send as ArrayBufferView...: */
-    this.send(ui8Data);
-    /* ...or as ArrayBuffer (legacy)...: this.send(ui8Data.buffer); */
-  };
-}
-
 // eslint-disable-next-line func-names
 const AJAXSubmit = (function () {
   function submitData(oData, config) {
@@ -32,6 +18,21 @@ const AJAXSubmit = (function () {
       oAjaxReq.addEventListener('abort', config.transferCanceled);
     }
 
+    oAjaxReq.onreadystatechange = function() { // Call a function when the state changes.
+      if (this.readyState === XMLHttpRequest.DONE) {
+        if (this.status >= 400) {
+          let message = this.statusText;
+          if (this.response && this.response.errors && this.response.errors.file) {
+            message = this.response.errors.file;
+          }
+          config.transferFailed({
+            code: this.status,
+            message
+          });
+        }
+      }
+    }
+
     oAjaxReq.withCredentials = true;
     /* method is POST */
     oAjaxReq.responseType = 'json';
@@ -44,7 +45,7 @@ const AJAXSubmit = (function () {
         oAjaxReq.setRequestHeader(name, value);
       }
     }
-    oAjaxReq.sendAsBinary(`--${sBoundary}\r\n${
+    oAjaxReq.send(`--${sBoundary}\r\n${
       oData.segments.join(`--${sBoundary}\r\n`)}--${sBoundary}--\r\n`);
   }
 

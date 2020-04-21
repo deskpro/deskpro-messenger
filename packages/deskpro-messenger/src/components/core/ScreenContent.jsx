@@ -49,7 +49,8 @@ class ScreenContent extends PureComponent {
     super(props);
     this.state = {
       formHeight: 90,
-      progress: -1
+      progress: -1,
+      error: null
     };
     this.scrollArea = createRef();
   }
@@ -99,6 +100,7 @@ class ScreenContent extends PureComponent {
       transferComplete: this.handleTransferComplete,
       transferFailed: this.handleTransferFailed,
       updateProgress: this.handleUpdateProgress,
+      transferCanceled: this.handleTransferFailed,
       requestHeaders: {
         'X-DESKPRO-VISITORID': this.props.visitorId
       },
@@ -123,7 +125,10 @@ class ScreenContent extends PureComponent {
   };
 
   handleTransferFailed = (e) => {
-    this.setState({ progress: -1 });
+    this.setState({
+      progress: -1,
+      error: e
+    });
   };
 
   handleUpdateProgress = (e) => {
@@ -145,6 +150,12 @@ class ScreenContent extends PureComponent {
         );
       }
     }, 10);
+  }
+
+  clearError = () => {
+    this.setState({
+      error: null
+    });
   }
 
   isChat = (strict = false) => {
@@ -236,7 +247,7 @@ class ScreenContent extends PureComponent {
     const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight < innerContentMaxHeight;
 
 
-    const { progress } = this.state;
+    const { progress, error } = this.state;
 
     return (
       <Dropzone
@@ -256,6 +267,8 @@ class ScreenContent extends PureComponent {
             <DropArea
               isDragActive={isDragActive}
               progress={progress}
+              error={error}
+              clearError={this.clearError}
               {...getInputProps()}
             />
 
