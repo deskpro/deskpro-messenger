@@ -138,9 +138,7 @@ class Chat extends React.Component {
 
     return (
         <Fragment>
-          {!!chatConfig.prompt && (
-            <BotBubble message={chatConfig.prompt} />
-          )}
+          <BotBubble message={intl.formatMessage({id: 'chat.prompt'})} />
           {messages
             .filter(m => m.id || m.type !== 'chat.typing.start')
             .map((message, index) => {

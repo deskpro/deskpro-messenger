@@ -229,7 +229,7 @@ class StartChatScreen extends PureComponent {
           )}
           {(viewMode === 'prompt' || (viewMode === 'form' && correctedForm[0].fields.length === hiddenCount)) && (
             <PromptMessage
-              prompt={this.promptMessage}
+              prompt={intl.formatMessage({id: 'chat.prompt'})}
               onSendMessage={this.onSendMessage}
             />
           )}

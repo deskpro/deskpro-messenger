@@ -352,12 +352,11 @@ class ChatSettings extends React.PureComponent {
                 <Group
                   label="Chat Prompt Message"
                   htmlFor="ms-chat-prompt">
-                  <Input
+                  <TranslationButton
+                    translations={config.get('translations')}
                     id="ms-chat-prompt"
-                    type="text"
-                    value={config.getIn(['chat', 'prompt'])}
-                    name="chat.prompt"
-                    onChange={handleChange}
+                    phrase={'chat_prompt'}
+                    onClick={() => this.setState({ modal: true, modalPhrase: 'chat_prompt' })}
                   />
                 </Group>
 
