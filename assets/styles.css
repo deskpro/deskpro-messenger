@@ -3171,7 +3171,26 @@
       color: var(--grey-dark);
     }.dp-pc_full-dnd__droparea .dp-progress {
     width: 80%;
-  }.dp-pc_field.dp-pc_multi-select .react-select__control {
+  }.dp-pc_full-dnd__droparea div.dp-pc_full-dnd__droparea_error svg {
+      width: 56px;
+      height: 56px;
+      color: #f16c7c;
+      color: #f16c7c;
+      color: var(--error-color);
+    }.dp-pc_full-dnd__droparea div.dp-pc_full-dnd__droparea_error > p {
+      color: #f16c7c;
+      color: #f16c7c;
+      color: var(--error-color);
+    }.dp-pc_full-dnd__droparea div.dp-pc_full-dnd__droparea_error button {
+      background: #f16c7c;
+      background: #f16c7c;
+      background: var(--error-color);
+      border-radius: 4px;
+      color: white;
+      font-size: 16px;
+      padding: 10px 1rem;
+      cursor: pointer;
+    }.dp-pc_field.dp-pc_multi-select .react-select__control {
   height: inherit;
 }.dp-pc_form.show-hover .dp-pc_likert .dp-pc_likert_input:hover .dp-pc_likert_number {
       background-color: #3d88f3;
