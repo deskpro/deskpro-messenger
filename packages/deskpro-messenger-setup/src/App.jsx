@@ -44,7 +44,6 @@ class App extends React.Component {
             { this.props.children }
           </div>
         </Settings>
-        <Preview config={transformConfig(settings)}/>
       </div>
     );
   }
