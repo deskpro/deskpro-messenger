@@ -838,7 +838,7 @@
   border: 2px solid #3d88f3;
   border: 2px solid var(--color-primary);
   border-radius: 4px;
-  bottom: 50px;
+  bottom: 36px;
   left: 10px;
   position: absolute;
   right: 10px;
@@ -853,7 +853,6 @@
   text-align: center;
 }.dpmsg-ChatMessagesDropZone .dpmsg-ChatMessagesDropZoneProgress {
   font-size: 28px;
-  margin-bottom: 25px;
 }.dpmsg-ChatMessagesDropZone i {
   color: #a9b0b0;
   color: var(--grey);
@@ -865,6 +864,12 @@
   font-family: "Rubik", sans-serif;
   font-size: 16px;
   line-height: 150%;
+}.dpmsg-ChatMessagesDropZone .dpmsg-ChatMessagesDropZoneError {
+  font-size: 28px;
+}.dpmsg-ChatMessagesDropZone .dpmsg-ChatMessagesDropZoneError i,
+.dpmsg-ChatMessagesDropZone .dpmsg-ChatMessagesDropZoneError p {
+  color: #f25a6c;
+  color: var(--color-danger);
 }.dpmsg-ChatMessagesDropZone .dp-progress {
   width: 90%;
 }.dpmsg-BlockWrapper .dp-pc_full-dnd__droparea {
