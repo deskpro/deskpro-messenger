@@ -458,14 +458,25 @@ class ChatSettings extends React.PureComponent {
                     label="Busy message"
                     htmlFor="ms-chat-busyMessage"
                   >
+                    <TranslationButton
+                      translations={config.get('translations')}
+                      id="ms-chat-busyMessage"
+                      useTextarea={true}
+                      cols="40"
+                      rows="6"
+                      phrase={'chat_no-agent-online'}
+                      className="dp-ms-chat_form_message"
+                      onClick={() => this.setState({ modal: true, modalPhrase: 'chat_no-agent-online' })}
+                    />
                     <Textarea
                       name="chat.busyMessage"
                       id="ms-chat-busyMessage"
-                      cols="40"
-                      rows="6"
+
                       value={config.getIn(['chat', 'busyMessage'])}
                       onChange={handleChange}
                     />
+
+
                   </Group>
                 }
                 {config.getIn(['chat', 'noAnswerBehavior']) === 'save_ticket' &&

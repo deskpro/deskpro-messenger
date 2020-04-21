@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Textarea, TranslateButton } from '@deskpro/react-components';
+import { objectKeyFilter } from '@deskpro/js-utils/dist/objects';
 import Immutable from 'immutable';
 import classNames from 'classnames';
 
@@ -55,6 +56,7 @@ class TranslationButton extends React.Component {
           value={translations.has(phrase) ? translations.get(phrase).first().get('text') : ''}
           disabled={true}
           className={classNames(className)}
+          { ...objectKeyFilter(this.props, TranslateButton.propTypes)}
         />
         <TranslateButton
           percent={this.calculatePercent()}

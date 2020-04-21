@@ -28,7 +28,7 @@ const transMessages = {
     defaultMessage: `{name} left the conversation.`
   },
   noAgentOnline: {
-    id: 'chat.no_agent_online',
+    id: 'chat.no-agent-online',
     defaultMessage: 'Sorry, no one is online to accept your chat.'
   },
   chatEnded: {
@@ -156,9 +156,7 @@ class Chat extends React.Component {
                     <Fragment key={key}>
                       <SystemMessage
                         {...message}
-                        message={intl.formatMessage(
-                          ...createTrans(message, 'chatEnded')
-                        )}
+                        message={intl.formatMessage(...createTrans(message, 'chatEnded'))}
                       />
                       {chat.assigned &&
                       <Fragment key={`${key}_end`}>
@@ -176,12 +174,7 @@ class Chat extends React.Component {
                   return (
                     <div key={`no_agents_${message.uuid}`}>
                       <BotBubble
-                        message={
-                          chatConfig.busyMessage ||
-                          intl.formatMessage(
-                            ...createTrans(message, 'noAgentOnline')
-                          )
-                        }
+                        message={intl.formatMessage(...createTrans(message, 'noAgentOnline'))}
                       />
                       {chatConfig.noAnswerBehavior === 'save_ticket' && (
                         <SaveTicketBlock
