@@ -207,12 +207,19 @@ class ChatSettings extends React.PureComponent {
       >
         Form message
       </Toggle>
-      <Textarea
-        name="chat.preChatForm.formMessage"
-        style={{ display: config.getIn(['chat', 'preChatForm', 'formMessageEnabled']) ? 'block' : 'none' }}
-        value={config.getIn(['chat', 'preChatForm', 'formMessage'])}
+      <TranslationButton
+        translations={config.get('translations')}
+        id="ms-chat-options-title"
+        useTextarea={true}
+        phrase={'chat_pre-chat-form_form-message'}
         className="dp-ms-chat_form_message"
-        onChange={handleChange}
+        onClick={() => this.setState({ modal: true, modalPhrase: 'chat_pre-chat-form_form-message' })}
+      />
+      <TranslationButton
+        translations={config.get('translations')}
+        id="ms-chat-options-title"
+        phrase={'blocks_start-chat_title'}
+        onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start-chat_title' })}
       />
       <Subheading size={5} className="dp-ms-subheading_inner">Chat fields:</Subheading>
       <div className="dp-ms-chat_field_wrapper">

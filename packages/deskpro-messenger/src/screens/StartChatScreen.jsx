@@ -143,7 +143,7 @@ class StartChatScreen extends PureComponent {
   };
 
   render() {
-    const { department, departments, preChatForm, intl, user, uploadTo, formMessageEnabled, formMessage } = this.props;
+    const { department, departments, preChatForm, intl, user, uploadTo, formMessageEnabled } = this.props;
     const { contentSize: { maxHeight }, errors } = this.props;
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
@@ -185,7 +185,7 @@ class StartChatScreen extends PureComponent {
           {viewMode === 'form' && correctedForm[0].fields.length !== hiddenCount && (
             [
               formMessageEnabled && <div key="form_message" className="dpmsg-StartChatScreen-FormMessage">
-                { formMessage }
+                { intl.formatMessage({id: 'chat.pre-chat-form.form-message'}) }
             </div>,
               <Suspense
                 key="ticket_form_suspense"
