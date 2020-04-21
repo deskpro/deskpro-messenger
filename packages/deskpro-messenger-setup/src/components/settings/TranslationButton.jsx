@@ -1,6 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Input, TranslateButton } from '@deskpro/react-components';
+import { Input, Textarea, TranslateButton } from '@deskpro/react-components';
+import { objectKeyFilter } from '@deskpro/js-utils/dist/objects';
+import Immutable from 'immutable';
+import classNames from 'classnames';
 
 
 class TranslationButton extends React.Component {
@@ -10,11 +13,19 @@ class TranslationButton extends React.Component {
     id:           PropTypes.string.isRequired,
     onClick:      PropTypes.func.isRequired,
     phrase:       PropTypes.string.isRequired,
+    useTextarea:  PropTypes.bool,
+    className:    PropTypes.string,
   };
+
+  static defaultProps = {
+    useTextarea: false,
+    className: '',
+    translations: Immutable.fromJS({})
+  }
 
   calculatePercent() {
     const { phrase, translations } = this.props;
-    if (!translations || translations.size < 1) {
+    if (translations.size < 1) {
       return 0;
     }
     const translationStack = translations.get(phrase);
@@ -24,7 +35,7 @@ class TranslationButton extends React.Component {
 
   calculateText() {
     const { phrase, translations } = this.props;
-    if (!translations || translations.size < 1) {
+    if (translations.size < 1) {
       return '0/0';
     }
     const translationStack = translations.get(phrase);
@@ -33,15 +44,19 @@ class TranslationButton extends React.Component {
 
   render() {
 
-    const { onClick, translations, id, phrase } = this.props;
+    const { onClick, useTextarea, translations, id, phrase, className } = this.props;
+
+    const Field = useTextarea ? Textarea : Input
 
     return (
       <Fragment>
-        <Input
+        <Field
           id={id}
           type="text"
-          value={translations ? translations.get(phrase).first().get('text') : ''}
+          value={translations.has(phrase) ? translations.get(phrase).first().get('text') : ''}
           disabled={true}
+          className={classNames(className)}
+          { ...objectKeyFilter(this.props, TranslateButton.propTypes)}
         />
         <TranslateButton
           percent={this.calculatePercent()}

@@ -207,12 +207,19 @@ class ChatSettings extends React.PureComponent {
       >
         Form message
       </Toggle>
-      <Textarea
-        name="chat.preChatForm.formMessage"
-        style={{ display: config.getIn(['chat', 'preChatForm', 'formMessageEnabled']) ? 'block' : 'none' }}
-        value={config.getIn(['chat', 'preChatForm', 'formMessage'])}
+      <TranslationButton
+        translations={config.get('translations')}
+        id="ms-chat-options-title"
+        useTextarea={true}
+        phrase={'chat_pre-chat-form_form-message'}
         className="dp-ms-chat_form_message"
-        onChange={handleChange}
+        onClick={() => this.setState({ modal: true, modalPhrase: 'chat_pre-chat-form_form-message' })}
+      />
+      <TranslationButton
+        translations={config.get('translations')}
+        id="ms-chat-options-title"
+        phrase={'blocks_start-chat_title'}
+        onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start-chat_title' })}
       />
       <Subheading size={5} className="dp-ms-subheading_inner">Chat fields:</Subheading>
       <div className="dp-ms-chat_field_wrapper">
@@ -345,12 +352,11 @@ class ChatSettings extends React.PureComponent {
                 <Group
                   label="Chat Prompt Message"
                   htmlFor="ms-chat-prompt">
-                  <Input
+                  <TranslationButton
+                    translations={config.get('translations')}
                     id="ms-chat-prompt"
-                    type="text"
-                    value={config.getIn(['chat', 'prompt'])}
-                    name="chat.prompt"
-                    onChange={handleChange}
+                    phrase={'chat_prompt'}
+                    onClick={() => this.setState({ modal: true, modalPhrase: 'chat_prompt' })}
                   />
                 </Group>
 
@@ -452,14 +458,25 @@ class ChatSettings extends React.PureComponent {
                     label="Busy message"
                     htmlFor="ms-chat-busyMessage"
                   >
+                    <TranslationButton
+                      translations={config.get('translations')}
+                      id="ms-chat-busyMessage"
+                      useTextarea={true}
+                      cols="40"
+                      rows="6"
+                      phrase={'chat_no-agent-online'}
+                      className="dp-ms-chat_form_message"
+                      onClick={() => this.setState({ modal: true, modalPhrase: 'chat_no-agent-online' })}
+                    />
                     <Textarea
                       name="chat.busyMessage"
                       id="ms-chat-busyMessage"
-                      cols="40"
-                      rows="6"
+
                       value={config.getIn(['chat', 'busyMessage'])}
                       onChange={handleChange}
                     />
+
+
                   </Group>
                 }
                 {config.getIn(['chat', 'noAnswerBehavior']) === 'save_ticket' &&

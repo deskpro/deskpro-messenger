@@ -1,11 +1,12 @@
 {
   "name": "@deskpro/messenger-setup",
-  "version": "0.2.1",
+  "version": "0.2.4",
   "private": false,
   "author": "DeskPRO <team@deskpro.com>",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
   "dependencies": {
+    "@deskpro/js-utils": "1.0.6",
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.4.1",
     "array-move": "^2.2.1",
@@ -36,7 +37,6 @@
     "build-storybook": "build-storybook"
   },
   "devDependencies": {
-    "@deskpro/js-utils": "^1.0.6",
     "@deskpro/react-components": "1.4.8",
     "@rollup/plugin-image": "^2.0.1",
     "@storybook/addon-actions": "^4.0.7",
