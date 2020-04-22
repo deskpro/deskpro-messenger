@@ -205,8 +205,8 @@ class ProactiveSettings extends React.Component {
               <TranslationButton
                 translations={config.get('translations')}
                 id="ms-proactive-options-greeting-title"
-                phrase={'proactive_greeting'}
-                onClick={() => this.setState({ modal: true, modalPhrase: 'proactive_greeting' })}
+                phrase={'helpcenter_messenger_proactive_greeting'}
+                onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_proactive_greeting' })}
               />
             </Group>
           </Section>
@@ -219,8 +219,8 @@ class ProactiveSettings extends React.Component {
               <TranslationButton
                 translations={config.get('translations')}
                 id="ms-proactive-options-title"
-                phrase={'proactive_title'}
-                onClick={() => this.setState({ modal: true, modalPhrase: 'proactive_title' })}
+                phrase={'helpcenter_messenger_proactive_title'}
+                onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_proactive_title' })}
               />
             </Group>
             <Group
@@ -231,8 +231,8 @@ class ProactiveSettings extends React.Component {
               <TranslationButton
                 translations={config.get('translations')}
                 id="ms-proactive-options-description"
-                phrase={'proactive_description'}
-                onClick={() => this.setState({ modal: true, modalPhrase: 'proactive_description' })}
+                phrase={'helpcenter_messenger_proactive_description'}
+                onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_proactive_description' })}
               />
             </Group>
             <Group
@@ -243,8 +243,8 @@ class ProactiveSettings extends React.Component {
               <TranslationButton
                 translations={config.get('translations')}
                 id="ms-proactive-options-button-text"
-                phrase={'proactive_button'}
-                onClick={() => this.setState({ modal: true, modalPhrase: 'proactive_button' })}
+                phrase={'helpcenter_messenger_proactive_button'}
+                onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_proactive_button' })}
               />
             </Group>
             <Group
@@ -255,8 +255,8 @@ class ProactiveSettings extends React.Component {
               <TranslationButton
                 translations={config.get('translations')}
                 id="ms-proactive-options-input-placeholder"
-                phrase={'proactive_placeholder'}
-                onClick={() => this.setState({ modal: true, modalPhrase: 'proactive_placeholder' })}
+                phrase={'helpcenter_messenger_proactive_placeholder'}
+                onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_proactive_placeholder' })}
               />
             </Group>
           </Section>

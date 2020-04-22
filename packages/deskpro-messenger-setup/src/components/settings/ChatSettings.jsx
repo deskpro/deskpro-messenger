@@ -211,15 +211,15 @@ class ChatSettings extends React.PureComponent {
         translations={config.get('translations')}
         id="ms-chat-options-title"
         useTextarea={true}
-        phrase={'chat_pre-chat-form_form-message'}
+        phrase={'helpcenter_messenger_chat_pre_chat_form_form_message'}
         className="dp-ms-chat_form_message"
-        onClick={() => this.setState({ modal: true, modalPhrase: 'chat_pre-chat-form_form-message' })}
+        onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_chat_pre_chat_form_form_message' })}
       />
       <TranslationButton
         translations={config.get('translations')}
         id="ms-chat-options-title"
-        phrase={'blocks_start-chat_title'}
-        onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start-chat_title' })}
+        phrase={'helpcenter_messenger_blocks_start_chat_title'}
+        onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_blocks_start_chat_title' })}
       />
       <Subheading size={5} className="dp-ms-subheading_inner">Chat fields:</Subheading>
       <div className="dp-ms-chat_field_wrapper">
@@ -355,8 +355,8 @@ class ChatSettings extends React.PureComponent {
                   <TranslationButton
                     translations={config.get('translations')}
                     id="ms-chat-prompt"
-                    phrase={'chat_prompt'}
-                    onClick={() => this.setState({ modal: true, modalPhrase: 'chat_prompt' })}
+                    phrase={'helpcenter_messenger_chat_prompt'}
+                    onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_chat_prompt' })}
                   />
                 </Group>
 
@@ -378,8 +378,8 @@ class ChatSettings extends React.PureComponent {
                   <TranslationButton
                     translations={config.get('translations')}
                     id="ms-chat-options-title"
-                    phrase={'blocks_start-chat_title'}
-                    onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start-chat_title' })}
+                    phrase={'helpcenter_messenger_blocks_start_chat_title'}
+                    onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_blocks_start_chat_title' })}
                   />
                 </Group>
                 <Group
@@ -389,8 +389,8 @@ class ChatSettings extends React.PureComponent {
                   <TranslationButton
                     translations={config.get('translations')}
                     id="ms-chat-options-description"
-                    phrase={'blocks_start-chat_description'}
-                    onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start-chat_description' })}
+                    phrase={'helpcenter_messenger_blocks_start_chat_description'}
+                    onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_blocks_start_chat_description' })}
                   />
                 </Group>
                 <Group
@@ -400,8 +400,8 @@ class ChatSettings extends React.PureComponent {
                   <TranslationButton
                     translations={config.get('translations')}
                     id="ms-chat-options-button-text"
-                    phrase={'blocks_start-chat_button'}
-                    onClick={() => this.setState({ modal: true, modalPhrase: 'blocks_start-chat_button' })}
+                    phrase={'helpcenter_messenger_blocks_start_chat_button'}
+                    onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_blocks_start_chat_button' })}
                   />
                 </Group>
               </Section>
@@ -464,9 +464,9 @@ class ChatSettings extends React.PureComponent {
                       useTextarea={true}
                       cols="40"
                       rows="6"
-                      phrase={'chat_no-agent-online'}
+                      phrase={'helpcenter_messenger_chat_no_agent_online'}
                       className="dp-ms-chat_form_message"
-                      onClick={() => this.setState({ modal: true, modalPhrase: 'chat_no-agent-online' })}
+                      onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_chat_no_agent_online' })}
                     />
                     <Textarea
                       name="chat.busyMessage"

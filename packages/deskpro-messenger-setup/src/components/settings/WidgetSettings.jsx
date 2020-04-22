@@ -104,8 +104,8 @@ class WidgetSettings extends React.PureComponent {
               <TranslationButton
                 translations={config.get('translations')}
                 id="ms-messenger-title"
-                phrase={'greeting'}
-                onClick={() => this.setState({modal: true, modalPhrase: 'greeting'})}
+                phrase={'helpcenter_messenger_greeting'}
+                onClick={() => this.setState({modal: true, modalPhrase: 'helpcenter_messenger_greeting'})}
               />
             </Group>
           </Section>
