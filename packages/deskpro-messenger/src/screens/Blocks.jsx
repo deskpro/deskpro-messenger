@@ -13,35 +13,35 @@ import Header from '../components/ui/Header';
 
 const transMessages = {
   startChatTitle: {
-    id: 'blocks.start-chat.title',
+    id: 'helpcenter.messenger.blocks_start_chat_title',
     defaultMessage: 'Start a conversation'
   },
   startChatDescription: {
-    id: 'blocks.start-chat.description',
+    id: 'helpcenter.messenger.blocks_start_chat_description',
     defaultMessage: 'Start a chat with one of our agents'
   },
   startChatButton: {
-    id: 'blocks.start-chat.button',
+    id: 'helpcenter.messenger.blocks_start_chat_button',
     defaultMessage: 'Start a new conversation'
   },
   continueChatTitle: {
-      id: 'blocks.continue_chat.title',
+    id: 'helpcenter.messenger.blocks_continue_chat_title',
     defaultMessage: 'Continue existing chat'
   },
   continueChatLink: {
-    id: 'blocks.continue_chat.link',
+    id: 'helpcenter.messenger.blocks_continue_chat_link',
     defaultMessage: 'Continue'
   },
   ticketsTitle: {
-    id: 'blocks.tickets.title',
+    id: 'helpcenter.messenger.blocks_tickets_title',
     defaultMessage: 'Your Tickets'
   },
   ticketsViewAllLink: {
-    id: 'blocks.tickets.view_all_link',
+    id: 'helpcenter.messenger.blocks_tickets_view_all_link',
     defaultMessage: 'view all'
   },
   knowledgebaseTitle: {
-    id: 'blocks.knowledgebase.title',
+    id: 'helpcenter.messenger.blocks_knowledgebase_title',
     defaultMessage: 'Knowledgebase'
   },
 };

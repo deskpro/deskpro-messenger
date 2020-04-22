@@ -9,7 +9,7 @@ const headerImage = 'img/dp-logo-white.svg';
 class Header extends PureComponent {
 
   render() {
-    const { intl, widget: { greetingTitle }} = this.props;
+    const { intl } = this.props;
 
     return (
       <div className="dpmsg-ScreenHeader">
@@ -20,7 +20,7 @@ class Header extends PureComponent {
               : <img src={asset(headerImage)} alt="" />
           }
         </div>
-        <span className="dpmsg-ScreenHeaderTitle">{intl.formatMessage({id: greetingTitle})}</span>
+        <span className="dpmsg-ScreenHeaderTitle">{intl.formatMessage({id: 'helpcenter.messenger.greeting'})}</span>
       </div>
     )
   }

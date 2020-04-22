@@ -20,19 +20,19 @@ import { endBlockShown } from '../../modules/chat';
 
 const transMessages = {
   agentAssigned: {
-    id: 'chat.agent_assigned.message',
+    id: 'helpcenter.messenger.chat_agent_assigned_message',
     defaultMessage: `{name} joined the conversation.`
   },
   userLeft: {
-    id: 'message_user-left',
+    id: 'helpcenter.messenger.message_user-left',
     defaultMessage: `{name} left the conversation.`
   },
   noAgentOnline: {
-    id: 'chat.no-agent-online',
+    id: 'helpcenter.messenger.chat_no_agent_online',
     defaultMessage: 'Sorry, no one is online to accept your chat.'
   },
   chatEnded: {
-    id: 'chat.ended',
+    id: 'helpcenter.messenger.chat_ended',
     defaultMessage: 'Chat ended'
   }
 };
@@ -138,7 +138,7 @@ class Chat extends React.Component {
 
     return (
         <Fragment>
-          <BotBubble message={intl.formatMessage({id: 'chat.prompt'})} />
+          <BotBubble message={intl.formatMessage({id: 'helpcenter.messenger.chat_prompt'})} />
           {messages
             .filter(m => m.id || m.type !== 'chat.typing.start')
             .map((message, index) => {

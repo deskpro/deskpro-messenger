@@ -18,11 +18,11 @@ const PATH = '<path d="M12 18L8.25003 26.925L29.25 18L8.25003 9.07501L12 18Z" st
 
 const transMessages = {
   sendMessage: {
-    id: 'chat.send_message',
+    id: 'helpcenter.messenger.chat_send_message',
     defaultMessage: 'Send Message'
   },
   attachFile: {
-    id: 'chat.attach_file',
+    id: 'helpcenter.messenger.chat_attach_file',
     defaultMessage: 'Attach File'
   },
 };

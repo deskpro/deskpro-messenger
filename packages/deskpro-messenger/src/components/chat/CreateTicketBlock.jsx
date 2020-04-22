@@ -9,16 +9,16 @@ import PropTypes from 'prop-types';
 
 const transMessages = {
   header: {
-    id: 'chat.create_ticket.header',
+    id: 'helpcenter.messenger.chat_create_ticket_header',
     defaultMessage: 'Submit a ticket'
   },
   intro: {
-    id: 'chat.create_ticket.intro',
+    id: 'helpcenter.messenger.chat_create_ticket_intro',
     defaultMessage:
       'You can submit a ticket instead and one of our agents will reply to you via email as soon as possible.'
   },
   button: {
-    id: 'chat.create_ticket.button',
+    id: 'helpcenter.messenger.chat_create_ticket_button',
     defaultMessage: 'Create Ticket'
   }
 };

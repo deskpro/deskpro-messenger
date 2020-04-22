@@ -42,7 +42,7 @@ const extraStyles = (
 
 const transMessages = {
   loading: {
-    id: 'loading',
+    id: 'helpcenter.messenger.loading',
     defaultMessage: 'Loading',
   },
 }

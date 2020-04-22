@@ -7,15 +7,15 @@ import ChatPrompt from '../ui/ChatPrompt';
 
 const transMessages = {
   questionHeader: {
-    id: 'chat.end_block.question_header',
+    id: 'helpcenter.messenger.chat_end_block_question_header',
     defaultMessage: 'End your chat?'
   },
   buttonYes: {
-    id: 'chat.end_block.buttons.yes',
+    id: 'helpcenter.messenger.chat_end_block_buttons_yes',
     defaultMessage: 'Yes'
   },
   buttonNo: {
-    id: 'chat.end_block.buttons.no',
+    id: 'helpcenter.messenger.chat_end_block_buttons_no',
     defaultMessage: 'No'
   }
 };

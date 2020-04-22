@@ -5,15 +5,15 @@ import { FormattedMessage } from 'react-intl';
 
 const transMessages = {
   dragAndDrop: {
-    id: 'chat.dragdrop.drag_and_drop',
+    id: 'helpcenter.messenger.chat_dragdrop_drag_and_drop',
     defaultMessage: 'Drag and drop file here'
   },
   uploading: {
-    id: 'chat.dragdrop.uploading',
+    id: 'helpcenter.messenger.chat_dragdrop_uploading',
     defaultMessage: 'Uploading'
   },
   ok: {
-    id: 'ok',
+    id: 'helpcenter.messenger.ok',
     defaultMessage: 'OK'
   }
 };
