@@ -150,7 +150,7 @@ class WidgetToggler extends PureComponent {
 
 
   renderAutoStart() {
-    const { proactive: { options, autoStartStyle } } = this.props;
+    const { proactive: { autoStartStyle } } = this.props;
 
     if (!this.canAutoStart()) {
       return null;
@@ -168,7 +168,6 @@ class WidgetToggler extends PureComponent {
         <AutoStart
           onClose={this.onProactiveClose}
           autoStartStyle={autoStartStyle}
-          options={options}
           startChat={this.startChat}
         />
       </div>
