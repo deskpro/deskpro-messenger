@@ -6,7 +6,7 @@ const AJAXSubmit = (function () {
     oAjaxReq.submittedData = oData;
 
     if (config.updateProgress) {
-      oAjaxReq.addEventListener('progress', config.updateProgress);
+      oAjaxReq.upload.addEventListener('progress', config.updateProgress);
     }
     if (config.transferComplete) {
       oAjaxReq.addEventListener('load', config.transferComplete);
@@ -35,7 +35,9 @@ const AJAXSubmit = (function () {
 
     oAjaxReq.withCredentials = true;
     /* method is POST */
-    oAjaxReq.responseType = 'json';
+    oAjaxReq.onloadstart = function() {
+        oAjaxReq.responseType = 'json';
+    };
     oAjaxReq.open('post', oData.receiver, true);
     /* enctype is multipart/form-data */
     const sBoundary = `---------------------------${Date.now().toString(16)}`;
