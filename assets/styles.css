@@ -2885,6 +2885,7 @@
         display: inline-block;
       }.dp-pc_field .dp-pc_file-upload .dp-pc_file-upload__dropzone svg {
         height: 17px;
+        width: 17px;
         margin-right: 8px;
         margin-bottom: -2px;
       }.dp-pc_field .dp-pc_file-upload .dp-pc_file-upload__dropzone:hover .choose,
@@ -2921,6 +2922,7 @@
       margin: 0;
     }.dp-pc_field .dp-pc_file-upload > ul > li {
         margin-top: 8px;
+        height: 17px;
         font-size: 14px;
         color: #5f768a;
         color: #5f768a;
