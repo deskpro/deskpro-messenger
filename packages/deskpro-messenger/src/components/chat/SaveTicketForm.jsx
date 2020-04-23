@@ -19,7 +19,7 @@ const transMessages = {
     defaultMessage: 'Email',
   },
   department: {
-    id: 'helpcenter.messenger.tickets_form_department',
+    id: 'helpcenter.general.department',
     defaultMessage: 'Department',
   },
   message: {
@@ -35,7 +35,7 @@ const transMessages = {
     defaultMessage: 'Priority',
   },
   category: {
-    id: 'helpcenter.messenger.tickets_form_category',
+    id: 'helpcenter.general.category',
     defaultMessage: 'Category',
   },
   submit: {
@@ -47,7 +47,7 @@ const transMessages = {
     defaultMessage: 'Add attachment',
   },
   dragNDrop: {
-    id: 'helpcenter.messenger.tickets_form_drag_and_drop',
+    id: 'helpcenter.general.drag_and_drop',
     defaultMessage: 'Drag and drop',
   },
   or: {
@@ -55,11 +55,11 @@ const transMessages = {
     defaultMessage: 'or',
   },
   chooseAFile: {
-    id: 'helpcenter.messenger.tickets_form_choose_a_file',
+    id: 'helpcenter.general.form_choose_file',
     defaultMessage: 'Choose a file',
   },
   chooseFiles: {
-    id: 'helpcenter.messenger.tickets_form_choose_files',
+    id: 'helpcenter.general.form_choose_files',
     defaultMessage: 'Choose files',
   },
   select: {
