@@ -39,7 +39,7 @@ const transMessages = {
 
 const createTrans = ({ message, ...data }, type) => {
   if (typeof message === 'object' && message.phrase_id) {
-    return [{ id: message.phrase_id }, message];
+    return [{ id: `helpcenter.messenger.${message.phrase_id}` }, message];
   } else if (type in transMessages) {
     return [transMessages[type], data];
   }
