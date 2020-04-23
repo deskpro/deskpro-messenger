@@ -6,7 +6,7 @@ import { toggleChatEndBlock} from '../modules/chat'
 
 const transMessages = {
   endChat: {
-    id: 'chat.end_chat',
+    id: 'helpcenter.messenger.chat_end_chat',
     defaultMessage: 'End chat'
   }
 }

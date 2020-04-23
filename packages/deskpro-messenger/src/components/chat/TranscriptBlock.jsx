@@ -13,31 +13,31 @@ const schema = Yup.object().shape({
 
 const transMessages = {
   questionHeader: {
-    id: 'chat.transcript_block.question_header',
+    id: 'helpcenter.messenger.chat_transcript_block_question_header',
     defaultMessage: 'Would you like an email transcript?'
   },
   answerHeader: {
-    id: 'chat.transcript_block.answer_header',
+    id: 'helpcenter.messenger.chat_transcript_block_answer_header',
     defaultMessage: 'Your transcript is on it’s way to:'
   },
   yesButton: {
-    id: 'chat.transcript_block.yes_button',
+    id: 'helpcenter.messenger.chat_transcript_block_yes_button',
     defaultMessage: 'Yes'
   },
   noButton: {
-    id: 'chat.transcript_block.no_button',
+    id: 'helpcenter.messenger.chat_transcript_block_no_button',
     defaultMessage: 'No'
   },
   sendButton: {
-    id: 'chat.transcript_block.send_button',
+    id: 'helpcenter.messenger.chat_transcript_block_send_button',
     defaultMessage: 'Send Message'
   },
   name: {
-    id: 'tickets.form.name',
+    id: 'helpcenter.messenger.tickets_form_name',
     defaultMessage: 'Name'
   },
   email: {
-    id: 'tickets.form.email',
+    id: 'helpcenter.messenger.tickets_form_email',
     defaultMessage: 'Email'
   },
 };

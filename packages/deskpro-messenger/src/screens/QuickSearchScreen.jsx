@@ -7,7 +7,7 @@ import Header from '../components/ui/Header';
 
 const transMessages = {
   noResults: {
-    id: 'blocks.search_block.no_results',
+    id: 'helpcenter.messenger.blocks_search_block_no_results',
     defaultMessage: 'No results for {query}'
   }
 }

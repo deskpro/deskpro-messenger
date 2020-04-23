@@ -5,7 +5,7 @@ import { FormattedMessage } from "react-intl";
 
 const transMessages = {
   poweredBy: {
-    id: 'powered_by',
+    id: 'helpcenter.messenger.powered_by',
     defaultMessage: 'Powered by'
   }
 }

@@ -9,15 +9,15 @@ import { FormattedMessage } from 'react-intl';
 
 const transMessages = {
   seeMoreResults: {
-    id: 'blocks.search_block.see_more_results',
+    id: 'helpcenter.messenger.blocks_search_block_see_more_results',
     defaultMessage: 'See more results'
   },
   noResults: {
-    id: 'blocks.search_block.no_results',
+    id: 'helpcenter.messenger.blocks_search_block_no_results',
     defaultMessage: 'No results for {query}'
   },
   searchLabel: {
-    id: 'blocks.search_block.search_label',
+    id: 'helpcenter.messenger.blocks_search_block_search_label',
     defaultMessage: 'Search'
   }
 };

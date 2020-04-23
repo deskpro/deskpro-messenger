@@ -188,8 +188,8 @@ class TicketSettings extends React.PureComponent {
                   <TranslationButton
                     translations={config.get('translations')}
                     id="ms-tickets-options-title"
-                    phrase={'blocks_ticket_title'}
-                    onClick={() => this.setState({modal: true, modalPhrase: 'blocks_ticket_title'})}
+                    phrase={'helpcenter_messenger_blocks_ticket_title'}
+                    onClick={() => this.setState({modal: true, modalPhrase: 'helpcenter_messenger_blocks_ticket_title'})}
                   />
                 </Group>
                 <Group
@@ -199,8 +199,8 @@ class TicketSettings extends React.PureComponent {
                   <TranslationButton
                     translations={config.get('translations')}
                     id="ms-tickets-options-description"
-                    phrase={'blocks_ticket_description'}
-                    onClick={() => this.setState({modal: true, modalPhrase: 'blocks_ticket_description'})}
+                    phrase={'helpcenter_messenger_blocks_ticket_description'}
+                    onClick={() => this.setState({modal: true, modalPhrase: 'helpcenter_messenger_blocks_ticket_description'})}
                   />
                 </Group>
                 <Group
@@ -210,8 +210,8 @@ class TicketSettings extends React.PureComponent {
                   <TranslationButton
                     translations={config.get('translations')}
                     id="ms-tickets-options-button-text"
-                    phrase={'blocks_ticket_button'}
-                    onClick={() => this.setState({modal: true, modalPhrase: 'blocks_ticket_button'})}
+                    phrase={'helpcenter_messenger_blocks_ticket_button'}
+                    onClick={() => this.setState({modal: true, modalPhrase: 'helpcenter_messenger_blocks_ticket_button'})}
                   />
                 </Group>
               </Section>

@@ -8,19 +8,19 @@ import ChatPrompt from '../ui/ChatPrompt';
 
 const transMessages = {
   questionHeader: {
-    id: 'chat.rating_block.question_header',
+    id: 'helpcenter.messenger.chat_rating_block_question_header',
     defaultMessage: 'Rate your conversation with {name}'
   },
   buttonHelpful: {
-    id: 'chat.rating_block.buttons.helpful',
+    id: 'helpcenter.messenger.chat_rating_block_buttons_helpful',
     defaultMessage: 'Helpful'
   },
   buttonUnhelpful: {
-    id: 'chat.rating_block.buttons.unhelpful',
+    id: 'helpcenter.messenger.chat_rating_block_buttons_unhelpful',
     defaultMessage: 'Unhelpful'
   },
   thankYouHeader: {
-    id: 'chat.rating_block.thank_you_header',
+    id: 'helpcenter.messenger.chat_rating_block_thank_you_header',
     defaultMessage: 'Thank you for your feedback'
   }
 };

@@ -8,24 +8,24 @@ import Button from '../form/Button';
 
 const transMessages = {
   header: {
-    id: 'chat.save_ticket.question',
+    id: 'helpcenter.messenger.chat_save_ticket_question',
     defaultMessage: 'Would you like an agent to contact you?'
   },
   intro: {
-    id: 'chat.save_ticket.intro',
+    id: 'helpcenter.messenger.chat_save_ticket_intro',
     defaultMessage:
       'Enter your name and your email address and one of our agents will get back to you as soon as possible.'
   },
   thanks: {
-    id: 'chat.save_ticket.thanks',
+    id: 'helpcenter.messenger.chat_save_ticket_thanks',
     defaultMessage: 'An agent will get back to you as soon as possible'
   },
   buttonYes: {
-    id: 'chat.save_ticket.button_yes',
+    id: 'helpcenter.messenger.chat_save_ticket_button_yes',
     defaultMessage: 'Yes'
   },
   buttonNo: {
-    id: 'chat.save_ticket.button_no',
+    id: 'helpcenter.messenger.chat_save_ticket_button_no',
     defaultMessage: 'No'
   }
 };

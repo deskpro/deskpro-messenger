@@ -106,7 +106,7 @@ class ChatScreen extends PureComponent {
         <Block
           title={intl.formatMessage(
             {
-              id: `chat.header.title`,
+              id: `helpcenter.messenger.chat_header_title`,
               defaultMessage: '{department} conversation'
             },
             { department: department.title }

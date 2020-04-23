@@ -15,63 +15,63 @@ import { withConfig } from '../components/core/ConfigContext';
 
 const transMessages = {
   name: {
-    id: 'tickets.form.name',
+    id: 'helpcenter.messenger.tickets_form_name',
     defaultMessage: 'Name',
   },
   email: {
-    id: 'tickets.form.email',
+    id: 'helpcenter.messenger.tickets_form_email',
     defaultMessage: 'Email',
   },
   department: {
-    id: 'tickets.form.department',
+    id: 'helpcenter.messenger.tickets_form_department',
     defaultMessage: 'Department',
   },
   message: {
-    id: 'tickets.form.message',
+    id: 'helpcenter.messenger.tickets_form_message',
     defaultMessage: 'Message',
   },
   product: {
-    id: 'tickets.form.product',
+    id: 'helpcenter.messenger.tickets_form_product',
     defaultMessage: 'Product',
   },
   priority: {
-    id: 'tickets.form.priority',
+    id: 'helpcenter.messenger.tickets_form_priority',
     defaultMessage: 'Priority',
   },
   category: {
-    id: 'tickets.form.category',
+    id: 'helpcenter.messenger.tickets_form_category',
     defaultMessage: 'Category',
   },
   submit: {
-    id: 'tickets.form.submit',
+    id: 'helpcenter.messenger.tickets_form_submit',
     defaultMessage: 'Submit',
   },
   addAttachment: {
-    id: 'tickets.form.addAttachment',
+    id: 'helpcenter.messenger.tickets_form_addAttachment',
     defaultMessage: 'Add attachment',
   },
   dragNDrop: {
-    id: 'tickets.form.dragNDrop',
+    id: 'helpcenter.messenger.tickets_form_dragNDrop',
     defaultMessage: 'Drag and drop',
   },
   or: {
-    id: 'tickets.form.or',
+    id: 'helpcenter.messenger.tickets_form_or',
     defaultMessage: 'or',
   },
   chooseAFile: {
-    id: 'tickets.form.chooseAFile',
+    id: 'helpcenter.messenger.tickets_form_chooseAFile',
     defaultMessage: 'Choose a file',
   },
   chooseFiles: {
-    id: 'tickets.form.chooseFiles',
+    id: 'helpcenter.messenger.tickets_form_chooseFiles',
     defaultMessage: 'Choose files',
   },
   select: {
-    id: 'tickets.form.select',
+    id: 'helpcenter.messenger.tickets_form_select',
     defaultMessage: 'Select',
   },
   back: {
-    id: 'tickets.form.back',
+    id: 'helpcenter.messenger.tickets_form_back',
     defaultMessage: 'Back',
   },
 };
@@ -146,7 +146,7 @@ class TicketFormScreen extends React.Component {
         <Header />
         <Block
           title={intl.formatMessage({
-            id: `tickets.form.header`,
+            id: `helpcenter.messenger.tickets_form_header`,
             defaultMessage: 'New Ticket'
           })}
         >
