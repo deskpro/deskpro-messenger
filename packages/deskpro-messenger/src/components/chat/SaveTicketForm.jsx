@@ -43,11 +43,11 @@ const transMessages = {
     defaultMessage: 'Submit',
   },
   addAttachment: {
-    id: 'helpcenter.messenger.tickets_form_addAttachment',
+    id: 'helpcenter.messenger.tickets_form_add_attachment',
     defaultMessage: 'Add attachment',
   },
   dragNDrop: {
-    id: 'helpcenter.messenger.tickets_form_dragNDrop',
+    id: 'helpcenter.messenger.tickets_form_drag_and_drop',
     defaultMessage: 'Drag and drop',
   },
   or: {
@@ -55,11 +55,11 @@ const transMessages = {
     defaultMessage: 'or',
   },
   chooseAFile: {
-    id: 'helpcenter.messenger.tickets_form_chooseAFile',
+    id: 'helpcenter.messenger.tickets_form_choose_a_file',
     defaultMessage: 'Choose a file',
   },
   chooseFiles: {
-    id: 'helpcenter.messenger.tickets_form_chooseFiles',
+    id: 'helpcenter.messenger.tickets_form_choose_files',
     defaultMessage: 'Choose files',
   },
   select: {
