@@ -286,6 +286,8 @@ class ScreenContent extends PureComponent {
                 <ReactResizeDetector handleHeight>
                   {(width, height) => (
                     <ScreenContentContext.Provider value={{
+                      isStartChat: this.isStartChat(),
+                      isStartForm: this.isStartForm(),
                       animating: this.props.animating,
                       width,
                       height,

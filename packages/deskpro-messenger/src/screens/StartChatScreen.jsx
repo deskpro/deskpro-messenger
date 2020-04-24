@@ -153,7 +153,7 @@ class StartChatScreen extends PureComponent {
 
   render() {
     const { department, departments, preChatForm, intl, user, uploadTo, formMessageEnabled } = this.props;
-    const { contentSize: { maxHeight }, errors } = this.props;
+    const { contentSize: { maxHeight, isStartForm }, errors } = this.props;
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
     const initialValues = { ...user };
@@ -186,7 +186,7 @@ class StartChatScreen extends PureComponent {
             transMessages.blockHeader,
             { department: dept.title }
           )}
-          style={{ minHeight: maxHeight}}
+          style={{ minHeight: !isStartForm ? maxHeight : undefined }}
         >
           {viewMode === 'form' && correctedForm[0].fields.length !== hiddenCount && (
             [
