@@ -39,7 +39,19 @@ const transMessages = {
 
 const createTrans = ({ message, ...data }, type) => {
   if (typeof message === 'object' && message.phrase_id) {
-    return [{ id: `helpcenter.messenger.${message.phrase_id}` }, message];
+    switch (message.phrase_id) {
+      case 'message_user-left':
+        return [{ id: `helpcenter.messenger.message_user_left` }, message]
+      case 'message_user-joined':
+        return [{ id: `helpcenter.messenger.message_user_joined` }, message]
+      case 'message_ended-by':
+        return [{ id: `helpcenter.messenger.message_ended_by` }, message]
+      case 'message_ended-by-user':
+        return [{ id: `helpcenter.messenger.message_ended_by_user` }, message]
+      default:
+        return [{ id: `helpcenter.messenger.${message.phrase_id}` }, message];
+    }
+
   } else if (type in transMessages) {
     return [transMessages[type], data];
   }
