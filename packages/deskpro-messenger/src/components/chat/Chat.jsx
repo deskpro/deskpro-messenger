@@ -24,7 +24,7 @@ const transMessages = {
     defaultMessage: `{name} joined the conversation.`
   },
   userLeft: {
-    id: 'helpcenter.messenger.message_user-left',
+    id: 'helpcenter.messenger.message_user_left',
     defaultMessage: `{name} left the conversation.`
   },
   noAgentOnline: {
