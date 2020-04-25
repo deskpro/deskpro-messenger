@@ -92,8 +92,12 @@ class ScreenContent extends PureComponent {
   };
 
   handleFileSend = (file) => {
+    let url = `${this.context.helpdeskURL}/api/messenger/file/upload-file`;
+    if(['image/jpeg', 'image/gif', 'image/png'].includes(file.type)) {
+      url = `${this.context.helpdeskURL}/api/messenger/file/upload-image`
+    }
     AJAXSubmit({
-      url: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
+      url,
       files: [file],
       name: 'blob',
       token: this.props.csrfToken,

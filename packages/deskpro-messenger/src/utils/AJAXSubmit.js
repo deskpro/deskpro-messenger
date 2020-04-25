@@ -39,51 +39,28 @@ const AJAXSubmit = (function () {
         oAjaxReq.responseType = 'json';
     };
     oAjaxReq.open('post', oData.receiver, true);
-    /* enctype is multipart/form-data */
-    const sBoundary = `---------------------------${Date.now().toString(16)}`;
-    oAjaxReq.setRequestHeader('Content-Type', `multipart/form-data; boundary=${sBoundary}`);
     if (config.requestHeaders) {
       for (const [name, value] of Object.entries(config.requestHeaders)) {
         oAjaxReq.setRequestHeader(name, value);
       }
     }
-    oAjaxReq.send(`--${sBoundary}\r\n${
-      oData.segments.join(`--${sBoundary}\r\n`)}--${sBoundary}--\r\n`);
+    oAjaxReq.send(oData.formData);
   }
 
   function processStatus(oData, config = {}) {
-    if (oData.status > 0) { return; }
-    /* the form is now totally serialized! do something before sending it to the server... */
-    // /* doSomething(oData); */
-    // /* console.log("AJAXSubmit - The form is now serialized. Submitting..."); */
     submitData(oData, config);
-  }
-
-  function pushSegment(oFREvt) {
-    this.owner.segments[this.segmentIdx] += `${oFREvt.target.result}\r\n`;
-    this.owner.status = this.owner.status - 1;
-    processStatus(this.owner, this.config);
   }
 
   function SubmitRequest(config) {
     this.receiver = config.url;
-    this.status = 0;
-    this.segments = [];
+    this.formData = null;
     for (let nFile = 0; nFile < config.files.length; nFile++) {
       const oFile = config.files[nFile];
-      const oSegmReq = new FileReader();
-      /* (custom properties:) */
-      oSegmReq.segmentIdx = this.segments.length;
-      oSegmReq.owner = this;
-      oSegmReq.config = config;
-      /* (end of custom properties) */
-      oSegmReq.onload = pushSegment;
-      this.segments.push(`Content-Disposition: form-data; name="file"; filename="${oFile.name}"\r\nContent-Type: ${oFile.type}\r\n\r\n`);
-      this.status = this.status + 1;
-      oSegmReq.readAsBinaryString(oFile);
+      this.formData = new FormData();
+      this.formData.append('file', oFile);
+      processStatus(this, config);
     }
-    this.segments.push(`Content-Disposition: form-data;`);
-    processStatus(this, config);
+
   }
 
   // eslint-disable-next-line func-names
