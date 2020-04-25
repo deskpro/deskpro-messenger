@@ -373,7 +373,7 @@ export const chatEpic = combineEpics(
 
 //#region REDUCER
 const emptyChat = { messages: [] };
-const chatReducer = produce((draft, { type, payload }) => {
+const chatReducer = produce((draft, { type, payload }, chatAssigned) => {
   switch (type) {
     case CHAT_SEND_MESSAGE_SUCCESS:
       if (!payload.type.startsWith('chat.end')) {
@@ -408,8 +408,14 @@ const chatReducer = produce((draft, { type, payload }) => {
           return;
         }
       }
-      if (payload.type === 'chat.agentAssigned' || payload.type === 'chat.agentUnassigned') {
+      if (payload.type === 'chat.agentAssigned') {
+        if (chatAssigned) {
+          draft.messages.push(payload);
+        }
         draft.agent = _pick(payload, ['name', 'avatar']);
+      } else if (payload.type === 'chat.agentUnassigned') {
+        draft.agent = {};
+        draft.messages.push(payload);
       } else {
         draft.messages.push(payload);
       }
@@ -445,9 +451,7 @@ export default produce(
         if (chat.status === 'open') {
           draft.activeChat = id;
         }
-        if (chat.agent) {
-          draft.chatAssigned = true;
-        }
+        draft.chatAssigned = !!chat.agent;
       });
     } else if (
       [CHAT_MESSAGE_RECEIVED, CHAT_SEND_MESSAGE_SUCCESS].includes(type)
@@ -455,7 +459,8 @@ export default produce(
       if (payload.chat in draft.chats) {
         draft.chats[payload.chat] = chatReducer(
           draft.chats[payload.chat],
-          action
+          action,
+          draft.chatAssigned
         );
       }
       if (payload.type === 'chat.agentAssigned' && payload.chat === draft.activeChat) {
@@ -466,7 +471,18 @@ export default produce(
       }
     } else if (type === CHAT_HISTORY_LOADED) {
       const chatId = payload[0].chat || draft.activeChat;
-      draft.chats[chatId].messages = payload.concat(
+      // we're going to cut off first assigned message
+      // see https://app.clubhouse.io/deskpro/story/8082/event-when-agent-joins-chat
+      let firstAssigned = false;
+      draft.chats[chatId].messages = payload.filter((item) => {
+        if(item.meta.type === 'chat.agentAssigned' && !firstAssigned) {
+          firstAssigned = true;
+          return false;
+        } else if (item.meta.type === 'chat.agentAssigned' && firstAssigned) {
+          return true;
+        }
+        return true;
+      }).concat(
         draft.chats[chatId].messages
       );
     } else if (type === CHAT_CREATE_ERROR) {

@@ -3,7 +3,7 @@ import _pick from 'lodash/pick';
 import createNotificationStream from '../notifications';
 
 const pickChat = (chat) =>
-  _pick(chat, ['id', 'access_token', 'department', 'status']);
+  _pick(chat, ['id', 'access_token', 'department', 'status', 'agent']);
 
 export default class ApiService {
   polling = false;
@@ -122,7 +122,7 @@ export default class ApiService {
     return await this.apiClient
       .get(`/api/messenger/chat/${chat.id}-${chat.access_token}/messages`)
       .then(({ data }) =>
-        data.filter((m) => m.meta.type !== 'chat.agentAssigned' && m.meta.type !== 'chat.agentUnassigned').map((m) => {
+        data.map((m) => {
           if (m.origin === 'system') {
             return {
               ...m,

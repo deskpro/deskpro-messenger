@@ -48,6 +48,10 @@ const createTrans = ({ message, ...data }, type) => {
         return [{ id: `helpcenter.messenger.message_ended_by` }, message]
       case 'message_ended-by-user':
         return [{ id: `helpcenter.messenger.message_ended_by_user` }, message]
+      case 'message_assigned':
+        return [{ id: `helpcenter.messenger.message_assigned` }, message]
+      case 'message_unassigned':
+        return [{ id: `helpcenter.messenger.message_unassigned` }, message]
       default:
         return [{ id: `helpcenter.messenger.${message.phrase_id}` }, message];
     }
@@ -160,7 +164,11 @@ class Chat extends React.Component {
                   return <MessageBubble key={key} {...message} prev={messages[index-1]}/>;
                 case 'chat.agentAssigned':
                 case 'chat.agentUnassigned':
-                  return null;
+                  return <SystemMessage
+                    key={key}
+                    {...message}
+                    message={intl.formatMessage(...createTrans(message, 'agentAssigned'))}
+                  />;
                 case 'chat.ended':
                 case 'chat.userTimeout':
                 case 'chat.waitTimeout':
