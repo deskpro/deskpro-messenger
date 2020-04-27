@@ -19,7 +19,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt')
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 
 
-const envPublicUrl = process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'localhost';
+const envPublicUrl = process.env.PUBLIC_URL || 'localhost';
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.

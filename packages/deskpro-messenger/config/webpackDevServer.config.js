@@ -10,6 +10,7 @@ const fs = require('fs');
 
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const host = process.env.HOST || '0.0.0.0';
+const envPublicUrl = process.env.PUBLIC_URL || 'localhost';
 
 module.exports = function(proxy, allowedHost) {
   return {
@@ -60,7 +61,7 @@ module.exports = function(proxy, allowedHost) {
     // to CSS are currently hot reloaded. JS changes will refresh the browser.
     hot: true,
     sockPort: 3001,
-    sockHost: 'localhost',
+    sockHost: envPublicUrl,
     // It is important to tell WebpackDevServer to use the same "root" path
     // as we specified in the config. In development, we always serve from /.
     publicPath: config.output.publicPath,
