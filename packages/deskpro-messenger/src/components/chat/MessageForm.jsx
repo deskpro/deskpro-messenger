@@ -84,11 +84,14 @@ class MessageForm extends PureComponent {
       callback: function () {
         const input = document.createElement('input');
         input.type = 'file';
+        input.style.display = 'none';
 
         input.onchange = e => {
           const file = e.target.files[0];
           handleFileSend(file);
         };
+
+        window.document.body.appendChild(input);
 
         input.click();
       }
