@@ -10,6 +10,7 @@ try {
 
   let assets = JSON.parse(json);
   // {HOST} will be replaced by the messenger loader.
+  console.log(assets.entrypoints);
   assets = assets.entrypoints.main.js
     .map((fileName) => `<script async src="{HOST}/${fileName}"></script>`)
     .concat(

@@ -86,7 +86,7 @@ class WidgetToggler extends PureComponent {
     if (!opened) {
       openWindowOnce();
       if (!location.pathname.startsWith('/screens')) {
-        history.push(`/screens/index`);
+        history.push('/screens/index');
       }
     }
 
@@ -106,7 +106,7 @@ class WidgetToggler extends PureComponent {
     if(message.trim()) {
       this.sendCreateChat(message.trim());
     } else {
-      this.props.history.push(`/screens/startChat`);
+      this.props.history.push('/screens/startChat');
       this.props.toggleWindow();
     }
 

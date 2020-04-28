@@ -6,7 +6,7 @@ export default ({ screenName }) => {
     return <span className="dpmsg-LevelLevel" />;
   }
   return (
-    <Link to={`/screens/index`} className="dpmsg-BackBtn dpmsg-LevelLeft">
+    <Link to="/screens/index" className="dpmsg-BackBtn dpmsg-LevelLeft">
       <i className="dpmsg-IconArrow iconArrow--left" />
     </Link>
   );

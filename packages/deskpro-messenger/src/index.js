@@ -1,5 +1,7 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+import "core-js"; // es6+ polyfills
+import "regenerator-runtime/runtime"; // runtime for babel generator and async/await
+import "whatwg-fetch"; // fetch API polyfill
+import "dom4"; // various DOM polyfills - e.g. Element.closest and Element.remove
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
