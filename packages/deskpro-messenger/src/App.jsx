@@ -4,7 +4,6 @@ import { createBrowserHistory as createHistory } from 'history';
 import { Router } from 'react-router-dom';
 
 import Main from './containers/Main';
-import './index.css';
 import createStore from './store';
 import createApiService from './services/api';
 import cache from './services/Cache';
