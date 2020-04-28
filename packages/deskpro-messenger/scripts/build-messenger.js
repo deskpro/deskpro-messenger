@@ -10,14 +10,14 @@ try {
 
   let assets = JSON.parse(json);
   // {HOST} will be replaced by the messenger loader.
-  console.log(assets.entrypoints);
-  assets = assets.entrypoints.main.js
-    .map((fileName) => `<script async src="{HOST}/${fileName}"></script>`)
-    .concat(
-      assets.entrypoints.main.css.map(
-        (fileName) => `<link rel="stylesheet" href="{HOST}/${fileName}">`
-      )
-    )
+  assets = assets.entrypoints
+    .map((fileName) => {
+      if (fileName.match(/js$/)) {
+        return `<script async src="{HOST}/${fileName}"></script>`;
+      } else if (fileName.match(/css$/)) {
+        return `<link rel="stylesheet" href="{HOST}/${fileName}">`
+      }
+    })
     .join('');
   data = data.replace('<!-- INJECT ASSETS -->', assets);
 

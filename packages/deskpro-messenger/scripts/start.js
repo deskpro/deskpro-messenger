@@ -116,12 +116,6 @@ checkBrowsers(paths.appPath, isInteractive)
       proxyConfig,
       urls.lanUrlForConfig
     );
-    if (process.env.HTTPS === 'true') {
-      serverConfig.https = {
-        key: fs.readFileSync('./sslcert/server.key'),
-        cert: fs.readFileSync('./sslcert/server.cert'),
-      };
-    }
     const devServer = new WebpackDevServer(compiler, serverConfig);
     // Launch WebpackDevServer.
     devServer.listen(port, HOST, err => {

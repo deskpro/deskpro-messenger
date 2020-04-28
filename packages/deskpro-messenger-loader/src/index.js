@@ -46,14 +46,18 @@ function setupFrames(config, manifest) {
 
   const iframeDoc = iframe.contentDocument;
 
-  const assets = manifest.entrypoints.main.js.map((fileName) => {
+  const assets = manifest.entrypoints.map((fileName) => {
       let host = '';
       if (!config.bundleUrl.isDev) {
         host = `${config.bundleUrl.isAbsolute ? '' : config.helpdeskURL}${config.bundleUrl.path}`;
       }
 
       const final = `${host.replace(/\/$/, "")}${host ? '/' : ''}${fileName.replace(/^\//, "")}`;
-      return `<script async src="${final}"></script>`;
+      if (fileName.match(/js$/)) {
+        return `<script async src="${final}"></script>`;
+      } else {
+        return `<link rel="stylesheet" href="${final}">`
+      }
     }
   ).join("\n");
 
