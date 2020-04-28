@@ -1,12 +1,12 @@
 .messenger-toggler--button {
-  width: 150px;
   align-self: flex-end;
+  background-color: #ddd;
   border: 1px solid;
   border-radius: 2px;
-  padding: 5px;
   font-size: 14px;
   outline: none;
-  background-color: #ddd
+  padding: 5px;
+  width: 150px;
 }
 
 .messenger-window--container {
