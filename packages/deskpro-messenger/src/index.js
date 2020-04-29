@@ -9,7 +9,6 @@ const container = window.parent.document.getElementById('deskpro-container');
 container.addEventListener('mouseenter', (e) => disableBodyScroll(container));
 container.addEventListener('mouseleave', (e) => enableBodyScroll(container));
 
-
 ReactDOM.render(
   <App />,
   container

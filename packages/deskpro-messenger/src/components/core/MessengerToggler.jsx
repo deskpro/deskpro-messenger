@@ -86,7 +86,7 @@ class WidgetToggler extends PureComponent {
     if (!opened) {
       openWindowOnce();
       if (!location.pathname.startsWith('/screens')) {
-        history.push(`/screens/index`);
+          history.push(`/screens/index`);
       }
     }
 

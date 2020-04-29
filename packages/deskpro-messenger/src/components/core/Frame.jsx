@@ -147,6 +147,7 @@ class Frame extends PureComponent {
             {head}
             {baseHead}
             <style type="text/css" key="extra-style">{extra}</style>
+
           </Fragment>
         }
         frameBorder="0"
