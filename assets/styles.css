@@ -241,8 +241,8 @@
 
   --color-primary: var(--blue);
   --color-dark-primary: rgb(61, 120, 204);
-  --color-secondary: #6e8293;
-  --color-dark-secondary: rgb(110, 161, 204);
+  --color-secondary: #f7f7f7;
+  --color-dark-secondary: rgb(204, 247, 247);
   --color-success: var(--green);
   --color-info: var(--cyan);
   --color-warning: var(--yellow);
@@ -313,10 +313,10 @@
       color: #fff;
       color: #fff;
     }.dpmsg-ColorSwatchItem.ColorSwatchItem--secondary {
-    background-color: #6e8293;
+    background-color: #f7f7f7;
     background-color: var(--color-secondary)
   }.dpmsg-ColorSwatchItem.ColorSwatchItem--secondary .ColorSwatchItemTitle, .dpmsg-ColorSwatchItem.ColorSwatchItem--secondary .ColorSwatchItemValue {
-      color: #fff;
+      color: #000;
       color: #fff;
     }.dpmsg-ColorSwatchItem.ColorSwatchItem--success {
     background-color: #36a66c;
@@ -473,9 +473,9 @@
   height: 3.6em;
   width: 3.6em;
 }.dpmsg-TriggerBtn .dpmsg-IconChat {
-  background-image: url('data:image/svg+xml,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 99" style="enable-background:new 0 0 96 99;" xml:space="preserve"><style type="text/css">.st0{fill:%23FFFFFF;}</style><g><path class="st0" d="M48,4.8c-23.4,0-42.4,19-42.4,42.4c0,5.3,1,10.5,2.9,15.4c1.5,4,3.7,7.7,6.4,11.1L8.7,88.4c-0.3,0.7-0.2,1.5,0.3,2c0.4,0.5,1,0.8,1.6,0.8c0.1,0,0.2,0,0.3,0l22.9-4c4.6,1.6,9.4,2.5,14.2,2.5c23.4,0,42.4-19,42.4-42.4S71.4,4.8,48,4.8z M48,85.6c-4.5,0-9-0.8-13.3-2.4c-0.3-0.1-0.7-0.2-1-0.1l-19.8,3.5l5.3-12.4c0.3-0.7,0.2-1.5-0.3-2.1c-2.8-3.3-5-7-6.5-10.9c-1.7-4.5-2.6-9.2-2.6-14C9.6,26,26.8,8.8,48,8.8S86.4,26,86.4,47.2S69.2,85.6,48,85.6z"/><circle class="st0" cx="32.8" cy="48" r="4.6"/><circle class="st0" cx="48" cy="48" r="4.6"/><circle class="st0" cx="63.2" cy="48" r="4.6"/></g></svg>');
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2096%2099%22%20fill%3D%22%23ffffff%22%3E%3Cpath%20d%3D%22M48%204.8c-23.4%200-42.4%2019-42.4%2042.4%200%205.3%201%2010.5%202.9%2015.4%201.5%204%203.7%207.7%206.4%2011.1L8.7%2088.4c-.3.7-.2%201.5.3%202%20.4.5%201%20.8%201.6.8h.3l22.9-4c4.6%201.6%209.4%202.5%2014.2%202.5%2023.4%200%2042.4-19%2042.4-42.4S71.4%204.8%2048%204.8zm0%2080.8c-4.5%200-9-.8-13.3-2.4-.3-.1-.7-.2-1-.1l-19.8%203.5%205.3-12.4a2.01%202.01%200%200%200-.3-2.1c-2.8-3.3-5-7-6.5-10.9-1.7-4.5-2.6-9.2-2.6-14C9.6%2026%2026.8%208.8%2048%208.8S86.4%2026%2086.4%2047.2%2069.2%2085.6%2048%2085.6z%22%2F%3E%3Ccircle%20cx%3D%2232.8%22%20cy%3D%2248%22%20r%3D%224.6%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2248%22%20r%3D%224.6%22%2F%3E%3Ccircle%20cx%3D%2263.2%22%20cy%3D%2248%22%20r%3D%224.6%22%2F%3E%3C%2Fsvg%3E");
 }.dpmsg-TriggerBtn .dpmsg-IconClose {
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17px" height="16px" viewBox="0 0 17 16" version="1.1"><g id="Cookie-Notification" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round"><g id="Homepage_desktop---COOKIES---APPROVED" transform="translate(-1012.000000, -14.000000)" stroke="%23FFFFFF" stroke-width="2"><g id="icon-close" transform="translate(1013.000000, 15.000000)"><path d="M0.75,0.75 L13.6970074,13.6970074" id="Line-2"/><path d="M0.75,0.75 L13.6970074,13.6970074" id="Line-2" transform="translate(7.500000, 7.500000) scale(-1, 1) translate(-7.500000, -7.500000) "/></g></g></g></svg>');
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2217%22%20height%3D%2216%22%20stroke%3D%22%23ffffff%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M1.75%201.75l12.947%2012.947%22%2F%3E%3Cpath%20d%3D%22M15.25%201.75L2.303%2014.697%22%2F%3E%3C%2Fsvg%3E");
   height: 2em;
   width: 2em;
 }.dpmsg-MessengerFrame.frame-root {
@@ -520,7 +520,7 @@
   vertical-align: top;
   width: 400px;
 }.dpmsg-Screen {
-  background-color: #6e8293;
+  background-color: #f7f7f7;
   background-color: var(--color-secondary);
   border-radius: 4px;
   border-radius: var(--border-radius);
@@ -631,7 +631,7 @@
 }.dpmsg-ScreenFooter {
   align-items: center;
   align-self: flex-end;
-  background-color: #6e8293;
+  background-color: #f7f7f7;
   background-color: var(--color-secondary);
   display: flex;
   justify-content: space-between;
@@ -774,7 +774,12 @@
               width: 100%
             }.dpmsg-ScreenMobile.dpmsg-ScreenFrame .frame-content .dpmsg-AnimationDiv > div .dpmsg-ScreenWrap .dpmsg-Screen .dpmsg-Control .dpmsg-ScreenControls a.dpmsg-BackBtn.dpmsg-LevelLeft {
                 left: 22px;
-              }.dpmsg-Block {
+              }@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+
+  .dpmsg-ScreenHeaderLogo {
+    max-width: 37px;
+  }
+}.dpmsg-Block {
   background-color: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
@@ -2082,13 +2087,13 @@
     color: #fefefe;
     color: var(--text-light)
   }.dpmsg-Button.Button--primary:hover { background: rgb(61, 120, 204); background: var(--color-dark-primary); }.dpmsg-Button.Button--secondary {
-    background: #6e8293;
+    background: #f7f7f7;
     background: var(--color-secondary);
-    border: 1px solid #6e8293;
+    border: 1px solid #f7f7f7;
     border: 1px solid var(--color-secondary);
     color: #fefefe;
     color: var(--text-light)
-  }.dpmsg-Button.Button--secondary:hover { background: rgb(110, 161, 204); background: var(--color-dark-secondary); }.dpmsg-Button.Button--success {
+  }.dpmsg-Button.Button--secondary:hover { background: rgb(204, 247, 247); background: var(--color-dark-secondary); }.dpmsg-Button.Button--success {
     background: #36a66c;
     background: var(--color-success);
     border: 1px solid #36a66c;
