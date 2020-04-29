@@ -15,7 +15,8 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 // single-page apps that may serve index.html for nested URLs like /todos/42.
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
-const publicUrlOrPath = process.env.PUBLIC_URL || 'http://localhost:3001/';
+const publicUrlOrPath = '/';
+const publicHost = process.env.PUBLIC_HOST || 'http://localhost:3001/';
 
 
 const moduleFileExtensions = [
@@ -62,6 +63,7 @@ module.exports = {
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
   publicUrlOrPath,
+  publicHost,
 };
 
 

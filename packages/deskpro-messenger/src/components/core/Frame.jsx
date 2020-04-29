@@ -146,6 +146,7 @@ class Frame extends PureComponent {
             />
             {head}
             {baseHead}
+            <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <style type="text/css" key="extra-style">{extra}</style>
           </Fragment>
         }
