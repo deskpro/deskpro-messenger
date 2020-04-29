@@ -186,7 +186,7 @@ class StartChatScreen extends PureComponent {
             transMessages.blockHeader,
             { department: dept.title }
           )}
-          style={{ minHeight: !isStartForm ? maxHeight : undefined }}
+          style={{ minHeight: !isStartForm && ! isNaN(maxHeight) ? maxHeight : undefined }}
         >
           {viewMode === 'form' && correctedForm[0].fields.length !== hiddenCount && (
             [

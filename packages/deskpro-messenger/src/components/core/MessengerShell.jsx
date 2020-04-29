@@ -14,7 +14,7 @@ class MessengerShell extends PureComponent {
   static propTypes = {
     isMinimal: PropTypes.bool,
     isLight: PropTypes.bool,
-    iframeHeight: PropTypes.number,
+    iframeHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     maxHeight: PropTypes.number,
     children: PropTypes.any,
     screens: PropTypes.object,

@@ -33,7 +33,7 @@ class ScreenContent extends PureComponent {
   static propTypes = {
     visitorId: PropTypes.string.isRequired,
     frameContext: PropTypes.object,
-    iframeHeight: PropTypes.number.isRequired,
+    iframeHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     mobile:       PropTypes.bool.isRequired,
     formFocused:  PropTypes.bool
   };
