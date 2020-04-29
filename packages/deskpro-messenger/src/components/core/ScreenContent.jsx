@@ -247,7 +247,7 @@ class ScreenContent extends PureComponent {
       messageFormHeightAndFooter = ((!!chatData && chatData.status !== 'ended') || this.isStartChat() ? this.state.formHeight : 0) + FOOTER_HEIGHT;
     }
 
-    const innerContentMaxHeight = iframeHeight - (this.shouldShowForm() ? messageFormHeightAndFooter + HEADER_HEIGHT : HEADER_HEIGHT + this.isStartForm() ? 3*FOOTER_HEIGHT : FOOTER_HEIGHT);
+    const innerContentMaxHeight = iframeHeight - (this.shouldShowForm() ? messageFormHeightAndFooter + HEADER_HEIGHT : HEADER_HEIGHT + this.isStartForm() ? 3 * FOOTER_HEIGHT : FOOTER_HEIGHT);
     const fullHeight = this.scrollArea.current && this.scrollArea.current.content.scrollHeight < innerContentMaxHeight;
 
 
@@ -296,7 +296,7 @@ class ScreenContent extends PureComponent {
                       width,
                       height,
                       fullHeight,
-                      maxHeight: innerContentMaxHeight - 97,
+                      maxHeight: innerContentMaxHeight - (mobile ? 67 : 97),
                       scrollArea: this.scrollArea
                     }}
                     >
