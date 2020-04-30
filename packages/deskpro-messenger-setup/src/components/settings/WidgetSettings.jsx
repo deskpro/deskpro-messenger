@@ -141,8 +141,15 @@ class WidgetSettings extends React.PureComponent {
 
             <Label>Icon</Label>
             <span className='dp-ms-widget-logo' onClick={this.handleFileUploadClick}>
-              <img src={config.getIn(['widget', 'icon', 'download_url'])} />
-              <span>{config.getIn(['widget', 'icon', 'filename'])} ({config.getIn(['widget', 'icon', 'filesize_readable'])})</span>
+              {
+                config.hasIn(['widget', 'icon', 'download_url'])
+                  ? <Fragment>
+                    <img src={config.getIn(['widget', 'icon', 'download_url'])} />
+                    <span>{config.getIn(['widget', 'icon', 'filename'])} ({config.getIn(['widget', 'icon', 'filesize_readable'])})</span>
+                  </Fragment>
+                  : <span>click here to upload a custom logo</span>
+              }
+
             </span>
             <br />
 
