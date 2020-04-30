@@ -97,7 +97,8 @@ class TicketFormScreen extends React.Component {
     language:     PropTypes.object,
     userId:       PropTypes.bool,
     ticketSaved:  PropTypes.bool,
-    ticketSaving: PropTypes.bool
+    ticketSaving: PropTypes.bool,
+    widget:       PropTypes.object,
   };
 
   static defaultProps = {
@@ -119,6 +120,7 @@ class TicketFormScreen extends React.Component {
     const {
       intl,
       formConfig,
+      widget,
       uploadTo,
       departments,
       department,
@@ -143,7 +145,7 @@ class TicketFormScreen extends React.Component {
 
     return (
       <Fragment>
-        <Header />
+        <Header icon={widget.icon} />
         <Block
           title={intl.formatMessage({
             id: `helpcenter.messenger.tickets_form_header`,

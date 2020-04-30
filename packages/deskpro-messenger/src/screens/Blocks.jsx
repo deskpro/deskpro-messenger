@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
-
 import Block from '../components/core/Block';
 import QuickSearchBlock from '../components/search/QuickSearchBlock';
 import Button from '../components/form/Button';
@@ -10,6 +9,8 @@ import { canUseChat, getAgentsAvailable } from '../modules/info';
 import { getActiveChat, getChatData } from '../modules/chat';
 import AvatarHeads from '../components/ui/AvatarHeads';
 import Header from '../components/ui/Header';
+import { compose } from 'redux';
+import { withConfig } from '../components/core/ConfigContext';
 
 const transMessages = {
   startChatTitle: {
@@ -108,10 +109,10 @@ const blocksMapping = {
 
 class Blocks extends React.PureComponent {
   render() {
-    const { blocks, agentsAvailable, activeChat, chatData, chatAvailable } = this.props;
+    const { widget, blocks, agentsAvailable, activeChat, chatData, chatAvailable } = this.props;
 
     return (<Fragment>
-      <Header />
+      <Header icon={widget.icon} />
       {blocks.sort((blockA, blockB) => blockA.order - blockB.order).map(({ blockType, ...props }, index) => {
         if(blockType === 'StartChatBlock') {
           if (!Object.keys(agentsAvailable).length || !chatAvailable) {
@@ -139,4 +140,7 @@ const mapStateToProps = (state) => ({
   chatAvailable:   canUseChat(state)
 });
 
-export default connect(mapStateToProps)(Blocks);
+export default compose(
+  withConfig,
+  connect(mapStateToProps)
+)(Blocks);

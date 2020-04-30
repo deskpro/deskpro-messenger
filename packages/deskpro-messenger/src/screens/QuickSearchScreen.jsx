@@ -4,6 +4,8 @@ import { FormattedMessage } from "react-intl";
 import { getSearching, getSearchQuery, getSearchResults, search } from '../modules/search';
 import SearchBlock from '../components/common/SearchBlock';
 import Header from '../components/ui/Header';
+import { compose } from 'redux';
+import { withConfig } from '../components/core/ConfigContext';
 
 const transMessages = {
   noResults: {
@@ -29,16 +31,18 @@ class QuickSearchScreen extends SearchBlock {
   }
 }
 
-export default connect((state) => ({
-    results:   getSearchResults(state),
-    query:     getSearchQuery(state),
-    searching: getSearching(state)
-  }),
-  { search })(
+export default compose(
+  withConfig,
+  connect((state) => ({
+      results:   getSearchResults(state),
+      query:     getSearchQuery(state),
+      searching: getSearching(state)
+    }),
+    { search })
+)((
   (props) =>
     <Fragment>
-      <Header/>
+      <Header icon={props.widget.icon} />
       <QuickSearchScreen {...props} />
     </Fragment>
-);
-
+));

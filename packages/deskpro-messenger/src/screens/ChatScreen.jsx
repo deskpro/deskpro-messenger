@@ -89,7 +89,7 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const { departments, chatConfig, chatData, intl, user, agent, messages, history, typing } = this.props;
+    const { widget, departments, chatConfig, chatData, intl, user, agent, messages, history, typing } = this.props;
     const { contentSize: { maxHeight }} = this.props;
     const department = chatConfig.department
       ? departments[chatConfig.department]
@@ -102,7 +102,7 @@ class ChatScreen extends PureComponent {
 
     return (
       <Fragment>
-        <Header />
+        <Header icon={widget.icon}/>
         <Block
           title={intl.formatMessage(
             {
