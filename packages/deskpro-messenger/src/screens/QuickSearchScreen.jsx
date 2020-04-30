@@ -42,7 +42,7 @@ export default compose(
 )((
   (props) =>
     <Fragment>
-      <Header icon={props.widget.icon} />
+      <Header icon={props.widget.icon.download_url} />
       <QuickSearchScreen {...props} />
     </Fragment>
 ));

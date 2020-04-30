@@ -145,7 +145,7 @@ class TicketFormScreen extends React.Component {
 
     return (
       <Fragment>
-        <Header icon={widget.icon} />
+        <Header icon={widget.icon.download_url} />
         <Block
           title={intl.formatMessage({
             id: `helpcenter.messenger.tickets_form_header`,

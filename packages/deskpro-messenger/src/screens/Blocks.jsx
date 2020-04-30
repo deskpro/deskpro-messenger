@@ -112,7 +112,7 @@ class Blocks extends React.PureComponent {
     const { widget, blocks, agentsAvailable, activeChat, chatData, chatAvailable } = this.props;
 
     return (<Fragment>
-      <Header icon={widget.icon} />
+      <Header icon={widget.icon.download_url} />
       {blocks.sort((blockA, blockB) => blockA.order - blockB.order).map(({ blockType, ...props }, index) => {
         if(blockType === 'StartChatBlock') {
           if (!Object.keys(agentsAvailable).length || !chatAvailable) {

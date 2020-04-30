@@ -179,7 +179,7 @@ class StartChatScreen extends PureComponent {
 
     return (
       <Fragment>
-        <Header icon={widget.icon}/>
+        <Header icon={widget.icon.download_url}/>
         <Block
           className="Block--chat"
           title={intl.formatMessage(

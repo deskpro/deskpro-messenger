@@ -102,7 +102,7 @@ class ChatScreen extends PureComponent {
 
     return (
       <Fragment>
-        <Header icon={widget.icon}/>
+        <Header icon={widget.icon.download_url}/>
         <Block
           title={intl.formatMessage(
             {
