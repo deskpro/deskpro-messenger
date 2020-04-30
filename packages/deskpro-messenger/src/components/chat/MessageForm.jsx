@@ -132,8 +132,6 @@ class MessageForm extends PureComponent {
       return false;
     }
 
-
-
     return e;
   };
 

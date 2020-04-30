@@ -10,11 +10,12 @@ import {
   Section,
   Subheading,
   Radio,
-  Input, Group
+  Group
 } from '@deskpro/react-components';
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import PhraseModal from './PhraseModal';
 import TranslationButton from './TranslationButton';
+import AJAXSubmit from '../../utils/AJAXSubmit';
 
 class WidgetSettings extends React.PureComponent {
   static propTypes = {
@@ -35,6 +36,45 @@ class WidgetSettings extends React.PureComponent {
       modal: false,
       modalPhrase: ''
     }
+  }
+
+  handleFileSend = (file) => {
+
+    let url = `/api/v2/blobs/temp`;
+
+    AJAXSubmit({
+      url,
+      files: [file],
+      name: 'file',
+      transferComplete: this.handleTransferComplete,
+      transferFailed: this.handleTransferFailed,
+      transferCanceled: this.handleTransferFailed,
+    });
+  };
+
+  handleTransferComplete = (e) => {
+    if (e.target.response && e.target.response.data) {
+      this.props.handleChange(e.target.response.data, 'widget.icon');
+    }
+  };
+
+  handleTransferFailed = (e) => {
+
+  };
+
+  handleFileUploadClick = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.style.display = 'none';
+
+    input.onchange = e => {
+      const file = e.target.files[0];
+      this.handleFileSend(file);
+    };
+
+    window.document.body.appendChild(input);
+
+    input.click();
   }
 
   handleRadioChange = (checked, value, name) => {
@@ -96,6 +136,13 @@ class WidgetSettings extends React.PureComponent {
               onChange={handleChange}
               format="hex"
             />
+
+            <Label>Icon</Label>
+            <a className='dp-ms-widget-logo' href="#logo" onClick={this.handleFileUploadClick}>
+              <img src={config.getIn(['widget', 'icon', 'download_url'])} />
+              <span>{config.getIn(['widget', 'icon', 'filename'])} ({config.getIn(['widget', 'icon', 'filesize_readable'])})</span>
+            </a>
+            <br />
 
             <Group
               label="Greeting Title"

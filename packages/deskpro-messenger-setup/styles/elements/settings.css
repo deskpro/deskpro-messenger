@@ -167,3 +167,15 @@
 .dp-ms-widget-styles input:checked+label img {
     opacity: 1;
 }
+
+.dp-ms-widget-logo, .dp-ms-widget-logo:hover {
+    color: #4c4f50;
+    text-decoration: none;
+}
+
+.dp-ms-widget-logo img {
+    border: 1px solid #4c4f50;
+    height: 60px;
+    margin: 0 10px 10px 0;
+    padding: 5px;
+}
