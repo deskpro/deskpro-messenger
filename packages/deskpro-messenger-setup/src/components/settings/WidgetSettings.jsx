@@ -62,7 +62,9 @@ class WidgetSettings extends React.PureComponent {
 
   };
 
-  handleFileUploadClick = () => {
+  handleFileUploadClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const input = document.createElement('input');
     input.type = 'file';
     input.style.display = 'none';
@@ -138,10 +140,10 @@ class WidgetSettings extends React.PureComponent {
             />
 
             <Label>Icon</Label>
-            <a className='dp-ms-widget-logo' href="#logo" onClick={this.handleFileUploadClick}>
+            <span className='dp-ms-widget-logo' onClick={this.handleFileUploadClick}>
               <img src={config.getIn(['widget', 'icon', 'download_url'])} />
               <span>{config.getIn(['widget', 'icon', 'filename'])} ({config.getIn(['widget', 'icon', 'filesize_readable'])})</span>
-            </a>
+            </span>
             <br />
 
             <Group
