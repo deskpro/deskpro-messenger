@@ -595,12 +595,14 @@
 }.is-minimal .dpmsg-ScreenHeaderLogo img {
   height: 37px;
 }.is-minimal .dpmsg-ScreenHeaderLogo svg {
-  color: #fff;
-  color: var(--header-icon-text-color);
+  color: #fff !important;
+  color: var(--header-icon-text-color) !important;
   height: 37px;
 }.is-minimal .dpmsg-ScreenHeaderLogo svg path {
-  fill: #fff;
-  fill: var(--header-icon-text-color);
+  fill: #fff !important;
+  fill: var(--header-icon-text-color) !important;
+  stroke: #fff !important;
+  stroke: var(--header-icon-text-color) !important;
 }.is-minimal .dpmsg-ScreenHeader {
   flex-direction: row;
   padding: 0 25px 65px 30px;
@@ -2274,7 +2276,10 @@
     padding: 1.25em 1.5em;
     white-space: pre;
     word-wrap: normal;
-  }body {
+  }.dp-progress--primary .dp-progress__bar {
+  background-color: #3d88f3 !important;
+  background-color: var(--color-primary) !important;
+}body {
 
   /* this is froala FF bug fix (wont affect webkit) */
   margin-left: 0;
