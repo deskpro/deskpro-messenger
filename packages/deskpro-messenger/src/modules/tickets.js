@@ -14,15 +14,20 @@ export const newTicket  = () => ({ type: TICKET_NEW_OPEN });
 //#endregion
 
 const flattenErrors = (errors = {}, field, key) => {
-  if(!errors[key]) errors[key] = {};
+  let ek = key;
+  const m = ek.match('fields_(\\d+)')
+  if(m) {
+    ek = `ticket_field_${m[1]}`;
+  }
   if(field.errors) {
-    errors[key] = field.errors
+    if(!errors[ek]) errors[ek] = {};
+    errors[ek] = field.errors
       .map(error => error.message)
       .filter((item, pos, self) => self.indexOf(item) === pos)
       .join(' ');
   } else if (field.fields) {
     Object.keys(field.fields).forEach((k) => {
-      flattenErrors(errors[key], field.fields[k], k);
+      flattenErrors(errors[ek] || errors, field.fields[k], k);
     });
   }
 };
