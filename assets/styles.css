@@ -1085,6 +1085,7 @@
     color: var(--grey-darkest);
     font-weight: normal;
     line-height: 150%;
+    margin: 0;
   }.dpmsg-BubbleItem h1 {
     font-size: 23px;
   }.dpmsg-BubbleItem h2 {
