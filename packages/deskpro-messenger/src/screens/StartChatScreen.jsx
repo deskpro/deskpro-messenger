@@ -153,7 +153,7 @@ class StartChatScreen extends PureComponent {
 
   render() {
     const { widget, department, departments, preChatForm, intl, user, uploadTo, formMessageEnabled } = this.props;
-    const { contentSize: { maxHeight, isStartForm }, errors } = this.props;
+    const { contentSize: { maxHeight }, errors } = this.props;
     const { viewMode } = this.state;
     const dept = department ? departments[department] : {};
     const initialValues = { ...user };
