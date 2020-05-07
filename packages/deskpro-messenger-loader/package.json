@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/messenger-loader",
-  "version": "0.2.7",
+  "version": "0.2.17",
   "description": "Loader for the Deskpro Messenger v2",
   "author": "DeskPRO <support@deskpro.com>",
   "license": "BSD-3-Clause",
