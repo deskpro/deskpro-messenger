@@ -72,6 +72,10 @@ export default (settings) => {
     delete screens.newTicket.enabled;
   }
 
+  if(!settings.widget.icon) {
+    settings.widget.icon = {};
+  }
+
   return {
     language: settings.language,
     widget: settings.widget,
