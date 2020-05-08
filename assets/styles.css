@@ -1281,7 +1281,7 @@
   padding: 0 10px;
 }.dpmsg-AutoStart .dpmsg-ScreenWrap {
   position: relative;
-  width: 380px;
+  width: 360px;
 }.dpmsg-AutoStartHeader {
   border-radius: 4px 4px 0 0;
   border-radius: var(--border-radius) var(--border-radius) 0 0;
