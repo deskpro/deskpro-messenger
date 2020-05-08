@@ -187,7 +187,7 @@ class WidgetToggler extends PureComponent {
 
     if (this.canAutoStart() && this.state.canRenderAutoStart) {
       iframeStyle.height = this.state.iframeHeight;
-      iframeStyle.width  = '400px';
+      iframeStyle.width  = '380px';
     } else {
       iframeStyle.height = '60px';
       iframeStyle.width  = '60px';
