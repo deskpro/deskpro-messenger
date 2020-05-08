@@ -135,10 +135,66 @@ class MessageForm extends PureComponent {
     return e;
   };
 
+  imageInserted = (e, editor, img) => {
+    img.style.display = 'none';
+  };
+
+  imageUploaded = (e, editor, response) => {
+    const { blob } = JSON.parse(response);
+
+    if (blob) {
+      this.props.onSend({
+        message: 'chat.attachment',
+        type: 'chat.attachment',
+        blob: blob,
+      });
+    }
+
+    editor.popups.hide('file.insert');
+  };
+
+  imageLoaded(e, editor, $img) {
+    $img.parent().siblings('.fr-image-resizer').removeClass('fr-active');
+    $img.remove();
+    editor.events.focus();
+  }
+
+  fileError = (event, editor, error, response) => {
+    const err = [];
+    if (!response && error) {
+      err.push(error.message);
+    } else if (error && response) {
+      err.push(error.message);
+      if(error.code === 3 || error.code === 4 || error.code === 5) {
+        err.push("Contact server administrator for more info.");
+      }
+    } else {
+      try {
+        const { errors } = JSON.parse(response);
+        for (let [, error] of Object.entries(errors)) {
+          err.push(error);
+        }
+      } catch (e) {
+        err.push(e.message);
+      }
+    }
+    if(err.length > 0) {
+      const $popup = editor.popups.get('file.insert');
+      const $layer = $popup.find('.fr-layer');
+      $layer.find('h3').text(err.join(' '));
+    }
+
+  };
+
   froalaConfig = {
     requestHeaders: {
       'X-DESKPRO-VISITORID': this.props.visitorId
     },
+    imageUploadMethod: 'POST',
+    imageUploadURL: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
+    fileUploadMethod: 'POST',
+    fileUploadURL: `${this.context.helpdeskURL}/api/messenger/file/upload-file`,
+    fileMaxSize: this.props.maxFileSize || (1024*1024*10),
     toolbarBottom: true,
     toolbarSticky: false,
     toolbarButtons: ['emoticons', 'attachFile', 'sendMessage'],
@@ -151,10 +207,14 @@ class MessageForm extends PureComponent {
     key: 'MC1D2D1G2lG4J4A14A7D3D6F6C2C3F3gSXSE1LHAFJVCXCLS==',
     events: {
       'froalaEditor.initialized': this.onFroalaInit,
+      'froalaEditor.image.uploaded': this.imageUploaded,
+      'froalaEditor.image.loaded': this.imageLoaded,
+      'froalaEditor.image.beforePasteUpload': this.imageInserted,
+      'froalaEditor.image.error': this.fileError,
       'froalaEditor.focus': () => (this.props.setMessageFormFocus(true)),
       'froalaEditor.blur': () => (this.props.setMessageFormFocus(false)),
     },
-    pluginsEnabled: ['emoticons'],
+    pluginsEnabled: ['image', 'emoticons'],
     scrollableContainer: this.props.frameContext.document.querySelector('body')
   };
 
