@@ -508,7 +508,7 @@
   min-height: 34px;
   position: relative;
   top: 0;
-  width: 400px;
+  width: 380px;
   z-index: 9999;
 }.dpmsg-ScreenWrap {
   align-items: flex-end;
@@ -518,7 +518,7 @@
   flex-wrap: wrap;
   height: 100%;
   vertical-align: top;
-  width: 400px;
+  width: 380px;
 }.dpmsg-Screen {
   background-color: #f7f7f7;
   background-color: var(--color-secondary);
@@ -529,7 +529,7 @@
   height: 100%;
   overflow: hidden;
   padding-top: 0;
-  width: 400px;
+  width: 380px;
 }.dpmsg-ScreenContent {
   align-self: flex-start;
   height: 100%;
