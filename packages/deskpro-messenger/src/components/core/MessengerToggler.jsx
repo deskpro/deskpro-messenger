@@ -16,9 +16,9 @@ const mobile = isMobile();
 
 const iframeStyle = {
   position: 'fixed',
-  bottom:   '12px',
-  width:    '60px',
-  height:   '60px'
+  bottom:   '2px',
+  width:    '70px',
+  height:   '70px'
 };
 
 class WidgetToggler extends PureComponent {
@@ -189,8 +189,8 @@ class WidgetToggler extends PureComponent {
       iframeStyle.height = this.state.iframeHeight;
       iframeStyle.width  = '380px';
     } else {
-      iframeStyle.height = '60px';
-      iframeStyle.width  = '60px';
+      iframeStyle.height = '70px';
+      iframeStyle.width  = '70px';
     }
     return (
       <Frame
