@@ -229,6 +229,32 @@ const pingChatEndEpic = (action$, _, { api }) =>
     skip()
   );
 
+let evaluateInterval;
+
+const evaluateEpic = (action$, state$, { api }) =>
+  action$.pipe(
+    ofType(CHAT_OPENED),
+    withLatestFrom(state$),
+    tap(([{ payload: chat }, state]) => {
+      if(chat.access_token && !isChatAssigned(state)) {
+        evaluateInterval = setInterval(() => api.evaluateChat(chat), 2 * 1000)
+      }
+    }),
+    skip()
+  );
+
+const stopChatEvaluateEpic = (action$, state$, { api }) =>
+  action$.pipe(
+    ofType(CHAT_MESSAGE_RECEIVED),
+    filter(({ payload: message }) =>
+      ['chat.agentAssigned', 'chat.ended', 'chat.noAgents'].includes(message.type)
+    ),
+    tap(({ payload: chat }) => {
+      clearInterval(evaluateInterval);
+    }),
+    skip()
+  );
+
 const agentAssignementTimeout = (action$, _, { config }) =>
   action$.pipe(
     ofType(CHAT_SAVE_CHAT),
@@ -372,7 +398,9 @@ export const chatEpic = combineEpics(
   agentAssignementTimeout,
   forceChatOpenOnSaveEpic,
   pingChatStartEpic,
-  pingChatEndEpic
+  pingChatEndEpic,
+  evaluateEpic,
+  stopChatEvaluateEpic
 );
 //#endregion
 

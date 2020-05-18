@@ -81,6 +81,12 @@ export default class ApiService {
     );
   }
 
+  evaluateChat(chat) {
+    return this.apiClient.get(
+      `/api/messenger/chat/${chat.id}-${chat.access_token}/evaluate`
+    );
+  }
+
   getTranslation(language) {
     return this.apiClient.get(
       `/api/messenger/service/translation?language=${language}`
