@@ -60,7 +60,7 @@ export default (settings) => {
 
   if (settings.tickets.enabled) {
     screens.index.blocks.push({
-      blockType: 'ButtonLink',
+      blockType: 'NewTicketBlock',
       blockTitle: 'helpcenter.messenger.blocks_ticket_title',
       description: 'helpcenter.messenger.blocks_ticket_description',
       label: 'helpcenter.messenger.blocks_ticket_button',

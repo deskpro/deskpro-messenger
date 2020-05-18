@@ -5,7 +5,7 @@ import Block from '../components/core/Block';
 import QuickSearchBlock from '../components/search/QuickSearchBlock';
 import Button from '../components/form/Button';
 import { connect } from 'react-redux';
-import { canUseChat, getAgentsAvailable } from '../modules/info';
+import { canUseChat, canUseTickets, getAgentsAvailable } from '../modules/info';
 import { getActiveChat, getChatData } from '../modules/chat';
 import AvatarHeads from '../components/ui/AvatarHeads';
 import Header from '../components/ui/Header';
@@ -104,12 +104,24 @@ const blocksMapping = {
         {intl.formatMessage({id: label})}
       </Button>
     </Block>
+  )),
+  NewTicketBlock: injectIntl(({ to, intl, label, blockTitle, description, ...props }) => (
+    <Block title={intl.formatMessage({id: blockTitle})}>
+      {description &&
+      <div className="dpmsg-BlockText">
+        {intl.formatMessage({id: description})}
+      </div>
+      }
+      <Button  title={intl.formatMessage({id: description}) || ''} to={`/screens/${to}`} width="full" color="primary">
+        {intl.formatMessage({id: label})}
+      </Button>
+    </Block>
   ))
 };
 
 class Blocks extends React.PureComponent {
   render() {
-    const { widget, blocks, agentsAvailable, activeChat, chatData, chatAvailable } = this.props;
+    const { widget, blocks, agentsAvailable, activeChat, chatData, chatAvailable, ticketsAvailable } = this.props;
 
     return (<Fragment>
       <Header icon={widget.icon.download_url} />
@@ -124,6 +136,9 @@ class Blocks extends React.PureComponent {
           }
           props.agentsAvailable = agentsAvailable;
         }
+        if(blockType === 'NewTicketBlock' && !ticketsAvailable) {
+          return null;
+        }
         const Component = blocksMapping[blockType];
         return Component ? (
           <Component key={blockType + index} {...props} />
@@ -134,10 +149,11 @@ class Blocks extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  agentsAvailable: getAgentsAvailable(state),
-  activeChat:      getActiveChat(state),
-  chatData:        getChatData(state),
-  chatAvailable:   canUseChat(state)
+  agentsAvailable:  getAgentsAvailable(state),
+  activeChat:       getActiveChat(state),
+  chatData:         getChatData(state),
+  chatAvailable:    canUseChat(state),
+  ticketsAvailable: canUseTickets(state)
 });
 
 export default compose(
