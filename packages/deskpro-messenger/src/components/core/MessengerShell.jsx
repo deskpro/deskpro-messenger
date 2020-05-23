@@ -1,14 +1,15 @@
-import React, { forwardRef, Fragment, PureComponent } from 'react';
+import React, { Suspense, lazy, forwardRef, Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Route } from 'react-router-dom';
 import { ConfigConsumer } from './ConfigContext';
-import ScreenContent from './ScreenContent';
 import { isLightColor } from '../../utils/color';
 import BackButton from '../../containers/BackButton';
 import EndChatButton from '../../containers/EndChatButton';
 import { connect } from 'react-redux';
 import { getChatData } from '../../modules/chat';
+
+const ScreenContent = lazy(() => import('./ScreenContent'));
 
 class MessengerShell extends PureComponent {
   static propTypes = {
@@ -80,17 +81,19 @@ class MessengerShell extends PureComponent {
               { this.renderToolbar() }
             </div>
           </div>
-          <ScreenContent
-            maxHeight={maxHeight}
-            contentHeight={contentHeight}
-            ref={forwardedRef}
-            iframeHeight={iframeHeight}
-            mobile={mobile}
-            screens={screens}
-            animating={animating}
-          >
-            {children}
-          </ScreenContent>
+          <Suspense fallback="Loading...">
+            <ScreenContent
+              maxHeight={maxHeight}
+              contentHeight={contentHeight}
+              ref={forwardedRef}
+              iframeHeight={iframeHeight}
+              mobile={mobile}
+              screens={screens}
+              animating={animating}
+            >
+              {children}
+            </ScreenContent>
+          </Suspense>
         </div>
       </div>
     );

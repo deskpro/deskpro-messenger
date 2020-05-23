@@ -1,4 +1,4 @@
-import React, { createRef, forwardRef, Fragment, PureComponent } from 'react';
+import React, { lazy, createRef, forwardRef, Fragment, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Dropzone from 'react-dropzone';
@@ -13,7 +13,6 @@ import isMobile from 'is-mobile';
 import { isMessageFormFocused } from '../../modules/app';
 import { createChat, getChatData, sendMessage } from '../../modules/chat';
 import { Footer } from '../ui/Footer';
-import MessageForm from '../chat/MessageForm';
 import { getUser } from '../../modules/guest';
 import { getChatDepartments } from '../../modules/info';
 import AJAXSubmit from "../../utils/AJAXSubmit";
@@ -23,7 +22,7 @@ import DropArea from "../chat/DropArea";
 
 const mobile = isMobile();
 export const ScreenContentContext = React.createContext();
-
+const MessageForm = lazy(() => import('../chat/MessageForm'));
 
 const HEADER_HEIGHT = 34;
 const FOOTER_HEIGHT = 33;
