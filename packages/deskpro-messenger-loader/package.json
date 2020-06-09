@@ -6,6 +6,7 @@
   "license": "BSD-3-Clause",
   "main": "src/index.js",
   "dependencies": {
+    "deepmerge": "^4.2.2",
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {

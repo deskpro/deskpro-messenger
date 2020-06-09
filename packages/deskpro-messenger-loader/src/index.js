@@ -1,4 +1,5 @@
 import transformConfig from './transformConfig';
+import deepmerge from 'deepmerge';
 
 function loadConfig(helpdeskURL) {
   const configUrl = `${helpdeskURL}/api/messenger/service/setup`;
@@ -7,12 +8,13 @@ function loadConfig(helpdeskURL) {
     .then((res) => res.json())
     .then((adminConfig) => {
       const { bundleUrl } = adminConfig;
-      const config = {
+      const config = deepmerge({
         bundleUrl,
         helpdeskURL,
         ...transformConfig(adminConfig),
-        ...window.DESKPRO_MESSENGER_OPTIONS
-      };
+      }, window.DESKPRO_MESSENGER_OPTIONS);
+
+
       if(bundleUrl.isDev) {
         config.isDev = true;
       }
