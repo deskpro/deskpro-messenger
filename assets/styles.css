@@ -1542,7 +1542,9 @@
       left: -21px;
       right: -21px;
       top: -18px;
-    }.fr-box.fr-basic.fr-top {
+    }.react-datepicker__month {
+  margin: 0 !important;
+}.fr-box.fr-basic.fr-top {
   display: flex;
   flex-direction: column-reverse;
 }.fr-box.fr-basic.fr-bottom .fr-wrapper, .fr-box.fr-basic.fr-top .fr-wrapper {
@@ -2290,7 +2292,7 @@
   padding: 0;
   position: static;
   position: initial;
-}:root {
+}.autocomplete__wrapper{position:relative}.autocomplete__hint,.autocomplete__input{-webkit-appearance:none;border:2px solid #0b0c0c;border-radius:0;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;margin-bottom:0;width:100%}.autocomplete__input{background-color:transparent;position:relative}.autocomplete__hint{color:#b1b4b6;position:absolute}.autocomplete__input--default{padding:5px}.autocomplete__input--focused{outline:3px solid #fd0;outline-offset:0;box-shadow:inset 0 0 0 2px}.autocomplete__input--show-all-values{padding:5px 34px 5px 5px;cursor:pointer}.autocomplete__dropdown-arrow-down{z-index:-1;display:inline-block;position:absolute;right:8px;width:24px;height:24px;top:10px}.autocomplete__menu{background-color:#fff;border:2px solid #0b0c0c;border-top:0;color:#0b0c0c;margin:0;max-height:342px;overflow-x:hidden;padding:0;width:100%;width:calc(100% - 4px)}.autocomplete__menu--visible{display:block}.autocomplete__menu--hidden{display:none}.autocomplete__menu--overlay{box-shadow:rgba(0,0,0,.256863) 0 2px 6px;left:0;position:absolute;top:100%;z-index:100}.autocomplete__menu--inline{position:relative}.autocomplete__option{border-bottom:solid #b1b4b6;border-width:1px 0;cursor:pointer;display:block;position:relative}.autocomplete__option>*{pointer-events:none}.autocomplete__option:first-of-type{border-top-width:0}.autocomplete__option:last-of-type{border-bottom-width:0}.autocomplete__option--odd{background-color:#fafafa}.autocomplete__option--focused,.autocomplete__option:hover{background-color:#1d70b8;border-color:#1d70b8;color:#fff;outline:0}.autocomplete__option--no-results{background-color:#fafafa;color:#646b6f;cursor:not-allowed}.autocomplete__hint,.autocomplete__input,.autocomplete__option{font-size:16px;line-height:1.25}.autocomplete__hint,.autocomplete__option{padding:5px}@media (min-width:641px){.autocomplete__hint,.autocomplete__input,.autocomplete__option{font-size:19px;line-height:1.31579}}:root {
   --grey-darkest: #4c4f50;
   --grey-dark: #8b9293;
   --grey-lightest: #f7f7f7;
@@ -3174,7 +3176,114 @@
       color: #d3d6d7;
       color: #d3d6d7;
       color: var(--grey-light);
-    }.dp-pc_full-dnd__droparea {
+    }.dp-pc_field .autocomplete__wrapper {
+    position: relative;
+  }.dp-pc_field .autocomplete__wrapper .autocomplete__hint,
+    .dp-pc_field .autocomplete__wrapper .autocomplete__input {
+      -webkit-appearance: none;
+      border: 2px solid #d3d6d7;
+      border: 2px solid #d3d6d7;
+      border: 2px solid var(--grey-light);
+      border-radius: 3px; /* Safari 10 on iOS adds implicit border rounding. */
+      height: 44px;
+      height: 44px;
+      height: var(--input-height);
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      margin-bottom: 0; /* BUG: Safari 10 on macOS seems to add an implicit margin. */
+      width: 100%;
+      padding: 0 11px 0 12px;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__input {
+      background-color: transparent;
+      position: relative;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__menu {
+      background-color: #fff;
+      border: 1px solid #D3D6D7;
+      color: #4c4f50;
+      color: #4c4f50;
+      color: var(--text-color);
+      border-radius: 4px;
+      margin: 8px 0;
+      max-height: 342px;
+      overflow-x: hidden;
+      padding: 4px 0;
+      width: 100%;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__menu--visible {
+      display: block;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__menu--hidden {
+      display: none;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__menu--overlay {
+      box-shadow: rgba(0, 0, 0, 0.256863) 0px 2px 6px;
+      left: 0;
+      position: absolute;
+      top: 100%;
+      z-index: 100;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__menu--inline {
+      position: relative;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__option {
+      border-bottom: solid #b1b4b6;
+      border-width: 1px 0;
+      cursor: pointer;
+      display: block;
+      position: relative;
+      font-size: 16px;
+      padding: 10px;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__option > * {
+      pointer-events: none;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__option:first-of-type {
+      border-top-width: 0;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__option:last-of-type {
+      border-bottom-width: 0;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__option--odd {
+      background-color: #FAFAFA;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__option--focused,
+    .dp-pc_field .autocomplete__wrapper .autocomplete__option:hover {
+      background-color: #1d70b8;
+      border-color: #1d70b8;
+      color: white;
+      outline: none;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__option--no-results {
+      background-color: #FAFAFA;
+      color: #646b6f;
+      cursor: not-allowed;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__hint,
+    .dp-pc_field .autocomplete__wrapper .autocomplete__input,
+    .dp-pc_field .autocomplete__wrapper .autocomplete__option {
+      font-size: 16px;
+      line-height: 1.25;
+    }.dp-pc_field .autocomplete__wrapper .autocomplete__hint,
+    .dp-pc_field .autocomplete__wrapper .autocomplete__option {
+      padding: 10px;
+    }.dp-pc_field .autocomplete__wrapper .dp-react-select__dropdown-indicator {
+      z-index: -1;
+      display: inline-block;
+      position: absolute;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      top: 14px;
+    }.dp-pc_field .autocomplete__wrapper .dp-react-select__dropdown-indicator:before,
+      .dp-pc_field .autocomplete__wrapper .dp-react-select__dropdown-indicator:after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        content: ' ';
+        height: 14px;
+        width: 2px;
+        background-color: #3d88f3;
+        background-color: #3d88f3;
+        background-color: var(--brand-primary);
+      }.dp-pc_field .autocomplete__wrapper .dp-react-select__dropdown-indicator:before {
+        transform: rotate(-45deg);
+      }.dp-pc_field .autocomplete__wrapper .dp-react-select__dropdown-indicator:after {
+        left: 9px;
+        transform: rotate(45deg);
+      }.dp-pc_field .autocomplete__wrapper input[aria-expanded=true] + .dp-react-select__dropdown-indicator:before {
+        transform: rotate(45deg);
+      }.dp-pc_field .autocomplete__wrapper input[aria-expanded=true] + .dp-react-select__dropdown-indicator:after {
+        transform: rotate(-45deg);
+      }.dp-pc_full-dnd__droparea {
   position: absolute;
   background-color: #FFF;
   top: 0;
@@ -3248,6 +3357,21 @@
       background-color: #4eba5c;
       background-color: #4eba5c;
       background-color: var(--valid-label);
+    }.dp-cascading-dropdown .children {
+    margin-top: 10px;
+    margin-left: 50px;
+    position: relative;
+  }.dp-cascading-dropdown .children .dp-cascading-dropdown:before {
+      width: 50px;
+      height: 44px;
+      position: absolute;
+      top: 0;
+      left: -50px;
+      content: ' ';
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMjgiIHZpZXdCb3g9IjAgMCAzMiAyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMSAwLjVWMjEuMjVIMjYuMjUiIHN0cm9rZT0iI0E5QjBCMCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWRhc2hhcnJheT0iNCAyIi8+PHBhdGggZD0iTTMyIDIxLjI1TDIzIDI2LjQ0NjJMMjMgMTYuMDUzOEwzMiAyMS4yNVoiIGZpbGw9IiNBOUIwQjAiLz48L3N2Zz4=");
+      background-position: top -4px left 20px;
+      background-repeat: no-repeat;
+      background-size: 26px 90%;
     }.react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {
