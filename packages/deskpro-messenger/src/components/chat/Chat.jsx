@@ -121,7 +121,7 @@ class Chat extends React.Component {
     const { contentSize: { scrollArea, height }} = this.props;
 
     setTimeout(() => {
-      if (scrollArea.current) {
+      if (scrollArea.current && scrollArea.current.content && scrollArea.current.wrapper) {
         scrollArea.current.setState(
           {
             containerHeight: scrollArea.current.wrapper.offsetHeight,
@@ -129,7 +129,6 @@ class Chat extends React.Component {
           },
           () => {
             setTimeout(() => scrollArea.current.scrollBottom(), 50);
-
           }
         );
       }

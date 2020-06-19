@@ -2,7 +2,6 @@ import React, { lazy, createRef, forwardRef, Fragment, PureComponent } from 'rea
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Dropzone from 'react-dropzone';
-import ReactResizeDetector from 'react-resize-detector';
 import { FrameContextConsumer } from 'react-frame-component';
 import ScrollArea from 'react-scrollbar/dist/no-css';
 import { withRouter } from 'react-router-dom';
@@ -62,7 +61,7 @@ class ScreenContent extends PureComponent {
         if(!isNaN(lineHeightPx) && lineHeightPx) {
           clearInterval(this.scrollAreaLineHeightUpdateInterval);
         } else {
-          this.scrollArea.current.lineHeightPx = 10;
+          this.scrollArea.current.lineHeightPx = 16;
         }
       }
     };
@@ -286,23 +285,19 @@ class ScreenContent extends PureComponent {
               ownerDocument={frameContext.document}
             >
               <div ref={forwardedRef} className="dpmsg-ScreenContentWrapper">
-                <ReactResizeDetector handleHeight>
-                  {(width, height) => (
-                    <ScreenContentContext.Provider value={{
-                      isStartChat: this.isStartChat(),
-                      isStartForm: this.isStartForm(),
-                      animating: this.props.animating,
-                      width,
-                      height,
-                      fullHeight,
-                      maxHeight: innerContentMaxHeight - (mobile ? 67 : 97),
-                      scrollArea: this.scrollArea
-                    }}
-                    >
-                      {children}
-                    </ScreenContentContext.Provider>
-                  )}
-                </ReactResizeDetector>
+                <ScreenContentContext.Provider value={{
+                  isStartChat: this.isStartChat(),
+                  isStartForm: this.isStartForm(),
+                  animating: this.props.animating,
+                  width: 0,
+                  height: forwardedRef.current ? forwardedRef.current.offsetHeight : innerContentMaxHeight,
+                  fullHeight,
+                  maxHeight: innerContentMaxHeight - (mobile ? 67 : 97),
+                  scrollArea: this.scrollArea
+                }}
+                >
+                  {children}
+                </ScreenContentContext.Provider>
               </div>
               { !this.isChat() && <Footer />}
             </ScrollArea>
