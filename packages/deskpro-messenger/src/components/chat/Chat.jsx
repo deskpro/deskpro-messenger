@@ -93,7 +93,7 @@ class Chat extends React.Component {
   scrollArea = React.createRef();
 
   componentDidMount() {
-    if (this.props.messages.length > 0 && this.props.contentSize.scrollArea.current) {
+    if (this.props.messages.length > 0 && !this.props.contentSize.animating) {
       this.scrollToBottom();
     }
   }
@@ -106,7 +106,6 @@ class Chat extends React.Component {
 
     if (
       !this.props.contentSize.animating && (
-        prevProps.contentSize.animating ||
         prevProps.messages.length !== this.props.messages.length ||
         (lastPrevChat && lastPrevChat.id !== lastCurrentChat.id) ||
         changedSize || prevProps.endChatBlock !== this.props.endChatBlock
@@ -128,11 +127,14 @@ class Chat extends React.Component {
             realHeight: height
           },
           () => {
-            setTimeout(() => scrollArea.current.scrollBottom(), 50);
+            setTimeout(() => {
+              scrollArea.current.scrollBottom()
+              console.log('scrolling to bottom', scrollArea.current.state.realHeight - scrollArea.current.state.containerHeight);
+            }, 10);
           }
         );
       }
-    }, 50);
+    }, 10);
   }
 
   render() {

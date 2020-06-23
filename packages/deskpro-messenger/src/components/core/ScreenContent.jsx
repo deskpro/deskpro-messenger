@@ -61,11 +61,11 @@ class ScreenContent extends PureComponent {
         if(!isNaN(lineHeightPx) && lineHeightPx) {
           clearInterval(this.scrollAreaLineHeightUpdateInterval);
         } else {
-          this.scrollArea.current.lineHeightPx = 16;
+          this.scrollArea.current.lineHeightPx = 6;
         }
       }
     };
-    this.scrollAreaLineHeightUpdateInterval = setInterval(updateFunction, 100);
+    this.scrollAreaLineHeightUpdateInterval = setInterval(updateFunction, 10);
   }
 
   componentWillUnmount() {
