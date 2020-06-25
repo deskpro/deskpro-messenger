@@ -13,21 +13,24 @@ export const saveTicket = (data) => ({ type: TICKET_SAVE_NEW, payload: data });
 export const newTicket  = () => ({ type: TICKET_NEW_OPEN });
 //#endregion
 
-const flattenErrors = (errors = {}, field, key) => {
-  let ek = key;
+const flattenErrors = (errors = {}, field, parentKey) => {
+  let ek = parentKey;
   const m = ek.match('fields_(\\d+)')
   if(m) {
     ek = `ticket_field_${m[1]}`;
   }
-  if(field.errors) {
-    if(!errors[ek]) errors[ek] = {};
+  if (!errors[ek]) {
+    errors[ek] = {};
+  }
+
+  if (field.errors) {
     errors[ek] = field.errors
       .map(error => error.message)
       .filter((item, pos, self) => self.indexOf(item) === pos)
       .join(' ');
   } else if (field.fields) {
-    Object.keys(field.fields).forEach((k) => {
-      flattenErrors(errors[ek] || errors, field.fields[k], k);
+    Object.keys(field.fields).forEach((childKey) => {
+      flattenErrors(errors[ek], field.fields[childKey], childKey);
     });
   }
 };
