@@ -50,6 +50,7 @@ export default produce(
           (acc, d) => ({ ...acc, [d.id]: d }),
           {}
         );
+        draft.ticketCategories = payload.ticket_categories;
         payload.agents_online.forEach((a) => draft.agents[a.id] = a);
         draft.agents_online = payload.agents_online.map((a) => a.id);
         return;
@@ -79,13 +80,14 @@ export default produce(
         return draft;
     }
   },
-  { chatDepartments: {}, ticketDepartments: {}, agents: {}, agents_online: [] }
+  { chatDepartments: {}, ticketDepartments: {}, agents: {}, agents_online: [], ticketCategories: {} }
 );
 //#endregion
 
 //#region SELECTORS
 export const getChatDepartments = (state) => state.info.chatDepartments;
 export const getTicketDepartments = (state) => state.info.ticketDepartments;
+export const getTicketCategories = (state) => state.info.ticketCategories;
 export const hasAgentsAvailable = (state) => state.info.agents_online.length;
 export const getAgentsAvailable = (state) => state.info.agents;
 export const canUseChat = (state) => state.info.canUseChat;
