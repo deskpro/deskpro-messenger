@@ -2350,9 +2350,9 @@
   position: relative;
   margin-bottom: 20px;
 }.dp-pc_field input.dp-pc_input {
-    border: 1.5px solid #3A8DDE;
-    border: 1.5px solid #3A8DDE;
-    border: 1.5px solid var(--input-border);
+    border: 1px solid #3A8DDE;
+    border: 1px solid #3A8DDE;
+    border: 1px solid var(--input-border);
     border-radius: 3px;
     background-color: #f7f7f7;
     background-color: #f7f7f7;
@@ -2432,9 +2432,9 @@
     color: #4c4f50;
     color: #4c4f50;
     color: var(--text-color);
-    border: 1.5px solid #3A8DDE;
-    border: 1.5px solid #3A8DDE;
-    border: 1.5px solid var(--input-border);
+    border: 1px solid #3A8DDE;
+    border: 1px solid #3A8DDE;
+    border: 1px solid var(--input-border);
     border-radius: 3px;
     background-color: #f7f7f7;
     background-color: #f7f7f7;
@@ -2467,9 +2467,9 @@
 
 
   .dp-pc_field .react-select__control {
-    border: 1.5px solid #d3d6d7;
-    border: 1.5px solid #d3d6d7;
-    border: 1.5px solid var(--grey-light);
+    border: 1px solid #d3d6d7;
+    border: 1px solid #d3d6d7;
+    border: 1px solid var(--grey-light);
     border-radius: 3px;
     background-color: #f7f7f7;
     background-color: #f7f7f7;
@@ -2654,9 +2654,9 @@
         color: #4c4f50;
         color: var(--text-color);
         border-radius: 4px;
-        border: 2px solid #d3d6d7;
-        border: 2px solid #d3d6d7;
-        border: 2px solid var(--checkbox-border);
+        border: 1px solid #d3d6d7;
+        border: 1px solid #d3d6d7;
+        border: 1px solid var(--checkbox-border);
         margin-top: 0;
         margin-bottom: 6px;
       }.dp-pc_field .react-select-multi .react-select__control .react-select__value-container--is-multi > [class$=-Input] {
@@ -3025,9 +3025,9 @@
     background-color: #f7f7f7;
     background-color: #f7f7f7;
     background-color: var(--input-background);
-    border: 1.5px solid #3A8DDE;
-    border: 1.5px solid #3A8DDE;
-    border: 1.5px solid var(--input-border);
+    border: 1px solid #3A8DDE;
+    border: 1px solid #3A8DDE;
+    border: 1px solid var(--input-border);
     border-radius: 3px;
   }.dp-pc_field .dp-pc_date-picker input.dp-pc_date-picker_input {
       font-size: 18px;
