@@ -1042,10 +1042,10 @@
   dependencies:
     immutable "3.8.2"
 
-"@deskpro/portal-components@0.4.57":
-  version "0.4.57"
-  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.4.57.tgz#4b851903e902b812214ca1ea60160f58f116e33b"
-  integrity sha512-Gzw12iDeMBK2YeMsmMqzmCzND0fkkS/xpsxno1I1Fpi6rJ5fQWeIqcjIVWqZiMYmLR67eZNzAuZ6LeQUBK+P4g==
+"@deskpro/portal-components@0.4.58":
+  version "0.4.58"
+  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-0.4.58.tgz#f32377fd4123fef6e25190c9cceec6dadcb07ebb"
+  integrity sha512-Pau73NzUS2zBC+YLhrsa1Y7I87mnuvfnkaPtif3YwiBNW3dMxUzPlG2iBEEBr65yM1J0cS8ECkbK/E8JhfInbA==
   dependencies:
     "@deskpro/js-utils" "1.0.13"
     "@deskpro/react-datepicker-hijri" "^1.5.0"
