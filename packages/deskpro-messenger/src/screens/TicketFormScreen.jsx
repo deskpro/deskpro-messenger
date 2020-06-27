@@ -8,7 +8,7 @@ import { fromJSGreedy } from '../utils/common';
 import Block from '../components/core/Block';
 import { TicketForm } from '@deskpro/portal-components';
 import { getErrors, getTicketSavedState, getTicketSavingState, newTicket, saveTicket } from '../modules/tickets';
-import { getTicketDepartments, getTicketCategories } from '../modules/info';
+import { getTicketDepartments, getTicketPriorities } from '../modules/info';
 import { getUser, isUserSet } from '../modules/guest';
 import Header from '../components/ui/Header';
 import { withConfig } from '../components/core/ConfigContext';
@@ -76,9 +76,9 @@ const transMessages = {
   },
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     departments:  getTicketDepartments(state),
-    categories:   getTicketCategories(state),
+    priorities:   getTicketPriorities(state),
     ticketSaved:  getTicketSavedState(state),
     ticketSaving: getTicketSavingState(state),
     user:         getUser(state),
@@ -124,7 +124,7 @@ class TicketFormScreen extends React.Component {
       widget,
       uploadTo,
       departments,
-      categories,
+      priorities,
       department,
       ticketSaved,
       ticketSaving,
@@ -166,7 +166,7 @@ class TicketFormScreen extends React.Component {
                 deskproLayout={immutableLayout}
                 departmentPropName="department"
                 departments={fromJSGreedy(departments)}
-                categories={fromJSGreedy(categories)}
+                priorities={fromJSGreedy(priorities)}
                 department={department}
                 fileUploadUrl={uploadTo}
                 csrfToken="not_used"
