@@ -6,12 +6,14 @@ export default (settings) => {
     }
   };
 
-  screens.index.blocks.push({
-    blockType: 'QuickSearchBlock',
-    blockTitle: "Quick search",
-    to: 'quick-search',
-    order: 0
-  });
+  if (settings.kbEnabled) {
+    screens.index.blocks.push({
+      blockType: 'QuickSearchBlock',
+      blockTitle: "Quick search",
+      to: 'quick-search',
+      order: 0
+    });
+  }
 
   if (settings.chat.enabled) {
     const chatBlockConfig = settings.chat;
