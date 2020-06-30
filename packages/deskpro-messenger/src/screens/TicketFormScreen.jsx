@@ -12,6 +12,7 @@ import { getTicketDepartments, getTicketPriorities } from '../modules/info';
 import { getUser, isUserSet } from '../modules/guest';
 import Header from '../components/ui/Header';
 import { withConfig } from '../components/core/ConfigContext';
+import { withScreenContentSize } from '../components/core/ScreenContent';
 
 const transMessages = {
   name: {
@@ -117,6 +118,12 @@ class TicketFormScreen extends React.Component {
     this.props.newTicket();
   }
 
+  componentDidUpdate() {
+    if(this.props.ticketSaving === true) {
+      setTimeout(() => this.props.contentSize.scrollArea.current.scrollTop(), 50);
+    }
+  }
+
   render() {
     const {
       intl,
@@ -220,6 +227,7 @@ class TicketFormScreen extends React.Component {
 
 export default compose(
   withConfig,
+  withScreenContentSize,
   connect(
     mapStateToProps,
     { saveTicket, newTicket }
