@@ -1096,6 +1096,11 @@
     font-size: 19px;
   }.dpmsg-BubbleItem h4 {
     font-size: 17px;
+  }.dpmsg-BubbleItem blockquote {
+    border-left: 1px solid !important;
+    font-style: normal !important;
+    margin: 15px 0 15px 0 !important;
+    padding-left: 5px;
   }.dpmsg-BubbleItem.dpmsg-SameSender {
     margin-bottom: 5px;
     margin-bottom: var(--xxs-space);
