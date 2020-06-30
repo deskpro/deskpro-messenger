@@ -52,24 +52,18 @@ export default produce(
         );
         draft.ticketPriorities = payload.ticket_priorities;
         payload.agents_online.forEach((a) => draft.agents[a.id] = a);
-        draft.agents_online = payload.agents_online.map((a) => a.id);
         return;
       }
       case ALERT_RECEIVED: {
         switch (payload.type) {
           case 'user_chat.agents_online':
             draft.agents = payload.data;
-            draft.agents_online = payload.data.map((a) => a.id);
             return;
           case 'agent.update_status':
-            draft.agents[payload.data.agent.id] = payload.data.agent;
             if (payload.data.online) {
-              draft.agents_online.push(payload.data.agent.id);
+              draft.agents[payload.data.agent.id] = payload.data.agent;
             } else {
-              const agentIndex = draft.agents_online.indexOf(payload.data.agent.id);
-              if (agentIndex !== -1) {
-                draft.agents_online.splice(agentIndex, 1);
-              }
+              delete draft.agents[payload.data.agent.id];
             }
             return;
           default:
@@ -84,7 +78,6 @@ export default produce(
     chatDepartments: {},
     ticketDepartments: {},
     agents: {},
-    agents_online: [],
     ticketPriorities: [],
   }
 );
@@ -94,7 +87,7 @@ export default produce(
 export const getChatDepartments = (state) => state.info.chatDepartments;
 export const getTicketDepartments = (state) => state.info.ticketDepartments;
 export const getTicketPriorities = (state) => state.info.ticketPriorities;
-export const hasAgentsAvailable = (state) => state.info.agents_online.length;
+export const hasAgentsAvailable = (state) => state.info.agents.length > 0;
 export const getAgentsAvailable = (state) => state.info.agents;
 export const canUseChat = (state) => state.info.canUseChat;
 export const canUseTickets = (state) => state.info.canUseTickets;
