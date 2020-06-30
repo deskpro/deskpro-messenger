@@ -215,6 +215,7 @@ const pingChatStartEpic = (action$, state$, { api }) =>
   action$.pipe(
     ofType(CHAT_OPENED),
     tap(({ payload: chat }) => {
+      api.pingChat(chat);
       pingInterval = setInterval(() => api.pingChat(chat), 110 * 1000)
     }),
     skip()
