@@ -87,7 +87,7 @@ export default produce(
 export const getChatDepartments = (state) => state.info.chatDepartments;
 export const getTicketDepartments = (state) => state.info.ticketDepartments;
 export const getTicketPriorities = (state) => state.info.ticketPriorities;
-export const hasAgentsAvailable = (state) => state.info.agents.length > 0;
+export const hasAgentsAvailable = (state) => Object.keys(state.info.agents).length > 0;
 export const getAgentsAvailable = (state) => state.info.agents;
 export const canUseChat = (state) => state.info.canUseChat;
 export const canUseTickets = (state) => state.info.canUseTickets;
