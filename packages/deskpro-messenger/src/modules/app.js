@@ -43,18 +43,22 @@ const startupRedirectEpic = (action$, _, { history, config, cache }) =>
     ofType(SET_VISITOR),
     take(1),
     tap(({ payload }) => {
-      if (config.screens.startChat && Array.isArray(payload.chats)) {
-        if(!/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
-          const activeChat = payload.chats.find((c) => c.status === 'open');
-          if (cache.getValue('app.lastLocation')) {
-            if (cache.getValue('app.lastLocation').indexOf('/screens/active-chat/') === 0 && !activeChat) {
-              history.push('/screens/index');
-            } else {
-              history.push(cache.getValue('app.lastLocation'));
-            }
-          } else if (activeChat) {
-            history.push(`/screens/active-chat/${activeChat.id}`);
+      if(!/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+        const lastLocation = cache.getValue('app.lastLocation');
+        let activeChat;
+        if (config.screens.startChat && Array.isArray(payload.chats)) {
+          activeChat = payload.chats.find((c) => c.status === 'open');
+        }
+        if (lastLocation) {
+          if (lastLocation.indexOf('/screens/active-chat/') === 0 && !activeChat) {
+            history.push('/screens/index');
+          } else {
+            history.push(lastLocation);
           }
+        } else if (config.screens.startChat && activeChat) {
+          history.push(`/screens/active-chat/${activeChat.id}`);
+        } else {
+          history.push('/screens/index');
         }
       }
     }),

@@ -171,7 +171,10 @@ class ScreenContent extends PureComponent {
   isStartForm = () => {
     const { screens: { startChat }} = this.props;
 
-    return startChat && startChat.preChatForm &&  preChatForm.length > 0 && preChatForm[0].fields.length > 0
+    return startChat
+      && startChat.preChatForm
+      && startChat.preChatForm.length > 0
+      && startChat.preChatForm[0].fields.length > 0
   };
 
   isChatEnded = () => {
