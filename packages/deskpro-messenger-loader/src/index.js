@@ -8,12 +8,38 @@ function loadConfig(helpdeskURL) {
     .then((res) => res.json())
     .then((adminConfig) => {
       const { bundleUrl } = adminConfig;
+
+      let themeVars = {};
+
+      // transform to theme vars:
+      if (window.DESKPRO_MESSENGER_OPTIONS.widget && window.DESKPRO_MESSENGER_OPTIONS.widget.position) {
+        themeVars.position = window.DESKPRO_MESSENGER_OPTIONS.widget.position;
+      }
+
+      if (window.DESKPRO_MESSENGER_OPTIONS.widget && window.DESKPRO_MESSENGER_OPTIONS.widget.primaryColor) {
+        themeVars['--color-primary'] = window.DESKPRO_MESSENGER_OPTIONS.widget.primaryColor;
+        themeVars['--brand-primary'] = window.DESKPRO_MESSENGER_OPTIONS.widget.primaryColor;
+      }
+
+      if (window.DESKPRO_MESSENGER_OPTIONS.widget && window.DESKPRO_MESSENGER_OPTIONS.widget.backgroundColor) {
+        themeVars['--color-secondary'] = window.DESKPRO_MESSENGER_OPTIONS.widget.backgroundColor;
+        themeVars['--brand-secondary'] = window.DESKPRO_MESSENGER_OPTIONS.widget.backgroundColor;
+      }
+      if (window.DESKPRO_MESSENGER_OPTIONS.widget && window.DESKPRO_MESSENGER_OPTIONS.widget.textColor) {
+        themeVars['--header-icon-text-color'] = window.DESKPRO_MESSENGER_OPTIONS.widget.textColor;
+      }
+
+      window.DESKPRO_MESSENGER_OPTIONS.themeVars = themeVars;
+
+      console.log(window.DESKPRO_MESSENGER_OPTIONS);
+
       const config = deepmerge({
         bundleUrl,
         helpdeskURL,
         ...transformConfig(adminConfig),
       }, window.DESKPRO_MESSENGER_OPTIONS);
 
+      console.log(adminConfig);
 
       if(bundleUrl.isDev) {
         config.isDev = true;
@@ -22,6 +48,9 @@ function loadConfig(helpdeskURL) {
         config.language = { ...adminConfig.language, ...window.DESKPRO_MESSENGER_OPTIONS.language };
       }
       window.DESKPRO_MESSENGER_OPTIONS = config;
+
+      console.log(window.DESKPRO_MESSENGER_OPTIONS);
+
       return config;
     });
 }
