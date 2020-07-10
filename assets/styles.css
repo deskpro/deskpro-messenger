@@ -2902,7 +2902,6 @@
       border-radius: 4px;
       display: inline-block;
       padding: 10px;
-      white-space: nowrap;
       cursor: pointer;
       width: 100%;
     }.dp-pc_field .dp-pc_file-upload .dp-pc_file-upload__dropzone .choose {
