@@ -29,16 +29,18 @@ const FOOTER_HEIGHT = 33;
 class ScreenContent extends PureComponent {
 
   static propTypes = {
-    visitorId: PropTypes.string.isRequired,
-    frameContext: PropTypes.object,
+    visitorId:    PropTypes.string.isRequired,
     iframeHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     mobile:       PropTypes.bool.isRequired,
+    user:         PropTypes.object,
+    frameContext: PropTypes.object,
     formFocused:  PropTypes.bool
   };
 
   static defaultProps = {
+    user:         {},
     frameContext: {},
-    formFocused: false
+    formFocused:  false
   };
 
   static contextType = ConfigContext;
@@ -169,12 +171,33 @@ class ScreenContent extends PureComponent {
   };
 
   isStartForm = () => {
-    const { screens: { startChat }} = this.props;
+    const { user, screens: { startChat }} = this.props;
 
-    return startChat
-      && startChat.preChatForm
-      && startChat.preChatForm.length > 0
-      && startChat.preChatForm[0].fields.length > 0
+    let correctedForm = false;
+    let hiddenCount = 0;
+    if (startChat && startChat.preChatForm) {
+      correctedForm = startChat.preChatForm;
+      if(correctedForm.length > 0) {
+        correctedForm[0].fields.forEach(f => {
+          if(f.field_id === 'name' && user.name) {
+            f.field_type = 'hidden';
+            hiddenCount++;
+          }
+          if(f.field_id === 'email' && user.email) {
+            f.field_type = 'hidden';
+            hiddenCount++
+          }
+          if(f.field_type === 'department' && f.is_hidden) {
+            hiddenCount++
+          }
+        });
+      }
+    }
+
+
+    return correctedForm
+      && correctedForm[0].fields.length > 0
+      && correctedForm[0].fields.length !== hiddenCount
   };
 
   isChatEnded = () => {
