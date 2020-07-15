@@ -9,6 +9,7 @@ export default class ApiService {
   polling = false;
   _visitorId = null;
   jwt = false;
+  brandId = null;
 
   constructor(config = {}) {
     let clientConfig      = {
@@ -19,10 +20,14 @@ export default class ApiService {
         'Content-Type': 'application/json; charset=utf-8',
       }
     };
-    if(config.jwt) {
-      clientConfig.headers['X-JWT-TOKEN'] = this.jwt = config.jwt;
-    }
+
     this.apiClient = axios.create(clientConfig);
+    if(config.jwt) {
+      this.apiClient.defaults.headers['X-JWT-TOKEN'] = this.jwt = config.jwt;
+    }
+    if(config.brandId) {
+      this.apiClient.defaults.headers['X-DESKPRO-BRANDID'] = this.brandId = config.brandId;
+    }
   }
 
   set visitorId(value) {

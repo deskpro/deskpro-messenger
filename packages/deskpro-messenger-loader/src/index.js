@@ -1,10 +1,14 @@
 import transformConfig from './transformConfig';
 import deepmerge from 'deepmerge';
 
-function loadConfig(helpdeskURL) {
-  const configUrl = `${helpdeskURL}/api/messenger/service/setup`;
+function loadConfig(helpdeskURL, brandId) {
+  let configUrl = `${helpdeskURL}/api/messenger/service/setup`;
+  const options = {};
+  if(brandId) {
+    options.headers = {['X-DESKPRO-BRANDID']: brandId}
+  }
 
-  return fetch(configUrl)
+  return fetch(configUrl, options)
     .then((res) => res.json())
     .then((adminConfig) => {
       const { bundleUrl } = adminConfig;
@@ -83,8 +87,13 @@ function setupFrames(config, manifest) {
 
 function init() {
   const scriptTag = document.getElementById('dp-messenger-loader');
-  const hdUrl = window.DESKPRO_MESSENGER_OPTIONS.helpdeskURL;
-  return loadConfig(hdUrl).then((config) => {
+  let hdUrl = window.DESKPRO_MESSENGER_OPTIONS.helpdeskURL;
+  const { brandId } = window.DESKPRO_MESSENGER_OPTIONS;
+  if(hdUrl.search(/(\/b\/.+\/?)/) && brandId) {
+    hdUrl = hdUrl.replace(/(\/b\/.+\/?)/, '');
+    window.DESKPRO_MESSENGER_OPTIONS.helpdeskURL = hdUrl;
+  }
+  return loadConfig(hdUrl, brandId).then((config) => {
     fetch(`${config.bundleUrl.isDev || config.bundleUrl.isAbsolute ? '' : config.helpdeskURL}${config.bundleUrl.manifest}`)
       .then((res) => res.json())
       .then((manifest) => {
