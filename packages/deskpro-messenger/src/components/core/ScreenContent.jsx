@@ -195,7 +195,7 @@ class ScreenContent extends PureComponent {
     }
 
 
-    return correctedForm
+    return correctedForm && correctedForm.length > 0
       && correctedForm[0].fields.length > 0
       && correctedForm[0].fields.length !== hiddenCount
   };
