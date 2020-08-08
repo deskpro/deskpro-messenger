@@ -7,7 +7,15 @@ import { fromJSGreedy } from '../utils/common';
 
 import Block from '../components/core/Block';
 import { TicketForm } from '@deskpro/portal-components';
-import { getErrors, getTicketSavedState, getTicketSavingState, newTicket, saveTicket } from '../modules/tickets';
+import {
+  getErrors,
+  getTicketSavedState,
+  getTicketSavingState,
+  getTicketFormCache,
+  newTicket,
+  saveTicket,
+  cacheForm
+} from '../modules/tickets';
 import { getTicketDepartments, getTicketPriorities } from '../modules/info';
 import { getUser, isUserSet } from '../modules/guest';
 import Header from '../components/ui/Header';
@@ -82,6 +90,7 @@ const mapStateToProps = (state) => ({
     priorities:   getTicketPriorities(state),
     ticketSaved:  getTicketSavedState(state),
     ticketSaving: getTicketSavingState(state),
+    formCache:    getTicketFormCache(state),
     user:         getUser(state),
     isUserSet:    isUserSet(state),
     errors:       getErrors(state)
@@ -93,6 +102,7 @@ class TicketFormScreen extends React.Component {
     uploadTo:     PropTypes.string.isRequired,
     saveTicket:   PropTypes.func.isRequired,
     newTicket:    PropTypes.func.isRequired,
+    cacheForm:    PropTypes.func.isRequired,
     departments:  PropTypes.object.isRequired,
     intl:         PropTypes.object.isRequired,
     user:         PropTypes.object,
@@ -100,18 +110,25 @@ class TicketFormScreen extends React.Component {
     userId:       PropTypes.bool,
     ticketSaved:  PropTypes.bool,
     ticketSaving: PropTypes.bool,
+    formCache:    PropTypes.object,
     widget:       PropTypes.object,
   };
 
   static defaultProps = {
     ticketSaved: false,
     ticketSaving: false,
+    formCache: {},
     user: {name: '', email: ''},
     language: {},
   };
 
   onSubmit = (values) => {
+    this.props.cacheForm({values: {}});
     return this.props.saveTicket(values);
+  };
+
+  cacheForm = (form) => {
+    this.props.cacheForm(form);
   };
 
   componentDidMount() {
@@ -137,6 +154,7 @@ class TicketFormScreen extends React.Component {
       ticketSaving,
       errors,
       user,
+      formCache,
       isUserSet
     } = this.props;
     const converted = formConfig.map((d) => {
@@ -169,15 +187,16 @@ class TicketFormScreen extends React.Component {
           )}
             {!ticketSaved && (
               <TicketForm
-                initialValues={{ person: user }}
+                initialValues={ {...formCache, ...{ person: user }} }
                 deskproLayout={immutableLayout}
                 departmentPropName="department"
                 departments={fromJSGreedy(departments)}
                 priorities={fromJSGreedy(priorities)}
-                department={department}
+                department={formCache.department || department}
                 fileUploadUrl={uploadTo}
                 csrfToken="not_used"
                 onSubmit={this.onSubmit}
+                onChange={this.cacheForm}
                 errors={errors}
                 languageId={parseInt(this.props.language.id, 10)}
                 i18n={{
@@ -230,7 +249,7 @@ export default compose(
   withScreenContentSize,
   connect(
     mapStateToProps,
-    { saveTicket, newTicket }
+    { saveTicket, newTicket, cacheForm }
   ),
   injectIntl
 )(TicketFormScreen);

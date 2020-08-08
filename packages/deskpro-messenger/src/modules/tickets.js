@@ -1,16 +1,21 @@
 import { combineEpics, ofType } from 'redux-observable';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
+import Immutable from 'immutable';
+import { APP_INIT } from './app';
 
 //#region ACTION TYPES
 export const TICKET_SAVE_NEW          = 'TICKET_SAVE_NEW';
 export const TICKET_NEW_OPEN          = 'TICKET_NEW_OPEN';
 export const TICKET_SAVE_NEW_SUCCESS  = 'TICKET_SAVE_NEW_SUCCESS';
 export const TICKET_SAVE_NEW_ERROR    = 'TICKET_SAVE_NEW_ERROR';
+export const TICKET_CACHE_FORM        = 'TICKET_CACHE_FORM';
+export const TICKET_CACHE_FORM_DONE   = 'TICKET_CACHE_FORM_DONE';
 //#endregion
 
 //#region ACTIONS
 export const saveTicket = (data) => ({ type: TICKET_SAVE_NEW, payload: data });
 export const newTicket  = () => ({ type: TICKET_NEW_OPEN });
+export const cacheForm  = (form) => ({ type: TICKET_CACHE_FORM, payload: form });
 //#endregion
 
 const flattenErrors = (errors = {}, field, parentKey) => {
@@ -58,10 +63,28 @@ export const createTicketEpic = (action$, _, { api }) =>
     }),
   );
 
-export const ticketEpics = combineEpics(createTicketEpic);
+const cacheTicketFormData = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(TICKET_CACHE_FORM),
+    map(( { payload } ) => {
+      const val = Immutable.fromJS(cache.getValue('formCache') || {}).merge(Immutable.fromJS(payload.values)).toJS();
+      cache.setValue('formCache', val);
+      return {type: TICKET_CACHE_FORM_DONE, payload: val }
+    }),
+  );
+
+const loadCacheTicketFormData = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(APP_INIT),
+    map(() => {
+      return {type: TICKET_CACHE_FORM_DONE, payload: cache.getValue('formCache') || {} }
+    }),
+  );
+
+export const ticketEpics = combineEpics(createTicketEpic, cacheTicketFormData, loadCacheTicketFormData);
 
 //#region REDUCER
-export default (state = { ticketSaving: false, ticketSaved: false, errors: {} }, { type, payload }) => {
+export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, formCache: {} }, { type, payload }) => {
   switch (type) {
     case TICKET_NEW_OPEN:
       return { ...state, ticketSaving: false, ticketSaved: false };
@@ -71,6 +94,8 @@ export default (state = { ticketSaving: false, ticketSaved: false, errors: {} },
       return { ...state, ticketSaving: false, ticketSaved: true, errors: {} };
     case TICKET_SAVE_NEW_ERROR:
       return { ...state, ticketSaving: false, ticketSaved: false, errors: payload };
+    case TICKET_CACHE_FORM_DONE:
+      return { ...state, formCache: payload }
     default:
       return state;
   }
@@ -80,5 +105,6 @@ export default (state = { ticketSaving: false, ticketSaved: false, errors: {} },
 //#region SELECTORS
 export const getTicketSavingState = (state) => state.tickets.ticketSaving;
 export const getTicketSavedState  = (state) => state.tickets.ticketSaved;
+export const getTicketFormCache  = (state) => state.tickets.formCache;
 export const getErrors  = (state) => state.tickets.errors;
 //#endregion

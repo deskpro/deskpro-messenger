@@ -129,7 +129,6 @@ class Chat extends React.Component {
           () => {
             setTimeout(() => {
               scrollArea.current.scrollBottom()
-              console.log('scrolling to bottom', scrollArea.current.state.realHeight - scrollArea.current.state.containerHeight);
             }, 10);
           }
         );
