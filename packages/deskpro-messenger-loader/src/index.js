@@ -2,6 +2,7 @@ import transformConfig from './transformConfig';
 import deepmerge from 'deepmerge';
 
 function loadConfig(helpdeskURL, brandId) {
+
   let configUrl = `${helpdeskURL}/api/messenger/service/setup`;
   const options = {};
   if(brandId) {
@@ -104,9 +105,12 @@ function init() {
 }
 
 (function() {
-  if (window.attachEvent) {
-    window.attachEvent('onload', init);
-  } else {
-    window.addEventListener('load', init, false);
+  if(typeof window.DESKPRO_MESSENGER_LOADED === 'undefined') {
+    window.DESKPRO_MESSENGER_LOADED = true;
+    if (window.attachEvent) {
+      window.attachEvent('onload', init);
+    } else {
+      window.addEventListener('load', init, false);
+    }
   }
 })();
