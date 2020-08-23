@@ -18,6 +18,7 @@ class Settings extends React.Component {
     chatCustomFields: PropTypes.object,
     usergroups: PropTypes.object,
     code: PropTypes.string,
+    apiBaseUrl: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -34,6 +35,7 @@ class Settings extends React.Component {
       usergroups,
       handleSubmit,
       code,
+      apiBaseUrl,
     } = this.props;
 
     return (
@@ -48,6 +50,7 @@ class Settings extends React.Component {
             config={settings}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
+            apiBaseUrl={apiBaseUrl}
           />
           <ChatSettings
             id="chat"

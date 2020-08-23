@@ -22,7 +22,8 @@ class WidgetSettings extends React.PureComponent {
     config: PropTypes.object,
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    opened: PropTypes.bool
+    opened: PropTypes.bool,
+    apiBaseUrl: PropTypes.string
   };
 
   static defaultProps = {
@@ -39,11 +40,8 @@ class WidgetSettings extends React.PureComponent {
   }
 
   handleFileSend = (file) => {
-
-    let url = `/api/v2/blobs/temp`;
-
     AJAXSubmit({
-      url,
+      url: `${this.props.apiBaseUrl}/v2/blobs/temp`,
       files: [file],
       name: 'file',
       transferComplete: this.handleTransferComplete,

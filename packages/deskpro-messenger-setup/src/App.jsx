@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import '@deskpro/react-components/dist/main.css';
 
 import Settings from './components/settings/Settings';
-import Preview from './components/preview/Preview';
-import transformConfig from "./utils/transformConfig";
 import '../styles/elements/settings.css';
+import Immutable from 'immutable';
 
 class App extends React.Component {
   static propTypes = {
@@ -16,7 +15,13 @@ class App extends React.Component {
     chatCustomFields: PropTypes.object,
     usergroups: PropTypes.object,
     code: PropTypes.string,
+    apiBaseUrl: PropTypes.string,
   };
+
+  static defaultProps = {
+    apiBaseUrl: '/api'
+  };
+
 
   render() {
     const {
@@ -27,7 +32,9 @@ class App extends React.Component {
       ticketDepartments,
       usergroups,
       code,
+      apiBaseUrl,
     } = this.props;
+
     return (
       <div id="dp-messenger-setup">
         <Settings
@@ -39,6 +46,7 @@ class App extends React.Component {
           usergroups={usergroups}
           handleSubmit={this.props.handleSubmit}
           code={code}
+          apiBaseUrl={apiBaseUrl.replace(/\/$/, "")}
         >
           <div className={"dp-ms-children"}>
             { this.props.children }
