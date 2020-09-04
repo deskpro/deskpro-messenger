@@ -52,10 +52,16 @@ export const createTicketEpic = (action$, _, { api }) =>
       } catch (e) {
         if (e.response.status === 400) {
           const { errors } = e.response.data;
-          if (errors) {
+          if (errors && errors.fields) {
             Object.keys(errors.fields).forEach((key) => {
               flattenErrors(flatErrors, errors.fields[key], key);
             });
+          } else if (errors.errors) {
+            const generalErrors = [];
+            errors.errors.forEach((err) => {
+              generalErrors.push(err.message);
+            })
+            flatErrors.general = generalErrors.join("<br/>");
           }
         }
         return { type: TICKET_SAVE_NEW_ERROR, payload: flatErrors }

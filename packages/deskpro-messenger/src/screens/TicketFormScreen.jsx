@@ -179,11 +179,18 @@ class TicketFormScreen extends React.Component {
             defaultMessage: 'New Ticket'
           })}
         >
+          {!ticketSaved && errors && errors.general && (
+            <div className="dp-pc_field">
+              <span className="dp-pc_error_message">{errors.general}</span>
+            </div>
+          )}
           {ticketSaving && (
-            <FormattedMessage
-              id="tickets.form.saving"
-              defaultMessage="We're saving your ticket. Please wait"
-            />
+            <div className="dp-pc_field">
+              <FormattedMessage
+                id="tickets.form.saving"
+                defaultMessage="We're saving your ticket. Please wait"
+              />
+            </div>
           )}
             {!ticketSaved && (
               <TicketForm

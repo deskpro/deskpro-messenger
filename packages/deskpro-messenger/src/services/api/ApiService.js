@@ -195,6 +195,9 @@ export default class ApiService {
       postData.fields = fields;
     }
     postData.message = { message: values.message, format: 'html' };
+    if(postData.capthca) {
+      delete postData.capthca;
+    }
     if(values.cc) {
       postData.cc = values.cc ? [ values.cc ] : '';
     }
