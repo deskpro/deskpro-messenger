@@ -194,13 +194,13 @@ class StartChatScreen extends PureComponent {
                 { intl.formatMessage(transMessages.preChatFormMessage) }
             </div>,
               <Suspense
-                key="ticket_form_suspense"
+                key="start_chat_form_suspense"
                 fallback={
                   <div><FormattedMessage {...transMessages.loading} />...</div>
                 }
               >
                 <TicketForm
-                  key="ticket_form"
+                  key="start_chat_form"
                   initialValues={initialValues}
                   deskproLayout={immutableLayout}
                   departmentPropName="chat_department"
