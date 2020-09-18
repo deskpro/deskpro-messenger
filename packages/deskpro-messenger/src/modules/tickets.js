@@ -50,19 +50,23 @@ export const createTicketEpic = (action$, _, { api }) =>
         await api.createTicket(payload);
         return { type: TICKET_SAVE_NEW_SUCCESS }
       } catch (e) {
-        if (e.response.status === 400) {
+        if (e.response && e.response.status === 400) {
           const { errors } = e.response.data;
           if (errors && errors.fields) {
             Object.keys(errors.fields).forEach((key) => {
               flattenErrors(flatErrors, errors.fields[key], key);
             });
-          } else if (errors.errors) {
+          }
+          if (errors.errors) {
             const generalErrors = [];
             errors.errors.forEach((err) => {
               generalErrors.push(err.message);
             })
             flatErrors.general = generalErrors.join("<br/>");
           }
+        } else {
+          flatErrors.general = 'Server error. Please try later.';
+          console.error(e);
         }
         return { type: TICKET_SAVE_NEW_ERROR, payload: flatErrors }
       }

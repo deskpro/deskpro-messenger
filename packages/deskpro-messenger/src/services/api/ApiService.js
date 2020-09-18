@@ -195,12 +195,18 @@ export default class ApiService {
       postData.fields = fields;
     }
     postData.message = { message: values.message, format: 'html' };
-    if(postData.capthca) {
-      delete postData.capthca;
+    if(typeof postData.captcha !== 'undefined') {
+      delete postData.captcha;
     }
     if(values.cc) {
       postData.cc = values.cc ? [ values.cc ] : '';
     }
+    // 0 is valid value for field, while 0 means value shouldn't be sent
+    Object.keys(postData.fields).forEach((key) => {
+      if(!postData.fields[key] && postData.fields[key] !== 0) {
+        delete postData.fields[key];
+      }
+    });
 
     return this.apiClient.post(`/api/messenger/ticket`, postData);
   }
