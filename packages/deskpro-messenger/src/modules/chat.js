@@ -265,6 +265,8 @@ const agentAssignementTimeout = (action$, _, { config }) =>
           ofType(CHAT_MESSAGE_RECEIVED),
           filter(({ payload: message }) =>
             ['chat.agentAssigned', 'chat.ended', 'chat.noAgents'].includes(message.type)
+            || (message.type === 'chat.message' && message.origin === 'agent')
+            || (message.type.startsWith('chat.typing.') && message.origin === 'agent')
           ),
           mapTo(false)
         ),
