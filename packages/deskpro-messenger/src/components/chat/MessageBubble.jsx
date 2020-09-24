@@ -8,7 +8,7 @@ class MessageBubble extends React.Component {
   renderFile() {
     const { message, meta } = this.props;
     const newMessage = message.match(/<a href.*>(.*)<\/a>/);
-    return (
+    return newMessage && newMessage.length > 0 ? (
       <div className={classNames("dpmsg-BubbleAttachment", {'dpmsg-SameSender': !this.isNotTheSameSender()})}>
         <div className="dpmsg-BubbleAttachmentContent">
           <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>
@@ -17,7 +17,7 @@ class MessageBubble extends React.Component {
           </a>
         </div>
       </div>
-    );
+    ) : null;
   }
 
   renderMessage() {
