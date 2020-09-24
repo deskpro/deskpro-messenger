@@ -43,6 +43,11 @@ const startupRedirectEpic = (action$, _, { history, config, cache }) =>
     ofType(SET_VISITOR),
     take(1),
     tap(({ payload }) => {
+      // we're done with chat user loading, time to note everyone we're ready
+      if(window.parent && window.parent) {
+        const event = new CustomEvent('DeskProMessenger.loaded', {history, cache});
+        window.parent.dispatchEvent(event);
+      }
       if(!/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
         const lastLocation = cache.getValue('app.lastLocation');
         let activeChat;

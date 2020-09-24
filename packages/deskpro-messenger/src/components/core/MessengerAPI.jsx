@@ -9,6 +9,18 @@ window.parent.DeskProMessenger.send = function(action, payload) {
   window.postMessage({ action, payload }, '*');
 };
 
+window.parent.DeskProMessenger.open = function(action, payload) {
+  window.DeskProMessenger.send('open', {screen: 'index'})
+};
+
+window.parent.DeskProMessenger.openChat = function(action, payload) {
+  window.DeskProMessenger.send('open', {screen: 'startChat'})
+};
+
+window.parent.DeskProMessenger.openNewTicket = function(action, payload) {
+  window.DeskProMessenger.send('open', {screen: 'newTicket'})
+};
+
 class MessengerAPI extends PureComponent {
   static propTypes = {
     history: PropTypes.shape({
