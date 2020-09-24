@@ -10,16 +10,32 @@ window.parent.DeskProMessenger.send = function(action, payload) {
 };
 
 window.parent.DeskProMessenger.open = function(action, payload) {
-  window.DeskProMessenger.send('open', {screen: 'index'})
+  window.parent.DeskProMessenger.send('open', {screen: 'index'})
 };
 
 window.parent.DeskProMessenger.openChat = function(action, payload) {
-  window.DeskProMessenger.send('open', {screen: 'startChat'})
+  window.parent.DeskProMessenger.send('open', {screen: 'startChat'})
 };
 
 window.parent.DeskProMessenger.openNewTicket = function(action, payload) {
-  window.DeskProMessenger.send('open', {screen: 'newTicket'})
+  window.parent.DeskProMessenger.send('open', {screen: 'newTicket'})
 };
+
+window.parent.addEventListener('DeskProMessenger.loaded', () => {
+  const openElements = window.parent.document.getElementsByClassName('dpwidget-open');
+  for(let i =0; i < openElements.length; i++) {
+    openElements[i].onclick = () => {
+      window.parent.DeskProMessenger.open();
+    };
+  }
+
+  const openChatElements = window.parent.document.getElementsByClassName('dp-chat-trigger');
+  for(let i =0; i < openChatElements.length; i++) {
+    openChatElements[i].onclick = () => {
+      window.parent.DeskProMessenger.openChat();
+    };
+  }
+});
 
 class MessengerAPI extends PureComponent {
   static propTypes = {
