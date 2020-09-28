@@ -468,15 +468,6 @@ class ChatSettings extends React.PureComponent {
                       className="dp-ms-chat_form_message"
                       onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_chat_no_agent_online' })}
                     />
-                    <Textarea
-                      name="chat.busyMessage"
-                      id="ms-chat-busyMessage"
-
-                      value={config.getIn(['chat', 'busyMessage'])}
-                      onChange={handleChange}
-                    />
-
-
                   </Group>
                 }
                 {config.getIn(['chat', 'noAnswerBehavior']) === 'save_ticket' &&
