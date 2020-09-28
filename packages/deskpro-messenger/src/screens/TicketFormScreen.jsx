@@ -187,7 +187,7 @@ class TicketFormScreen extends React.Component {
           {ticketSaving && (
             <div className="dp-pc_field">
               <FormattedMessage
-                id="tickets.form.saving"
+                id="helpcenter.messenger.tickets.form.saving"
                 defaultMessage="We're saving your ticket. Please wait"
               />
             </div>
@@ -233,13 +233,13 @@ class TicketFormScreen extends React.Component {
               </div>,
               <div className="dpmsg-BlockInnerHeader">
                 <FormattedMessage
-                id="tickets.form.thanks_header"
+                id="helpcenter.messenger.tickets_form_thanks_header"
                 defaultMessage="Your request on its way"
                   />
               </div>,
               <div className="dpmsg-BlockInnerContent">
                 <FormattedMessage
-                  id="tickets_form_thanks"
+                  id="helpcenter.messenger.tickets_form_thanks"
                   defaultMessage="Thank you for contacting us. One of our team will be in touch with you via email."
                 />
               </div>
