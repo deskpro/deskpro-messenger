@@ -1,5 +1,5 @@
 import { combineEpics, ofType } from 'redux-observable';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, tap } from 'rxjs/operators';
 import Immutable from 'immutable';
 import { APP_INIT } from './app';
 
@@ -83,6 +83,17 @@ const cacheTicketFormData = (action$, _, { cache }) =>
     }),
   );
 
+const cacheCleanTicketFormData = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(TICKET_SAVE_NEW_SUCCESS),
+    tap(() => {
+      cache.setValue('formCache', {} );
+    }),
+    map(() => {
+      return {type: TICKET_CACHE_FORM_DONE, payload: {} }
+    }),
+  );
+
 const loadCacheTicketFormData = (action$, _, { cache }) =>
   action$.pipe(
     ofType(APP_INIT),
@@ -91,7 +102,7 @@ const loadCacheTicketFormData = (action$, _, { cache }) =>
     }),
   );
 
-export const ticketEpics = combineEpics(createTicketEpic, cacheTicketFormData, loadCacheTicketFormData);
+export const ticketEpics = combineEpics(createTicketEpic, cacheTicketFormData, loadCacheTicketFormData, cacheCleanTicketFormData);
 
 //#region REDUCER
 export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, formCache: {} }, { type, payload }) => {
