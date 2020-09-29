@@ -2407,15 +2407,17 @@
   }.dp-pc_field .dp-pc_error_message,
   .dp-pc_field .dp-pc_description {
     font-size: 12px;
-    margin-top: 7px;
+    display: block;
+  }.dp-pc_field .dp-pc_description {
     color: #4c4f50;
     color: #4c4f50;
     color: var(--label-color);
-    display: block;
+    margin-bottom: 7px;
   }/* Error Message */.dp-pc_field .dp-pc_error_message {
     color: #f16c7c;
     color: #f16c7c;
     color: var(--error-color);
+    margin-top: 7px;
   }.dp-pc_field ::-webkit-input-placeholder { /* WebKit browsers */
     color: transparent;
   }.dp-pc_field :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
