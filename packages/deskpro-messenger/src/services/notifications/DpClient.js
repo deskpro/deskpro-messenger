@@ -11,10 +11,10 @@ export default class DpClient extends AbstractClient {
   constructor(options, apiClient, visitorId) {
     super(options, apiClient, visitorId);
 
-    const channelPrefix = options.channelPrefix
+    this.channelPrefix = options.channelPrefix
       ? `${options.channelPrefix}-`
       : '';
-    this.channelName = `private-${channelPrefix}${visitorId}`;
+    this.channelName = `private-${this.channelPrefix}${visitorId}`;
 
     this.client = io(
       `http${options.secure ? 's' : ''}://${options.host}:${options.port}`
@@ -48,7 +48,7 @@ export default class DpClient extends AbstractClient {
       }
       this.onNotificationReceived(alert);
     });
-    this.client.on(`user_public-action_alert`, (data) => {
+    this.client.on(`${this.channelPrefix}user_public-action_alert`, (data) => {
       if (this.options.debug) {
         console.log('Action-alert as been received', data);
       }
