@@ -201,12 +201,14 @@ export default class ApiService {
     if(values.cc) {
       postData.cc = values.cc ? [ values.cc ] : '';
     }
-    // 0 is valid value for field, while 0 means value shouldn't be sent
-    Object.keys(postData.fields).forEach((key) => {
-      if(!postData.fields[key] && postData.fields[key] !== 0) {
-        delete postData.fields[key];
-      }
-    });
+    if(postData.fields) {
+      // 0 is valid value for field, while 0 means value shouldn't be sent
+      Object.keys(postData.fields).forEach((key) => {
+        if(!postData.fields[key] && postData.fields[key] !== 0) {
+          delete postData.fields[key];
+        }
+      });
+    }
 
     return this.apiClient.post(`/api/messenger/ticket`, postData);
   }
