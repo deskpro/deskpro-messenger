@@ -231,14 +231,21 @@ const pingChatEndEpic = (action$, _, { api }) =>
   );
 
 let evaluateInterval;
+let evaluating = false;
 
 const evaluateEpic = (action$, state$, { api }) =>
   action$.pipe(
     ofType(CHAT_OPENED),
     withLatestFrom(state$),
     tap(([{ payload: chat }, state]) => {
-      if(chat.access_token && !isChatAssigned(state)) {
-        evaluateInterval = setInterval(() => api.evaluateChat(chat), 2 * 1000)
+      if(chat.access_token) {
+        evaluateInterval = setInterval(async () => {
+          if(!evaluating && !isChatAssigned(state)) {
+            evaluating = true;
+            await api.evaluateChat(chat);
+            evaluating = false;
+          }
+        }, 2 * 1000);
       }
     }),
     skip()
