@@ -74,11 +74,8 @@ function setupFrames(config, manifest) {
       return stag;
     }
   );
-  // that's a hack for hotDevClient
-  if(config.bundleUrl.isDev) {
-    iframeDoc.open('text/html', 'replace');
-    iframeDoc.close();
-  }
+  iframeDoc.open('text/html', 'replace');
+  iframeDoc.close();
   iframeDoc.documentElement.innerHTML = `<!DOCTYPE html><html>
   <head>
     {config.bundleUrl.isDev ? '<script>
