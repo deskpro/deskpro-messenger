@@ -68,26 +68,31 @@ function setupFrames(config, manifest) {
       }
 
       const final = `${host.replace(/\/$/, "")}${host ? '/' : ''}${fileName.replace(/^\//, "")}`;
-      return `<script async src="${final}"></script>`;
+      const stag = iframeDoc.createElement('script');
+      stag.src = final;
+      stag.async = true;
+      return stag;
     }
-  ).join("\n");
-
-  const initialContent = `<!DOCTYPE html><html>
+  );
+  // that's a hack for hotDevClient
+  if(config.bundleUrl.isDev) {
+    iframeDoc.open('text/html', 'replace');
+    iframeDoc.close();
+  }
+  iframeDoc.documentElement.innerHTML = `<!DOCTYPE html><html>
   <head>
     {config.bundleUrl.isDev ? '<script>
       window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
     </script>' : '' }
   </head>
   <body>
-    ${assets}
   </body></html>`;
-  iframeDoc.open('text/html', 'replace');
-  iframeDoc.write(initialContent);
-  iframeDoc.close();
+
+
+  assets.forEach(tag => iframeDoc.head.appendChild(tag));
 }
 
 function init() {
-  const scriptTag = document.getElementById('dp-messenger-loader');
   let hdUrl = window.DESKPRO_MESSENGER_OPTIONS.helpdeskURL;
   const { brandId } = window.DESKPRO_MESSENGER_OPTIONS;
   if(hdUrl.search(/(\/b\/.+\/?)/) && brandId) {

@@ -139,7 +139,7 @@ class MessengerWindow extends PureComponent {
       >
         <AnimateHeight
           duration={500}
-          height={mobile ? '100%' : iframeHeight - 48}
+          height={mobile ? '100%' : (iframeHeight - 48) > 0 ? (iframeHeight - 48) : 'auto' }
           className="dpmsg-AnimationDiv"
           style={{width: mobile ? '100%' : '380px'}}
           onAnimationStart={() => this.setState({animating: true})}
