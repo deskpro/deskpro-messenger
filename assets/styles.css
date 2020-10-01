@@ -2817,10 +2817,15 @@
     color: var(--label-color);
   }/******************************
       Input radio
-  *******************************/.dp-pc_field .dp-pc_radios {
+  *******************************/.dp-pc_field .dp-pc_radio_description {
+    position: absolute;
+    top: 28px;
+  }.dp-pc_field .dp-pc_radios {
     padding: 23px 10px 0 0;
     width: 100%;
-  }.dp-pc_field .dp-pc_radio {
+  }.dp-pc_field .dp-pc_radios.dp-pc_radio-with-desc {
+      padding-top: 36px;
+    }.dp-pc_field .dp-pc_radio {
     margin-top: 10px;
     display: inline-block;
   }.dp-pc_field .dp-pc_radio > input {
@@ -2884,7 +2889,9 @@
     color: #4c4f50;
     color: #4c4f50;
     color: var(--label-color);
-  }.dp-pc_field.dp-pc_error .dp-pc_radio > i {
+  }.dp-pc_field .dp-pc_radio_label.dp-pc_radio-with-desc {
+      top: 0;
+    }.dp-pc_field.dp-pc_error .dp-pc_radio > i {
       border-color: #f16c7c;
       border-color: #f16c7c;
       border-color: var(--error-color);
