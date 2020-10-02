@@ -3,18 +3,26 @@ import PropTypes from 'prop-types';
 import { Button, Input, Modal, } from '@deskpro/react-components';
 
 const phrasesTitles = {
-  'blocks_ticket_button':          'Ticket block. Button',
-  'blocks_ticket_title':           'Ticket block. Title',
-  'blocks_ticket_description':     'Ticket block. Description',
-  'blocks_start-chat_description': 'Start chat block. Description',
-  'blocks_start-chat_title':       'Start chat block. Title',
-  'blocks_start-chat_button':      'Start chat block. Button',
-  'blocks_start-chat_placeholder': 'Start chat block. Placeholder',
-  'blocks_start-chat_greeting':    'Start chat block. Greeting',
-  'proactive_greeting':            'Proactive chat. Greeting',
-  'proactive_title':               'Proactive chat. Title',
-  'proactive_description':         'Proactive chat. Description',
-  'proactive_button':              'Proactive chat. Button',
+  'helpcenter_messenger_blocks_ticket_button':          'Ticket block. Button',
+  'helpcenter_messenger_blocks_ticket_title':           'Ticket block. Title',
+  'helpcenter_messenger_blocks_ticket_description':     'Ticket block. Description',
+  'helpcenter_messenger_blocks_start-chat_description': 'Start chat block. Description',
+  'helpcenter_messenger_blocks_start-chat_title':       'Start chat block. Title',
+  'helpcenter_messenger_blocks_start-chat_button':      'Start chat block. Button',
+  'helpcenter_messenger_blocks_start-chat_placeholder': 'Start chat block. Placeholder',
+  'helpcenter_messenger_blocks_start-chat_greeting':    'Start chat block. Greeting',
+  'helpcenter_messenger_proactive_greeting':            'Proactive chat. Greeting',
+  'helpcenter_messenger_proactive_title':               'Proactive chat. Title',
+  'helpcenter_messenger_proactive_description':         'Proactive chat. Description',
+  'helpcenter_messenger_proactive_button':              'Proactive chat. Button',
+  'helpcenter_messenger_proactive_placeholder':         'Proactive chat. Placeholder',
+  'helpcenter_messenger_chat_prompt':                   'Chat. Prompt message',
+  'helpcenter_messenger_blocks_start_chat_title':       'Start chat. Title',
+  'helpcenter_messenger_blocks_start_chat_description': 'Start chat. Description',
+  'helpcenter_messenger_blocks_start_chat_button':      'Start chat. Button',
+  'helpcenter_messenger_chat_no_agent_online':          'Chat. No agents online',
+  'helpcenter_messenger_greeting':                      'General. Greeting',
+
 };
 
 class PhraseModal extends React.Component {
