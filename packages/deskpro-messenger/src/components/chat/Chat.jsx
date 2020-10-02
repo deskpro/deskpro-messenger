@@ -149,7 +149,6 @@ class Chat extends React.Component {
       chat,
       chatConfig,
       endChatBlock,
-      history
     } = this.props;
 
     return (
@@ -204,7 +203,6 @@ class Chat extends React.Component {
                           formConfig={chatConfig.ticketFormConfig}
                           onSend={onSendMessage}
                           endChat={onEndChat}
-                          history={history}
                         />
                       )}
                       {chatConfig.noAnswerBehavior === 'create_ticket' && (

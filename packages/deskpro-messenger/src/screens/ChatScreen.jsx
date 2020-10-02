@@ -89,7 +89,7 @@ class ChatScreen extends PureComponent {
   };
 
   render() {
-    const { widget, departments, chatConfig, chatData, intl, user, agent, messages, history, typing } = this.props;
+    const { widget, departments, chatConfig, chatData, intl, user, agent, messages, typing } = this.props;
     const { contentSize: { maxHeight }} = this.props;
     const department = chatConfig.department
       ? departments[chatConfig.department]
@@ -124,7 +124,6 @@ class ChatScreen extends PureComponent {
             agent={agent}
             chat={chat}
             chatConfig={chatConfig}
-            history={history}
           />
         </Block>
       </Fragment>

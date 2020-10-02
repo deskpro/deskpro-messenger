@@ -76,10 +76,9 @@ class SaveTicketBlock extends PureComponent {
   };
 
   handleCancel = () => {
-    const { endChat, history } = this.props;
+    const { endChat } = this.props;
     this.setState({ viewMode: 'cancel' }, () => {
       endChat();
-      history.push('/screens/index')
     });
   };
 
