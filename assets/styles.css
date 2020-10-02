@@ -584,7 +584,6 @@
   background-color: var(--color-primary);
   display: flex;
   flex-wrap: wrap;
-  height: 103px;
   margin-bottom: -50px;
   padding: 0 25px 62px 30px;
   width: 100%;
@@ -616,6 +615,7 @@
   flex: 0 0 100%;
   font-size: 24px;
   letter-spacing: 1.4px;
+  max-width: 270px;
   padding: 18px 0 8px;
   padding: 18px 0 var(--xs-space);
 }.is-minimal .dpmsg-ScreenHeaderTitle {
@@ -3386,7 +3386,9 @@
       background-position: top -4px left 20px;
       background-repeat: no-repeat;
       background-size: 26px 90%;
-    }.react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
+    }.dp-pc_checkbox__checkbox:focus {
+    outline: none;
+  }.react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {
   margin-left: -8px;
