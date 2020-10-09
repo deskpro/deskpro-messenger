@@ -57,7 +57,7 @@ export const createTicketEpic = (action$, _, { api }) =>
               flattenErrors(flatErrors, errors.fields[key], key);
             });
           }
-          if (errors.errors) {
+          if (errors && errors.errors) {
             const generalErrors = [];
             errors.errors.forEach((err) => {
               generalErrors.push(err.message);

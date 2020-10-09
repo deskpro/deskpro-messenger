@@ -42,6 +42,7 @@ export default produce(
       case LOAD_APP_INFO_SUCCESS: {
         draft.canUseChat = payload.canUseChat;
         draft.canUseTickets = payload.canUseTickets;
+        draft.canUseKb = payload.canUseKb;
         draft.chatDepartments = payload.chat_departments.reduce(
           (acc, d) => ({ ...acc, [d.id]: d }),
           {}
@@ -91,4 +92,5 @@ export const hasAgentsAvailable = (state) => Object.keys(state.info.agents).leng
 export const getAgentsAvailable = (state) => state.info.agents;
 export const canUseChat = (state) => state.info.canUseChat;
 export const canUseTickets = (state) => state.info.canUseTickets;
+export const canUseKb = (state) => state.info.canUseKb;
 //#endregion

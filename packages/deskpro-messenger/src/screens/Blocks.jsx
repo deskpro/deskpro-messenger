@@ -5,7 +5,7 @@ import Block from '../components/core/Block';
 import QuickSearchBlock from '../components/search/QuickSearchBlock';
 import Button from '../components/form/Button';
 import { connect } from 'react-redux';
-import { canUseChat, canUseTickets, getAgentsAvailable } from '../modules/info';
+import { canUseKb, canUseChat, canUseTickets, getAgentsAvailable } from '../modules/info';
 import { getActiveChat, getChatData } from '../modules/chat';
 import AvatarHeads from '../components/ui/AvatarHeads';
 import Header from '../components/ui/Header';
@@ -121,7 +121,7 @@ const blocksMapping = {
 
 class Blocks extends React.PureComponent {
   render() {
-    const { widget, blocks, agentsAvailable, activeChat, chatData, chatAvailable, ticketsAvailable } = this.props;
+    const { widget, blocks, agentsAvailable, activeChat, chatData, chatAvailable, ticketsAvailable, kbAvailable } = this.props;
 
     return (<Fragment>
       <Header icon={widget.icon.download_url} />
@@ -135,6 +135,9 @@ class Blocks extends React.PureComponent {
             props.activeChat = activeChat;
           }
           props.agentsAvailable = agentsAvailable;
+        }
+        if(blockType === 'QuickSearchBlock' && !kbAvailable) {
+          return null;
         }
         if(blockType === 'NewTicketBlock' && !ticketsAvailable) {
           return null;
@@ -153,6 +156,7 @@ const mapStateToProps = (state) => ({
   activeChat:       getActiveChat(state),
   chatData:         getChatData(state),
   chatAvailable:    canUseChat(state),
+  kbAvailable:      canUseKb(state),
   ticketsAvailable: canUseTickets(state)
 });
 
