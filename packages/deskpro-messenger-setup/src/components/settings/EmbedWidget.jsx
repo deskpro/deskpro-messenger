@@ -22,8 +22,8 @@ import {
 
 class EmbedWidget extends React.PureComponent {
   static propTypes = {
-    config: PropTypes.object,
-    code: PropTypes.string,
+    config:       PropTypes.object,
+    code:         PropTypes.string,
     handleChange: PropTypes.func.isRequired
   };
 
@@ -34,7 +34,7 @@ class EmbedWidget extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      copied: false,
+      copied:    false,
       activeTab: 'manually',
     };
   }
@@ -54,10 +54,10 @@ class EmbedWidget extends React.PureComponent {
 
   render() {
     const { config, handleChange, opened, onClick, code } = this.props;
-    const { copied, activeTab } = this.state;
-    const drawerProps = {
+    const { copied, activeTab }                           = this.state;
+    const drawerProps                                     = {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
-      className: 'dp-column-drawer'
+      className:           'dp-column-drawer'
     };
     return (
       <ListElement {...drawerProps}>
@@ -74,10 +74,10 @@ class EmbedWidget extends React.PureComponent {
         </Heading>
         <Section hidden={!opened}>
           <Section className='dp-ms-section'>
-            Embed code<br />
-            <Textarea cols={80} rows={6} readonly value={code} /><br />
+            Embed code<br/>
+            <Textarea cols={80} rows={6} readonly value={code}/><br/>
             <Button onClick={this.copyCode} type="secondary" size="medium">
-              {copied ? <Icon name={faCheck} /> : <Icon name={faCopy} />}
+              {copied ? <Icon name={faCheck}/> : <Icon name={faCopy}/>}
               Copy
             </Button>
           </Section>
@@ -91,7 +91,9 @@ class EmbedWidget extends React.PureComponent {
             When disabled, the widget won't show on
             the helpdesk itself (i.e. it only shows on your own website).
           </Section>
-          <Tabs active={activeTab} onChange={(t) => {this.setState({activeTab: t})}}>
+          <Tabs active={activeTab} onChange={(t) => {
+            this.setState({ activeTab: t })
+          }}>
             <TabLink name="manually">
               Manually install
             </TabLink>
@@ -103,7 +105,7 @@ class EmbedWidget extends React.PureComponent {
             <div className="dp-card">
               <List>
                 <ListElement>
-                  <h3><Icon name={faCopy} /> Copy the code<br /></h3>
+                  <h3><Icon name={faCopy}/> Copy the code<br/></h3>
                   Set up your widget then copy the embed code above.
                 </ListElement>
               </List>
@@ -111,7 +113,7 @@ class EmbedWidget extends React.PureComponent {
             <div className="dp-card">
               <List>
                 <ListElement>
-                  <h3><Icon name={faPaste} /> Paste on your site<br /></h3>
+                  <h3><Icon name={faPaste}/> Paste on your site<br/></h3>
                   Place the embed code in the &gt;head&lt; section of your website.
                 </ListElement>
               </List>
@@ -119,7 +121,7 @@ class EmbedWidget extends React.PureComponent {
             <div className="dp-card">
               <List>
                 <ListElement>
-                  <h3><Icon name={faLaptop} /> Get started.<br /></h3>
+                  <h3><Icon name={faLaptop}/> Get started.<br/></h3>
                   Save the changes and users can start using the widget!
                 </ListElement>
               </List>
@@ -134,7 +136,7 @@ class EmbedWidget extends React.PureComponent {
                       href="http://support.deskpro.com/kb/articles/541"
                       target="_blank"
                     >
-                      <Icon name={faWordpress} />
+                      <Icon name={faWordpress}/>
                       Wordpress
                     </a>
                   </Button>
@@ -145,7 +147,7 @@ class EmbedWidget extends React.PureComponent {
                       href="http://support.deskpro.com/kb/articles/545"
                       target="_blank"
                     >
-                      <Icon name={faMagento} />
+                      <Icon name={faMagento}/>
                       Magento
                     </a>
                   </Button>
@@ -158,7 +160,7 @@ class EmbedWidget extends React.PureComponent {
                       href="http://support.deskpro.com/kb/articles/542"
                       target="_blank"
                     >
-                      <Icon name={faShopify} />
+                      <Icon name={faShopify}/>
                       Shopify
                     </a>
                   </Button>
@@ -169,7 +171,7 @@ class EmbedWidget extends React.PureComponent {
                       href="http://support.deskpro.com/kb/articles/544"
                       target="_blank"
                     >
-                      <Icon name={faJoomla} />
+                      <Icon name={faJoomla}/>
                       Joomla
                     </a>
                   </Button>
@@ -182,7 +184,7 @@ class EmbedWidget extends React.PureComponent {
                       href="http://support.deskpro.com/kb/articles/543"
                       target="_blank"
                     >
-                      <Icon name={faDrupal} />
+                      <Icon name={faDrupal}/>
                       Drupal
                     </a>
                   </Button>
@@ -227,4 +229,5 @@ class EmbedWidget extends React.PureComponent {
     );
   }
 }
+
 export default EmbedWidget;

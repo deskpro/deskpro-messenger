@@ -23,7 +23,8 @@ class WidgetSettings extends React.PureComponent {
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     opened: PropTypes.bool,
-    apiBaseUrl: PropTypes.string
+    apiBaseUrl: PropTypes.string,
+    languageId: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -82,7 +83,7 @@ class WidgetSettings extends React.PureComponent {
   };
 
   render() {
-    const { config, handleChange, handleSubmit, opened, onClick } = this.props;
+    const { config, handleChange, handleSubmit, opened, onClick, languageId } = this.props;
     const drawerProps = {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
       className: 'dp-column-drawer'
@@ -156,6 +157,7 @@ class WidgetSettings extends React.PureComponent {
               htmlFor="ms-messenger-title"
             >
               <TranslationButton
+                languageId={languageId}
                 translations={config.get('translations')}
                 id="ms-messenger-title"
                 phrase={'helpcenter_messenger_greeting'}

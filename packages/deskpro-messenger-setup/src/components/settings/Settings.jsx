@@ -19,6 +19,7 @@ class Settings extends React.Component {
     usergroups: PropTypes.object,
     code: PropTypes.string,
     apiBaseUrl: PropTypes.string.isRequired,
+    languageId: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -36,6 +37,7 @@ class Settings extends React.Component {
       handleSubmit,
       code,
       apiBaseUrl,
+      languageId,
     } = this.props;
 
     return (
@@ -51,6 +53,7 @@ class Settings extends React.Component {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             apiBaseUrl={apiBaseUrl}
+            languageId={languageId}
           />
           <ChatSettings
             id="chat"
@@ -61,12 +64,14 @@ class Settings extends React.Component {
             chatCustomFields={chatCustomFields}
             usergroups={usergroups}
             handleSubmit={handleSubmit}
+            languageId={languageId}
           />
           <ProactiveSettings
             id="messenger"
             config={settings}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
+            languageId={languageId}
           />
           <TicketSettings
             id="ticket"
@@ -74,6 +79,7 @@ class Settings extends React.Component {
             handleChange={handleChange}
             ticketDepartments={ticketDepartments}
             handleSubmit={handleSubmit}
+            languageId={languageId}
           />
           <EmbedWidget
             id="embed"

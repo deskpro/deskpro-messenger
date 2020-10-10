@@ -15,6 +15,7 @@ class TranslationButton extends React.Component {
     phrase:       PropTypes.string.isRequired,
     useTextarea:  PropTypes.bool,
     className:    PropTypes.string,
+    languageId:   PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -44,16 +45,24 @@ class TranslationButton extends React.Component {
 
   render() {
 
-    const { onClick, useTextarea, translations, id, phrase, className } = this.props;
+    const { onClick, useTextarea, translations, id, phrase, className, languageId } = this.props;
 
     const Field = useTextarea ? Textarea : Input
-
+    let translation = '';
+    if(translations.has(phrase)) {
+      const translationStack = translations.get(phrase);
+      translation = translationStack.find(
+        t => t.getIn(['language', 'id']) === languageId,
+        null,
+        translationStack.first()
+      ).get('text');
+    }
     return (
       <Fragment>
         <Field
           id={id}
           type="text"
-          value={translations.has(phrase) ? translations.get(phrase).first().get('text') : ''}
+          value={translation}
           disabled={true}
           className={classNames(className)}
           { ...objectKeyFilter(this.props, TranslateButton.propTypes)}

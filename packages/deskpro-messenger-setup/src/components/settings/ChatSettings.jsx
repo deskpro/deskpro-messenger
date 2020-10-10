@@ -14,7 +14,6 @@ import {
   Section,
   Select,
   Subheading,
-  Textarea,
   Toggle
 } from '@deskpro/react-components';
 import arrayMove from 'array-move';
@@ -28,6 +27,7 @@ class CustomFieldCheckBox extends React.Component {
     config:               PropTypes.object.isRequired,
     handleChange:         PropTypes.func.isRequired,
     handleCheckboxChange: PropTypes.func.isRequired,
+    languageId:           PropTypes.number.isRequired,
   };
 
   render() {
@@ -63,7 +63,7 @@ class CustomFieldCheckBox extends React.Component {
 const SortableItem = SortableElement(CustomFieldCheckBox);
 
 const SortableList = SortableContainer((props) => {
-  const { items, config, handleChange, handleCheckboxChange } = props;
+  const { items, config, handleChange, handleCheckboxChange, languageId } = props;
   return (
     <div>
       {items.map((value, index) => (
@@ -93,7 +93,7 @@ class SortableComponent extends React.Component {
   };
 
   render() {
-    const { handleChange, handleCheckboxChange, config } = this.props;
+    const { handleChange, handleCheckboxChange, config, languageId } = this.props;
 
     return <SortableList
       items={this.state.items}
@@ -102,6 +102,7 @@ class SortableComponent extends React.Component {
       handleChange={handleChange}
       pressDelay={100}
       handleCheckboxChange={handleCheckboxChange}
+      languageId={languageId}
     />;
   }
 }
@@ -194,6 +195,7 @@ class ChatSettings extends React.PureComponent {
             config,
             handleChange,
             chatCustomFields,
+            languageId,
           } = this.props;
 
     return (<div className="dp-ms-pre_chat-form">
@@ -208,6 +210,7 @@ class ChatSettings extends React.PureComponent {
         Form message
       </Toggle>
       <TranslationButton
+        languageId={languageId}
         translations={config.get('translations')}
         id="ms-chat-options-title"
         useTextarea={true}
@@ -216,6 +219,7 @@ class ChatSettings extends React.PureComponent {
         onClick={() => this.setState({ modal: true, modalPhrase: 'helpcenter_messenger_chat_pre_chat_form_form_message' })}
       />
       <TranslationButton
+        languageId={languageId}
         translations={config.get('translations')}
         id="ms-chat-options-title"
         phrase={'helpcenter_messenger_blocks_start_chat_title'}
@@ -262,6 +266,7 @@ class ChatSettings extends React.PureComponent {
         config={config}
         handleChange={handleChange}
         handleCheckboxChange={this.handleCheckboxChange}
+        languageId={languageId}
       />
     </div>)
   }
@@ -275,7 +280,8 @@ class ChatSettings extends React.PureComponent {
             opened,
             onClick,
             usergroups,
-            handleSubmit
+            handleSubmit,
+            languageId,
           } = this.props;
 
     const drawerProps = {
@@ -353,6 +359,7 @@ class ChatSettings extends React.PureComponent {
                   label="Chat Prompt Message"
                   htmlFor="ms-chat-prompt">
                   <TranslationButton
+                    languageId={languageId}
                     translations={config.get('translations')}
                     id="ms-chat-prompt"
                     phrase={'helpcenter_messenger_chat_prompt'}
@@ -376,6 +383,7 @@ class ChatSettings extends React.PureComponent {
                   htmlFor="ms-chat-options-title"
                 >
                   <TranslationButton
+                    languageId={languageId}
                     translations={config.get('translations')}
                     id="ms-chat-options-title"
                     phrase={'helpcenter_messenger_blocks_start_chat_title'}
@@ -387,6 +395,7 @@ class ChatSettings extends React.PureComponent {
                   htmlFor="ms-chat-options-description"
                 >
                   <TranslationButton
+                    languageId={languageId}
                     translations={config.get('translations')}
                     id="ms-chat-options-description"
                     phrase={'helpcenter_messenger_blocks_start_chat_description'}
@@ -398,6 +407,7 @@ class ChatSettings extends React.PureComponent {
                   htmlFor="ms-chat-options-button-text"
                 >
                   <TranslationButton
+                    languageId={languageId}
                     translations={config.get('translations')}
                     id="ms-chat-options-button-text"
                     phrase={'helpcenter_messenger_blocks_start_chat_button'}
@@ -459,6 +469,7 @@ class ChatSettings extends React.PureComponent {
                     htmlFor="ms-chat-busyMessage"
                   >
                     <TranslationButton
+                      languageId={languageId}
                       translations={config.get('translations')}
                       id="ms-chat-busyMessage"
                       useTextarea={true}

@@ -55,7 +55,7 @@ class ProactiveSettings extends React.Component {
   };
 
   render() {
-    const { config, handleChange, handleSubmit, opened, onClick } = this.props;
+    const { config, handleChange, handleSubmit, opened, onClick, languageId } = this.props;
 
     const autoStartStyle = config.getIn(['proactive', 'autoStartStyle']);
     const drawerProps = {
@@ -203,6 +203,7 @@ class ProactiveSettings extends React.Component {
               htmlFor="ms-proactive-options-greeting-title"
             >
               <TranslationButton
+                languageId={languageId}
                 translations={config.get('translations')}
                 id="ms-proactive-options-greeting-title"
                 phrase={'helpcenter_messenger_proactive_greeting'}
@@ -217,6 +218,7 @@ class ProactiveSettings extends React.Component {
               htmlFor="ms-proactive-options-title"
             >
               <TranslationButton
+                languageId={languageId}
                 translations={config.get('translations')}
                 id="ms-proactive-options-title"
                 phrase={'helpcenter_messenger_proactive_title'}
@@ -229,6 +231,7 @@ class ProactiveSettings extends React.Component {
               className={classNames({hidden: !autoStartStyle || ['avatar-widget', 'avatar-button'].includes(autoStartStyle)})}
             >
               <TranslationButton
+                languageId={languageId}
                 translations={config.get('translations')}
                 id="ms-proactive-options-description"
                 phrase={'helpcenter_messenger_proactive_description'}
@@ -241,6 +244,7 @@ class ProactiveSettings extends React.Component {
               className={classNames({hidden: !autoStartStyle || autoStartStyle.indexOf('button') === -1})}
             >
               <TranslationButton
+                languageId={languageId}
                 translations={config.get('translations')}
                 id="ms-proactive-options-button-text"
                 phrase={'helpcenter_messenger_proactive_button'}
@@ -253,6 +257,7 @@ class ProactiveSettings extends React.Component {
               className={classNames({hidden: !autoStartStyle || autoStartStyle.indexOf('input') === -1})}
             >
               <TranslationButton
+                languageId={languageId}
                 translations={config.get('translations')}
                 id="ms-proactive-options-input-placeholder"
                 phrase={'helpcenter_messenger_proactive_placeholder'}

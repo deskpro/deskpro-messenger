@@ -20,10 +20,11 @@ import TranslationButton from './TranslationButton';
 
 class TicketSettings extends React.PureComponent {
   static propTypes = {
-    config: PropTypes.object,
-    handleChange: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    config:            PropTypes.object,
+    handleChange:      PropTypes.func.isRequired,
+    handleSubmit:      PropTypes.func.isRequired,
     ticketDepartments: PropTypes.object,
+    languageId:        PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -33,7 +34,7 @@ class TicketSettings extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      modal:       false,
       modalPhrase: ''
     }
   }
@@ -43,8 +44,8 @@ class TicketSettings extends React.PureComponent {
     this.props.handleChange(value, name);
   };
 
-  handleTicketsToggleChange = (value, name)  => {
-    if(!value && this.props.config.getIn(['chat', 'noAnswerBehavior']) === 'create_ticket') {
+  handleTicketsToggleChange = (value, name) => {
+    if (!value && this.props.config.getIn(['chat', 'noAnswerBehavior']) === 'create_ticket') {
       this.props.handleChange('save_ticket', 'chat.noAnswerBehavior');
     }
     this.props.handleChange(value, name);
@@ -56,19 +57,20 @@ class TicketSettings extends React.PureComponent {
 
   render() {
     const {
-      config,
-      handleChange,
-      handleSubmit,
-      ticketDepartments,
-      opened,
-      onClick
-    } = this.props;
+            config,
+            handleChange,
+            handleSubmit,
+            ticketDepartments,
+            opened,
+            onClick,
+            languageId
+          } = this.props;
 
     const { modal, modalPhrase } = this.state;
 
     const drawerProps = {
       'data-dp-toggle-id': this.props['data-dp-toggle-id'],
-      className: 'dp-column-drawer'
+      className:           'dp-column-drawer'
     };
     return (
       <Fragment>
@@ -77,7 +79,7 @@ class TicketSettings extends React.PureComponent {
           translations={config.get('translations')}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
-          closeModal={() => this.setState({modal: false})}
+          closeModal={() => this.setState({ modal: false })}
         />}
         <ListElement {...drawerProps}>
           <Heading onClick={onClick} className="dp-ms-section-header">
@@ -173,7 +175,7 @@ class TicketSettings extends React.PureComponent {
               </Section>
               <Subheading
                 size={4}
-                className={classNames({hidden: !config.getIn(['tickets', 'enabled'])})}
+                className={classNames({ hidden: !config.getIn(['tickets', 'enabled']) })}
               >
                 Tickets options
               </Subheading>
@@ -186,10 +188,14 @@ class TicketSettings extends React.PureComponent {
                   htmlFor="ms-tickets-options-title"
                 >
                   <TranslationButton
+                    languageId={languageId}
                     translations={config.get('translations')}
                     id="ms-tickets-options-title"
                     phrase={'helpcenter_messenger_blocks_ticket_title'}
-                    onClick={() => this.setState({modal: true, modalPhrase: 'helpcenter_messenger_blocks_ticket_title'})}
+                    onClick={() => this.setState({
+                      modal:       true,
+                      modalPhrase: 'helpcenter_messenger_blocks_ticket_title'
+                    })}
                   />
                 </Group>
                 <Group
@@ -197,10 +203,14 @@ class TicketSettings extends React.PureComponent {
                   htmlFor="ms-tickets-options-description"
                 >
                   <TranslationButton
+                    languageId={languageId}
                     translations={config.get('translations')}
                     id="ms-tickets-options-description"
                     phrase={'helpcenter_messenger_blocks_ticket_description'}
-                    onClick={() => this.setState({modal: true, modalPhrase: 'helpcenter_messenger_blocks_ticket_description'})}
+                    onClick={() => this.setState({
+                      modal:       true,
+                      modalPhrase: 'helpcenter_messenger_blocks_ticket_description'
+                    })}
                   />
                 </Group>
                 <Group
@@ -208,10 +218,14 @@ class TicketSettings extends React.PureComponent {
                   htmlFor="ms-tickets-options-button-text"
                 >
                   <TranslationButton
+                    languageId={languageId}
                     translations={config.get('translations')}
                     id="ms-tickets-options-button-text"
                     phrase={'helpcenter_messenger_blocks_ticket_button'}
-                    onClick={() => this.setState({modal: true, modalPhrase: 'helpcenter_messenger_blocks_ticket_button'})}
+                    onClick={() => this.setState({
+                      modal:       true,
+                      modalPhrase: 'helpcenter_messenger_blocks_ticket_button'
+                    })}
                   />
                 </Group>
               </Section>
@@ -222,4 +236,5 @@ class TicketSettings extends React.PureComponent {
     );
   }
 }
+
 export default TicketSettings;

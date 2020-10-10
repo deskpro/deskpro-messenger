@@ -16,10 +16,12 @@ class App extends React.Component {
     usergroups: PropTypes.object,
     code: PropTypes.string,
     apiBaseUrl: PropTypes.string,
+    languageId: PropTypes.number,
   };
 
   static defaultProps = {
-    apiBaseUrl: '/api'
+    apiBaseUrl: '/api',
+    languageId: 1
   };
 
 
@@ -33,6 +35,7 @@ class App extends React.Component {
       usergroups,
       code,
       apiBaseUrl,
+      languageId,
     } = this.props;
 
     return (
@@ -47,6 +50,7 @@ class App extends React.Component {
           handleSubmit={this.props.handleSubmit}
           code={code}
           apiBaseUrl={apiBaseUrl.replace(/\/$/, "")}
+          languageId={languageId}
         >
           <div className={"dp-ms-children"}>
             { this.props.children }
