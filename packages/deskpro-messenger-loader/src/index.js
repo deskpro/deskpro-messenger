@@ -64,7 +64,7 @@ function setupFrames(config, manifest) {
   const assets = manifest.entrypoints.main.js.map((fileName) => {
       let host = '';
       if (!config.bundleUrl.isDev) {
-        host = `${config.bundleUrl.isAbsolute ? '' : config.helpdeskURL}${config.bundleUrl.path}`;
+        host = `${config.bundleUrl.isAbsolute ? '' : config.helpdeskURL}${config.bundleUrl.baseUrl}`;
       }
 
       const final = `${host.replace(/\/$/, "")}${host ? '/' : ''}${fileName.replace(/^\//, "")}`;
