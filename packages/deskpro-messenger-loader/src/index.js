@@ -21,6 +21,12 @@ function loadConfig(helpdeskURL, brandId) {
         }
       });
 
+      let host = '';
+      if (!adminConfig.bundleUrl.isDev) {
+        host = `${adminConfig.bundleUrl.isAbsolute ? '' : helpdeskURL}${adminConfig.bundleUrl.baseUrl}`;
+      }
+      bundleUrl.manifestHost = host;
+
       const config = deepmerge({
         bundleUrl,
         helpdeskURL,
@@ -62,11 +68,7 @@ function setupFrames(config, manifest) {
   const iframeDoc = iframe.contentDocument;
 
   const assets = manifest.entrypoints.main.js.map((fileName) => {
-      let host = '';
-      if (!config.bundleUrl.isDev) {
-        host = `${config.bundleUrl.isAbsolute ? '' : config.helpdeskURL}${config.bundleUrl.baseUrl}`;
-      }
-
+      const host = window.DESKPRO_MESSENGER_OPTIONS.bundleUrl.manifestHost;
       const final = `${host.replace(/\/$/, "")}${host ? '/' : ''}${fileName.replace(/^\//, "")}`;
       const stag = iframeDoc.createElement('script');
       stag.src = final;
