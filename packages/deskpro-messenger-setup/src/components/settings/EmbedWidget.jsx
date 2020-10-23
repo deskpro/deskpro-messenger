@@ -222,6 +222,7 @@ class EmbedWidget extends React.PureComponent {
                 autosize
                 onChange={handleChange}
               />
+              <span className="dp-ms-hint">A comma separated list of domain names with schema. (https://example.com,http://example.com)</span>
             </Group>
           </Section>
         </Section>

@@ -199,7 +199,7 @@ class ChatSettings extends React.PureComponent {
           } = this.props;
 
     return (<div className="dp-ms-pre_chat-form">
-      <div className={'dp-ms-hint'}>
+      <div className='dp-ms-hint'>
         Require users to provide their name and email address as well as adding custom fields or require departments.
       </div>
       <Toggle
