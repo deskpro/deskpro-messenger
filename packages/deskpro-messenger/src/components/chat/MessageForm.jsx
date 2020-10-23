@@ -243,6 +243,7 @@ class MessageForm extends PureComponent {
       this.setState({ message: '' }, () => {
         this.updateHeight();
         this.editor.events.focus();
+        setTimeout(() => this.handleTyping(''), 50);
       });
     }
   };
