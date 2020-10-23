@@ -115,6 +115,13 @@ export const noAgentsMessage = (chat) =>
     origin: 'system',
     chat
   });
+export const stopTyping = (chat) =>
+  messageReceived({
+    type: 'chat.typing.end',
+    origin: 'agent',
+    chat
+  });
+
 export const sendMessage = (message, chat) => ({
   type: CHAT_SEND_MESSAGE,
   payload: message,
@@ -289,6 +296,32 @@ const agentAssignementTimeout = (action$, _, { config }) =>
     )
   );
 
+
+const typingStop = (action$, _) =>
+  action$.pipe(
+    ofType(CHAT_MESSAGE_RECEIVED),
+    filter(({ payload: message }) =>
+      message.type === 'chat.typing.start' && message.origin === 'agent'
+    ),
+    mergeMap(({payload: message}) =>
+      race(
+        action$.pipe(
+          ofType(CHAT_MESSAGE_RECEIVED),
+          filter(({ payload: message }) =>
+            message.type = 'chat.typing.start' && message.origin === 'agent'
+          ),
+          mapTo(false)
+        ),
+        interval(10 * 1000).pipe(
+          take(1),
+          mapTo(true)
+        )
+      ).pipe(
+        switchMap((timedOut) =>  timedOut ? of(stopTyping(message.chat)) : empty())
+      )
+    )
+  );
+
 const cacheNewChatEpic = (action$, _, { history, cache }) =>
   action$.pipe(
     ofType(CHAT_SAVE_CHAT),
@@ -410,7 +443,8 @@ export const chatEpic = combineEpics(
   pingChatStartEpic,
   pingChatEndEpic,
   evaluateEpic,
-  stopChatEvaluateEpic
+  stopChatEvaluateEpic,
+  typingStop
 );
 //#endregion
 
@@ -425,9 +459,11 @@ const chatReducer = produce((draft, { type, payload }, chatAssigned) => {
       return;
 
     case CHAT_MESSAGE_RECEIVED:
-      draft.data.lastAlertId = payload.id;
-      if (payload.type.startsWith('chat.typing.')) {
-        draft.typing = payload.type === 'chat.typing.start' && payload.origin === 'agent' ? payload : false;
+      if(payload.id) {
+        draft.data.lastAlertId = payload.id;
+      }
+      if (payload.type.startsWith('chat.typing.') && payload.origin === 'agent') {
+        draft.typing = payload.type === 'chat.typing.start' ? payload : false;
         return;
       }
       if (payload.type.startsWith('chat.block.') && payload.origin === 'user') {
