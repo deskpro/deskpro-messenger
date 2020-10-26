@@ -37,7 +37,7 @@ export default class AbstractClient {
   transformNotification({ data, ...alert }) {
     return {
       ...data,
-      type: alert.type,
+      type: alert.type || 'unknown.alert.type',
       // set the single `chat` property to identify the chat ID the alert belongs to.
       chat: data.chat || data.id,
       uuid: data.uuid || alert.uuid,

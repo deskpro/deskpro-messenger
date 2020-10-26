@@ -42,6 +42,10 @@ export default class DpClient extends AbstractClient {
   async startListening() {
     await super.startListening();
     this.client.on(`${this.channelName}-action_alert`, (data) => {
+      if(!data.type) {
+        console.error("Can't read correct alert.", data);
+        return;
+      }
       const alert = this.transformNotification(data);
       if (this.options.debug) {
         console.log('Action-alert as been received', alert);

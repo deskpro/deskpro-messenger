@@ -43,6 +43,10 @@ export default class PusherClient extends AbstractClient {
     await super.startListening();
     this.channel = this.socket.subscribe(this.channelName);
     this.channel.bind('action_alert', (data) => {
+      if(!data.type) {
+        console.error("Can't read correct alert.", data);
+        return;
+      }
       const alert = this.transformNotification(data);
       this.onNotificationReceived(alert);
     });

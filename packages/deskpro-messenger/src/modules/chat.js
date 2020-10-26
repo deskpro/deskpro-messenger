@@ -306,7 +306,7 @@ const typingStop = (action$, _) =>
     mergeMap(({payload: message}) =>
       race(
         action$.pipe(
-          ofType(CHAT_MESSAGE_RECEIVED),
+          ofType(),
           filter(({ payload: message }) =>
             message.type = 'chat.typing.start' && message.origin === 'agent'
           ),
@@ -592,7 +592,7 @@ const getChat = createSelector(
 );
 export const getChatAgent = createSelector(getChat, (chat) => chat.agent || {});
 export const getChatData = createSelector(getChat, (chat) => chat.data);
-export const getMessages = createSelector(getChat, (chat) => chat.messages);
+export const getMessages = createSelector(getChat, (chat) => chat.messages.filter(message => !message.type.startsWith('chat.typing.')));
 export const getTypingState = createSelector(getChat, (chat) => chat.typing);
 export const isMuted = createSelector(getChatState, (state) => state.mute);
 export const endBlockShown = createSelector(getChatState, (state) => state.endBlock);
