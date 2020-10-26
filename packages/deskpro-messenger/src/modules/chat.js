@@ -312,13 +312,14 @@ const typingStop = (action$, _) =>
           ),
           mapTo(false)
         ),
-        interval(10 * 1000).pipe(
+        interval(5 * 1000).pipe(
           take(1),
           mapTo(true)
         )
       ).pipe(
-        switchMap((timedOut) =>  timedOut ? of(stopTyping(message.chat)) : empty())
-      )
+        mergeMap((timedOut) =>  timedOut ? of(stopTyping(message.chat)) : empty())
+      ),
+
     )
   );
 
