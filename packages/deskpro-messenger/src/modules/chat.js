@@ -308,7 +308,7 @@ const typingStop = (action$, _) =>
         action$.pipe(
           ofType(),
           filter(({ payload: message }) =>
-            message.type = 'chat.typing.start' && message.origin === 'agent'
+            message.type === 'chat.typing.start' && message.origin === 'agent'
           ),
           mapTo(false)
         ),
