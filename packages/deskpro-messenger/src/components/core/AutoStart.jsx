@@ -42,7 +42,12 @@ class AutoStart extends PureComponent {
     agentsAvailable: PropTypes.object.isRequired,
     startChat:       PropTypes.func.isRequired,
     autoStartStyle:  PropTypes.string.isRequired,
+    icon:            PropTypes.string,
   };
+
+  static defaultProps = {
+    icon: ''
+  }
 
   constructor(props) {
     super(props);
@@ -76,7 +81,7 @@ class AutoStart extends PureComponent {
     return (
       <button className='dpmsg-AutoStart-widget' onClick={() => startChat()}>
         <div className='dpmsg-AutoStart-widget-text'>
-          {intl.formatMessage({id: 'helpcenter.messenger.proactive_title'})}
+          {intl.formatMessage({ id: 'helpcenter.messenger.proactive_title' })}
         </div>
         <div className="dpmsg-AutoStart-widget-avatar" key={agent.id}>
           <img src={agent.avatar} alt=""/>
@@ -86,7 +91,7 @@ class AutoStart extends PureComponent {
   };
 
   render() {
-    const { autoStartStyle, startChat, intl} = this.props;
+    const { autoStartStyle, startChat, intl, icon } = this.props;
 
 
     if (autoStartStyle === 'avatar-widget') {
@@ -94,26 +99,27 @@ class AutoStart extends PureComponent {
     }
     return (
       <AutoStartShell
+        icon={icon}
         controls={this.renderToolbar()}
-        title={intl.formatMessage({id: 'helpcenter.messenger.proactive_greeting'})}
+        title={intl.formatMessage({ id: 'helpcenter.messenger.proactive_greeting' })}
       >
-        <Block title={intl.formatMessage({id: 'helpcenter.messenger.proactive_title'})}>
+        <Block title={intl.formatMessage({ id: 'helpcenter.messenger.proactive_title' })}>
           {autoStartStyle.indexOf('avatar') !== -1 ? <AvatarHeads agentsAvailable={this.props.agentsAvailable}/> : null}
           {autoStartStyle.indexOf('text') !== -1 ?
-          <div className="dpmsg-BlockText">
-            {intl.formatMessage({id: 'helpcenter.messenger.proactive_description'})}
-          </div> : null}
+            <div className="dpmsg-BlockText">
+              {intl.formatMessage({ id: 'helpcenter.messenger.proactive_description' })}
+            </div> : null}
           {autoStartStyle.indexOf('input') !== -1 ?
             <Input
               onClick={() => startChat(this.state.message)}
               width="full"
               color="primary"
-              placeholder={intl.formatMessage({id: 'helpcenter.messenger.proactive_placeholder'})}
+              placeholder={intl.formatMessage({ id: 'helpcenter.messenger.proactive_placeholder' })}
               value={this.state.message}
               onChange={this.onInputChange}
             /> :
             <Button onClick={() => startChat(this.state.message)} width="full" color="primary">
-              {intl.formatMessage({id: 'helpcenter.messenger.proactive_button'})}
+              {intl.formatMessage({ id: 'helpcenter.messenger.proactive_button' })}
             </Button>
           }
         </Block>

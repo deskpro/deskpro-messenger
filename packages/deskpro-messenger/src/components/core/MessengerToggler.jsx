@@ -150,7 +150,7 @@ class WidgetToggler extends PureComponent {
 
 
   renderAutoStart() {
-    const { proactive: { autoStartStyle } } = this.props;
+    const { proactive: { autoStartStyle }, widget: { icon: { download_url }} } = this.props;
 
     if (!this.canAutoStart()) {
       return null;
@@ -166,6 +166,7 @@ class WidgetToggler extends PureComponent {
         }}
       >
         <AutoStart
+          icon={download_url}
           onClose={this.onProactiveClose}
           autoStartStyle={autoStartStyle}
           startChat={this.startChat}
@@ -220,12 +221,13 @@ class WidgetToggler extends PureComponent {
 
 const WidgetTogglerWithStyles = (props) => (
   <ConfigConsumer>
-    {({ themeVars, proactive, screens }) =>
+    {({ themeVars, proactive, screens, widget }) =>
       <WidgetToggler
         chatEnabled={!!screens.startChat}
         chatSettings={screens.startChat}
         themeVars={themeVars}
         proactive={proactive}
+        widget={widget}
         {...props}
       />}
   </ConfigConsumer>

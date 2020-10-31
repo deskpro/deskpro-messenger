@@ -13,14 +13,16 @@ class AutoStartShell extends PureComponent {
     title: PropTypes.string,
     introText: PropTypes.string,
     children: PropTypes.any,
-    controls: PropTypes.any
+    controls: PropTypes.any,
+    icon: PropTypes.string
   };
 
   static defaultProps = {
     isMinimal: true,
     isLight: false,
     title: 'Get in touch',
-    introText: ''
+    introText: '',
+    icon: ''
   };
 
   render() {
@@ -31,11 +33,12 @@ class AutoStartShell extends PureComponent {
             introText,
             children,
             controls,
-            forwardedRef
+            forwardedRef,
+            icon
           } = this.props;
 
-    const headerImage = 'img/dp-logo-white.svg';
-
+    const headerImage = icon || 'img/dp-logo-white.svg';
+    
     return (
       <div className="dpmsg-ScreenWrap" ref={forwardedRef} style={{ marginBottom: '20px', display: 'none' }}>
         <div
