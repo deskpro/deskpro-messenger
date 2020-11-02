@@ -155,7 +155,12 @@ class StartChatScreen extends PureComponent {
     const { widget, department, departments, preChatForm, intl, user, uploadTo, formMessageEnabled } = this.props;
     const { contentSize: { maxHeight }, errors } = this.props;
     const { viewMode } = this.state;
-    const dept = department ? departments[department] : {};
+    let dept = department && departments[department] ? departments[department] : {};
+    //means we don't have a department, probably it was disabled but messenger setup wasn't changed
+    if(!dept.title) {
+      const deptKeys = Object.keys(departments);
+      dept = departments[deptKeys[0]];
+    }
     const initialValues = { ...user };
     const correctedForm = preChatForm;
     let hiddenCount = 0;

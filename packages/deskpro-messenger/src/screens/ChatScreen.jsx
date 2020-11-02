@@ -91,9 +91,14 @@ class ChatScreen extends PureComponent {
   render() {
     const { widget, departments, chatConfig, chatData, intl, user, agent, messages, typing } = this.props;
     const { contentSize: { maxHeight }} = this.props;
-    const department = chatConfig.department
+    let department = chatConfig.department && departments[chatConfig.department]
       ? departments[chatConfig.department]
       : {};
+    //means we don't have a department, probably it was disabled but messenger setup wasn't changed
+    if(!department.title) {
+      const deptKeys = Object.keys(departments);
+      department = departments[deptKeys[0]];
+    }
 
     const chat = {
       ...chatData,
