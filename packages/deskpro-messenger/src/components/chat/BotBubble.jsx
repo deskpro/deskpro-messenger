@@ -16,14 +16,14 @@ class BotBubble extends React.Component {
 
   render() {
     const { message, icon } = this.props;
-    const headerImage       = icon || 'img/dp-logo-white.svg';
+    const headerImage = icon || asset('img/dp-logo-white.svg');
     return (
       <div className="dpmsg-MessageBubbleRow dpmsg-BotMessage is-incoming">
         <div className="dpmsg-AvatarCol is-rounded">
           {
             headerImage.substr(-3) === 'svg'
-              ? <Isvg src={asset(headerImage)} alt=""/>
-              : <img src={asset(headerImage)} alt=""/>
+              ? <Isvg src={headerImage} alt=""/>
+              : <img src={headerImage} alt=""/>
           }
         </div>
         <div className="dpmsg-BubbleCol">

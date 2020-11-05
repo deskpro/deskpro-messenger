@@ -37,8 +37,8 @@ class AutoStartShell extends PureComponent {
             icon
           } = this.props;
 
-    const headerImage = icon || 'img/dp-logo-white.svg';
-    
+    const headerImage = icon || asset('img/dp-logo-white.svg');
+
     return (
       <div className="dpmsg-ScreenWrap" ref={forwardedRef} style={{ marginBottom: '20px', display: 'none' }}>
         <div
@@ -52,8 +52,8 @@ class AutoStartShell extends PureComponent {
             <div className="dpmsg-ScreenHeaderLogo">
               {
                 headerImage.substr(-3) === 'svg'
-                  ? <Isvg src={asset(headerImage)} alt="" />
-                  : <img src={asset(headerImage)} alt="" />
+                  ? <Isvg src={headerImage} alt="" />
+                  : <img src={headerImage} alt="" />
               }
             </div>
             <span className="dpmsg-ScreenHeaderTitle">{title}</span>
