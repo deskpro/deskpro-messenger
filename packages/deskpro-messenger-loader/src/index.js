@@ -24,7 +24,7 @@ function loadConfig(helpdeskURL, brandId) {
       let host = '';
       if (!adminConfig.bundleUrl.isDev) {
         host = `${adminConfig.bundleUrl.isAbsolute ? '' : helpdeskURL}${adminConfig.bundleUrl.baseUrl}`;
-        // bundleUrl.baseUrl = host;
+        bundleUrl.baseUrl = host;
       }
       bundleUrl.manifestHost = host;
 
