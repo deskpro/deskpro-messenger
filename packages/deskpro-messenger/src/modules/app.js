@@ -18,10 +18,13 @@ export const SET_WINDOW_STATE        = 'SET_WINDOW_STATE';
 
 export const SET_MESSAGE_FORM_FOCUS  = 'SET_MESSAGE_FORM_FOCUS';
 
+export const UPDATE_JWT_TOKEN        = 'UPDATE_JWT_TOKEN';
+
 //#endregion
 
 //#region ACTIONS
 export const appInit               = () => ({ type: APP_INIT, payload: {} });
+export const updateJwtToken        = (token) => ({ type: UPDATE_JWT_TOKEN, payload: { token } });
 export const appShutdown           = () => ({ type: APP_SHUTDOWN, payload: {} });
 export const toggleWindow          = () => ({ type: TOGGLE_WINDOW });
 export const openWindowOnce        = () => ({ type: OPEN_WINDOW_ONCE });
@@ -117,13 +120,23 @@ const setWindowEpic = (action$, _, { cache }) =>
     skip()
   );
 
+const updateJwtTokenEpic = (action$, _, { api }) =>
+  action$.pipe(
+    ofType(UPDATE_JWT_TOKEN),
+    tap(({ payload }) => {
+      api.jwtToken = payload.token;
+    }),
+    skip()
+  );
+
 export const appEpic   = combineEpics(
   startupRedirectEpic,
   proactiveWindowClosedEpic,
   toggleWindowEpic,
   openWindowEpic,
   setWindowEpic,
-  restoreWindowState
+  restoreWindowState,
+  updateJwtTokenEpic,
 );
 //#endregion
 

@@ -10,6 +10,7 @@ export default class ApiService {
   _visitorId = null;
   jwt = false;
   brandId = null;
+  _config = {};
 
   constructor(config = {}) {
     let clientConfig      = {
@@ -21,9 +22,10 @@ export default class ApiService {
       }
     };
 
+    this._config = config;
     this.apiClient = axios.create(clientConfig);
     if(config.jwt) {
-      this.apiClient.defaults.headers['X-JWT-TOKEN'] = this.jwt = config.jwt;
+      this.jwtToken = config.jwt;
     }
     if(config.brandId) {
       this.apiClient.defaults.headers['X-DESKPRO-BRANDID'] = this.brandId = config.brandId;
@@ -36,6 +38,11 @@ export default class ApiService {
   }
   get visitorId() {
     return this._visitorId;
+  }
+
+  set jwtToken(value) {
+    this._config.jwt = this.jwt = value;
+    this.apiClient.defaults.headers['X-JWT-TOKEN'] = this.jwt
   }
 
   /**

@@ -247,7 +247,7 @@ class MessageForm extends PureComponent {
       });
     }
   };
-
+s
   render() {
     const { className, style, language } = this.props;
 

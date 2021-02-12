@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import isMobile from 'is-mobile';
-
+import _cloneDeep from 'lodash/cloneDeep';
 import { isMessageFormFocused } from '../../modules/app';
 import { createChat, getChatData, sendMessage } from '../../modules/chat';
 import { Footer } from '../ui/Footer';
@@ -176,7 +176,7 @@ class ScreenContent extends PureComponent {
     let correctedForm = false;
     let hiddenCount = 0;
     if (startChat && startChat.preChatForm) {
-      correctedForm = startChat.preChatForm;
+      correctedForm = _cloneDeep(startChat.preChatForm);
       if(correctedForm.length > 0) {
         correctedForm[0].fields.forEach(f => {
           if(f.field_id === 'name' && user.name) {

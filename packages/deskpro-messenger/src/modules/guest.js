@@ -5,25 +5,27 @@ import _get from 'lodash/get';
 import _pick from 'lodash/pick';
 import { from, of } from 'rxjs';
 import { ofType, combineEpics } from 'redux-observable';
-import { switchMap, filter, tap, map } from 'rxjs/operators';
+import { skip, switchMap, filter, tap, map } from 'rxjs/operators';
 import { createSelector } from 'reselect';
 
-import { APP_INIT } from './app';
+import { APP_INIT, UPDATE_JWT_TOKEN } from './app';
 import { CHAT_START, CHAT_SEND_MESSAGE } from './chat';
 import { generateVisitorId } from '../utils/visitorId';
 
 //#region ACTION TYPES
 export const SET_VISITOR = 'SET_VISITOR';
+export const LOGOUT = 'LOGOUT';
 //#endregion
 
 //#region ACTIONS
 export const setVisitor = (payload) => ({ type: SET_VISITOR, payload });
+export const logout = () => ({ type: LOGOUT });
 //#endregion
 
 //#region EPICS
 const initVisitorEpic = (action$, _, { config, api, cache }) =>
   action$.pipe(
-    ofType(APP_INIT),
+    ofType(APP_INIT, UPDATE_JWT_TOKEN),
     switchMap(() => {
       const visitorId = cache.getValue('visitor_id') || generateVisitorId();
       if (cache.getValue('visitor_id') || config.jwt) {
@@ -73,7 +75,18 @@ const updateGuestEpic = (action$, _, { cache }) =>
     )
   );
 
-export const guestEpic = combineEpics(initVisitorEpic, updateGuestEpic);
+const logoutEpic = (action$, _, { cache }) =>
+  action$.pipe(
+    ofType(LOGOUT),
+    tap(() => {
+      cache.setValue('guest.name', null);
+      cache.setValue('guest.email', null);
+      cache.setValue('guest.avatar', null);
+    }),
+    skip()
+  );
+
+export const guestEpic = combineEpics(initVisitorEpic, updateGuestEpic, logoutEpic);
 //#endregion
 
 //#region REDUCER
@@ -92,11 +105,18 @@ export default produce(
         }
         return;
 
+      case LOGOUT:
+          draft.name = null;
+          draft.email = null;
+          draft.avatar = null;
+          draft.personId = null;
+        return;
+
       default:
         return;
     }
   },
-  { name: '', email: '', avatar: '' }
+  { name: '', email: '', avatar: '', personId: null }
 );
 //#endregion
 
