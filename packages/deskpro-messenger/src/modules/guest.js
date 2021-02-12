@@ -8,7 +8,7 @@ import { ofType, combineEpics } from 'redux-observable';
 import { switchMap, filter, tap, map } from 'rxjs/operators';
 import { createSelector } from 'reselect';
 
-import { APP_INIT } from './app';
+import { APP_INIT, UPDATE_JWT_TOKEN } from './app';
 import { CHAT_START, CHAT_SEND_MESSAGE } from './chat';
 import { generateVisitorId } from '../utils/visitorId';
 
@@ -23,7 +23,7 @@ export const setVisitor = (payload) => ({ type: SET_VISITOR, payload });
 //#region EPICS
 const initVisitorEpic = (action$, _, { config, api, cache }) =>
   action$.pipe(
-    ofType(APP_INIT),
+    ofType(APP_INIT, UPDATE_JWT_TOKEN),
     switchMap(() => {
       const visitorId = cache.getValue('visitor_id') || generateVisitorId();
       if (cache.getValue('visitor_id') || config.jwt) {
