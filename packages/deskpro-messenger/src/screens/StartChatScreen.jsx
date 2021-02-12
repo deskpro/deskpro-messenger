@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import _cloneDeep from 'lodash/cloneDeep'
 import Block from '../components/core/Block';
 import { createChat, sendMessage } from '../modules/chat';
 import { withScreenContentSize } from '../components/core/ScreenContent';
@@ -173,7 +174,7 @@ class StartChatScreen extends PureComponent {
     }
 
     const initialValues = { ...user };
-    const correctedForm = preChatForm;
+    const correctedForm = _cloneDeep(preChatForm);
     let hiddenCount     = 0;
     if (correctedForm.length > 0) {
       correctedForm[0].fields.forEach(f => {

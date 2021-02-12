@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { isWindowOpened, toggleWindow, updateJwtToken } from '../../modules/app';
+import { logout } from '../../modules/guest';
 
 window.parent.DeskProMessenger = window.parent.DeskProMessenger || {};
 window.parent.DeskProMessenger.send = function(action, payload) {
@@ -27,6 +28,10 @@ window.parent.DeskProMessenger.openNewTicket = function() {
 
 window.parent.DeskProMessenger.updateJwtToken = function(token) {
   window.parent.DeskProMessenger.send('updateJwtToken', { token })
+};
+
+window.parent.DeskProMessenger.logout = function() {
+  window.parent.DeskProMessenger.send('logout')
 };
 
 window.parent.addEventListener('DeskProMessenger.loaded', () => {
@@ -55,7 +60,8 @@ class MessengerAPI extends PureComponent {
     }).isRequired,
     opened: PropTypes.bool,
     toggleWindow: PropTypes.func.isRequired,
-    updateJwtToken: PropTypes.func.isRequired
+    updateJwtToken: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired
   };
 
   handleMessage = (event) => {
@@ -86,6 +92,11 @@ class MessengerAPI extends PureComponent {
         this.props.updateJwtToken(payload.token);
         break;
 
+      case 'logout':
+        this.props.updateJwtToken('');
+        this.props.logout();
+        break;
+
       default:
         break;
     }
@@ -106,5 +117,5 @@ class MessengerAPI extends PureComponent {
 
 export default connect(
   (state) => ({ opened: isWindowOpened(state) }),
-  { toggleWindow, updateJwtToken }
+  { toggleWindow, updateJwtToken, logout }
 )(MessengerAPI);
