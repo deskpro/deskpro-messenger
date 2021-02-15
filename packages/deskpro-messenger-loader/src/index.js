@@ -93,6 +93,10 @@ function setupFrames(config, manifest) {
 }
 
 function init() {
+  if(window.DESKPRO_MESSENGER_LOADED) {
+    return;
+  }
+  window.DESKPRO_MESSENGER_LOADED = true;
   let hdUrl = window.DESKPRO_MESSENGER_OPTIONS.helpdeskURL;
   const { brandId } = window.DESKPRO_MESSENGER_OPTIONS;
   if(hdUrl.search(/(\/b\/.+\/?)/) && brandId) {
@@ -109,9 +113,10 @@ function init() {
   });
 }
 
+window.DESKPRO_MESSENGER_INIT = init;
+
 (function() {
   if(typeof window.DESKPRO_MESSENGER_LOADED === 'undefined') {
-    window.DESKPRO_MESSENGER_LOADED = true;
     if (window.attachEvent) {
       window.attachEvent('onload', init);
     } else {
