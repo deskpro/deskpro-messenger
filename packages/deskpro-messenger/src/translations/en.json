@@ -78,5 +78,6 @@
   "helpcenter.messenger.tickets_form_submit": "Submit",
   "helpcenter.messenger.tickets_form_submit_button": "Save Ticket",
   "helpcenter.messenger.tickets_form_thanks": "Thank you for contacting us. One of our team will be in touch with you via email.",
-  "helpcenter.messenger.tickets_form_thanks_header": "Your request on its way"
+  "helpcenter.messenger.tickets_form_thanks_header": "Your request on its way",
+  "helpcenter.widget.tickets_form_label_subject": "Subject"
 }

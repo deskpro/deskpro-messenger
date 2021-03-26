@@ -18,6 +18,10 @@ const transMessages = {
     id: 'helpcenter.messenger.tickets_form_email',
     defaultMessage: 'Email',
   },
+  subject: {
+    id: 'helpcenter.widget.tickets_form_label_subject',
+    defaultMessage: 'Subject',
+  },
   department: {
     id: 'helpcenter.general.department',
     defaultMessage: 'Department',
@@ -112,6 +116,7 @@ class SaveTicketForm extends PureComponent {
         email:         intl.formatMessage(transMessages.email),
         department:    intl.formatMessage(transMessages.department),
         message:       intl.formatMessage(transMessages.message),
+        subject:       intl.formatMessage(transMessages.subject),
         product:       intl.formatMessage(transMessages.product),
         priority:      intl.formatMessage(transMessages.priority),
         category:      intl.formatMessage(transMessages.category),

@@ -35,6 +35,10 @@ const transMessages = {
     id: 'helpcenter.general.department',
     defaultMessage: 'Department',
   },
+  subject: {
+    id: 'helpcenter.widget.tickets_form_label_subject',
+    defaultMessage: 'Subject',
+  },
   message: {
     id: 'helpcenter.messenger.tickets_form_message',
     defaultMessage: 'Message',
@@ -210,6 +214,7 @@ class TicketFormScreen extends React.Component {
                   name:          intl.formatMessage(transMessages.name),
                   email:         intl.formatMessage(transMessages.email),
                   department:    intl.formatMessage(transMessages.department),
+                  subject:       intl.formatMessage(transMessages.subject),                  
                   message:       intl.formatMessage(transMessages.message),
                   product:       intl.formatMessage(transMessages.product),
                   priority:      intl.formatMessage(transMessages.priority),

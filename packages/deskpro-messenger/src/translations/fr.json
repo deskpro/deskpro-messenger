@@ -13,5 +13,6 @@
   "helpcenter.messenger.tickets_form_chooseAFile": "Choisir un fichier",
   "helpcenter.messenger.tickets_form_chooseFiles": "Choisir des fichiers",
   "helpcenter.messenger.tickets_form_select": "Choise",
-  "helpcenter.messenger.tickets_form_back": "Retour"
+  "helpcenter.messenger.tickets_form_back": "Retour",
+  "helpcenter.widget.tickets_form_label_subject": "Soumettre à"
 }

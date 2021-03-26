@@ -39,6 +39,10 @@ const transMessages = {
     id:             'helpcenter.messenger.tickets_form_email',
     defaultMessage: 'Email',
   },
+  subject:           {
+    id:             'helpcenter.widget.tickets_form_label_subject',
+    defaultMessage: 'Subject',
+  }, 
   department:         {
     id:             'helpcenter.general.department',
     defaultMessage: 'Department',
@@ -232,6 +236,7 @@ class StartChatScreen extends PureComponent {
                     name:          intl.formatMessage(transMessages.name),
                     email:         intl.formatMessage(transMessages.email),
                     department:    intl.formatMessage(transMessages.department),
+                    subject:       intl.formatMessage(transMessages.subject),
                     message:       intl.formatMessage(transMessages.message),
                     product:       intl.formatMessage(transMessages.product),
                     priority:      intl.formatMessage(transMessages.priority),
