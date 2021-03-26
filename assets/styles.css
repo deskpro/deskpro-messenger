@@ -3107,7 +3107,9 @@
             fill: #3d88f3;
             fill: #3d88f3;
             fill: var(--brand-primary);
-          }.dp-pc_field .dp-pc_file-upload > ul {
+          }.dp-pc_field .dp-pc_file-upload.error .dp-pc_file-upload__dropzone {
+      border-color: var(--danger);
+    }.dp-pc_field .dp-pc_file-upload > ul {
       list-style: none;
       padding-left: 0;
       margin: 0;
