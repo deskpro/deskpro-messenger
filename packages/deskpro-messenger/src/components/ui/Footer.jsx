@@ -21,7 +21,6 @@ class Footer extends PureComponent {
     copyfree: false
   }
   render() {
-    console.log(this.props);
     return (
       <div className="dpmsg-ScreenFooter">
         { this.props.copyfree ? null : (

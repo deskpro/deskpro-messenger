@@ -13,7 +13,6 @@ const ScreenContent = lazy(() => import('./ScreenContent'));
 
 class MessengerShell extends PureComponent {
   static propTypes = {
-    isMinimal: PropTypes.bool,
     isLight: PropTypes.bool,
     iframeHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     maxHeight: PropTypes.number,
@@ -24,7 +23,6 @@ class MessengerShell extends PureComponent {
   };
 
   static defaultProps = {
-    isMinimal: true,
     isLight: false,
     title: 'Get in touch',
     iframeHeight: 0,
@@ -56,7 +54,6 @@ class MessengerShell extends PureComponent {
 
   render() {
     const {
-      isMinimal,
       isLight,
       children,
       iframeHeight,
@@ -70,12 +67,7 @@ class MessengerShell extends PureComponent {
 
     return (
       <div className="dpmsg-ScreenWrap" style={{ display: 'none' }}>
-        <div
-          className={classNames('dpmsg-Screen', {
-            'is-minimal': isMinimal,
-            'is-light': isLight
-          })}
-        >
+        <div className={classNames('dpmsg-Screen', {'is-light': isLight})}>
           <div className="dpmsg-Control">
             <div className="dpmsg-ScreenControls dpmsg-Level">
               { this.renderToolbar() }
