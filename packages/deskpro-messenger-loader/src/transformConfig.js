@@ -90,6 +90,7 @@ export default (settings) => {
     maxFileSize: settings.maxFileSize,
     screens,
     themeVars: {
+      'copyfree': settings.widget.copyfree || false,
       'position': settings.widget.position || 'right',
       '--color-primary': settings.widget.primaryColor || '#3d88f3',
       '--brand-primary': settings.widget.primaryColor || '#3d88f3',
