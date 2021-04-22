@@ -11,7 +11,7 @@ import isMobile from 'is-mobile';
 import _cloneDeep from 'lodash/cloneDeep';
 import { isMessageFormFocused } from '../../modules/app';
 import { createChat, getChatData, sendMessage } from '../../modules/chat';
-import { Footer } from '../ui/Footer';
+import Footer from '../ui/Footer';
 import { getUser } from '../../modules/guest';
 import { getChatDepartments } from '../../modules/info';
 import AJAXSubmit from "../../utils/AJAXSubmit";

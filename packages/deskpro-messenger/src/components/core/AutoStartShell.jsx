@@ -8,54 +8,52 @@ import { isLightColor } from '../../utils/color';
 
 class AutoStartShell extends PureComponent {
   static propTypes = {
-    isMinimal: PropTypes.bool,
-    isLight: PropTypes.bool,
-    title: PropTypes.string,
-    introText: PropTypes.string,
-    children: PropTypes.any,
-    controls: PropTypes.any,
-    icon: PropTypes.string
+    isMinimal:  PropTypes.bool,
+    isLight:    PropTypes.bool,
+    title:      PropTypes.string,
+    introText:  PropTypes.string,
+    children:   PropTypes.any,
+    controls:   PropTypes.any,
+    icon:       PropTypes.string,
+    isCopyfree: PropTypes.bool
   };
 
   static defaultProps = {
-    isMinimal: true,
-    isLight: false,
-    title: 'Get in touch',
-    introText: '',
-    icon: ''
+    isMinimal:  true,
+    isLight:    false,
+    title:      'Get in touch',
+    introText:  '',
+    icon:       '',
+    isCopyfree: false
   };
 
   render() {
     const {
-            isMinimal,
             isLight,
             title,
             introText,
             children,
             controls,
             forwardedRef,
-            icon
+            icon,
+            isCopyfree
           } = this.props;
 
-    const headerImage = icon || asset('img/dp-logo-white.svg');
+    const headerImage = icon || (isCopyfree ? null : asset('img/dp-logo-white.svg'));
 
     return (
       <div className="dpmsg-ScreenWrap" ref={forwardedRef} style={{ marginBottom: '20px', display: 'none' }}>
-        <div
-          className={classNames('dpmsg-Screen', {
-            'is-minimal': isMinimal,
-            'is-light': isLight
-          })}
-        >
-          <div className="dpmsg-ScreenHeader dpmsg-AutoStartHeader">
+        <div className={classNames('dpmsg-Screen', { 'is-light': isLight })}>
+          <div
+            className={classNames("dpmsg-AutoStartHeader dpmsg-ScreenHeader", { 'dpmsg-ScreenHeader-noLogo': !headerImage })}>
             <div className="dpmsg-ScreenControls dpmsg-Level">{controls}</div>
-            <div className="dpmsg-ScreenHeaderLogo">
+            {headerImage && <div className="dpmsg-ScreenHeaderLogo">
               {
                 headerImage.substr(-3) === 'svg'
-                  ? <Isvg src={headerImage} alt="" />
-                  : <img src={headerImage} alt="" />
+                  ? <Isvg src={headerImage} alt=""/>
+                  : <img src={headerImage} alt=""/>
               }
-            </div>
+            </div>}
             <span className="dpmsg-ScreenHeaderTitle">{title}</span>
             {!!introText && (
               <span className="dpmsg-ScreenHeaderText">{introText}</span>
@@ -78,6 +76,7 @@ export default forwardRef((props, ref) => (
       <AutoStartShell
         {...props}
         forwardedRef={ref}
+        isCopyfree={themeVars.copyfree}
         isLight={
           !!themeVars['--color-primary'] &&
           isLightColor(themeVars['--color-primary'])
