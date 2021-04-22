@@ -654,28 +654,31 @@
           flex-wrap: wrap;
   margin-bottom: -50px;
   padding: 0 25px 62px 30px;
-  width: 100%;
-}.dpmsg-ScreenHeaderLogo img {
+  width: 100%
+}.dpmsg-ScreenHeader.dpmsg-ScreenHeader-noLogo {
+    padding-left: 10px;
+  }.dpmsg-ScreenHeaderLogo img {
   height: 30px;
 }.dpmsg-AutoStart .dpmsg-Screen {
   box-shadow: 0 5px 10px rgba(29, 62, 85, 0.3);
-}.is-minimal .dpmsg-ScreenHeaderLogo img {
+}.dpmsg-ScreenHeaderLogo img {
   height: 37px;
-}.is-minimal .dpmsg-ScreenHeaderLogo svg {
+}.dpmsg-ScreenHeaderLogo svg {
   color: #fff !important;
   color: var(--header-icon-text-color) !important;
   height: 37px;
-}.is-minimal .dpmsg-ScreenHeaderLogo svg path {
+}.dpmsg-ScreenHeaderLogo svg path {
   fill: #fff !important;
   fill: var(--header-icon-text-color) !important;
   stroke: #fff !important;
   stroke: var(--header-icon-text-color) !important;
-}.is-minimal .dpmsg-ScreenHeader {
+}.dpmsg-ScreenHeader {
   -webkit-flex-direction: row;
           flex-direction: row;
-  padding: 0 25px 65px 30px;
-}.dpmsg-AutoStart .dpmsg-ScreenHeader {
-  padding-bottom: 110px;
+  padding: 0 25px 65px 30px
+}.dpmsg-ScreenHeader.dpmsg-ScreenHeader-noLogo {
+    padding-left: 10px;
+  }.dpmsg-AutoStart .dpmsg-ScreenHeader {
   padding-top: 34px;
 }.dpmsg-ScreenHeaderLogo {
   -webkit-flex: 0 0 100%;
@@ -689,11 +692,11 @@
   max-width: 270px;
   padding: 18px 0 8px;
   padding: 18px 0 var(--xs-space);
-}.is-minimal .dpmsg-ScreenHeaderTitle {
+}.dpmsg-ScreenHeaderTitle {
   letter-spacing: 0;
   padding: 0;
-}.is-minimal .dpmsg-ScreenHeaderLogo,
-.is-minimal .dpmsg-ScreenHeaderTitle {
+}.dpmsg-ScreenHeaderLogo,
+.dpmsg-ScreenHeaderTitle {
   -webkit-flex: 0 0 auto;
           flex: 0 0 auto;
 }.dpmsg-ScreenHeaderText {
@@ -763,7 +766,7 @@
   color: var(--header-icon-text-color);
 }.dpmsg-ScreenHeaderText {
   color: #f9f9f9;
-}.is-minimal.is-light .dpmsg-ScreenHeaderText {
+}.is-light .dpmsg-ScreenHeaderText {
   color: #f9f9f9;
 }.is-light .dpmsg-ScreenHeaderText {
   color: #4c4f50;
@@ -772,7 +775,7 @@
   background-color: #fff;
   background-color: var(--white);
   background-image: none;
-}.is-minimal.is-light .dpmsg-ScreenHeaderTitle {
+}.is-light .dpmsg-ScreenHeaderTitle {
   color: #5f7689;
 }.is-light .dpmsg-ScreenHeaderTitle {
   color: #1d3e55;
@@ -1412,7 +1415,7 @@
   height: 12px;
   position: absolute;
   right: 10px;
-  top: 10px;
+  top: 16px;
   width: 12px;
 }.dpmsg-AutoStart-input input {
   background-color: #eff0f0;
