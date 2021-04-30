@@ -161,15 +161,16 @@ class ChatSettings extends React.PureComponent {
     const registered                           = usergroups.find(u => u.get('sys_name') === 'registered');
 
     if (checked) {
-      if (id === everyone.get('id')) {
+      // enabling everyone usergroups means automatically enable all other groups
+      if (typeof everyone  !== 'undefined' && id === everyone.get('id')) {
         groups = new Immutable.List(usergroups
           .map(u => u.get('id'))
           .toArray()
         )
+        // enabling registered usergroup means automatically enabling all other groups except everyone
       } else if (id === registered.get('id')) {
-
         groups = new Immutable.List(usergroups
-          .filter(u => groups.indexOf(everyone.get('id')) === -1 ? u.get('id') !== everyone.get('id') : true)
+          .filter(u => (typeof everyone  !== 'undefined') && (groups.indexOf(everyone.get('id')) === -1) ? u.get('id') !== everyone.get('id') : true)
           .map(u => u.get('id'))
           .toArray()
         )
