@@ -9,7 +9,7 @@ import { skip, switchMap, filter, tap, map } from 'rxjs/operators';
 import { createSelector } from 'reselect';
 
 import { APP_INIT, UPDATE_JWT_TOKEN } from './app';
-import { CHAT_START, CHAT_SEND_MESSAGE } from './chat';
+import { CHAT_SEND_MESSAGE, CHAT_SAVE_CHAT } from './chat';
 import { generateVisitorId } from '../utils/visitorId';
 
 //#region ACTION TYPES
@@ -63,7 +63,7 @@ const initVisitorEpic = (action$, _, { config, api, cache }) =>
 
 const updateGuestEpic = (action$, _, { cache }) =>
   action$.pipe(
-    ofType(CHAT_START, CHAT_SEND_MESSAGE),
+    ofType(CHAT_SAVE_CHAT, CHAT_SEND_MESSAGE),
     filter((action) => 'email' in action.payload),
     tap((action) => {
       cache.setValue('guest.name', action.payload.name);
