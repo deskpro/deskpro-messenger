@@ -29,6 +29,7 @@
     "immer": "^8.0.1",
     "install": "^0.13.0",
     "is-mobile": "^2.2.1",
+    "js-cookie": "^2.2.1",
     "moment": "^2.24.0",
     "postcss-color-mod-function": "^3.0.3",
     "prop-types": "^15.6.2",

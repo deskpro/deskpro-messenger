@@ -7,10 +7,11 @@ import { from, of } from 'rxjs';
 import { ofType, combineEpics } from 'redux-observable';
 import { skip, switchMap, filter, tap, map } from 'rxjs/operators';
 import { createSelector } from 'reselect';
+import Cookies from 'js-cookie'
 
 import { APP_INIT, UPDATE_JWT_TOKEN } from './app';
 import { CHAT_SEND_MESSAGE, CHAT_SAVE_CHAT } from './chat';
-import { generateVisitorId } from '../utils/visitorId';
+import { generateVisitorId, VISITOR_COOKIE_NAME } from '../utils/visitorId';
 
 //#region ACTION TYPES
 export const SET_VISITOR = 'SET_VISITOR';
@@ -27,7 +28,7 @@ const initVisitorEpic = (action$, _, { config, api, cache }) =>
   action$.pipe(
     ofType(APP_INIT, UPDATE_JWT_TOKEN),
     switchMap(() => {
-      const visitorId = cache.getValue('visitor_id') || generateVisitorId();
+      const visitorId = Cookies.get(VISITOR_COOKIE_NAME) || cache.getValue('visitor_id') || generateVisitorId();
       if (cache.getValue('visitor_id') || config.jwt) {
         return from(api.loadUser(visitorId)).pipe(
           map((user) =>
