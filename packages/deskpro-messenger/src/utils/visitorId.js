@@ -1,3 +1,7 @@
+import Cookies from 'js-cookie'
+
+export const VISITOR_COOKIE_NAME = 'dp__v';
+
 export const generateVisitorId = () => {
   let id = `${Math.floor(new Date().getTime() / 1000 / 60)}-`;
 
@@ -20,5 +24,6 @@ export const generateVisitorId = () => {
     id += chars2.charAt(Math.floor(Math.random() * chars2.length));
   }
 
+  Cookies.set(VISITOR_COOKIE_NAME, id, {expires: 365*5, path: '/'});
   return id;
 };
