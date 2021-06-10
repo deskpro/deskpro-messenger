@@ -16,7 +16,7 @@ import BotBubble from './BotBubble';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { isMessageFormFocused } from '../../modules/app';
-import { endBlockShown } from '../../modules/chat';
+import { getErrors, endBlockShown } from '../../modules/chat';
 
 const transMessages = {
   agentAssigned: {
@@ -149,11 +149,17 @@ class Chat extends React.Component {
       chat,
       chatConfig,
       endChatBlock,
+      errors
     } = this.props;
 
     return (
         <Fragment>
-          <BotBubble message={intl.formatMessage({id: 'helpcenter.messenger.chat_prompt'})} />
+            <BotBubble message={intl.formatMessage({ id: 'helpcenter.messenger.chat_prompt' })} />
+            {errors && errors.general && (
+            <div className="dp-pc_field">
+              <span className="dp-pc_error_message">{errors.general}</span>
+            </div>
+          )}
           {messages
             .filter(m => m.id || m.type !== 'chat.typing.start')
             .map((message, index) => {
@@ -250,7 +256,7 @@ export default compose(
   withFrameContext,
   withScreenContentSize,
   connect(
-    (state) => ({ formFocused: isMessageFormFocused(state), endChatBlock: endBlockShown(state) })
+    (state) => ({ formFocused: isMessageFormFocused(state), endChatBlock: endBlockShown(state), errors: getErrors(state) })
   )
 )(Chat);
 

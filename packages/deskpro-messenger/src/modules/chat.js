@@ -204,13 +204,23 @@ const createChatEpic = (action$, state$, { api }) =>
         catchError((e) => {
           if (e.response.status === 400) {
             const { errors } = e.response.data;
-            if (errors) {
+            if (errors && errors.fields) {
               Object.keys(errors.fields).forEach((key) => {
                 flattenErrors(flatErrors, errors.fields[key], key);
               });
             }
+            if (errors && errors.errors) {
+              const generalErrors = [];
+              errors.errors.forEach((err) => {
+                generalErrors.push(err.message);
+              })
+              flatErrors.general = generalErrors.join("<br/>");
+            }
+          } else if (e.response.status === 403) {
+            flatErrors.general = 'Access Denied, Unable to send chat.';
+            return { type: CHAT_CREATE_ERROR, payload: flatErrors };
           }
-          return merge(of({ type: CHAT_CREATE_ERROR, payload: flatErrors }));
+          return { type: CHAT_CREATE_ERROR, payload: flatErrors };
         })
       );
     })
