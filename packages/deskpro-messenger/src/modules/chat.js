@@ -218,9 +218,9 @@ const createChatEpic = (action$, state$, { api }) =>
             }
           } else if (e.response.status === 403) {
             flatErrors.general = 'Access Denied, Unable to send chat.';
-            return { type: CHAT_CREATE_ERROR, payload: flatErrors };
+            return merge(of({ type: CHAT_CREATE_ERROR, payload: flatErrors }));
           }
-          return { type: CHAT_CREATE_ERROR, payload: flatErrors };
+          return merge(of({ type: CHAT_CREATE_ERROR, payload: flatErrors }));
         })
       );
     })
