@@ -72,6 +72,7 @@ class Chat extends React.Component {
     agent: PropTypes.object,
     user: PropTypes.object,
     endChatBlock: PropTypes.bool.isRequired,
+    errors: PropTypes.object.isRequired,
     chat: PropTypes.shape({
       id: PropTypes.number.isRequired,
       status: PropTypes.string.isRequired

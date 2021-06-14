@@ -607,5 +607,5 @@ export const getTypingState = createSelector(getChat, (chat) => chat.typing);
 export const isMuted = createSelector(getChatState, (state) => state.mute);
 export const endBlockShown = createSelector(getChatState, (state) => state.endBlock);
 export const isChatAssigned = createSelector(getChatState, (state) => state.chatAssigned);
-export const getErrors  = (state) => state.chat.errors;
+export const getError = createSelector(getChatState, (state) => state.errors);
 //#endregion
