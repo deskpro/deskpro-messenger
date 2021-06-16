@@ -37,7 +37,7 @@ const transMessages = {
   },
   chatBlocked: {
     id: 'helpcenter.messenger.chat_blocked',
-    defaultMessage: 'You have been blocked for 24hrs',
+    defaultMessage: 'You have been blocked for 24 hours',
   },
 };
 
