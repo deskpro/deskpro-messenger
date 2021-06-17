@@ -34,7 +34,11 @@ const transMessages = {
   chatEnded: {
     id: 'helpcenter.messenger.chat_ended',
     defaultMessage: 'Chat ended'
-  }
+  },
+  chatBlocked: {
+    id: 'helpcenter.messenger.chat_blocked',
+    defaultMessage: 'You have been blocked for 24 hours',
+  },
 };
 
 const createTrans = ({ message, ...data }, type) => {
@@ -184,14 +188,16 @@ class Chat extends React.Component {
                         {...message}
                         message={intl.formatMessage(...createTrans(message, 'chatEnded'))}
                       />
-                      {chat.assigned &&
+                      {message.blocked && (
+                        <div className="dp-pc_field"><span className="dp-pc_error_message">{intl.formatMessage(transMessages.chatBlocked)}</span></div>)}
+                      {chat.assigned && 
                       <Fragment key={`${key}_end`}>
                         <TranscriptBlock onSend={onSendMessage} user={user} />
-                        <RatingBlock
+                        {!message.blocked && <RatingBlock
                           onSend={onSendMessage}
                           user={user}
                           agent={agent}
-                        />
+                        />}
                       </Fragment>
                       }
                     </Fragment>
