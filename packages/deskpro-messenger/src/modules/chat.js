@@ -38,7 +38,7 @@ const sounds = _mapValues(
 );
 sounds.default = new Audio(asset('audio/unconvinced.mp3'));
 
-const endedEvents = ['chat.ended', 'chat.waitTimeout', 'chat.userTimeout'];
+const endedEvents = ['chat.ended', 'chat.waitTimeout'];
 const isEndEvent = (payload) => -1 !== endedEvents.indexOf(payload.type);
 
 //#region ACTION TYPES
