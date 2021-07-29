@@ -27,6 +27,14 @@ const transMessages = {
     id: 'helpcenter.messenger.message_user_left',
     defaultMessage: `{name} left the conversation.`
   },
+  userTimeout: {
+    id: 'helpcenter.messenger.message_user_timeout',
+    defaultMessage: `You seem to be away. The chat will be ended soon.`
+  },
+  userReturned: {
+    id: 'helpcenter.messenger.message_user_returned',
+    defaultMessage: `Welcome back, your chat has been restored.`
+  },
   noAgentOnline: {
     id: 'helpcenter.messenger.chat_no_agent_online',
     defaultMessage: 'Sorry, no one is online to accept your chat.'
@@ -46,6 +54,10 @@ const createTrans = ({ message, ...data }, type) => {
     switch (message.phrase_id) {
       case 'message_user-left':
         return [{ id: `helpcenter.messenger.message_user_left` }, message]
+      case 'message_user-timeout':
+        return [{ id: `helpcenter.messenger.message_user_timeout` }, message]
+      case 'message_user-returned':
+        return [{ id: `helpcenter.messenger.message_user_returned` }, message]
       case 'message_user-joined':
         return [{ id: `helpcenter.messenger.message_user_joined` }, message]
       case 'message_ended-by':
@@ -180,7 +192,6 @@ class Chat extends React.Component {
                     message={intl.formatMessage(...createTrans(message, 'agentAssigned'))}
                   />;
                 case 'chat.ended':
-                case 'chat.userTimeout':
                 case 'chat.waitTimeout':
                   return (
                     <Fragment key={key}>
@@ -230,6 +241,20 @@ class Chat extends React.Component {
                       key={key}
                       {...message}
                       message={intl.formatMessage(...createTrans(message))}
+                    />
+                  );
+                case 'chat.userTimeout':
+                  return (
+                    <BotBubble
+                      key={key}
+                      message={intl.formatMessage(...createTrans(message, 'userTimeout'))}
+                    />
+                  );
+                case 'chat.userReturned':
+                  return (
+                    <BotBubble
+                      key={key}
+                      message={intl.formatMessage(...createTrans(message, 'userReturned'))}
                     />
                   );
                 default: {
