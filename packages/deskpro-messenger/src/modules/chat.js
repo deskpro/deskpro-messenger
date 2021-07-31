@@ -50,6 +50,7 @@ export const CHAT_SEND_END_CHAT = 'CHAT_SEND_END_CHAT';
 export const CHAT_SEND_MESSAGE_SUCCESS = 'CHAT_SEND_MESSAGE_SUCCESS';
 export const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
 export const CHAT_HISTORY_LOADED = 'CHAT_HISTORY_LOADED';
+export const CHAT_HISTORY_ERROR = 'CHAT_HISTORY_ERROR';
 export const CHAT_TOGGLE_SOUND = 'CHAT_TOGGLE_SOUND';
 export const CHAT_OPENED = 'CHAT_OPENED';
 export const CHAT_END_BLOCK = 'CHAT_END_BLOCK';
@@ -148,7 +149,7 @@ const initChatsEpic = (action$, _, { cache }) =>
     tap(({ payload }) => cache.mergeArray('chats', payload.chats)),
     map(() => initChats(cache.getValue('chats') || []))
   );
-const loadHistoryEpic = (action$, _, { api }) =>
+const loadHistoryEpic = (action$, _, { api, cache }) =>
   action$.pipe(
     ofType(CHAT_INIT_CHATS),
     mergeMap(({ payload }) => {
@@ -177,6 +178,10 @@ const loadHistoryEpic = (action$, _, { api }) =>
         );
       }
       return empty();
+    }),
+    catchError(() => {
+      cache.setValue('chats', []);
+      return merge(of({type: CHAT_HISTORY_ERROR}));
     })
   );
 
@@ -531,6 +536,10 @@ export default produce(
       draft.chats[payload.id] = { messages: [], data: payload };
       draft.activeChat = payload.id;
       draft.chatAssigned = false;
+    } else if (type === CHAT_HISTORY_ERROR) {
+      draft.chats = [];
+      draft.chatAssigned = null;
+      draft.activeChat = null;
     } else if (type === CHAT_INIT_CHATS) {
       payload.sort((a,b) => a.id - b.id).forEach((chat) => {
         const id = chat.id;
