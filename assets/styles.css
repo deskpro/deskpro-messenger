@@ -2447,6 +2447,13 @@
   --grey: #a9b0b0;
   --grey-200: #e9ecef;
 
+
+  --dp-loader-size-xs: 1rem;
+  --dp-loader-size-s: 2rem;
+  --dp-loader-size-m: 3rem;
+  --dp-loader-size-l: 4rem;
+  --dp-loader-size-xl: 5rem;
+
   --brand-primary: #3d88f3;
   --brand-dark-primary: rgb(61, 141, 255);
   --brand-secondary: #a9b0b0;
@@ -3555,6 +3562,124 @@
   }.dp-pc_description.dp-pc_checkboxes_description {
   margin-bottom: -5px;
   margin-top: 12px;
+}.dp-loader {
+  display: inline-block;
+  margin: 12px;
+}.dp-loader svg {
+    -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-animation-name: loader-rotate;
+            animation-name: loader-rotate;
+    -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+  }.dp-loader svg .st0 {
+      opacity: 1;
+    }.dp-loader svg .st1 {
+      fill: #3d88f3;
+      fill: #3d88f3;
+      fill: var(--brand-primary)
+    }.dp-loader svg .st2 {
+      fill: rgb(61, 141, 255);
+      fill: rgb(61, 141, 255);
+      fill: var(--brand-dark-primary);
+    }.dp-loader svg .st3 {
+      fill: #a9b0b0;
+      fill: #a9b0b0;
+      fill: var(--brand-secondary);
+    }.dp-loader--xs {
+  height: 1rem;
+  height: 1rem;
+  height: var(--dp-loader-size-xs);
+  width:  1rem;
+  width:  1rem;
+  width:  var(--dp-loader-size-xs);
+}.dp-loader--xs svg {
+    height: 1rem;
+    height: 1rem;
+    height: var(--dp-loader-size-xs);
+    width:  1rem;
+    width:  1rem;
+    width:  var(--dp-loader-size-xs);
+  }.dp-loader--s {
+  height: 2rem;
+  height: 2rem;
+  height: var(--dp-loader-size-s);
+  width:  2rem;
+  width:  2rem;
+  width:  var(--dp-loader-size-s);
+}.dp-loader--s svg {
+    height: 2rem;
+    height: 2rem;
+    height: var(--dp-loader-size-s);
+    width:  2rem;
+    width:  2rem;
+    width:  var(--dp-loader-size-s);
+  }.dp-loader--m {
+  height: 3rem;
+  height: 3rem;
+  height: var(--dp-loader-size-m);
+  width:  3rem;
+  width:  3rem;
+  width:  var(--dp-loader-size-m);
+}.dp-loader--m svg {
+    height: 3rem;
+    height: 3rem;
+    height: var(--dp-loader-size-m);
+    width:  3rem;
+    width:  3rem;
+    width:  var(--dp-loader-size-m);
+  }.dp-loader--l {
+  height: 4rem;
+  height: 4rem;
+  height: var(--dp-loader-size-l);
+  width:  4rem;
+  width:  4rem;
+  width:  var(--dp-loader-size-l);
+}.dp-loader--l svg {
+    height: 4rem;
+    height: 4rem;
+    height: var(--dp-loader-size-l);
+    width:  4rem;
+    width:  4rem;
+    width:  var(--dp-loader-size-l);
+  }.dp-loader--xl {
+  height: 5rem;
+  height: 5rem;
+  height: var(--dp-loader-size-xl);
+  width:  5rem;
+  width:  5rem;
+  width:  var(--dp-loader-size-xl);
+}.dp-loader--xl svg {
+    height: 5rem;
+    height: 5rem;
+    height: var(--dp-loader-size-xl);
+    width:  5rem;
+    width:  5rem;
+    width:  var(--dp-loader-size-xl);
+  }.dp-loader--hidden svg {
+    display: none;
+  }@-webkit-keyframes loader-rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}@keyframes loader-rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
 }.react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {
@@ -6459,15 +6584,6 @@
   width: 5rem;
 }.dp-loader--hidden svg {
   display: none;
-}@-webkit-keyframes loader-rotate {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
 }@keyframes loader-rotate {
   0% {
     -webkit-transform: rotate(0deg);
