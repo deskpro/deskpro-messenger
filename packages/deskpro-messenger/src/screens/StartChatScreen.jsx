@@ -32,11 +32,11 @@ const transMessages = {
     defaultMessage: '{department} conversation'
   },
   name:               {
-    id:             'helpcenter.messenger.tickets_form_name',
+    id:             'helpcenter.messenger.chat_pre_chat_form_name',
     defaultMessage: 'Name',
   },
   email:              {
-    id:             'helpcenter.messenger.tickets_form_email',
+    id:             'helpcenter.messenger.chat_pre_chat_form_email',
     defaultMessage: 'Email',
   },
   subject:           {
@@ -44,7 +44,7 @@ const transMessages = {
     defaultMessage: 'Subject',
   }, 
   department:         {
-    id:             'helpcenter.general.department',
+    id:             'helpcenter.messenger.chat_pre_chat_form_department',
     defaultMessage: 'Department',
   },
   message:            {
