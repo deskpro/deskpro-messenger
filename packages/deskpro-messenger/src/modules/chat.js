@@ -528,7 +528,9 @@ const chatReducer = produce((draft, { type, payload }, chatAssigned) => {
 export default produce(
   (draft, action) => {
     const { type, payload } = action;
-    if (type === CHAT_TOGGLE_SOUND) {
+    if (type === CHAT_START) {
+      draft.chatIsStarting = true;
+    } else if (type === CHAT_TOGGLE_SOUND) {
       draft.mute = !draft.mute;
     } else if (type === CHAT_END_BLOCK) {
       draft.endBlock = !!payload;
@@ -536,6 +538,7 @@ export default produce(
       draft.chats[payload.id] = { messages: [], data: payload };
       draft.activeChat = payload.id;
       draft.chatAssigned = false;
+      draft.chatIsStarting = false;
     } else if (type === CHAT_HISTORY_ERROR) {
       draft.chats = [];
       draft.chatAssigned = null;
@@ -586,11 +589,12 @@ export default produce(
       );
     } else if (type === CHAT_CREATE_ERROR) {
       draft.errors = payload;
+      draft.chatIsStarting = false;
     }
 
     return;
   },
-  { chats: {}, mute: false, activeChat: null, chatAssigned: false, endBlock: false, errors: {} }
+  { chats: {}, mute: false, chatIsStarting: false, activeChat: null, chatAssigned: false, endBlock: false, errors: {} }
 );
 //#endregion
 
@@ -617,4 +621,5 @@ export const isMuted = createSelector(getChatState, (state) => state.mute);
 export const endBlockShown = createSelector(getChatState, (state) => state.endBlock);
 export const isChatAssigned = createSelector(getChatState, (state) => state.chatAssigned);
 export const getErrors = createSelector(getChatState, (state) => state.errors);
+export const chatIsStarting = createSelector(getChatState, (state) => state.chatIsStarting);
 //#endregion

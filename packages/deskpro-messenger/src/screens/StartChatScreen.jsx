@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import _cloneDeep from 'lodash/cloneDeep'
 import Block from '../components/core/Block';
-import { createChat, sendMessage } from '../modules/chat';
+import { createChat, sendMessage, chatIsStarting } from '../modules/chat';
 import { withScreenContentSize } from '../components/core/ScreenContent';
 import { getUser, } from '../modules/guest';
 import PromptMessage from '../components/chat/PromptMessage';
@@ -42,7 +42,7 @@ const transMessages = {
   subject:           {
     id:             'helpcenter.widget.tickets_form_label_subject',
     defaultMessage: 'Subject',
-  }, 
+  },
   department:         {
     id:             'helpcenter.messenger.chat_pre_chat_form_department',
     defaultMessage: 'Department',
@@ -107,19 +107,22 @@ const transMessages = {
 
 class StartChatScreen extends PureComponent {
   static propTypes = {
-    user:        PropTypes.object,
-    language:    PropTypes.object,
-    preChatForm: PropTypes.array,
-    prompt:      PropTypes.string,
-    departments: PropTypes.object.isRequired,
-    agents:      PropTypes.object.isRequired
+    user:           PropTypes.object,
+    language:       PropTypes.object,
+    preChatForm:    PropTypes.array,
+    prompt:         PropTypes.string,
+    departments:    PropTypes.object.isRequired,
+    agents:         PropTypes.object.isRequired,
+    chatIsStarting: PropTypes.bool
+
   };
 
   static defaultProps = {
-    user:        {},
-    language:    {},
-    preChatForm: [],
-    prompt:      ''
+    user:           {},
+    language:       {},
+    preChatForm:    [],
+    prompt:         '',
+    chatIsStarting: false,
   };
 
   state         = { viewMode: this.props.preChatForm.length > 0 ? 'form' : 'prompt' };
@@ -159,9 +162,9 @@ class StartChatScreen extends PureComponent {
   };
 
   render() {
-    const { widget, agents, department, departments, preChatForm, user }             = this.props;
-    const { contentSize: { maxHeight }, errors, intl, uploadTo, formMessageEnabled } = this.props;
-    const { viewMode }                                                               = this.state;
+    const { widget, agents, department, departments, preChatForm, user, chatIsStarting } = this.props;
+    const { contentSize: { maxHeight }, errors, intl, uploadTo, formMessageEnabled }     = this.props;
+    const { viewMode }                                                                   = this.state;
 
     const depsAvailable = [];
     for (const a in agents) {
@@ -231,6 +234,7 @@ class StartChatScreen extends PureComponent {
                   errors={errors}
                   csrfToken="not_used"
                   onSubmit={this.createChat}
+                  submitDisabled={chatIsStarting}
                   languageId={parseInt(this.props.language.id, 10)}
                   i18n={{
                     name:          intl.formatMessage(transMessages.name),
@@ -268,10 +272,11 @@ class StartChatScreen extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => ({
-  user:        getUser(state),
-  departments: getChatDepartments(state, props),
-  agents:      getAgentsAvailable(state),
-  errors:      getErrors(state)
+  user:           getUser(state),
+  departments:    getChatDepartments(state, props),
+  agents:         getAgentsAvailable(state),
+  chatIsStarting: chatIsStarting(state),
+  errors:         getErrors(state)
 });
 
 export default compose(
