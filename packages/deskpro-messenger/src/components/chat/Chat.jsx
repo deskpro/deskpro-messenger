@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
-
+import { sendAck } from '../../modules/chat';
 import MessageBubble from './MessageBubble';
 import SystemMessage from './SystemMessage';
 import TypingMessage from './TypingMessage';
@@ -81,6 +81,7 @@ const createTrans = ({ message, ...data }, type) => {
 class Chat extends React.Component {
   static propTypes = {
     messages: PropTypes.array,
+    sendAck: PropTypes.func.isRequired,
     onSendMessage: PropTypes.func.isRequired,
     onEndChat: PropTypes.func.isRequired,
     onCancelEndChat: PropTypes.func.isRequired,
@@ -107,6 +108,8 @@ class Chat extends React.Component {
     contentSize: {animating: false, height: undefined, maxHeight: undefined}
   };
 
+  messagesToAck = [];
+
   scrollArea = React.createRef();
 
   componentDidMount() {
@@ -130,6 +133,11 @@ class Chat extends React.Component {
     ) {
       this.scrollToBottom();
     }
+
+    if(this.messagesToAck.length) {
+      this.props.sendAck(this.messagesToAck, this.props.chat);
+      this.messagesToAck = [];
+    }
   }
 
   scrollToBottom() {
@@ -151,6 +159,19 @@ class Chat extends React.Component {
         );
       }
     }, 10);
+  }
+
+  collectMessagesToAck = (ref, message) => {
+    if(this.messagesToAck) {
+      const rect = ref.current.getBoundingClientRect();
+      const isInViewport = rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.parent.innerHeight) &&
+        rect.right <= (window.parent.innerWidth);
+      if(!message.props.date_received && isInViewport) {
+        this.messagesToAck.push(message.props.id);
+      }
+    }
   }
 
   render() {
@@ -183,7 +204,7 @@ class Chat extends React.Component {
               const key = message.uuid || `${message.type}-${index}`;
               switch (message.type) {
                 case 'chat.message':
-                  return <MessageBubble key={key} {...message} prev={messages[index-1]}/>;
+                  return <MessageBubble collectMessagesToAck={this.collectMessagesToAck} key={key} {...message} prev={messages[index-1]}/>;
                 case 'chat.agentAssigned':
                 case 'chat.agentUnassigned':
                   return <SystemMessage
@@ -201,7 +222,7 @@ class Chat extends React.Component {
                       />
                       {message.blocked && (
                         <div className="dp-pc_field"><span className="dp-pc_error_message">{intl.formatMessage(transMessages.chatBlocked)}</span></div>)}
-                      {chat.assigned && 
+                      {chat.assigned &&
                       <Fragment key={`${key}_end`}>
                         <TranscriptBlock onSend={onSendMessage} user={user} />
                         {!message.blocked && <RatingBlock
@@ -288,7 +309,10 @@ export default compose(
   withFrameContext,
   withScreenContentSize,
   connect(
-    (state) => ({ formFocused: isMessageFormFocused(state), endChatBlock: endBlockShown(state), errors: getErrors(state) })
+    (state) => (
+      { formFocused: isMessageFormFocused(state), endChatBlock: endBlockShown(state), errors: getErrors(state) }
+    ),
+    { sendAck }
   )
 )(Chat);
 
