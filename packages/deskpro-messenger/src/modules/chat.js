@@ -46,6 +46,8 @@ export const CHAT_START = 'CHAT_START';
 export const CHAT_SAVE_CHAT = 'CHAT_SAVE_CHAT';
 export const CHAT_INIT_CHATS = 'CHAT_INIT_CHATS';
 export const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
+export const CHAT_SEND_ACK = 'CHAT_SEND_ACK';
+export const CHAT_SEND_ACK_COMPLETE = 'CHAT_SEND_ACK_COMPLETE';
 export const CHAT_SEND_END_CHAT = 'CHAT_SEND_END_CHAT';
 export const CHAT_SEND_MESSAGE_SUCCESS = 'CHAT_SEND_MESSAGE_SUCCESS';
 export const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';
@@ -128,6 +130,18 @@ export const sendMessage = (message, chat) => ({
   payload: message,
   meta: { chat }
 });
+export const sendAck = (messageIds, chat) => ({
+  type: CHAT_SEND_ACK,
+  payload: messageIds,
+  meta: { chat }
+});
+
+export const sendAckComplete = (messageIds, chat) => ({
+  type: CHAT_SEND_ACK_COMPLETE,
+  payload: messageIds,
+  meta: { chat }
+});
+
 export const endChatMessage = (chat) => ({
   type: CHAT_SEND_END_CHAT,
   payload: { origin: 'user', type: 'chat.end' },
@@ -273,7 +287,7 @@ const evaluateEpic = (action$, state$, { api }) =>
     skip()
   );
 
-const stopChatEvaluateEpic = (action$, state$, { api }) =>
+const stopChatEvaluateEpic = (action$) =>
   action$.pipe(
     ofType(CHAT_MESSAGE_RECEIVED),
     filter(({ payload: message }) =>
@@ -386,6 +400,19 @@ const sendMessagesEpic = (action$, _, { api, cache }) =>
     })
   );
 
+const sendMessagesAckEpic = (action$, state$, { api }) =>
+  action$.pipe(
+    ofType(CHAT_SEND_ACK),
+    map(({ payload, meta: { chat } }) => {
+      if (chat) {
+        api.sendMessagesAck(payload, chat);
+        return sendAckComplete(payload, chat);
+      } else {
+        throw new Error('Cannot send ack messages to the undefined chat.');
+      }
+    }),
+  );
+
 const sendEndChatEpic = (action$, _, { api }) =>
   action$.pipe(
     ofType(CHAT_SEND_END_CHAT),
@@ -460,7 +487,8 @@ export const chatEpic = combineEpics(
   pingChatEndEpic,
   evaluateEpic,
   stopChatEvaluateEpic,
-  typingStop
+  typingStop,
+  sendMessagesAckEpic
 );
 //#endregion
 
@@ -471,6 +499,24 @@ const chatReducer = produce((draft, { type, payload }, chatAssigned) => {
     case CHAT_SEND_MESSAGE_SUCCESS:
       if (!payload.type.startsWith('chat.end')) {
         draft.messages.push(payload);
+      }
+      return;
+    case CHAT_SEND_ACK:
+      if (payload.length && payload.length > 0) {
+        draft.messages.forEach((message, idx) => {
+          if(payload.indexOf(message.id) !== false) {
+            draft.messages[idx].date_received = 'pending';
+          }
+        });
+      }
+      return;
+    case CHAT_SEND_ACK_COMPLETE:
+      if (payload.length && payload.length > 0) {
+        draft.messages.forEach((message, idx) => {
+          if(payload.indexOf(message.id) !== false && draft.messages[idx] === 'pending') {
+            draft.messages[idx].date_received = true;
+          }
+        });
       }
       return;
 
@@ -530,6 +576,12 @@ export default produce(
     const { type, payload } = action;
     if (type === CHAT_START) {
       draft.chatIsStarting = true;
+    } else if (type === CHAT_SEND_ACK || type === CHAT_SEND_ACK_COMPLETE) {
+      draft.chats[action.meta.chat.id] = chatReducer(
+        draft.chats[action.meta.chat.id],
+        action,
+        draft.chatAssigned
+      );
     } else if (type === CHAT_TOGGLE_SOUND) {
       draft.mute = !draft.mute;
     } else if (type === CHAT_END_BLOCK) {

@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import asset from '../../utils/asset';
 
 class MessageBubble extends React.Component {
+
+  element = createRef();
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.element && !this.props.date_received) {
+      this.props.collectMessagesToAck(this.element, this);
+    }
+  }
 
   renderFile() {
     const { message, meta } = this.props;
@@ -39,6 +47,7 @@ class MessageBubble extends React.Component {
 
     return (
       <div
+        ref={this.element}
         className={classNames('dpmsg-MessageBubbleRow', {
           'is-incoming': origin !== 'user',
           'is-outgoing': origin === 'user',
