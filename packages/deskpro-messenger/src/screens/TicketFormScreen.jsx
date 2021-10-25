@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from "redux";
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { fromJSGreedy } from '../utils/common';
-
+import _cloneDeep from 'lodash/cloneDeep';
 import Block from '../components/core/Block';
 import { TicketForm } from '@deskpro/portal-components';
 import {
@@ -174,6 +174,10 @@ class TicketFormScreen extends React.Component {
     });
     const immutableLayout = fromJSGreedy(converted);
 
+    const initialValues = _cloneDeep(formCache);
+    initialValues.person.name = formCache.person.name || user.name;
+    initialValues.person.email = formCache.person.email.email || user.email;
+
     return (
       <Fragment>
         <Header icon={widget.icon.download_url} />
@@ -198,7 +202,7 @@ class TicketFormScreen extends React.Component {
           )}
             {!ticketSaved && (
               <TicketForm
-                initialValues={ {...formCache, ...{ person: user }} }
+                initialValues={initialValues}
                 deskproLayout={immutableLayout}
                 departmentPropName="department"
                 departments={fromJSGreedy(departments)}
@@ -214,7 +218,7 @@ class TicketFormScreen extends React.Component {
                   name:          intl.formatMessage(transMessages.name),
                   email:         intl.formatMessage(transMessages.email),
                   department:    intl.formatMessage(transMessages.department),
-                  subject:       intl.formatMessage(transMessages.subject),                  
+                  subject:       intl.formatMessage(transMessages.subject),
                   message:       intl.formatMessage(transMessages.message),
                   product:       intl.formatMessage(transMessages.product),
                   priority:      intl.formatMessage(transMessages.priority),
