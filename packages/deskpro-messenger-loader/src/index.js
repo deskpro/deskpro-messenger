@@ -81,9 +81,7 @@ function setupFrames(config, manifest) {
   iframeDoc.close();
   iframeDoc.documentElement.innerHTML = `<!DOCTYPE html><html>
   <head>
-    {config.bundleUrl.isDev ? '<script>
-      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
-    </script>' : '' }
+    ${config.bundleUrl.isDev ? '<script>window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;</script>' : '' }
   </head>
   <body>
   </body></html>`;
