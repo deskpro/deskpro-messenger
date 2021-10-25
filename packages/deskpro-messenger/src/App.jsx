@@ -15,7 +15,6 @@ const config = {
   helpdeskURL: process.env.REACT_APP_API_BASE,
   ...window.parent.DESKPRO_MESSENGER_OPTIONS
 };
-console.log(config);
 const api = createApiService(config);
 const store = createStore(undefined, { config, history, api, cache });
 
