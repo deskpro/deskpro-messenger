@@ -37,9 +37,9 @@ const initVisitorEpic = (action$, _, { config, api, cache }) =>
               draft.guest = {
                 name: user.name || cache.getValue('guest.name') || _get(config, 'user.name'),
                 email: user.email || cache.getValue('guest.email') || _get(config, 'user.email'),
-                orgId: user.org_id || cache.getValue('guest.orgId'),
+                orgId: user.org_id,
                 avatar: cache.getValue('guest.avatar') || _get(config, 'user.avatar'),
-                personId: user.person_id || cache.getValue('personId')
+                personId: user.person_id,
               };
             })
           )
