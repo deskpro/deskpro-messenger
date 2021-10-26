@@ -20,12 +20,12 @@ export const cacheForm  = (form) => ({ type: TICKET_CACHE_FORM, payload: form })
 
 const flattenErrors = (errors = {}, field, parentKey) => {
   let ek = parentKey;
-  const m = ek.match('fields_(\\d+)')
+  const m = ek.match('^(user_field|org_field|field)s_(\\d+)')
   if(m) {
-    ek = `ticket_field_${m[1]}`;
-  }
-  if (!errors[ek]) {
-    errors[ek] = {};
+    ek = `${m[1].indexOf('field') === 0 ? 'ticket_' : ''}${m[1]}_${m[2]}`;
+    if (!errors[ek]) {
+      errors[ek] = {};
+    }
   }
 
   if (field.errors) {
@@ -35,7 +35,7 @@ const flattenErrors = (errors = {}, field, parentKey) => {
       .join(' ');
   } else if (field.fields) {
     Object.keys(field.fields).forEach((childKey) => {
-      flattenErrors(errors[ek], field.fields[childKey], childKey);
+      flattenErrors(m ? errors[ek] : errors, field.fields[childKey], childKey);
     });
   }
 };
