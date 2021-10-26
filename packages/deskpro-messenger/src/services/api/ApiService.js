@@ -1,5 +1,6 @@
 import axios from 'axios';
 import _pick from 'lodash/pick';
+import _merge from 'lodash/merge';
 import createNotificationStream from '../notifications';
 
 const pickChat = (chat) =>
@@ -188,7 +189,7 @@ export default class ApiService {
       values.attachments = values.attachments.map(a => ({ blob_auth: a.authcode }));
     }
     const keys = Object.keys(values);
-    const allowedKeys = keys.filter(k => k.indexOf('ticket_field_') === -1);
+    const allowedKeys = keys.filter(k => !k.match('^(ticket|user|org)_field_'));
 
     const postData = Object.keys(values)
       .filter(key => allowedKeys.includes(key))
@@ -199,11 +200,21 @@ export default class ApiService {
         };
       }, {});
 
-    const fields = Object.fromEntries(keys.filter(k => k.indexOf('ticket_field_') === 0).map(k => {
-      return [k.split('_').slice(-1)[0], values[k]];
-    }));
+    let fields = {};
+    keys.filter(k => k.match('^(ticket|user|org)_field_')).map(k => {
+      return {
+        // that gives you either fields (if ticket_fields), or user_fields or org_fields
+        [`${k.split('_').slice((k.indexOf('ticket') === 0)*1, 2).join('_')}s`]:
+        {[k.split('_').slice(-1)[0]]: values[k]}
+      };
+    }).forEach(v => fields = _merge(fields, v));
+
     if(Object.keys(fields).length > 0) {
-      postData.fields = fields;
+      Object.keys(fields).forEach(key => {
+        if(Object.keys(fields[key]).length > 0) {
+          postData[key] = fields[key];
+        }
+      })
     }
     postData.message = { message: values.message, format: 'html' };
     if(typeof postData.captcha !== 'undefined') {
