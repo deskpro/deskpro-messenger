@@ -175,8 +175,12 @@ class TicketFormScreen extends React.Component {
     const immutableLayout = fromJSGreedy(converted);
 
     const initialValues = _cloneDeep(formCache);
-    initialValues.person.name = formCache.person.name || user.name;
-    initialValues.person.email = formCache.person.email.email || user.email;
+    if (!initialValues.person) {
+      initialValues.person = {};
+    } else {
+      initialValues.person.name = formCache.person.name || user.name;
+      initialValues.person.email = (formCache.person.email && formCache.person.email.email) ? formCache.person.email.email : user.email;
+    }
 
     return (
       <Fragment>
