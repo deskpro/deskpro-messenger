@@ -181,7 +181,6 @@ class TicketFormScreen extends React.Component {
       return d;
     });
     const immutableLayout = fromJSGreedy(converted);
-    console.log(user);
     const initialValues = _cloneDeep(formCache);
     if (!initialValues.person) {
       initialValues.person = {};
