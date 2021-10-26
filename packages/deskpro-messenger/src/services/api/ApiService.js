@@ -3,6 +3,12 @@ import _pick from 'lodash/pick';
 import _merge from 'lodash/merge';
 import createNotificationStream from '../notifications';
 
+const KEY_MAP = {
+  org: 'organization_fields',
+  ticket: 'fields',
+  user: 'user_fields'
+};
+
 const pickChat = (chat) =>
   _pick(chat, ['id', 'access_token', 'department', 'status', 'agent']);
 
@@ -202,10 +208,11 @@ export default class ApiService {
 
     let fields = {};
     keys.filter(k => k.match('^(ticket|user|org)_field_')).map(k => {
+      const m = k.match('^(ticket|user|org)_field_');
+      const key = KEY_MAP[m[1]];
       return {
-        // that gives you either fields (if ticket_fields), or user_fields or org_fields
-        [`${k.split('_').slice((k.indexOf('ticket') === 0)*1, 2).join('_')}s`]:
-        {[k.split('_').slice(-1)[0]]: values[k]}
+        // that gives you either fields (if ticket_fields), or user_fields or organization_fields
+        [key]: {[k.split('_').slice(-1)[0]]: values[k]}
       };
     }).forEach(v => fields = _merge(fields, v));
 

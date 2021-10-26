@@ -17,7 +17,7 @@ import {
   cacheForm
 } from '../modules/tickets';
 import { getTicketDepartments, getTicketPriorities } from '../modules/info';
-import { getUser, isUserSet } from '../modules/guest';
+import { getUser, isUserSet, isOrgSet } from '../modules/guest';
 import Header from '../components/ui/Header';
 import { withConfig } from '../components/core/ConfigContext';
 import { withScreenContentSize } from '../components/core/ScreenContent';
@@ -97,6 +97,7 @@ const mapStateToProps = (state) => ({
     formCache:    getTicketFormCache(state),
     user:         getUser(state),
     isUserSet:    isUserSet(state),
+    isOrgSet:     isOrgSet(state),
     errors:       getErrors(state)
 });
 
@@ -114,6 +115,8 @@ class TicketFormScreen extends React.Component {
     userId:       PropTypes.bool,
     ticketSaved:  PropTypes.bool,
     ticketSaving: PropTypes.bool,
+    isUserSet:    PropTypes.bool,
+    isOrgSet:     PropTypes.bool,
     formCache:    PropTypes.object,
     widget:       PropTypes.object,
   };
@@ -159,21 +162,26 @@ class TicketFormScreen extends React.Component {
       errors,
       user,
       formCache,
-      isUserSet
+      isUserSet,
+      isOrgSet
     } = this.props;
     const converted = formConfig.map((d) => {
       if(d.fields) {
         d.fields.forEach((f, i) => {
           if(f.field_type === 'person') {
             d.fields[i].is_disabled = isUserSet;
+          } else if (f.field_type === 'org_field' && !isOrgSet) {
+            // the user has no organization (probably a guest, or just homeless one)
+            delete d.fields[i];
           }
         });
+        d.fields = d.fields.filter(item => item);
       }
 
       return d;
     });
     const immutableLayout = fromJSGreedy(converted);
-
+    console.log(user);
     const initialValues = _cloneDeep(formCache);
     if (!initialValues.person) {
       initialValues.person = {};
