@@ -1,4 +1,29 @@
 export default (settings) => {
+  const transformed = {
+    language: settings.language,
+    widget: settings.widget,
+    proactive: {
+      options: settings.proactive.options,
+      autoStart: settings.proactive.autoStart,
+      autoStartTimeout: settings.proactive.autoStartTimeout,
+      autoStartStyle: settings.proactive.autoStartStyle,
+    },
+    chatEnabled: settings.chat.enabled,
+    kbEnabled: settings.kbEnabled,
+    ticketsEnabled: settings.tickets.enabled,
+    maxFileSize: settings.maxFileSize,
+
+    themeVars: {
+      'copyfree': settings.widget.copyfree || false,
+      'position': settings.widget.position || 'right',
+      '--color-primary': settings.widget.primaryColor || '#3d88f3',
+      '--brand-primary': settings.widget.primaryColor || '#3d88f3',
+      '--header-icon-text-color': settings.widget.textColor || '#ffffff',
+      '--brand-secondary': settings.widget.backgroundColor || '#f7f7f7',
+      '--color-secondary': settings.widget.backgroundColor || '#f7f7f7'
+    }
+  };
+
   const screens = {
     index: {
       screenType: 'Blocks',
@@ -78,25 +103,7 @@ export default (settings) => {
     settings.widget.icon = {};
   }
 
-  return {
-    language: settings.language,
-    widget: settings.widget,
-    proactive: {
-      options: settings.proactive.options,
-      autoStart: settings.proactive.autoStart,
-      autoStartTimeout: settings.proactive.autoStartTimeout,
-      autoStartStyle: settings.proactive.autoStartStyle,
-    },
-    maxFileSize: settings.maxFileSize,
-    screens,
-    themeVars: {
-      'copyfree': settings.widget.copyfree || false,
-      'position': settings.widget.position || 'right',
-      '--color-primary': settings.widget.primaryColor || '#3d88f3',
-      '--brand-primary': settings.widget.primaryColor || '#3d88f3',
-      '--header-icon-text-color': settings.widget.textColor || '#ffffff',
-      '--brand-secondary': settings.widget.backgroundColor || '#f7f7f7',
-      '--color-secondary': settings.widget.backgroundColor || '#f7f7f7'
-    }
-  };
+  transformed.screens = screens;
+
+  return transformed;
 };
