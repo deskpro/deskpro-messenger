@@ -2,7 +2,7 @@ import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { canUseChat, getAgentsAvailable } from "../../modules/info";
+import { canUseChat, canUseKb, canUseTickets, getAgentsAvailable } from "../../modules/info";
 import { getUser } from '../../modules/guest';
 import { createChat } from '../../modules/chat';
 import Frame from './Frame';
@@ -25,7 +25,8 @@ class WidgetToggler extends PureComponent {
   static propTypes = {
     opened:                PropTypes.bool,
     chatSettings:          PropTypes.object,
-    chatEnabled:           PropTypes.bool.isRequired,
+    chatEnabled:           PropTypes.bool,
+    chatAvailable:         PropTypes.bool,
     proactive:             PropTypes.object,
     user:                  PropTypes.object,
     toggleWindow:          PropTypes.func.isRequired,
@@ -116,14 +117,14 @@ class WidgetToggler extends PureComponent {
   };
 
   canAutoStart = () => {
-    const { proactive: { autoStart }, opened, canUseChat, agentsAvailable, chatEnabled } = this.props;
+    const { proactive: { autoStart }, opened, chatAvailable, agentsAvailable, chatEnabled } = this.props;
 
     return (
       chatEnabled &&
       !cache.getValue('app.proactiveWindowClosed', false) &&
       !opened &&
       autoStart &&
-      canUseChat &&
+      chatAvailable &&
       Object.keys(agentsAvailable).length > 0
     );
 
@@ -177,11 +178,17 @@ class WidgetToggler extends PureComponent {
 
   render() {
     const { opened, themeVars, proactive: { autoStartStyle } } = this.props;
+    const { chatAvailable, kbAvailable, ticketsAvailable, agentsAvailable } = this.props;
+    const { chatEnabled, kbEnabled, ticketsEnabled } = this.props;
 
-    if (opened && mobile) {
+    if (
+      (opened && mobile) ||
+      ((!chatAvailable || !chatEnabled || Object.keys(agentsAvailable).length < 1)
+        && (!kbAvailable || !kbEnabled)
+        && (!ticketsAvailable || !ticketsEnabled))
+    ) {
       return null;
     }
-
     const style = {
       [themeVars.position === 'left' ? 'left' : 'right']: '14px'
     };
@@ -221,9 +228,11 @@ class WidgetToggler extends PureComponent {
 
 const WidgetTogglerWithStyles = (props) => (
   <ConfigConsumer>
-    {({ themeVars, proactive, screens, widget }) =>
+    {({ chatEnabled, kbEnabled, ticketsEnabled, themeVars, proactive, screens, widget }) =>
       <WidgetToggler
-        chatEnabled={!!screens.startChat}
+        chatEnabled={chatEnabled}
+        kbEnabled={kbEnabled}
+        ticketsEnabled={ticketsEnabled}
         chatSettings={screens.startChat}
         themeVars={themeVars}
         proactive={proactive}
@@ -234,10 +243,12 @@ const WidgetTogglerWithStyles = (props) => (
 );
 
 const mapStateToProps = (state) => ({
-  opened:          isWindowOpened(state),
-  agentsAvailable: getAgentsAvailable(state),
-  canUseChat:      canUseChat(state),
-  user:            getUser(state),
+  opened:           isWindowOpened(state),
+  agentsAvailable:  getAgentsAvailable(state),
+  chatAvailable:    canUseChat(state),
+  kbAvailable:      canUseKb(state),
+  ticketsAvailable: canUseTickets(state),
+  user:             getUser(state),
 });
 
 export default connect(

@@ -37,8 +37,9 @@ const initVisitorEpic = (action$, _, { config, api, cache }) =>
               draft.guest = {
                 name: user.name || cache.getValue('guest.name') || _get(config, 'user.name'),
                 email: user.email || cache.getValue('guest.email') || _get(config, 'user.email'),
+                orgId: user.org_id,
                 avatar: cache.getValue('guest.avatar') || _get(config, 'user.avatar'),
-                personId: user.person_id || cache.getValue('personId')
+                personId: user.person_id,
               };
             })
           )
@@ -83,6 +84,8 @@ const logoutEpic = (action$, _, { cache }) =>
       cache.setValue('guest.name', null);
       cache.setValue('guest.email', null);
       cache.setValue('guest.avatar', null);
+      cache.setValue('guest.personId', null);
+      cache.setValue('guest.orgId', null);
     }),
     skip()
   );
@@ -103,6 +106,7 @@ export default produce(
           draft.email = payload.guest.email || draft.email;
           draft.avatar = payload.guest.avatar || draft.avatar;
           draft.personId = payload.guest.personId || draft.personId;
+          draft.orgId = payload.guest.orgId || draft.orgId;
         }
         return;
 
@@ -111,13 +115,14 @@ export default produce(
           draft.email = null;
           draft.avatar = null;
           draft.personId = null;
+          draft.orgId = null;
         return;
 
       default:
         return;
     }
   },
-  { name: '', email: '', avatar: '', personId: null }
+  { name: '', email: '', avatar: '', personId: null, orgId: null }
 );
 //#endregion
 
@@ -137,5 +142,9 @@ export const getUser = createSelector(
 export const isUserSet = createSelector(
   getGuestState,
   (guest) => !isNaN(parseInt(guest.personId, 10))
+);
+export const isOrgSet = createSelector(
+  getGuestState,
+  (guest) => !isNaN(parseInt(guest.orgId, 10))
 );
 //#endregion

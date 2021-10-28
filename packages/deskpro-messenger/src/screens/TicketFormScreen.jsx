@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from "redux";
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { fromJSGreedy } from '../utils/common';
-
+import _cloneDeep from 'lodash/cloneDeep';
 import Block from '../components/core/Block';
 import { TicketForm } from '@deskpro/portal-components';
 import {
@@ -17,7 +17,7 @@ import {
   cacheForm
 } from '../modules/tickets';
 import { getTicketDepartments, getTicketPriorities } from '../modules/info';
-import { getUser, isUserSet } from '../modules/guest';
+import { getUser, isUserSet, isOrgSet } from '../modules/guest';
 import Header from '../components/ui/Header';
 import { withConfig } from '../components/core/ConfigContext';
 import { withScreenContentSize } from '../components/core/ScreenContent';
@@ -97,6 +97,7 @@ const mapStateToProps = (state) => ({
     formCache:    getTicketFormCache(state),
     user:         getUser(state),
     isUserSet:    isUserSet(state),
+    isOrgSet:     isOrgSet(state),
     errors:       getErrors(state)
 });
 
@@ -114,6 +115,8 @@ class TicketFormScreen extends React.Component {
     userId:       PropTypes.bool,
     ticketSaved:  PropTypes.bool,
     ticketSaving: PropTypes.bool,
+    isUserSet:    PropTypes.bool,
+    isOrgSet:     PropTypes.bool,
     formCache:    PropTypes.object,
     widget:       PropTypes.object,
   };
@@ -159,20 +162,32 @@ class TicketFormScreen extends React.Component {
       errors,
       user,
       formCache,
-      isUserSet
+      isUserSet,
+      isOrgSet
     } = this.props;
     const converted = formConfig.map((d) => {
       if(d.fields) {
         d.fields.forEach((f, i) => {
           if(f.field_type === 'person') {
             d.fields[i].is_disabled = isUserSet;
+          } else if (f.field_type === 'org_field' && !isOrgSet) {
+            // the user has no organization (probably a guest, or just homeless one)
+            delete d.fields[i];
           }
         });
+        d.fields = d.fields.filter(item => item);
       }
 
       return d;
     });
     const immutableLayout = fromJSGreedy(converted);
+    const initialValues = _cloneDeep(formCache);
+    if (!initialValues.person) {
+      initialValues.person = {};
+    } else {
+      initialValues.person.name = formCache.person.name || user.name;
+      initialValues.person.email = (formCache.person.email && formCache.person.email.email) ? formCache.person.email.email : user.email;
+    }
 
     return (
       <Fragment>
@@ -198,7 +213,7 @@ class TicketFormScreen extends React.Component {
           )}
             {!ticketSaved && (
               <TicketForm
-                initialValues={ {...formCache, ...{ person: user }} }
+                initialValues={initialValues}
                 deskproLayout={immutableLayout}
                 departmentPropName="department"
                 departments={fromJSGreedy(departments)}
@@ -214,7 +229,7 @@ class TicketFormScreen extends React.Component {
                   name:          intl.formatMessage(transMessages.name),
                   email:         intl.formatMessage(transMessages.email),
                   department:    intl.formatMessage(transMessages.department),
-                  subject:       intl.formatMessage(transMessages.subject),                  
+                  subject:       intl.formatMessage(transMessages.subject),
                   message:       intl.formatMessage(transMessages.message),
                   product:       intl.formatMessage(transMessages.product),
                   priority:      intl.formatMessage(transMessages.priority),

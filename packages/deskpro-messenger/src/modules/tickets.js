@@ -18,14 +18,20 @@ export const newTicket  = () => ({ type: TICKET_NEW_OPEN });
 export const cacheForm  = (form) => ({ type: TICKET_CACHE_FORM, payload: form });
 //#endregion
 
+const KEY_MAP = {
+  user_field: 'user_field',
+  field: 'ticket_field',
+  organization_field: 'org_field',
+}
+
 const flattenErrors = (errors = {}, field, parentKey) => {
   let ek = parentKey;
-  const m = ek.match('fields_(\\d+)')
+  const m = ek.match('^(user_field|organization_field|field)s_(\\d+)')
   if(m) {
-    ek = `ticket_field_${m[1]}`;
-  }
-  if (!errors[ek]) {
-    errors[ek] = {};
+    ek = `${KEY_MAP[m[1]]}_${m[2]}`;
+    if (!errors[ek]) {
+      errors[ek] = {};
+    }
   }
 
   if (field.errors) {
@@ -35,7 +41,7 @@ const flattenErrors = (errors = {}, field, parentKey) => {
       .join(' ');
   } else if (field.fields) {
     Object.keys(field.fields).forEach((childKey) => {
-      flattenErrors(errors[ek], field.fields[childKey], childKey);
+      flattenErrors(m ? errors[ek] : errors, field.fields[childKey], childKey);
     });
   }
 };

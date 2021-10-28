@@ -1,6 +1,13 @@
 import axios from 'axios';
 import _pick from 'lodash/pick';
+import _merge from 'lodash/merge';
 import createNotificationStream from '../notifications';
+
+const KEY_MAP = {
+  org: 'organization_fields',
+  ticket: 'fields',
+  user: 'user_fields'
+};
 
 const pickChat = (chat) =>
   _pick(chat, ['id', 'access_token', 'department', 'status', 'agent']);
@@ -188,7 +195,7 @@ export default class ApiService {
       values.attachments = values.attachments.map(a => ({ blob_auth: a.authcode }));
     }
     const keys = Object.keys(values);
-    const allowedKeys = keys.filter(k => k.indexOf('ticket_field_') === -1);
+    const allowedKeys = keys.filter(k => !k.match('^(ticket|user|org)_field_'));
 
     const postData = Object.keys(values)
       .filter(key => allowedKeys.includes(key))
@@ -199,11 +206,22 @@ export default class ApiService {
         };
       }, {});
 
-    const fields = Object.fromEntries(keys.filter(k => k.indexOf('ticket_field_') === 0).map(k => {
-      return [k.split('_').slice(-1)[0], values[k]];
-    }));
+    let fields = {};
+    keys.filter(k => k.match('^(ticket|user|org)_field_')).map(k => {
+      const m = k.match('^(ticket|user|org)_field_');
+      const key = KEY_MAP[m[1]];
+      return {
+        // that gives you either fields (if ticket_fields), or user_fields or organization_fields
+        [key]: {[k.split('_').slice(-1)[0]]: values[k]}
+      };
+    }).forEach(v => fields = _merge(fields, v));
+
     if(Object.keys(fields).length > 0) {
-      postData.fields = fields;
+      Object.keys(fields).forEach(key => {
+        if(Object.keys(fields[key]).length > 0) {
+          postData[key] = fields[key];
+        }
+      })
     }
     postData.message = { message: values.message, format: 'html' };
     if(typeof postData.captcha !== 'undefined') {
@@ -212,14 +230,17 @@ export default class ApiService {
     if(values.cc) {
       postData.cc = values.cc ? [ values.cc ] : '';
     }
-    if(postData.fields) {
-      // 0 is valid value for field, while 0 means value shouldn't be sent
-      Object.keys(postData.fields).forEach((key) => {
-        if(!postData.fields[key] && postData.fields[key] !== 0) {
-          delete postData.fields[key];
-        }
-      });
-    }
+    ['fields', 'user_fields', 'org_fields'].forEach(fieldKey => {
+      if(postData[fieldKey]) {
+        // 0 is valid value for field, while 0 means value shouldn't be sent
+        Object.keys(postData[fieldKey]).forEach((key) => {
+          if(!postData[fieldKey][key] && postData[fieldKey][key] !== 0) {
+            delete postData[fieldKey][key];
+          }
+        });
+      }
+    });
+
 
     return this.apiClient.post(`/api/messenger/ticket`, postData);
   }

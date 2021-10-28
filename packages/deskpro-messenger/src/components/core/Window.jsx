@@ -5,11 +5,12 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import isMobile from 'is-mobile';
 import Frame from './Frame';
-import { withConfig } from './ConfigContext';
+import { ConfigConsumer, withConfig } from './ConfigContext';
 import ScreenRoute from './ScreenRoute';
 import MessengerShell from './MessengerShell';
 import { isWindowOpened, setWindowState } from '../../modules/app';
-import { withFrameContext } from '../core/Frame';
+import { canUseKb, canUseChat, canUseTickets, getAgentsAvailable } from '../../modules/info';
+import { withFrameContext } from './Frame';
 import AnimateHeight from 'react-animate-height';
 import { compose } from 'redux';
 
@@ -51,7 +52,13 @@ const transMessages = {
 class MessengerWindow extends PureComponent {
   static propTypes = {
     opened: PropTypes.bool,
-
+    agentsAvailable: PropTypes.object,
+    chatAvailable: PropTypes.bool,
+    kbAvailable: PropTypes.bool,
+    ticketsAvailable: PropTypes.bool,
+    chatEnabled: PropTypes.bool,
+    kbEnabled: PropTypes.bool,
+    ticketsEnabled: PropTypes.bool
   };
   state = {
     animating: false,
@@ -122,8 +129,17 @@ class MessengerWindow extends PureComponent {
   }
 
   render() {
+    const { chatAvailable, kbAvailable, ticketsAvailable, agentsAvailable } = this.props;
+    const { chatEnabled, kbEnabled, ticketsEnabled } = this.props;
     const { opened, frameContext, screens } = this.props;
     const { maxHeight, contentHeight, iframeHeight, animating } = this.state;
+    if (
+      (!chatAvailable || !chatEnabled || Object.keys(agentsAvailable).length < 1)
+      && (!kbAvailable || !kbEnabled)
+      && (!ticketsAvailable || !ticketsEnabled)
+    ) {
+      return null;
+    }
 
     return (
       <Frame
@@ -200,10 +216,30 @@ class MessengerWindow extends PureComponent {
   }
 }
 
+const mapStateToProps = (state) => ({
+  agentsAvailable:  getAgentsAvailable(state),
+  opened:           isWindowOpened(state),
+  chatAvailable:    canUseChat(state),
+  kbAvailable:      canUseKb(state),
+  ticketsAvailable: canUseTickets(state)
+});
+
+const MessengerWindowWithConfig = (props) => (
+  <ConfigConsumer>
+    {({ kbEnabled, chatEnabled, ticketsEnabled }) =>
+      <MessengerWindow
+        chatEnabled={chatEnabled}
+        ticketsEnabled={ticketsEnabled}
+        kbEnabled={kbEnabled}
+        {...props}
+      />}
+  </ConfigConsumer>
+);
+
 export default compose(
   withFrameContext,
   withConfig,
   withRouter,
   injectIntl,
-  connect((state) => ({ opened: isWindowOpened(state) }), { setWindowState })
-)(MessengerWindow);
+  connect(mapStateToProps, { setWindowState })
+)(MessengerWindowWithConfig);
