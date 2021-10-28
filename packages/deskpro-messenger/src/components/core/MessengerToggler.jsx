@@ -25,8 +25,8 @@ class WidgetToggler extends PureComponent {
   static propTypes = {
     opened:                PropTypes.bool,
     chatSettings:          PropTypes.object,
-    chatEnabled:           PropTypes.bool.isRequired,
-    chatAvailable:         PropTypes.bool.isRequired,
+    chatEnabled:           PropTypes.bool,
+    chatAvailable:         PropTypes.bool,
     proactive:             PropTypes.object,
     user:                  PropTypes.object,
     toggleWindow:          PropTypes.func.isRequired,
