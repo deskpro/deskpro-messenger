@@ -1492,6 +1492,8 @@
   width: 5.2em;
 }.dpmsg-AutoStart-widget-avatar img {
   max-width: 100%;
+}.dp-pc_field .react-select__menu {
+  position: relative !important;
 }.dpmsg-WrapInput {
   display: block;
   position: relative;
