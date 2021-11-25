@@ -1,12 +1,15 @@
 import transformConfig from './transformConfig';
 import deepmerge from 'deepmerge';
 
-function loadConfig(helpdeskURL, brandId) {
+function loadConfig(helpdeskURL, brandId, jwt) {
 
   let configUrl = `${helpdeskURL}/api/messenger/service/setup`;
   const options = {};
   if(brandId) {
     options.headers = {['X-DESKPRO-BRANDID']: brandId}
+  }
+  if(jwt) {
+    options.headers = {['X-JWT-TOKEN']: jwt}
   }
 
   return fetch(configUrl, options)
@@ -99,11 +102,12 @@ function init() {
   window.DESKPRO_MESSENGER_LOADED = true;
   let hdUrl = window.DESKPRO_MESSENGER_OPTIONS.helpdeskURL;
   const { brandId } = window.DESKPRO_MESSENGER_OPTIONS;
+  const { jwt } = window.DESKPRO_MESSENGER_OPTIONS;
   if(hdUrl.search(/(\/b\/.+\/?)/) && brandId) {
     hdUrl = hdUrl.replace(/(\/b\/.+\/?)/, '');
     window.DESKPRO_MESSENGER_OPTIONS.helpdeskURL = hdUrl;
   }
-  return loadConfig(hdUrl, brandId).then((config) => {
+  return loadConfig(hdUrl, brandId, jwt).then((config) => {
     fetch(`${config.bundleUrl.isDev || config.bundleUrl.isAbsolute ? '' : config.helpdeskURL}${config.bundleUrl.manifest}`)
       .then((res) => res.json())
       .then((manifest) => {
