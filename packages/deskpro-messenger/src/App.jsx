@@ -26,7 +26,6 @@ if(!(window.CSS && CSS.supports('color', 'var(--fake-var)'))) {
     updateURLs: false
   });
 }
-
 const RouterComponent = (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) ? MemoryRouter : Router;
 
 export default () => <Provider store={store}>
