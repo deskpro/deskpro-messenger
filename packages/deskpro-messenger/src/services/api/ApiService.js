@@ -6,7 +6,8 @@ import createNotificationStream from '../notifications';
 const KEY_MAP = {
   org: 'organization_fields',
   ticket: 'fields',
-  user: 'user_fields'
+  user: 'user_fields',
+  custom: 'contextual_fields'
 };
 
 const pickChat = (chat) =>
@@ -195,7 +196,7 @@ export default class ApiService {
       values.attachments = values.attachments.map(a => ({ blob_auth: a.authcode }));
     }
     const keys = Object.keys(values);
-    const allowedKeys = keys.filter(k => !k.match('^(ticket|user|org)_field_'));
+    const allowedKeys = keys.filter(k => !k.match('^(ticket|user|org|custom)_field_'));
 
     const postData = Object.keys(values)
       .filter(key => allowedKeys.includes(key))
@@ -207,8 +208,8 @@ export default class ApiService {
       }, {});
 
     let fields = {};
-    keys.filter(k => k.match('^(ticket|user|org)_field_')).map(k => {
-      const m = k.match('^(ticket|user|org)_field_');
+    keys.filter(k => k.match('^(ticket|user|org|custom)_field_')).map(k => {
+      const m = k.match('^(ticket|user|org|custom)_field_');
       const key = KEY_MAP[m[1]];
       return {
         // that gives you either fields (if ticket_fields), or user_fields or organization_fields
@@ -230,7 +231,7 @@ export default class ApiService {
     if(values.cc) {
       postData.cc = values.cc ? [ values.cc ] : '';
     }
-    ['fields', 'user_fields', 'org_fields'].forEach(fieldKey => {
+    ['fields', 'user_fields', 'organization_fields', 'contextual_fields'].forEach(fieldKey => {
       if(postData[fieldKey]) {
         // 0 is valid value for field, while 0 means value shouldn't be sent
         Object.keys(postData[fieldKey]).forEach((key) => {
