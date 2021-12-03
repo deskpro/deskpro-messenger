@@ -87,7 +87,7 @@ const proactiveWindowClosedEpic = (action$, _, { cache }) =>
     ofType(PROACTIVE_WINDOW_CLOSED, TOGGLE_WINDOW, CHAT_OPENED),
     take(1),
     tap(() => {
-      cache.setValue('app.proactiveWindowClosed', true);
+      cache.setValue('app.proactiveWindowClosed', (new Date()).getTime());
     }),
     skip()
   );
