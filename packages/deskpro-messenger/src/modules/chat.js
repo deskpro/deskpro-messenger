@@ -341,7 +341,7 @@ const typingStop = (action$, _) =>
           ),
           mapTo(false)
         ),
-        interval(5 * 1000000).pipe(
+        interval(5 * 1000).pipe(
           take(1),
           mapTo(true)
         )
