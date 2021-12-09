@@ -48,6 +48,9 @@
 .dpmsg-BubbleAttachment,
 .dpmsg-BubbleItem,
 .dpmsg-BubbleNotification,
+.dpmsg-AvatarText,
+.dpmsg-AvatarTextTyping,
+.dpmsg-AvatarHeadText,
 .dpmsg-WrapGreetings,
 .dpmsg-GreetingsBubbleTime,
 .dpmsg-GreetingsBubble,
@@ -1313,7 +1316,28 @@
   }.dpmsg-BubbleItem.is-typing span:nth-child(3) {
     -webkit-animation-delay: 0.4s;
             animation-delay: 0.4s;
-  }.dpmsg-WrapGreetings {
+  }.dpmsg-AvatarText {
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: normal;
+  height: 32px;
+  margin-right: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 32px;
+}.dpmsg-MessageBubbleRow .dpmsg-AvatarText {
+    margin-top: 5px;
+  }.dpmsg-AvatarTextTyping {
+  margin-top: 10px;
+}.dpmsg-AvatarHeadText {
+  font-size: medium;
+  font-size: initial;
+  padding: 0;
+  padding: initial;
+}.dpmsg-WrapGreetings {
   display: block;
 }.dpmsg-WrapGreetings .dpmsg-Button {
   display: block;
