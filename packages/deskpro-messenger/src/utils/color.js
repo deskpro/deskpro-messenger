@@ -1,3 +1,12 @@
+function normalizeHex(hex) {
+  let newHex = String(hex).replace(/[^0-9a-f]/gi, '');
+  if (newHex.length < 6) {
+    newHex = newHex[0] + newHex[0] + newHex[1] + newHex[1] + newHex[2] + newHex[2];
+  }
+
+  return newHex;
+}
+
 /**
  * Returns true if opposite color is light or not.
  * @param {string} color Color hash.
@@ -5,10 +14,7 @@
  */
 export const isLightColor = (color) => {
   let hex = color.startsWith('#') ? color.slice(1) : color;
-  // convert 3-digit hex to 6-digits.
-  if (hex.length === 3) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-  }
+  hex = normalizeHex(hex);
   if (hex.length !== 6) {
     throw new Error('Invalid HEX color.');
   }
@@ -22,11 +28,7 @@ export const isLightColor = (color) => {
 export const brighter = (hex, percent) => {
   // strip the leading # if it's there
   hex = hex.replace(/^\s*#|\s*$/g, '');
-
-  // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
-  if (hex.length === 3) {
-    hex = hex.replace(/(.)/g, '$1$1');
-  }
+  hex = normalizeHex(hex);
 
   var r = parseInt(hex.substr(0, 2), 16),
     g = parseInt(hex.substr(2, 2), 16),
@@ -43,11 +45,7 @@ export const brighter = (hex, percent) => {
 export const darker = (hex, percent) => {
   // strip the leading # if it's there
   hex = hex.replace(/^\s*#|\s*$/g, '');
-
-  // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
-  if (hex.length === 3) {
-    hex = hex.replace(/(.)/g, '$1$1');
-  }
+  hex = normalizeHex(hex);
 
   var r = parseInt(hex.substr(0, 2), 16),
     g = parseInt(hex.substr(2, 2), 16),
@@ -60,3 +58,18 @@ export const darker = (hex, percent) => {
     (0 | ((1 << 8) + b * (1 - percent / 100))).toString(16).substr(1)
   );
 };
+
+export function colorLuminance(hex, lum = 0) {
+  const newHex = normalizeHex(hex);
+  let rgb = '#';
+  let c;
+  let i;
+  for (i = 0; i < 3; i += 1) {
+    c = parseInt(newHex.substr(i * 2, 2), 16);
+    c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+    rgb += (`00${c}`).substr(c.length);
+  }
+
+  return rgb;
+}
+
