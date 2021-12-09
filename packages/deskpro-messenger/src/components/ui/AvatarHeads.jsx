@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TextAvatar from '../chat/TextAvatar';
 
 class AvatarHeads extends React.PureComponent {
   static propTypes = {
@@ -18,9 +19,11 @@ class AvatarHeads extends React.PureComponent {
     return (
       <div className="dpmsg-AvatarHeadsList">
         {Object.values(agentsAvailable).map(agent => (
-          <div className="dpmsg-AvatarHeadsIcon" key={agent.id}>
-            <img src={agent.avatar} alt="" />
-          </div>
+          agent.avatar
+            ? (<div className="dpmsg-AvatarHeadsIcon" key={agent.id}>
+                <img src={agent.avatar} alt={agent.name} />
+              </div>)
+            : <TextAvatar className="dpmsg-AvatarHeadText" height={44} width={44} name={agent.name} />
         ))}
       </div>
     );

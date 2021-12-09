@@ -18,7 +18,9 @@ export class TextAvatar extends React.Component {
   };
 
   static defaultProps = {
-    className:   'dpmsg-AvatarText',
+    width:       32,
+    height:      32,
+    className:   '',
     color:       '#CDD2D4',
     borderColor: colorLuminance('#CDD2D4')
   };
@@ -84,7 +86,7 @@ export class TextAvatar extends React.Component {
 
     const spanProps = {
       style:     this.getStyle(),
-      className: classNames(className, 'user-photo', 'text-fallback')
+      className: classNames(className, 'dpmsg-AvatarText')
     };
 
     if(!text) {
@@ -93,7 +95,7 @@ export class TextAvatar extends React.Component {
 
     return (
       <span {...spanProps} >
-        {text && <span className={classNames('text', className)} style={this.getTextStyle()}>{text}</span>}
+        {text && <span className={classNames('dpmsg-AvatarText', className)} style={this.getTextStyle()}>{text}</span>}
       </span>
     );
   }

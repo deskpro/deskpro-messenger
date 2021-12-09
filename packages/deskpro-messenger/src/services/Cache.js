@@ -45,10 +45,10 @@ export class LocalCache {
     this.cache = _set(cache, propertyPath, value);
   }
 
-  getValue(path) {
+  getValue(path, def = undefined) {
     const cache = this.cache;
     const propertyPath = getPropertyPath(cache, path);
-    return _get(cache, propertyPath);
+    return _get(cache, propertyPath) || def;
   }
 
   mergeArray(path, newValue, byKey = 'id') {

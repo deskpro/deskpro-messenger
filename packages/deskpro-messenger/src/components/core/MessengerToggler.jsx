@@ -118,7 +118,6 @@ class WidgetToggler extends PureComponent {
 
   canAutoStart = () => {
     const { proactive: { autoStart }, opened, chatAvailable, agentsAvailable, chatEnabled } = this.props;
-
     // proactive chat closing should work only when a user closed messenger window more than 1h ago.
     return (
       chatEnabled &&

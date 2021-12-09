@@ -8,6 +8,7 @@ import Block from "./Block";
 import AvatarHeads from "../ui/AvatarHeads";
 import { getAgentsAvailable } from "../../modules/info";
 import Button from "../form/Button";
+import TextAvatar from '../chat/TextAvatar';
 
 class Input extends PureComponent {
 
@@ -83,9 +84,16 @@ class AutoStart extends PureComponent {
         <div className='dpmsg-AutoStart-widget-text'>
           {intl.formatMessage({ id: 'helpcenter.messenger.proactive_title' })}
         </div>
-        <div className="dpmsg-AutoStart-widget-avatar" key={agent.id}>
-          <img src={agent.avatar} alt=""/>
-        </div>
+
+          {agent.avatar
+            ? (
+              <div className="dpmsg-AutoStart-widget-avatar" key={agent.id}>
+                <img src={agent.avatar} alt={agent.name} />
+              </div>
+            )
+            : <TextAvatar className="dpmsg-AvatarHeadText" height={47} width={47} name={agent.name} />
+          }
+
       </button>
     )
   };
