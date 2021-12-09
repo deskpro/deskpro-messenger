@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import asset from '../../utils/asset';
+import { TextAvatar } from './TextAvatar';
 
 class MessageBubble extends React.Component {
 
@@ -56,7 +56,7 @@ class MessageBubble extends React.Component {
       >
         {(origin !== 'system' && this.isNotTheSameSender()) && (
           <div className="dpmsg-AvatarCol is-rounded">
-            <img src={avatar || asset('img/docs/avatar-default.jpg')} alt={name} />
+            {avatar ? <img src={avatar} alt={name} /> : <TextAvatar name={name} />}
           </div>
         )}
         <div className="dpmsg-BubbleCol">
