@@ -2,7 +2,7 @@ import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { canUseChat, canUseKb, canUseTickets, getAgentsAvailable } from "../../modules/info";
+import { canUseChat, canUseKb, canUseTickets, hasAgentsAvailable } from "../../modules/info";
 import { getUser } from '../../modules/guest';
 import { createChat } from '../../modules/chat';
 import Frame from './Frame';
@@ -125,7 +125,7 @@ class WidgetToggler extends PureComponent {
       !opened &&
       autoStart &&
       chatAvailable &&
-      Object.keys(agentsAvailable).length > 0
+      agentsAvailable
     );
 
   };
@@ -183,7 +183,7 @@ class WidgetToggler extends PureComponent {
 
     if (
       (opened && mobile) ||
-      ((!chatAvailable || !chatEnabled || Object.keys(agentsAvailable).length < 1)
+      ((!chatAvailable || !chatEnabled || !agentsAvailable)
         && (!kbAvailable || !kbEnabled)
         && (!ticketsAvailable || !ticketsEnabled))
     ) {
@@ -244,7 +244,7 @@ const WidgetTogglerWithStyles = (props) => (
 
 const mapStateToProps = (state) => ({
   opened:           isWindowOpened(state),
-  agentsAvailable:  getAgentsAvailable(state),
+  agentsAvailable:  hasAgentsAvailable(state),
   chatAvailable:    canUseChat(state),
   kbAvailable:      canUseKb(state),
   ticketsAvailable: canUseTickets(state),

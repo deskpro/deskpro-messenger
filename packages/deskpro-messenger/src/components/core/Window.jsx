@@ -9,7 +9,7 @@ import { ConfigConsumer, withConfig } from './ConfigContext';
 import ScreenRoute from './ScreenRoute';
 import MessengerShell from './MessengerShell';
 import { isWindowOpened, setWindowState } from '../../modules/app';
-import { canUseKb, canUseChat, canUseTickets, getAgentsAvailable } from '../../modules/info';
+import { canUseKb, canUseChat, canUseTickets, hasAgentsAvailable } from '../../modules/info';
 import { withFrameContext } from './Frame';
 import AnimateHeight from 'react-animate-height';
 import { compose } from 'redux';
@@ -52,7 +52,7 @@ const transMessages = {
 class MessengerWindow extends PureComponent {
   static propTypes = {
     opened: PropTypes.bool,
-    agentsAvailable: PropTypes.object,
+    agentsAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool,
     kbAvailable: PropTypes.bool,
     ticketsAvailable: PropTypes.bool,
@@ -134,7 +134,7 @@ class MessengerWindow extends PureComponent {
     const { opened, frameContext, screens } = this.props;
     const { maxHeight, contentHeight, iframeHeight, animating } = this.state;
     if (
-      (!chatAvailable || !chatEnabled || Object.keys(agentsAvailable).length < 1)
+      (!chatAvailable || !chatEnabled || !agentsAvailable)
       && (!kbAvailable || !kbEnabled)
       && (!ticketsAvailable || !ticketsEnabled)
     ) {
@@ -217,7 +217,7 @@ class MessengerWindow extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  agentsAvailable:  getAgentsAvailable(state),
+  agentsAvailable:  hasAgentsAvailable(state),
   opened:           isWindowOpened(state),
   chatAvailable:    canUseChat(state),
   kbAvailable:      canUseKb(state),
