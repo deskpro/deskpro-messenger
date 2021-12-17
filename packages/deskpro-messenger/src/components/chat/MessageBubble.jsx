@@ -16,15 +16,21 @@ class MessageBubble extends React.Component {
   renderFile() {
     const { message, meta } = this.props;
     const newMessage = message.match(/<a href.*>(.*)<\/a>/);
+    const messageToShow = message
+      .replace("<a", '<a target="_blank" rel="noreferrer noopener"')
+      .replace(/<div class="file-attachment".*<\/div>/, '')
+      .replace(/<br\s*\/?>$/, '')
+    ;
     return newMessage && newMessage.length > 0 ? (
-      <div className={classNames("dpmsg-BubbleAttachment", {'dpmsg-SameSender': !this.isNotTheSameSender()})}>
-        <div className="dpmsg-BubbleAttachmentContent">
-          <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>
-            {meta.isImage && <div className="dpmsg-BubbleAttachmentContentPreview"><img alt={newMessage[1]} src={`${meta.downloadUrl}?s=245`} /></div>}
-            {newMessage[1]} ({meta.filesize})
-          </a>
+        <div className={classNames("dpmsg-BubbleAttachment", {'dpmsg-SameSender': !this.isNotTheSameSender()})}>
+          <span dangerouslySetInnerHTML={{ __html: messageToShow }} />
+          <div className="dpmsg-BubbleAttachmentContent">
+            <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>
+              {meta.isImage && <div className="dpmsg-BubbleAttachmentContentPreview"><img alt={newMessage[1]} src={`${meta.downloadUrl}?s=245`} /></div>}
+              {newMessage[1]} ({meta.filesize})
+            </a>
+          </div>
         </div>
-      </div>
     ) : null;
   }
 
