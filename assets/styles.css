@@ -1149,7 +1149,10 @@
   margin-top: var(--s-space);
   padding: 15px;
   padding: var(--space)
-}.dpmsg-BubbleAttachment .dpmsg-BubbleAttachmentContent {
+}.dpmsg-BubbleAttachment p:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }.dpmsg-BubbleAttachment .dpmsg-BubbleAttachmentContent {
     font-size: 14px;
     white-space: pre-wrap;
     word-break: break-word
