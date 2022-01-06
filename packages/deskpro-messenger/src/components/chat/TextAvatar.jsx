@@ -14,7 +14,9 @@ export class TextAvatar extends React.Component {
     color:       PropTypes.string,
     borderColor: PropTypes.string,
     className:   PropTypes.string,
-    title:       PropTypes.string
+    title:       PropTypes.string,
+    name:        PropTypes.string,
+    user:        PropTypes.object
   };
 
   static defaultProps = {
@@ -22,7 +24,8 @@ export class TextAvatar extends React.Component {
     height:      32,
     className:   '',
     color:       '#CDD2D4',
-    borderColor: colorLuminance('#CDD2D4')
+    borderColor: colorLuminance('#CDD2D4'),
+    name:        ''
   };
 
   getStyle() {
@@ -35,7 +38,12 @@ export class TextAvatar extends React.Component {
   }
 
   geText() {
-    const { name } = this.props;
+    const { name, user } = this.props;
+
+    if (name === user.visitorId) {
+      // use default avatar to avoid ugly text avatars
+      return null;
+    }
 
     if(UNSUPPORTED_TEXT_REGEX.test(name)) {
       return null;
