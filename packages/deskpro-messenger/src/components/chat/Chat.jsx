@@ -204,7 +204,14 @@ class Chat extends React.Component {
               const key = message.uuid || `${message.type}-${index}`;
               switch (message.type) {
                 case 'chat.message':
-                  return <MessageBubble collectMessagesToAck={this.collectMessagesToAck} key={key} {...message} prev={messages[index-1]}/>;
+                  return <MessageBubble
+                    collectMessagesToAck={this.collectMessagesToAck}
+                    key={key}
+                    user={user}
+                    {...message}
+                    prev={messages[index-1]}
+
+                  />;
                 case 'chat.agentAssigned':
                 case 'chat.agentUnassigned':
                   return <SystemMessage

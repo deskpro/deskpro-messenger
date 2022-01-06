@@ -49,7 +49,7 @@ class MessageBubble extends React.Component {
   }
 
   render() {
-    const { avatar, origin, name, meta } = this.props;
+    const { avatar, origin, name, meta, user } = this.props;
 
     return (
       <div
@@ -62,7 +62,7 @@ class MessageBubble extends React.Component {
       >
         {(origin !== 'system' && this.isNotTheSameSender()) && (
           <div className="dpmsg-AvatarCol is-rounded">
-            {avatar ? <img src={avatar} alt={name} /> : <TextAvatar name={name} />}
+            {avatar ? <img src={avatar} alt={name} /> : <TextAvatar user={user} name={name} />}
           </div>
         )}
         <div className="dpmsg-BubbleCol">

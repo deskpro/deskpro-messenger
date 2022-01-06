@@ -128,8 +128,9 @@ export default produce(
 
 //#region SELECTORS
 const getGuestState = (state) => state.guest;
-export const getUserData = createSelector(getGuestState, (guest) =>
-  _pick(guest, ['name', 'email', 'avatar'])
+export const getUserData = createSelector(getGuestState, (guest) => {
+    return _pick(guest, ['name', 'email', 'avatar', 'visitorId']);
+  }
 );
 export const getVisitorId = createSelector(
   getGuestState,
