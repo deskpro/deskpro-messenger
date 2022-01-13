@@ -2,6 +2,7 @@ import { combineEpics, ofType } from 'redux-observable';
 import { skip, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { produce } from 'immer';
 import isMobile from 'is-mobile';
+import { hasAgentsAvailable, canUseChat, canUseTickets } from './info';
 
 import { SET_VISITOR } from './guest';
 import { CHAT_OPENED } from './chat';
@@ -41,11 +42,12 @@ export const setMessageFormFocus = (payload) => ({
 //#endregion
 
 //#region EPICS
-const startupRedirectEpic = (action$, _, { history, config, cache }) =>
+const startupRedirectEpic = (action$, state$, { history, config, cache }) =>
   action$.pipe(
     ofType(SET_VISITOR),
     take(1),
-    tap(({ payload }) => {
+    withLatestFrom(state$),
+    tap(([payload, state]) => {
       // we're done with chat user loading, time to note everyone we're ready
       if(window.parent && window.parent) {
         const event = new CustomEvent('DeskProMessenger.loaded', {history, cache});
@@ -58,7 +60,11 @@ const startupRedirectEpic = (action$, _, { history, config, cache }) =>
           activeChat = payload.chats.find((c) => c.status === 'open');
         }
         if (lastLocation) {
-          if (lastLocation.indexOf('/screens/active-chat/') === 0 && !activeChat) {
+          if (
+            (lastLocation.indexOf('/screens/active-chat/') === 0 && !activeChat)
+            || (lastLocation.indexOf('/screens/startChat') === 0 && !(canUseChat(state) && hasAgentsAvailable(state)))
+            || (lastLocation.indexOf('/screens/newTicket') === 0 && !canUseTickets(state))
+          ) {
             history.push('/screens/index');
           } else {
             history.push(lastLocation);
