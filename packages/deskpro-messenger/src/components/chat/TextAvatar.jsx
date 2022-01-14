@@ -37,10 +37,10 @@ export class TextAvatar extends React.Component {
     };
   }
 
-  geText() {
+  getText() {
     const { name, user } = this.props;
 
-    if (name === user.visitorId) {
+    if (user && user.visitorId && name === user.visitorId) {
       // use default avatar to avoid ugly text avatars
       return null;
     }
@@ -90,7 +90,7 @@ export class TextAvatar extends React.Component {
 
   render() {
     const { className, name } = this.props;
-    const text = this.geText();
+    const text = this.getText();
 
     const spanProps = {
       style:     this.getStyle(),
