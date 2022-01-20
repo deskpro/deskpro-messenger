@@ -26,7 +26,6 @@ class MessageBubble extends React.Component {
           <span dangerouslySetInnerHTML={{ __html: messageToShow }} />
           <div className="dpmsg-BubbleAttachmentContent">
             <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>
-              {meta.isImage && <div className="dpmsg-BubbleAttachmentContentPreview"><img alt={newMessage[1]} src={`${meta.downloadUrl}?s=245`} /></div>}
               {newMessage[1]} ({meta.filesize})
             </a>
           </div>
