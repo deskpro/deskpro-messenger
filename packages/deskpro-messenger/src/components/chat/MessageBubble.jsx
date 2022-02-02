@@ -22,7 +22,7 @@ class MessageBubble extends React.Component {
       .replace(/<br\s*\/?>$/, '')
     ;
     return newMessage && newMessage.length > 0 ? (
-        <div className={classNames("dpmsg-BubbleAttachment", {'dpmsg-SameSender': !this.isNotTheSameSender()})}>
+        <div className={classNames("dpmsg-BubbleItem dpmsg-BubbleAttachment", {'dpmsg-SameSender': !this.isNotTheSameSender()})}>
           <span dangerouslySetInnerHTML={{ __html: messageToShow }} />
           <div className="dpmsg-BubbleAttachmentContent">
             <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>
