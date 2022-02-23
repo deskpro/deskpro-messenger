@@ -54,6 +54,11 @@ const AJAXSubmit = (function () {
   function SubmitRequest(config) {
     this.receiver = config.url;
     this.formData = null;
+    if (config.extraData) {
+      for (const [name, value] of Object.entries(config.extraData)) {
+        this.formData.append(name, value);
+      }
+    }
     for (let nFile = 0; nFile < config.files.length; nFile++) {
       const oFile = config.files[nFile];
       this.formData = new FormData();

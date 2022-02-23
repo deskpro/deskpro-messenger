@@ -45,6 +45,7 @@ class WidgetSettings extends React.PureComponent {
       url: `${this.props.apiBaseUrl}/v2/blobs/temp`,
       files: [file],
       name: 'file',
+      extraData: { 'source_ref': 'messenger.widget_logo' },
       transferComplete: this.handleTransferComplete,
       transferFailed: this.handleTransferFailed,
       transferCanceled: this.handleTransferFailed,
