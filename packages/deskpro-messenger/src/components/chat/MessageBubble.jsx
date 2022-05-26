@@ -14,7 +14,7 @@ class MessageBubble extends React.Component {
   }
 
   renderFile() {
-    const { message, meta } = this.props;
+    const { message, meta, origin } = this.props;
     const newMessage = message.match(/<a href.*>(.*)<\/a>/);
     const messageToShow = message
       .replace("<a", '<a target="_blank" rel="noreferrer noopener"')
@@ -26,6 +26,7 @@ class MessageBubble extends React.Component {
           <span dangerouslySetInnerHTML={{ __html: messageToShow }} />
           <div className="dpmsg-BubbleAttachmentContent">
             <a href={meta.downloadUrl} rel="noreferrer noopener" target='_blank'>
+              {meta.isImage && origin === 'user' && <div className="dpmsg-BubbleAttachmentContentPreview"><img alt={newMessage[1]} src={`${meta.downloadUrl}?s=245`} /></div>}
               {newMessage[1]} ({meta.filesize})
             </a>
           </div>
