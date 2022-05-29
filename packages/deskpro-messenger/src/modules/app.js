@@ -2,7 +2,7 @@ import { combineEpics, ofType } from 'redux-observable';
 import { skip, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { produce } from 'immer';
 import isMobile from 'is-mobile';
-import { hasAgentsAvailable, canUseChat, canUseTickets } from './info';
+import {hasAgentsAvailable, canUseChat, canUseTickets, LOAD_APP_INFO_SUCCESS} from './info';
 
 import { SET_VISITOR } from './guest';
 import { CHAT_OPENED } from './chat';
@@ -44,7 +44,7 @@ export const setMessageFormFocus = (payload) => ({
 //#region EPICS
 const startupRedirectEpic = (action$, state$, { history, config, cache }) =>
   action$.pipe(
-    ofType(SET_VISITOR),
+    ofType(LOAD_APP_INFO_SUCCESS),
     take(1),
     withLatestFrom(state$),
     tap(([payload, state]) => {

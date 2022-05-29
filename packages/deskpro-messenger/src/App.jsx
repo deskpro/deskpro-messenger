@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createBrowserHistory as createHistory } from 'history';
+import { createMemoryHistory as createHistory } from 'history';
 import { MemoryRouter, Router } from 'react-router-dom';
 
 import Main from './containers/Main';
