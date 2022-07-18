@@ -2,7 +2,7 @@
   "name": "@deskpro/messenger",
   "version": "0.3.4",
   "author": "DeskPRO <support@deskpro.com>",
-  "license": "https://www.deskpro.com/pricing/",
+  "license": "LicenseRef-LICENSE",
   "description": "DeskPRO embeddable messenger",
   "main": "build/messenger.js",
   "module": "build/messenger.js",
