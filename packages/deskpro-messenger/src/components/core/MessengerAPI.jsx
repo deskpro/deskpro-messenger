@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { isWindowOpened, toggleWindow, updateJwtToken } from '../../modules/app';
+import { hasAgentsAvailable, canUseChat, canUseTickets } from '../../modules/info';
 import { logout } from '../../modules/guest';
 
 window.parent.DeskProMessenger = window.parent.DeskProMessenger || {};
@@ -19,11 +20,21 @@ window.parent.DeskProMessenger.open = function() {
 };
 
 window.parent.DeskProMessenger.openChat = function() {
-  window.parent.DeskProMessenger.send('open', {screen: 'startChat'})
+  if (window.parent.DeskProMessenger.canUseChat() && window.parent.DeskProMessenger.isOnline()) {
+    window.parent.DeskProMessenger.send('open', {screen: 'startChat'});
+  } else if (window.parent.DeskProMessenger.canUseTickets()) {
+    window.parent.DeskProMessenger.send('open', {screen: 'newTicket'}); // failover
+  } else {
+    console.error('Neither chat nor ticket form is available!'); // something really went wrong
+  }
 };
 
 window.parent.DeskProMessenger.openNewTicket = function() {
-  window.parent.DeskProMessenger.send('open', {screen: 'newTicket'})
+  if (window.parent.DeskProMessenger.canUseTickets()) {
+    window.parent.DeskProMessenger.send('open', {screen: 'newTicket'});
+  } else {
+    console.error('The ticket form is not available!');
+  }
 };
 
 window.parent.DeskProMessenger.updateJwtToken = function(token) {
@@ -49,6 +60,7 @@ window.parent.addEventListener('DeskProMessenger.loaded', () => {
     };
   }
 });
+window.parent.DeskproMessenger = window.parent.DeskProMessenger;
 
 class MessengerAPI extends PureComponent {
   static propTypes = {
@@ -58,7 +70,10 @@ class MessengerAPI extends PureComponent {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
     }).isRequired,
-    opened: PropTypes.bool,
+    opened: PropTypes.bool.isRequired,
+    isChatOnline: PropTypes.bool.isRequired,
+    canUseChat: PropTypes.bool.isRequired,
+    canUseTickets: PropTypes.bool.isRequired,
     toggleWindow: PropTypes.func.isRequired,
     updateJwtToken: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired
@@ -102,8 +117,25 @@ class MessengerAPI extends PureComponent {
     }
   };
 
+  isChatOnline = () => {
+    return this.props.isChatOnline;
+  }
+
+  canUseChat = () => {
+    return this.props.canUseChat;
+  }
+
+  canUseTickets = () => {
+    return this.props.canUseTickets;
+  }
+
   componentDidMount() {
     window.addEventListener('message', this.handleMessage);
+    // online status can change over time
+    window.parent.DeskProMessenger.isOnline = this.isChatOnline;
+    // it's better to use getters instead of giving direct access to the properties
+    window.parent.DeskProMessenger.canUseChat = this.canUseChat;
+    window.parent.DeskProMessenger.canUseTickets = this.canUseTickets;
   }
 
   componentWillUnmount() {
@@ -116,6 +148,11 @@ class MessengerAPI extends PureComponent {
 }
 
 export default connect(
-  (state) => ({ opened: isWindowOpened(state) }),
+  (state) => ({
+    opened: isWindowOpened(state),
+    isChatOnline: hasAgentsAvailable(state),
+    canUseChat: canUseChat(state),
+    canUseTickets: canUseTickets(state)
+  }),
   { toggleWindow, updateJwtToken, logout }
 )(MessengerAPI);
