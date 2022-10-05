@@ -62,6 +62,7 @@ class MessageForm extends PureComponent {
 
   wrapperRef = React.createRef();
   froalaRef = React.createRef();
+  inputRef = React.createRef();
 
   onFroalaInit = (e, editor) => {
     this.editor = editor;
@@ -70,6 +71,7 @@ class MessageForm extends PureComponent {
 
   onFroalaManualInit = (controls) => {
     this.editorControls = controls;
+    const inputRef = this.inputRef;
     const { handleFileSend, intl } = this.props;
     extendFroala();
     $.FroalaEditor.RegisterCommand('sendMessage', {
@@ -82,18 +84,7 @@ class MessageForm extends PureComponent {
       undo: false,
       refreshAfterCallback: false,
       callback: function () {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.style.display = 'none';
-
-        input.onchange = e => {
-          const file = e.target.files[0];
-          handleFileSend(file);
-        };
-
-        window.document.body.appendChild(input);
-
-        input.click();
+        inputRef.current.click();
       }
     });
     this.editorControls.initialize();
@@ -134,6 +125,11 @@ class MessageForm extends PureComponent {
 
     return e;
   };
+
+  handleInputChange = (e) => {
+    const file = e.target.files[0];
+    this.props.handleFileSend(file);
+  }
 
   imageInserted = (e, editor, img) => {
     img.style.display = 'none';
@@ -247,7 +243,7 @@ class MessageForm extends PureComponent {
       });
     }
   };
-s
+
   render() {
     const { className, style, language } = this.props;
 
@@ -257,6 +253,7 @@ s
         ref={this.wrapperRef}
         style={style}
       >
+        <input type='file' style={{display: 'none'}} ref={this.inputRef} />
         <FroalaEditor
           ref={this.froalaRef}
           model={this.state.message}
