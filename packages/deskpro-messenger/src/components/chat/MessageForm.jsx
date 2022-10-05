@@ -72,7 +72,7 @@ class MessageForm extends PureComponent {
   onFroalaManualInit = (controls) => {
     this.editorControls = controls;
     const inputRef = this.inputRef;
-    const { handleFileSend, intl } = this.props;
+    const { intl } = this.props;
     extendFroala();
     $.FroalaEditor.RegisterCommand('sendMessage', {
       title: intl.formatMessage(transMessages.sendMessage),
