@@ -253,7 +253,7 @@ class MessageForm extends PureComponent {
         ref={this.wrapperRef}
         style={style}
       >
-        <input type='file' style={{display: 'none'}} ref={this.inputRef} />
+        <input type='file' style={{display: 'none'}} ref={this.inputRef} onChange={this.handleInputChange} />
         <FroalaEditor
           ref={this.froalaRef}
           model={this.state.message}
