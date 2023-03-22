@@ -14,13 +14,20 @@ const transMessages = {
 
 class Footer extends PureComponent {
   static propTypes = {
-    copyfree: PropTypes.bool
+    copyfree:    PropTypes.bool,
+    helpdeskURL: PropTypes.string
   }
 
   static defaultProps = {
-    copyfree: false
+    copyfree: false,
+    helpdeskURL: ''
   }
   render() {
+    let poweredBy = `https://www.deskpro.com/powered-by-deskpro?utm_medium=poweredbydeskpro&utm_campaign=Cmessenger`;
+    if (this.props.helpdeskURL) {
+      const helpdeskURL = this.props.helpdeskURL.replace(/https?:\/\//, '').replace(/\/$/, '');
+      poweredBy = `${poweredBy}&utm_source=${helpdeskURL}`;
+    }
     return (
       <div className="dpmsg-ScreenFooter">
         { this.props.copyfree ? null : (
@@ -30,7 +37,12 @@ class Footer extends PureComponent {
               <FormattedMessage {...transMessages.poweredBy} />
             </span>
             <span className="dpmsg-VertLine"/>
-            <a href="https://deskpro.com" target="_blank" rel="noreferrer noopener" title="Deskpro">
+            <a 
+              href={poweredBy}
+              target="_blank" 
+              rel="noreferrer noopener" 
+              title="Deskpro"
+            >
               <Isvg
                 className="dpmsg-ScreenFooterLogo"
                 src={asset('img/deskpro-logo.svg')}
@@ -47,6 +59,6 @@ class Footer extends PureComponent {
 
 export default (props) => (
   <ConfigConsumer>
-    {({ themeVars }) => <Footer copyfree={themeVars.copyfree} {...props} />}
+    {({ themeVars, helpdeskURL }) => <Footer copyfree={themeVars.copyfree} helpdeskURL={helpdeskURL} {...props} />}
   </ConfigConsumer>
 );
