@@ -237,7 +237,9 @@ storiesOf('Messenger', module)
         'https://site36680.deskprodemo.com/',
         'Config'
       ),
-      locale: select('Locale', ['en-US', 'ru-RU'], 'en-US', 'i18n'),
+      language: {
+        locale: select('Locale', ['en-US', 'ru-RU'], 'en-US', 'i18n'),
+      },
       screens,
       themeVars,
       user: {
@@ -256,7 +258,7 @@ storiesOf('Messenger', module)
     return (
       <Provider store={store}>
         <Router history={history}>
-          <Main config={config} />
+          <Main config={config} cache={cache} />
         </Router>
       </Provider>
     );
