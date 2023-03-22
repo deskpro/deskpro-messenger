@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/messenger",
-  "version": "0.3.9-rc1",
+  "version": "0.3.9",
   "author": "DeskPRO <support@deskpro.com>",
   "license": "LicenseRef-LICENSE",
   "description": "DeskPRO embeddable messenger",
