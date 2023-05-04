@@ -39,6 +39,7 @@ const iFrameContainer =
 class Frame extends PureComponent {
   static propTypes = {
     themeVars: PropTypes.object,
+    disableGoogleFont: PropTypes.bool,
     className: PropTypes.string,
     style: PropTypes.object,
     head: PropTypes.node,
@@ -47,6 +48,7 @@ class Frame extends PureComponent {
 
   static defaultProps = {
     themeVars: {},
+    disableGoogleFont: false,
     style: {},
     head: null,
     mobile: false,
@@ -118,7 +120,7 @@ class Frame extends PureComponent {
   };
 
   render() {
-    const { children, style = {}, head, themeVars, className, mobile, ...props } = this.props;
+    const { children, style = {}, head, themeVars, className, mobile, disableGoogleFont, ...props } = this.props;
     const { extra } = this.state;
     let offset = '14px';
     if(mobile) {
@@ -136,14 +138,18 @@ class Frame extends PureComponent {
       'dpmsg-ScreenFrame frame-root'
     );
 
+    const font = disableGoogleFont ? null : (
+      <link
+              href="https://fonts.googleapis.com/css?family=Rubik:400,400i,700,700i"
+              rel="stylesheet"
+      />
+    );
+
     return ReactDOM.createPortal(
       <FrameComponent
         head={
           <Fragment>
-            <link
-              href="https://fonts.googleapis.com/css?family=Rubik:400,400i,700,700i"
-              rel="stylesheet"
-            />
+            {font}
             {head}
             {baseHead}
             <style type="text/css" key="extra-style">{extra}</style>
@@ -166,7 +172,7 @@ class Frame extends PureComponent {
 
 export default (props) => (
   <ConfigConsumer>
-    {({ themeVars }) => <Frame themeVars={themeVars} {...props} />}
+    {({ themeVars, disableGoogleFont }) => <Frame themeVars={themeVars} disableGoogleFont={disableGoogleFont} {...props} />}
   </ConfigConsumer>
 );
 
