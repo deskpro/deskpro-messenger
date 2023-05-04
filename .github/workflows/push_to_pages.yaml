@@ -23,20 +23,17 @@ concurrency:
 
 jobs:
   # Single deploy job since we're just deploying
-  deploy:
+  build-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-        runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: 14.x
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: 16
+          node-version: 14
           cache: 'yarn'
       - name: Install Dependencies
         run: yarn
