@@ -4,12 +4,12 @@ import deepmerge from 'deepmerge';
 function loadConfig(helpdeskURL, brandId, jwt) {
 
   let configUrl = `${helpdeskURL}/api/messenger/service/setup`;
-  const options = {};
+  const options = { headers: {}};
   if(brandId) {
-    options.headers = {['X-DESKPRO-BRANDID']: brandId}
+    options.headers['X-DESKPRO-BRANDID'] = brandId;
   }
   if(jwt) {
-    options.headers = {['X-JWT-TOKEN']: jwt}
+    options.headers['X-JWT-TOKEN'] =  jwt;
   }
 
   return fetch(configUrl, options)
