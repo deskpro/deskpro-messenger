@@ -12,7 +12,6 @@ cache:
     - packages/deskpro-messenger-setup/node_modules
 install:
   - yarn
-  - yarn bootstrap
 script: yarn lerna run build
 before_deploy:
   - yarn lerna run build-storybook
