@@ -1,7 +1,7 @@
 @deskpro/deskpro-messenger
 =================
 
-[![Build Status](https://travis-ci.com/deskpro/deskpro-messenger.svg?branch=master)](https://travis-ci.com/deskpro/deskpro-messenger)
+[![Build Status](https://app.travis-ci.com/deskpro/deskpro-messenger.svg?branch=master)](https://app.travis-ci.com/github/deskpro/deskpro-messenger)
 [![npm version](https://img.shields.io/npm/v/@deskpro/messenger.svg?style=flat)](https://www.npmjs.com/package/@deskpro/messenger)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](https://deskpro.github.io/deskpro-messenger)
 
