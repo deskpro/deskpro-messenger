@@ -13,7 +13,6 @@ import {
   color,
   text
 } from '@storybook/addon-knobs';
-import _isPlainObject from 'lodash/isPlainObject';
 
 import Main from '../containers/Main';
 import createApiService from '../services/api';

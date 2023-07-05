@@ -1,6 +1,6 @@
 import { combineEpics, ofType } from 'redux-observable';
 import { mergeMap, map, tap } from 'rxjs/operators';
-import Immutable from 'immutable';
+import { fromJS } from 'immutable';
 import { APP_INIT } from './app';
 
 //#region ACTION TYPES
@@ -83,7 +83,7 @@ const cacheTicketFormData = (action$, _, { cache }) =>
   action$.pipe(
     ofType(TICKET_CACHE_FORM),
     map(( { payload } ) => {
-      const val = Immutable.fromJS(cache.getValue('formCache') || {}).merge(Immutable.fromJS(payload.values)).toJS();
+      const val = fromJS(cache.getValue('formCache') || {}).merge(fromJS(payload.values)).toJS();
       cache.setValue('formCache', val);
       return {type: TICKET_CACHE_FORM_DONE, payload: val }
     }),
