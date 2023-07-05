@@ -1,18 +1,15 @@
 language: node_js
 node_js:
-  - '12'
+  - '16'
 before_install:
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > packages/deskpro-messenger/.npmrc
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > packages/deskpro-messenger-loader/.npmrc
-  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > packages/deskpro-messenger-setup/.npmrc
 cache:
   directories:
     - packages/deskpro-messenger/node_modules
-    - packages/deskpro-messenger-setup/node_modules
 install:
   - yarn
-  - yarn bootstrap
 script: yarn lerna run build
 before_deploy:
   - yarn lerna run build-storybook
