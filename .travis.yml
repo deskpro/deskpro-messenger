@@ -10,7 +10,7 @@ cache:
     - packages/deskpro-messenger/node_modules
 install:
   - yarn
-script: yarn lerna run build
+script: yarn build
 before_deploy:
   - yarn lerna run build-storybook
   - cp packages/deskpro-messenger/build/assets/styles.css* packages/deskpro-messenger/storybook-static/assets/
