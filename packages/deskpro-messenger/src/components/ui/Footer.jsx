@@ -23,7 +23,7 @@ class Footer extends PureComponent {
     helpdeskURL: ''
   }
   render() {
-    let poweredBy = `https://www.deskpro.com/powered-by-deskpro?utm_medium=poweredbydeskpro&utm_campaign=Cmessenger`;
+    let poweredBy = `https://www.deskpro.com/powered-by-deskpro/messenger`;
     if (this.props.helpdeskURL) {
       const helpdeskURL = this.props.helpdeskURL.replace(/https?:\/\//, '').replace(/\/$/, '');
       poweredBy = `${poweredBy}&utm_source=${helpdeskURL}`;
