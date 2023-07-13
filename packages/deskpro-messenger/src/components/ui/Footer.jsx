@@ -24,10 +24,6 @@ class Footer extends PureComponent {
   }
   render() {
     let poweredBy = `https://www.deskpro.com/powered-by-deskpro/messenger`;
-    if (this.props.helpdeskURL) {
-      const helpdeskURL = this.props.helpdeskURL.replace(/https?:\/\//, '').replace(/\/$/, '');
-      poweredBy = `${poweredBy}&utm_source=${helpdeskURL}`;
-    }
     return (
       <div className="dpmsg-ScreenFooter">
         { this.props.copyfree ? null : (
