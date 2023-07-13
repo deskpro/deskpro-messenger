@@ -18697,7 +18697,7 @@ stylelint-suitcss@^3.0.0:
     postcss-selector-parser "^2.2.3"
     stylelint "^9.0.0"
 
-stylelint@>=13.13.1:
+stylelint@>=13.13.1, stylelint@^15.10.1:
   version "15.10.1"
   resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-15.10.1.tgz#93f189958687e330c106b010cbec0c41dcae506d"
   integrity sha512-CYkzYrCFfA/gnOR+u9kJ1PpzwG10WLVnoxHDuBA/JiwGqdM9+yx9+ou6SE/y9YHtfv1mcLo06fdadHTOx4gBZQ==
@@ -18743,7 +18743,7 @@ stylelint@>=13.13.1:
     table "^6.8.1"
     write-file-atomic "^5.0.1"
 
-stylelint@^9.0.0, stylelint@^9.5.0:
+stylelint@^9.0.0:
   version "9.10.1"
   resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-9.10.1.tgz#5f0ee3701461dff1d68284e1386efe8f0677a75d"
   integrity sha512-9UiHxZhOAHEgeQ7oLGwrwoDR8vclBKlSX7r4fH0iuu0SfPwFaLkb1c7Q2j1cqg9P7IDXeAV2TvQML/fRQzGBBQ==
