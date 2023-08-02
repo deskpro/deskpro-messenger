@@ -165,6 +165,7 @@ class TicketFormScreen extends React.Component {
       isUserSet,
       isOrgSet
     } = this.props;
+    console.log('formConfig', formConfig);
     const converted = formConfig.map((d) => {
       if(d.fields) {
         d.fields.forEach((f, i) => {
@@ -180,7 +181,9 @@ class TicketFormScreen extends React.Component {
 
       return d;
     });
+    console.log('converted', converted);
     const immutableLayout = fromJSGreedy(converted);
+    console.log('immutableLayout', immutableLayout);
     const initialValues = _cloneDeep(formCache);
     if (!initialValues.person) {
       initialValues.person = {name: user.name, email: user.email};

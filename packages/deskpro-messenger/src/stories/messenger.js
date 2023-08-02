@@ -233,7 +233,7 @@ storiesOf('Messenger', module)
     const config = {
       helpdeskURL: text(
         'Helpdesk Url',
-        'https://site36680.deskprodemo.com/',
+        'https://deskpro.test/',
         'Config'
       ),
       language: {
