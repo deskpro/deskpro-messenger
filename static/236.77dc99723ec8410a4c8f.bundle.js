@@ -1,0 +1,1 @@
+webpackJsonp([236],{1595:function(module,exports){Intl.PluralRules&&"function"==typeof Intl.PluralRules.__addLocaleData&&Intl.PluralRules.__addLocaleData({data:{ti:{categories:{cardinal:["one","other"],ordinal:["other"]},fn:function(n,ord){return ord?"other":0==n||1==n?"one":"other"}}},aliases:{},parentLocales:{},availableLocales:["ti"]})}});
