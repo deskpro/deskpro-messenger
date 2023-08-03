@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@deskpro/js-utils": "^1.0.13",
-    "@deskpro/portal-components": "1.1.4-alpha.2",
+    "@deskpro/portal-components": "1.1.4",
     "@deskpro/react-components": "^1.4.9",
     "@formatjs/intl-pluralrules": "^1.5.3",
     "@formatjs/intl-relativetimeformat": "^4.5.10",
