@@ -78,7 +78,7 @@ const config = {
         'cursor': 'auto',
         'display': 'initial',
         'float': 'none',
-        'font-family': 'inherit',
+        'font-family': 'var(--font-family-base)',
         'font-size': 'var(--font-size-base)',
         'font-style': 'normal',
         'font-variant': 'normal',
