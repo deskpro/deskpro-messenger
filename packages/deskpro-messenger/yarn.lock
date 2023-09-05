@@ -1087,10 +1087,10 @@
   dependencies:
     immutable "3.8.2"
 
-"@deskpro/portal-components@1.0.22-alpha.1":
-  version "1.0.22-alpha.1"
-  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-1.0.22-alpha.1.tgz#9d6d1bbe35dc8517029cadc55f4a02da870d2665"
-  integrity sha512-7bcT6k1WCe3WGH9DLcO9iwYec65kRpjSTzNg9tjuUXagvGv9hH3SUtHelJMFIjQ9QntBdP4j4mhY+4fS3erjDw==
+"@deskpro/portal-components@1.0.22-alpha.2":
+  version "1.0.22-alpha.2"
+  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-1.0.22-alpha.2.tgz#2e56f6615963188b39555c0cc83195fed21fa53f"
+  integrity sha512-tQFNNoNEpsdZ+qtkpNlZRlzT99gPKhSl8xp4r/Aj9Y9ZQRJvbvgrygF5G4/mP1bj8ZUJWLEAxW8nbr9HVzCzvA==
   dependencies:
     "@deskpro/js-utils" "1.0.13"
     "@emotion/css" "^11.7.1"
