@@ -210,7 +210,7 @@ class TicketFormScreen extends React.Component {
       missingCcs = submittedCcsCount !== savedCcsCount;
     }
 
-    console.log('misisng ccs', missingCcs, ticket, formCache)
+    console.log('missing ccs', missingCcs, ticket, formCache)
 
     return (
       <Fragment>
