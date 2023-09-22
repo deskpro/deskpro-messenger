@@ -53,8 +53,11 @@ export const createTicketEpic = (action$, _, { api }) =>
     mergeMap(async ({ payload }) => {
       const flatErrors = {};
       try {
-        await api.createTicket(payload);
-        return { type: TICKET_SAVE_NEW_SUCCESS }
+        const ticket = await api.createTicket(payload);
+        console.log('api response')
+        console.log(ticket)
+        console.log(ticket['data'])
+        return { type: TICKET_SAVE_NEW_SUCCESS, payload: ticket['data'] }
       } catch (e) {
         if (e.response && e.response.status === 400) {
           const { errors } = e.response.data;
@@ -111,14 +114,14 @@ const loadCacheTicketFormData = (action$, _, { cache }) =>
 export const ticketEpics = combineEpics(createTicketEpic, cacheTicketFormData, loadCacheTicketFormData, cacheCleanTicketFormData);
 
 //#region REDUCER
-export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, formCache: {} }, { type, payload }) => {
+export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, formCache: {}, ticket: {} }, { type, payload }) => {
   switch (type) {
     case TICKET_NEW_OPEN:
       return { ...state, ticketSaving: false, ticketSaved: false };
     case TICKET_SAVE_NEW:
       return { ...state, ticketSaving: true, errors: {} };
     case TICKET_SAVE_NEW_SUCCESS:
-      return { ...state, ticketSaving: false, ticketSaved: true, errors: {} };
+      return { ...state, ticketSaving: false, ticketSaved: true, errors: {}, ticket: payload };
     case TICKET_SAVE_NEW_ERROR:
       return { ...state, ticketSaving: false, ticketSaved: false, errors: payload };
     case TICKET_CACHE_FORM_DONE:
@@ -133,5 +136,6 @@ export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, f
 export const getTicketSavingState = (state) => state.tickets.ticketSaving;
 export const getTicketSavedState  = (state) => state.tickets.ticketSaved;
 export const getTicketFormCache  = (state) => state.tickets.formCache;
+export const getTicket  = (state) => state.tickets.ticket;
 export const getErrors  = (state) => state.tickets.errors;
 //#endregion

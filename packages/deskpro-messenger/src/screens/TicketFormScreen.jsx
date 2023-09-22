@@ -14,7 +14,8 @@ import {
   getTicketFormCache,
   newTicket,
   saveTicket,
-  cacheForm
+  cacheForm,
+  getTicket
 } from '../modules/tickets';
 import { getTicketDepartments, getTicketPriorities } from '../modules/info';
 import { getUser, isUserSet, isOrgSet } from '../modules/guest';
@@ -87,6 +88,10 @@ const transMessages = {
     id: 'helpcenter.messenger.tickets_form_back',
     defaultMessage: 'Back',
   },
+  ccDisabledRegistration: {
+    id: 'helpcenter.messenger.tickets_form_cc_disabled_registration',
+    defaultMessage: 'One or more CCs were not added because user registration is disabled.',
+  },
 };
 
 const mapStateToProps = (state) => ({
@@ -98,7 +103,8 @@ const mapStateToProps = (state) => ({
     user:         getUser(state),
     isUserSet:    isUserSet(state),
     isOrgSet:     isOrgSet(state),
-    errors:       getErrors(state)
+    errors:       getErrors(state),
+    ticket:       getTicket(state),
 });
 
 class TicketFormScreen extends React.Component {
@@ -160,6 +166,7 @@ class TicketFormScreen extends React.Component {
       ticketSaved,
       ticketSaving,
       errors,
+      ticket,
       user,
       formCache,
       isUserSet,
@@ -188,6 +195,22 @@ class TicketFormScreen extends React.Component {
       initialValues.person.name = formCache.person.name || user.name;
       initialValues.person.email = (formCache.person.email && formCache.person.email.email) ? formCache.person.email.email : user.email;
     }
+
+    // Check if all ccs were added
+    let missingCcs = false;
+    if (ticketSaved && !ticketSaving && ticket) {
+      const { ccs: submittedCcs } = formCache;
+      const submittedCcsCount = submittedCcs ? submittedCcs.length : 0;
+      const savedCcsCount = ticket.cc ? ticket.cc.length : 0;
+
+      console.log('check missing ccs')
+      console.log('submittedCcs', submittedCcs)
+      console.log('savedCcs', ticket.cc)
+
+      missingCcs = submittedCcsCount !== savedCcsCount;
+    }
+
+    console.log('misisng ccs', missingCcs, ticket, formCache)
 
     return (
       <Fragment>
@@ -248,6 +271,14 @@ class TicketFormScreen extends React.Component {
 
           {ticketSaved && !ticketSaving && (
             [
+              missingCcs && (
+                <div className="dpmsg-ChatMessagesDropZoneError">
+                  <i className="fa fa-2x fa-exclamation-triangle" />
+                  <FormattedMessage
+                    {...transMessages.ccDisabledRegistration}
+                  />
+                </div>
+              ),
               <div className="dpmsg-BlockInnerIcon">
                 <i className="dpmsg-Icon dpmsg-Icon--Round dpmsg-IconRocket" />
               </div>,
