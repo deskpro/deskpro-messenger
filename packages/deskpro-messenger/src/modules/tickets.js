@@ -56,8 +56,8 @@ export const createTicketEpic = (action$, _, { api }) =>
         const ticket = await api.createTicket(payload);
         console.log('api response')
         console.log(ticket)
-        console.log(ticket['data'])
-        return { type: TICKET_SAVE_NEW_SUCCESS, payload: ticket['data'] }
+        console.log(ticket['data']['data'])
+        return { type: TICKET_SAVE_NEW_SUCCESS, payload: ticket['data']['data'] }
       } catch (e) {
         if (e.response && e.response.status === 400) {
           const { errors } = e.response.data;

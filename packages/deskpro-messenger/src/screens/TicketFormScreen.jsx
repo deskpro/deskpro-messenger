@@ -206,12 +206,9 @@ class TicketFormScreen extends React.Component {
       console.log('check missing ccs')
       console.log('submittedCcs', submittedCcs)
       console.log('savedCcs', ticket.cc)
-
       missingCcs = submittedCcsCount !== savedCcsCount;
+      console.log('missing ccs', missingCcs, ticket, formCache)
     }
-
-    console.log('missing ccs', missingCcs, ticket, formCache)
-
     return (
       <Fragment>
         <Header icon={widget.icon.download_url} />
