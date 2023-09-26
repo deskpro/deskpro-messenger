@@ -199,11 +199,13 @@ class TicketFormScreen extends React.Component {
     // Check if all ccs were added
     let missingCcs = false;
     if (ticketSaved && !ticketSaving && ticket) {
+      console.log('check missing ccs')
+      console.log('form cache');
+      console.log(formCache);
       const { cc: submittedCcs } = formCache;
       const submittedCcsCount = submittedCcs ? submittedCcs.split(',').length : 0;
       const savedCcsCount = ticket.cc ? ticket.cc.length : 0;
 
-      console.log('check missing ccs')
       console.log('submittedCcs', submittedCcs)
       console.log('savedCcs', ticket.cc)
       missingCcs = submittedCcsCount > savedCcsCount;
