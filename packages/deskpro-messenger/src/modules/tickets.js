@@ -61,12 +61,15 @@ export const createTicketEpic = (action$, _, { api }) =>
         console.log(ticket)
         console.log(ticket['data']['data'])
 
+        const response = ticket['data']['data'];
+
         console.log('-------- created ticket --------')
+        console.log(response)
         const submittedCcs = payload.cc ? payload.cc.split(',') : [];
         const submittedCcsCount = submittedCcs.length;
-        const savedCcsCount = ticket.cc ? ticket.cc.length : 0;
+        const savedCcsCount = response.cc ? response.cc.length : 0;
   
-        console.log('subbmitted: ', submittedCcs, ' saved: ', ticket.cc);
+        console.log('subbmitted: ', submittedCcs, ' saved: ', response.cc);
         console.log('subbmittedCount: ', submittedCcsCount, ' savedCount: ', savedCcsCount);
 
         if (submittedCcsCount > savedCcsCount) {
@@ -132,14 +135,14 @@ const loadCacheTicketFormData = (action$, _, { cache }) =>
 export const ticketEpics = combineEpics(createTicketEpic, cacheTicketFormData, loadCacheTicketFormData, cacheCleanTicketFormData);
 
 //#region REDUCER
-export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, formCache: {}, ticket: {} }, { type, payload, errors }) => {
+export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, formCache: {} }, { type, payload, errors }) => {
   switch (type) {
     case TICKET_NEW_OPEN:
       return { ...state, ticketSaving: false, ticketSaved: false };
     case TICKET_SAVE_NEW:
       return { ...state, ticketSaving: true, errors: {} };
     case TICKET_SAVE_NEW_SUCCESS:
-      return { ...state, ticketSaving: false, ticketSaved: true, errors: errors, ticket: payload };
+      return { ...state, ticketSaving: false, ticketSaved: true, errors: errors};
     case TICKET_SAVE_NEW_ERROR:
       return { ...state, ticketSaving: false, ticketSaved: false, errors: payload };
     case TICKET_CACHE_FORM_DONE:
@@ -154,6 +157,6 @@ export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, f
 export const getTicketSavingState = (state) => state.tickets.ticketSaving;
 export const getTicketSavedState  = (state) => state.tickets.ticketSaved;
 export const getTicketFormCache  = (state) => state.tickets.formCache;
-export const getTicket  = (state) => state.tickets.ticket;
+// export const getTicket  = (state) => state.tickets.ticket;
 export const getErrors  = (state) => state.tickets.errors;
 //#endregion

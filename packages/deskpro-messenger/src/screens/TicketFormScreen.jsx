@@ -15,7 +15,7 @@ import {
   newTicket,
   saveTicket,
   cacheForm,
-  getTicket
+  // getTicket
 } from '../modules/tickets';
 import { getTicketDepartments, getTicketPriorities } from '../modules/info';
 import { getUser, isUserSet, isOrgSet } from '../modules/guest';
@@ -104,7 +104,7 @@ const mapStateToProps = (state) => ({
     isUserSet:    isUserSet(state),
     isOrgSet:     isOrgSet(state),
     errors:       getErrors(state),
-    ticket:       getTicket(state),
+    // ticket:       getTicket(state),
 });
 
 class TicketFormScreen extends React.Component {
@@ -166,7 +166,7 @@ class TicketFormScreen extends React.Component {
       ticketSaved,
       ticketSaving,
       errors,
-      ticket,
+      // ticket,
       user,
       formCache,
       isUserSet,
