@@ -53,30 +53,16 @@ export const createTicketEpic = (action$, _, { api }) =>
     mergeMap(async ({ payload }) => {
       const flatErrors = {};
       try {
-        const ticket = await api.createTicket(payload);
         let errors = {};
-        console.log('api request')
-        console.log(payload)
-        console.log('api response')
-        console.log(ticket)
-        console.log(ticket['data']['data'])
-
+        const ticket = await api.createTicket(payload);
         const response = ticket['data']['data'];
-
-        console.log('-------- created ticket --------')
-        console.log(response)
         const submittedCcs = payload.cc ? payload.cc.split(',') : [];
         const submittedCcsCount = submittedCcs.length;
         const savedCcsCount = response.cc ? response.cc.length : 0;
-  
-        console.log('subbmitted: ', submittedCcs, ' saved: ', response.cc);
-        console.log('subbmittedCount: ', submittedCcsCount, ' savedCount: ', savedCcsCount);
 
         if (submittedCcsCount > savedCcsCount) {
           errors.cc = 'ccs count mismatch';
         }
-
-        console.log('errors: ', errors);
 
         return { type: TICKET_SAVE_NEW_SUCCESS, payload: ticket['data']['data'], errors: errors }
       } catch (e) {
@@ -157,6 +143,5 @@ export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, f
 export const getTicketSavingState = (state) => state.tickets.ticketSaving;
 export const getTicketSavedState  = (state) => state.tickets.ticketSaved;
 export const getTicketFormCache  = (state) => state.tickets.formCache;
-// export const getTicket  = (state) => state.tickets.ticket;
 export const getErrors  = (state) => state.tickets.errors;
 //#endregion

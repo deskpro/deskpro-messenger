@@ -15,7 +15,6 @@ import {
   newTicket,
   saveTicket,
   cacheForm,
-  // getTicket
 } from '../modules/tickets';
 import { getTicketDepartments, getTicketPriorities } from '../modules/info';
 import { getUser, isUserSet, isOrgSet } from '../modules/guest';
@@ -104,7 +103,6 @@ const mapStateToProps = (state) => ({
     isUserSet:    isUserSet(state),
     isOrgSet:     isOrgSet(state),
     errors:       getErrors(state),
-    // ticket:       getTicket(state),
 });
 
 class TicketFormScreen extends React.Component {
@@ -166,7 +164,6 @@ class TicketFormScreen extends React.Component {
       ticketSaved,
       ticketSaving,
       errors,
-      // ticket,
       user,
       formCache,
       isUserSet,
@@ -196,22 +193,6 @@ class TicketFormScreen extends React.Component {
       initialValues.person.email = (formCache.person.email && formCache.person.email.email) ? formCache.person.email.email : user.email;
     }
 
-    console.log('rendering... ', errors)
-    // Check if all ccs were added
-    // let missingCcs = false;
-    // if (ticketSaved && !ticketSaving && ticket) {
-    //   console.log('check missing ccs')
-    //   console.log('form cache');
-    //   console.log(formCache);
-    //   const { cc: submittedCcs } = formCache;
-    //   const submittedCcsCount = submittedCcs ? submittedCcs.split(',').length : 0;
-    //   const savedCcsCount = ticket.cc ? ticket.cc.length : 0;
-
-    //   console.log('submittedCcs', submittedCcs)
-    //   console.log('savedCcs', ticket.cc)
-    //   missingCcs = submittedCcsCount > savedCcsCount;
-    //   console.log('missing ccs', missingCcs, ticket, formCache)
-    // }
     return (
       <Fragment>
         <Header icon={widget.icon.download_url} />
@@ -272,12 +253,17 @@ class TicketFormScreen extends React.Component {
           {ticketSaved && !ticketSaving && (
             [
               errors.cc && (
-                <div className="dpmsg-ChatMessagesDropZoneError">
-                  <i className="fa fa-2x fa-exclamation-triangle" />
-                  <FormattedMessage
-                    {...transMessages.ccDisabledRegistration}
-                  />
-                </div>
+                <>
+                  <div className="dpmsg-ChatMessagesDropZoneError">
+                    <div className="dpmsg-BlockInnerIcon">
+                      <i className="fa fa-2x fa-exclamation-triangle"></i>
+                    </div>
+                    <FormattedMessage
+                      {...transMessages.ccDisabledRegistration}
+                    />
+                  </div>
+                  <br />
+                </>
               ),
               <div className="dpmsg-BlockInnerIcon">
                 <i className="dpmsg-Icon dpmsg-Icon--Round dpmsg-IconRocket" />
