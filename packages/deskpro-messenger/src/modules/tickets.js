@@ -54,12 +54,28 @@ export const createTicketEpic = (action$, _, { api }) =>
       const flatErrors = {};
       try {
         const ticket = await api.createTicket(payload);
+        let errors = {};
         console.log('api request')
         console.log(payload)
         console.log('api response')
         console.log(ticket)
         console.log(ticket['data']['data'])
-        return { type: TICKET_SAVE_NEW_SUCCESS, payload: ticket['data']['data'], formCache: payload }
+
+        console.log('-------- created ticket --------')
+        const submittedCcs = payload.cc ? payload.cc.split(',') : [];
+        const submittedCcsCount = submittedCcs.length;
+        const savedCcsCount = ticket.cc ? ticket.cc.length : 0;
+  
+        console.log('subbmitted: ', submittedCcs, ' saved: ', ticket.cc);
+        console.log('subbmittedCount: ', submittedCcsCount, ' savedCount: ', savedCcsCount);
+
+        if (submittedCcsCount > savedCcsCount) {
+          errors.cc = 'ccs count mismatch';
+        }
+
+        console.log('errors: ', errors);
+
+        return { type: TICKET_SAVE_NEW_SUCCESS, payload: ticket['data']['data'], errors: errors }
       } catch (e) {
         if (e.response && e.response.status === 400) {
           const { errors } = e.response.data;
@@ -116,14 +132,14 @@ const loadCacheTicketFormData = (action$, _, { cache }) =>
 export const ticketEpics = combineEpics(createTicketEpic, cacheTicketFormData, loadCacheTicketFormData, cacheCleanTicketFormData);
 
 //#region REDUCER
-export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, formCache: {}, ticket: {} }, { type, payload, formCache }) => {
+export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, formCache: {}, ticket: {} }, { type, payload, errors }) => {
   switch (type) {
     case TICKET_NEW_OPEN:
       return { ...state, ticketSaving: false, ticketSaved: false };
     case TICKET_SAVE_NEW:
       return { ...state, ticketSaving: true, errors: {} };
     case TICKET_SAVE_NEW_SUCCESS:
-      return { ...state, ticketSaving: false, ticketSaved: true, errors: {}, ticket: payload, formCahce: formCache };
+      return { ...state, ticketSaving: false, ticketSaved: true, errors: errors, ticket: payload };
     case TICKET_SAVE_NEW_ERROR:
       return { ...state, ticketSaving: false, ticketSaved: false, errors: payload };
     case TICKET_CACHE_FORM_DONE:

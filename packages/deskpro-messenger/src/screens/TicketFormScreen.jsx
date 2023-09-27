@@ -196,21 +196,22 @@ class TicketFormScreen extends React.Component {
       initialValues.person.email = (formCache.person.email && formCache.person.email.email) ? formCache.person.email.email : user.email;
     }
 
+    console.log('rendering... ', errors)
     // Check if all ccs were added
-    let missingCcs = false;
-    if (ticketSaved && !ticketSaving && ticket) {
-      console.log('check missing ccs')
-      console.log('form cache');
-      console.log(formCache);
-      const { cc: submittedCcs } = formCache;
-      const submittedCcsCount = submittedCcs ? submittedCcs.split(',').length : 0;
-      const savedCcsCount = ticket.cc ? ticket.cc.length : 0;
+    // let missingCcs = false;
+    // if (ticketSaved && !ticketSaving && ticket) {
+    //   console.log('check missing ccs')
+    //   console.log('form cache');
+    //   console.log(formCache);
+    //   const { cc: submittedCcs } = formCache;
+    //   const submittedCcsCount = submittedCcs ? submittedCcs.split(',').length : 0;
+    //   const savedCcsCount = ticket.cc ? ticket.cc.length : 0;
 
-      console.log('submittedCcs', submittedCcs)
-      console.log('savedCcs', ticket.cc)
-      missingCcs = submittedCcsCount > savedCcsCount;
-      console.log('missing ccs', missingCcs, ticket, formCache)
-    }
+    //   console.log('submittedCcs', submittedCcs)
+    //   console.log('savedCcs', ticket.cc)
+    //   missingCcs = submittedCcsCount > savedCcsCount;
+    //   console.log('missing ccs', missingCcs, ticket, formCache)
+    // }
     return (
       <Fragment>
         <Header icon={widget.icon.download_url} />
@@ -270,7 +271,7 @@ class TicketFormScreen extends React.Component {
 
           {ticketSaved && !ticketSaving && (
             [
-              missingCcs && (
+              errors.cc && (
                 <div className="dpmsg-ChatMessagesDropZoneError">
                   <i className="fa fa-2x fa-exclamation-triangle" />
                   <FormattedMessage
