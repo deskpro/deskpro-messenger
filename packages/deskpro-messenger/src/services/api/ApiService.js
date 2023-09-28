@@ -229,7 +229,7 @@ export default class ApiService {
       delete postData.captcha;
     }
     if(values.cc) {
-      postData.cc = values.cc ? [ values.cc ] : '';
+      postData.cc = values.cc ? values.cc.split(',').map(e => e.trim()) : '';
     }
     ['fields', 'user_fields', 'organization_fields', 'contextual_fields'].forEach(fieldKey => {
       if(postData[fieldKey]) {

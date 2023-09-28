@@ -53,8 +53,18 @@ export const createTicketEpic = (action$, _, { api }) =>
     mergeMap(async ({ payload }) => {
       const flatErrors = {};
       try {
-        await api.createTicket(payload);
-        return { type: TICKET_SAVE_NEW_SUCCESS }
+        let errors = {};
+        const ticket = await api.createTicket(payload);
+        const response = ticket['data']['data'];
+        const submittedCcs = payload.cc ? payload.cc.split(',') : [];
+        const submittedCcsCount = submittedCcs.length;
+        const savedCcsCount = response.cc ? response.cc.length : 0;
+
+        if (submittedCcsCount > savedCcsCount) {
+          errors.cc = 'ccs count mismatch';
+        }
+
+        return { type: TICKET_SAVE_NEW_SUCCESS, payload: ticket['data']['data'], errors: errors }
       } catch (e) {
         if (e.response && e.response.status === 400) {
           const { errors } = e.response.data;
@@ -111,14 +121,14 @@ const loadCacheTicketFormData = (action$, _, { cache }) =>
 export const ticketEpics = combineEpics(createTicketEpic, cacheTicketFormData, loadCacheTicketFormData, cacheCleanTicketFormData);
 
 //#region REDUCER
-export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, formCache: {} }, { type, payload }) => {
+export default (state = { ticketSaving: false, ticketSaved: false, errors: {}, formCache: {} }, { type, payload, errors }) => {
   switch (type) {
     case TICKET_NEW_OPEN:
       return { ...state, ticketSaving: false, ticketSaved: false };
     case TICKET_SAVE_NEW:
       return { ...state, ticketSaving: true, errors: {} };
     case TICKET_SAVE_NEW_SUCCESS:
-      return { ...state, ticketSaving: false, ticketSaved: true, errors: {} };
+      return { ...state, ticketSaving: false, ticketSaved: true, errors: errors};
     case TICKET_SAVE_NEW_ERROR:
       return { ...state, ticketSaving: false, ticketSaved: false, errors: payload };
     case TICKET_CACHE_FORM_DONE:

@@ -14,7 +14,7 @@ import {
   getTicketFormCache,
   newTicket,
   saveTicket,
-  cacheForm
+  cacheForm,
 } from '../modules/tickets';
 import { getTicketDepartments, getTicketPriorities } from '../modules/info';
 import { getUser, isUserSet, isOrgSet } from '../modules/guest';
@@ -87,6 +87,10 @@ const transMessages = {
     id: 'helpcenter.messenger.tickets_form_back',
     defaultMessage: 'Back',
   },
+  ccDisabledRegistration: {
+    id: 'helpcenter.messenger.tickets_form_cc_disabled_registration',
+    defaultMessage: 'One or more CCs were not added because user registration is disabled.',
+  },
 };
 
 const mapStateToProps = (state) => ({
@@ -98,7 +102,7 @@ const mapStateToProps = (state) => ({
     user:         getUser(state),
     isUserSet:    isUserSet(state),
     isOrgSet:     isOrgSet(state),
-    errors:       getErrors(state)
+    errors:       getErrors(state),
 });
 
 class TicketFormScreen extends React.Component {
@@ -248,6 +252,19 @@ class TicketFormScreen extends React.Component {
 
           {ticketSaved && !ticketSaving && (
             [
+              errors.cc && (
+                <>
+                  <div className="dpmsg-ChatMessagesDropZoneError">
+                    <div className="dpmsg-BlockInnerIcon">
+                      <i className="fa fa-2x fa-exclamation-triangle"></i>
+                    </div>
+                    <FormattedMessage
+                      {...transMessages.ccDisabledRegistration}
+                    />
+                  </div>
+                  <br />
+                </>
+              ),
               <div className="dpmsg-BlockInnerIcon">
                 <i className="dpmsg-Icon dpmsg-Icon--Round dpmsg-IconRocket" />
               </div>,
@@ -257,7 +274,7 @@ class TicketFormScreen extends React.Component {
                 defaultMessage="Your request on its way"
                   />
               </div>,
-              <div className="dpmsg-BlockInnerContent">
+              <div>
                 <FormattedMessage
                   id="helpcenter.messenger.tickets_form_thanks"
                   defaultMessage="Thank you for contacting us. One of our team will be in touch with you via email."
