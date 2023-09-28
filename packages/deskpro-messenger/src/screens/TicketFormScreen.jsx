@@ -274,7 +274,7 @@ class TicketFormScreen extends React.Component {
                 defaultMessage="Your request on its way"
                   />
               </div>,
-              <div className="dpmsg-BlockInnerContent">
+              <div>
                 <FormattedMessage
                   id="helpcenter.messenger.tickets_form_thanks"
                   defaultMessage="Thank you for contacting us. One of our team will be in touch with you via email."
