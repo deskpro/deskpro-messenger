@@ -228,6 +228,9 @@ export default class ApiService {
     if(typeof postData.captcha !== 'undefined') {
       delete postData.captcha;
     }
+    if(values.cc) {
+      postData.cc = values.cc ? values.cc.split(',').map(e => e.trim()) : '';
+    }
     ['fields', 'user_fields', 'organization_fields', 'contextual_fields'].forEach(fieldKey => {
       if(postData[fieldKey]) {
         // 0 is valid value for field, while 0 means value shouldn't be sent
