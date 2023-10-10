@@ -40,6 +40,7 @@ class Frame extends PureComponent {
   static propTypes = {
     themeVars: PropTypes.object,
     disableGoogleFont: PropTypes.bool,
+    extraScripts: PropTypes.array,
     className: PropTypes.string,
     style: PropTypes.object,
     head: PropTypes.node,
@@ -49,6 +50,7 @@ class Frame extends PureComponent {
   static defaultProps = {
     themeVars: {},
     disableGoogleFont: false,
+    extraScripts: [],
     style: {},
     head: null,
     mobile: false,
@@ -145,6 +147,20 @@ class Frame extends PureComponent {
       />
     );
 
+    let scripts = null;
+    if (this.props.extraScripts.length > 0) {
+      scripts = this.props.extraScripts.map((script, i) => (
+        <script
+          key={i}
+          src={script.src}
+          id={script.id ? script.id : undefined}
+          defer={script.defer ? script.defer : undefined}
+          async={script.async ? script.async : undefined}
+          type={script.type ? script.type : undefined}
+        />
+      ));
+    }
+
     return ReactDOM.createPortal(
       <FrameComponent
         head={
@@ -153,6 +169,7 @@ class Frame extends PureComponent {
             {head}
             {baseHead}
             <style type="text/css" key="extra-style">{extra}</style>
+            {scripts}
 
           </Fragment>
         }
