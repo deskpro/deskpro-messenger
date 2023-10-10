@@ -122,7 +122,17 @@ class Frame extends PureComponent {
   };
 
   render() {
-    const { children, style = {}, head, themeVars, className, mobile, disableGoogleFont, ...props } = this.props;
+    const {
+      children,
+      style = {},
+      head,
+      themeVars,
+      className,
+      mobile,
+      disableGoogleFont,
+      extraScripts,
+      ...props
+    } = this.props;
     const { extra } = this.state;
     let offset = '14px';
     if(mobile) {
@@ -148,9 +158,9 @@ class Frame extends PureComponent {
     );
 
     let scripts = null;
-    console.log('extraScripts', this.props.extraScripts);
-    if (this.props.extraScripts.length > 0) {
-      scripts = this.props.extraScripts.map((script, i) => (
+    console.log('extraScripts', extraScripts);
+    if (extraScripts.length > 0) {
+      scripts = extraScripts.map((script, i) => (
         <script
           key={i}
           src={script.src}
@@ -190,7 +200,14 @@ class Frame extends PureComponent {
 
 export default (props) => (
   <ConfigConsumer>
-    {({ themeVars, disableGoogleFont }) => <Frame themeVars={themeVars} disableGoogleFont={disableGoogleFont} {...props} />}
+    {({ themeVars, disableGoogleFont, extraScripts }) => (
+      <Frame
+        themeVars={themeVars}
+        disableGoogleFont={disableGoogleFont}
+        extraScripts={extraScripts}
+        {...props}
+      />
+    )}
   </ConfigConsumer>
 );
 

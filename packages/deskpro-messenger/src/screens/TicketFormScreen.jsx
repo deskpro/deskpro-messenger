@@ -135,6 +135,13 @@ class TicketFormScreen extends React.Component {
 
   onSubmit = (values) => {
     this.props.cacheForm({values: {}});
+
+    const { ticketSubmitCallback } = this.props;
+    console.log('props', this.props);
+    console.log('ticketSubmitCallback', ticketSubmitCallback);
+    if (ticketSubmitCallback) {
+      ticketSubmitCallback(values);
+    }
     return this.props.saveTicket(values);
   };
 

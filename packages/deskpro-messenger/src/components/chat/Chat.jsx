@@ -190,6 +190,8 @@ class Chat extends React.Component {
       errors
     } = this.props;
 
+    console.log('chatConfig', chatConfig);
+
     return (
         <Fragment>
             <BotBubble message={intl.formatMessage({ id: 'helpcenter.messenger.chat_prompt' })} />
