@@ -148,6 +148,7 @@ class Frame extends PureComponent {
     );
 
     let scripts = null;
+    console.log('extraScripts', this.props.extraScripts);
     if (this.props.extraScripts.length > 0) {
       scripts = this.props.extraScripts.map((script, i) => (
         <script

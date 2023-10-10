@@ -57,6 +57,7 @@ class SaveTicketBlock extends PureComponent {
 
   handleSubmit = (values) => {
     const { ticketParams, intl, onSend, ticketSubmitCallback } = this.props;
+    console.log('ticketSubmitCallback', ticketSubmitCallback);
     if (ticketSubmitCallback) {
       ticketSubmitCallback(values, ticketParams);
     }

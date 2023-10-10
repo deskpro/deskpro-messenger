@@ -114,8 +114,7 @@ class StartChatScreen extends PureComponent {
     departments:    PropTypes.object.isRequired,
     agents:         PropTypes.object.isRequired,
     chatCreateCallback: PropTypes.func,
-    chatIsStarting: PropTypes.bool
-
+    chatIsStarting: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -133,6 +132,7 @@ class StartChatScreen extends PureComponent {
 
   createChat = (values, meta = {}) => {
     const { createChat, screenName, user, chatCreateCallback } = this.props;
+    console.log('chatCreateCallback', chatCreateCallback);
     const postData                         = { fields: {} };
     for (const [key, value] of Object.entries(values)) {
       if (key.match(/^chat_field/)) {
