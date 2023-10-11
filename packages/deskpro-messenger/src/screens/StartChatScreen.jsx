@@ -142,6 +142,8 @@ class StartChatScreen extends PureComponent {
         postData[key] = value;
       }
     }
+    console.log('postData', postData);
+    console.log('meta', meta);
     if (chatCreateCallback) {
       chatCreateCallback({ ...postData, name: user.name, email: user.email});
     }
