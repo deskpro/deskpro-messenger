@@ -113,8 +113,8 @@ class StartChatScreen extends PureComponent {
     prompt:         PropTypes.string,
     departments:    PropTypes.object.isRequired,
     agents:         PropTypes.object.isRequired,
-    chatIsStarting: PropTypes.bool
-
+    chatCreateCallback: PropTypes.func,
+    chatIsStarting: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -131,7 +131,7 @@ class StartChatScreen extends PureComponent {
     : null;
 
   createChat = (values, meta = {}) => {
-    const { createChat, screenName, user } = this.props;
+    const { createChat, screenName, user, chatCreateCallback } = this.props;
     const postData                         = { fields: {} };
     for (const [key, value] of Object.entries(values)) {
       if (key.match(/^chat_field/)) {
@@ -139,6 +139,13 @@ class StartChatScreen extends PureComponent {
       } else {
         postData[key] = value;
       }
+    }
+    if (chatCreateCallback) {
+      chatCreateCallback({
+        ...postData,
+        name: user.name === '' ? postData.name : user.name,
+        email: user.email === '' ? postData.email : user.email,
+      });
     }
     createChat(postData, {
       fromScreen: screenName,

@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/messenger",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "author": "DeskPRO <support@deskpro.com>",
   "license": "LicenseRef-LICENSE",
   "description": "DeskPRO embeddable messenger",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@deskpro/js-utils": "1.0.12",
-    "@deskpro/portal-components": "1.0.27",
+    "@deskpro/portal-components": "1.0.30",
     "@deskpro/react-components": "^1.4.9",
     "@formatjs/intl-pluralrules": "^1.5.3",
     "@formatjs/intl-relativetimeformat": "^4.5.10",

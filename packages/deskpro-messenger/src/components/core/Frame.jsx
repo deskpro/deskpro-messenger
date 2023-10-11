@@ -40,6 +40,7 @@ class Frame extends PureComponent {
   static propTypes = {
     themeVars: PropTypes.object,
     disableGoogleFont: PropTypes.bool,
+    extraScripts: PropTypes.array,
     className: PropTypes.string,
     style: PropTypes.object,
     head: PropTypes.node,
@@ -49,6 +50,7 @@ class Frame extends PureComponent {
   static defaultProps = {
     themeVars: {},
     disableGoogleFont: false,
+    extraScripts: [],
     style: {},
     head: null,
     mobile: false,
@@ -83,6 +85,7 @@ class Frame extends PureComponent {
 
   componentDidMount() {
     iFrameContainer.appendChild(this.el);
+    this.loadExtraScripts();
     this.updateStyles();
   }
 
@@ -92,6 +95,24 @@ class Frame extends PureComponent {
 
   componentWillUnmount() {
     iFrameContainer.removeChild(this.el);
+  }
+
+  loadExtraScripts = () => {
+    const { extraScripts } = this.props;
+    if (extraScripts && extraScripts.length > 0) {
+      extraScripts.forEach((script) => {
+        if (script.src) {
+          const element = document.createElement("script");
+          element.src = script.src;
+          element.async = script.async || false;
+          element.defer = script.defer || false;
+          element.type = script.type || 'text/javascript';
+          element.id = script.id || '';
+
+          iFrameContainer.appendChild(element);
+        }
+      });
+    }
   }
 
   updateStyles = () => {
@@ -120,7 +141,16 @@ class Frame extends PureComponent {
   };
 
   render() {
-    const { children, style = {}, head, themeVars, className, mobile, disableGoogleFont, ...props } = this.props;
+    const {
+      children,
+      style = {},
+      head,
+      themeVars,
+      className,
+      mobile,
+      disableGoogleFont,
+      ...props
+    } = this.props;
     const { extra } = this.state;
     let offset = '14px';
     if(mobile) {
@@ -172,7 +202,14 @@ class Frame extends PureComponent {
 
 export default (props) => (
   <ConfigConsumer>
-    {({ themeVars, disableGoogleFont }) => <Frame themeVars={themeVars} disableGoogleFont={disableGoogleFont} {...props} />}
+    {({ themeVars, disableGoogleFont, extraScripts }) => (
+      <Frame
+        themeVars={themeVars}
+        disableGoogleFont={disableGoogleFont}
+        extraScripts={extraScripts}
+        {...props}
+      />
+    )}
   </ConfigConsumer>
 );
 
