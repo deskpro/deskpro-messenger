@@ -101,14 +101,16 @@ class Frame extends PureComponent {
     const { extraScripts } = this.props;
     if (extraScripts && extraScripts.length > 0) {
       extraScripts.forEach((script) => {
-        const element = document.createElement("script");
-        element.src = "/static/libs/your_script.js";
-        element.async = script.async || false;
-        element.defer = script.defer || false;
-        element.type = script.type || 'text/javascript';
-        element.id = script.id || '';
+        if (script.src) {
+          const element = document.createElement("script");
+          element.src = script.src;
+          element.async = script.async || false;
+          element.defer = script.defer || false;
+          element.type = script.type || 'text/javascript';
+          element.id = script.id || '';
 
-        iFrameContainer.appendChild(element);
+          iFrameContainer.appendChild(element);
+        }
       });
     }
   }
