@@ -123,6 +123,7 @@ class TicketFormScreen extends React.Component {
     isOrgSet:     PropTypes.bool,
     formCache:    PropTypes.object,
     widget:       PropTypes.object,
+    ticketSubmitCallback: PropTypes.func,
   };
 
   static defaultProps = {
@@ -137,8 +138,6 @@ class TicketFormScreen extends React.Component {
     this.props.cacheForm({values: {}});
 
     const { ticketSubmitCallback } = this.props;
-    console.log('props', this.props);
-    console.log('ticketSubmitCallback', ticketSubmitCallback);
     if (ticketSubmitCallback) {
       ticketSubmitCallback(values);
     }

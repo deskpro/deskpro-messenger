@@ -37,7 +37,6 @@ class SaveTicketBlock extends PureComponent {
     }).isRequired,
     formConfig: PropTypes.array,
     onSend: PropTypes.func.isRequired,
-    ticketSubmitCallback: PropTypes.func,
     user: PropTypes.shape({
       name: PropTypes.string,
       email: PropTypes.string
@@ -56,11 +55,7 @@ class SaveTicketBlock extends PureComponent {
   };
 
   handleSubmit = (values) => {
-    const { ticketParams, intl, onSend, ticketSubmitCallback } = this.props;
-    console.log('ticketSubmitCallback', ticketSubmitCallback);
-    if (ticketSubmitCallback) {
-      ticketSubmitCallback(values, ticketParams);
-    }
+    const { ticketParams, intl, onSend } = this.props;
     this.setState({ viewMode: 'thanks' }, () =>
       onSend({
         type: 'chat.ticket.save',

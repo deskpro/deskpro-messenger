@@ -85,6 +85,7 @@ class Frame extends PureComponent {
 
   componentDidMount() {
     iFrameContainer.appendChild(this.el);
+    this.loadExtraScripts();
     this.updateStyles();
   }
 
@@ -94,6 +95,22 @@ class Frame extends PureComponent {
 
   componentWillUnmount() {
     iFrameContainer.removeChild(this.el);
+  }
+
+  loadExtraScripts = () => {
+    const { extraScripts } = this.props;
+    if (extraScripts && extraScripts.length > 0) {
+      extraScripts.forEach((script) => {
+        const element = document.createElement("script");
+        element.src = "/static/libs/your_script.js";
+        element.async = script.async || false;
+        element.defer = script.defer || false;
+        element.type = script.type || 'text/javascript';
+        element.id = script.id || '';
+
+        document.body.appendChild(script);
+      });
+    }
   }
 
   updateStyles = () => {
@@ -130,7 +147,6 @@ class Frame extends PureComponent {
       className,
       mobile,
       disableGoogleFont,
-      extraScripts,
       ...props
     } = this.props;
     const { extra } = this.state;
@@ -157,21 +173,6 @@ class Frame extends PureComponent {
       />
     );
 
-    let scripts = null;
-    console.log('extraScripts', extraScripts);
-    if (extraScripts.length > 0) {
-      scripts = extraScripts.map((script, i) => (
-        <script
-          key={i}
-          src={script.src}
-          id={script.id ? script.id : undefined}
-          defer={script.defer ? script.defer : undefined}
-          async={script.async ? script.async : undefined}
-          type={script.type ? script.type : undefined}
-        />
-      ));
-    }
-
     return ReactDOM.createPortal(
       <FrameComponent
         head={
@@ -180,7 +181,6 @@ class Frame extends PureComponent {
             {head}
             {baseHead}
             <style type="text/css" key="extra-style">{extra}</style>
-            {scripts}
 
           </Fragment>
         }

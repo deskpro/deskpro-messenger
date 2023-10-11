@@ -255,7 +255,6 @@ class Chat extends React.Component {
                           uploadTo={chatConfig.uploadTo}
                           ticketParams={chatConfig.ticketDefaults}
                           formConfig={chatConfig.ticketFormConfig}
-                          ticketSubmitCallback={chatConfig.ticketSubmitCallback}
                           onSend={onSendMessage}
                           endChat={onEndChat}
                         />

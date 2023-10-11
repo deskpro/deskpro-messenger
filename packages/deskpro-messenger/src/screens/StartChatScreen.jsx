@@ -132,6 +132,7 @@ class StartChatScreen extends PureComponent {
 
   createChat = (values, meta = {}) => {
     const { createChat, screenName, user, chatCreateCallback } = this.props;
+    console.log('props', this.props);
     console.log('chatCreateCallback', chatCreateCallback);
     const postData                         = { fields: {} };
     for (const [key, value] of Object.entries(values)) {
