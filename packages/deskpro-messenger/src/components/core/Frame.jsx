@@ -108,7 +108,7 @@ class Frame extends PureComponent {
         element.type = script.type || 'text/javascript';
         element.id = script.id || '';
 
-        iFrameContainer.appendChild(script);
+        iFrameContainer.appendChild(element);
       });
     }
   }
