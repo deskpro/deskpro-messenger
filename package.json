@@ -2,13 +2,16 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.3.0"
+    "lerna": "7.3.1"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "lerna": "lerna",
+    "build": "lerna run --stream build --sort",
     "test": "cd packages/deskpro-messenger && yarn test",
     "publish-npm": "lerna publish --force-publish --no-git-tag-version --no-push --yes"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {}
 }
