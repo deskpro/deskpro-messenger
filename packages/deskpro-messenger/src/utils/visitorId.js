@@ -24,6 +24,6 @@ export const generateVisitorId = () => {
     id += chars2.charAt(Math.floor(Math.random() * chars2.length));
   }
 
-  Cookies.set(VISITOR_COOKIE_NAME, id, {expires: 365*5, path: '/'});
+  Cookies.set(VISITOR_COOKIE_NAME, id, {expires: 365*5, path: '/', sameSite: 'strict', secure: true});
   return id;
 };
