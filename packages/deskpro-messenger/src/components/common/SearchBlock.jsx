@@ -125,9 +125,7 @@ class SearchBlock extends React.Component {
               <div className="dpmsg-QuickSearchEntry" key={`search_entry_${i}`}>
                 <h4 className="dpmsg-QuickSearchEntryHeaderLink">
                   <a rel="noreferrer noopener" target="_blank" href={r.link}>{r.title}</a></h4>
-                <div className="dpmsg-QuickSearchExcerpt">
-                  {r.excerpt}
-                </div>
+                <div className="dpmsg-QuickSearchExcerpt" dangerouslySetInnerHTML={{ __html: r.excerpt }} />
                 <div className="dpmsg-QuickSearchEntry--divider"/>
               </div>))}
             {this.getSeeMore()}
