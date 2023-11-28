@@ -109,6 +109,8 @@ class Chat extends React.Component {
   };
 
   messagesToAck = [];
+  messagesToAckTop = [];
+  messagesToAckBottom = [];
 
   scrollArea = React.createRef();
 
@@ -136,6 +138,9 @@ class Chat extends React.Component {
 
     if(this.messagesToAck.length) {
       this.props.sendAck(this.messagesToAck, this.props.chat);
+
+      this.messagesToAckTop = this.messagesToAckTop.filter(messageId => !this.messagesToAck.includes(messageId));
+      this.messagesToAckBottom = this.messagesToAckBottom.filter(messageId => !this.messagesToAck.includes(messageId));
       this.messagesToAck = [];
     }
   }
@@ -162,15 +167,31 @@ class Chat extends React.Component {
   }
 
   collectMessagesToAck = (ref, message) => {
-    if(this.messagesToAck) {
-      const rect = ref.current.getBoundingClientRect();
-      const isInViewport = rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.parent.innerHeight) &&
-        rect.right <= (window.parent.innerWidth);
-      if(!message.props.date_received && isInViewport) {
-        this.messagesToAck.push(message.props.id);
-      }
+    if (this.messagesToAck.length > 0 || message.props.date_received) {
+      return;
+    }
+
+    const rect = ref.current.getBoundingClientRect();
+
+    // if the message is long then make sure the user scrolled the message
+    if (!this.messagesToAckTop.includes(message.props.id)
+        && rect.top >= 0
+        && rect.left >= 0
+    ) {
+      this.messagesToAckTop.push(message.props.id);
+    }
+    if (!this.messagesToAckBottom.includes(message.props.id)
+        && rect.bottom <= (window.parent.innerHeight)
+        && rect.right <= (window.parent.innerWidth)
+    ) {
+      this.messagesToAckBottom.push(message.props.id);
+    }
+
+    const isInViewport = this.messagesToAckTop.includes(message.props.id)
+        && this.messagesToAckBottom.includes(message.props.id);
+
+    if (isInViewport) {
+      this.messagesToAck.push(message.props.id);
     }
   }
 
