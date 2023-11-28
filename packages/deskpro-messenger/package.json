@@ -130,7 +130,7 @@
     "stylelint": "^9.5.0",
     "stylelint-config-suitcss": "^14.0.0",
     "stylelint-selector-bem-pattern": "^2.0.0",
-    "terser-webpack-plugin": "1.1.0",
+    "terser-webpack-plugin": "^1.4.5",
     "uglify-js": "^3.4.5",
     "url-loader": "1.1.1",
     "webpack": "4.19.1",
