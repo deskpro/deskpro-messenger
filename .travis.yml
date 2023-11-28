@@ -11,17 +11,7 @@ cache:
 install:
   - yarn
 script: yarn build
-before_deploy:
-  - yarn lerna run build-storybook
-  - cp packages/deskpro-messenger/build/assets/styles.css* packages/deskpro-messenger/storybook-static/assets/
 deploy:
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN
-    keep-history: true
-    local-dir: packages/deskpro-messenger/storybook-static
-    on:
-      branch: master
   - provider: script
     skip_cleanup: true
     script: npm run publish-npm -- $(node bin/lerna-version.js)
