@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@deskpro/js-utils": "1.0.12",
-    "@deskpro/portal-components": "1.0.30",
+    "@deskpro/portal-components": "1.2.0",
     "@deskpro/react-components": "^1.4.9",
     "@formatjs/intl-pluralrules": "^1.5.3",
     "@formatjs/intl-relativetimeformat": "^4.5.10",
@@ -24,7 +24,7 @@
     "body-scroll-lock": "^2.6.4",
     "classnames": "^2.2.6",
     "css-vars-ponyfill": "^2.3.0",
-    "formik": "^1.1.1",
+    "formik": "2.4.5",
     "immer": "^9.0.6",
     "install": "^0.13.0",
     "is-mobile": "^2.2.1",
