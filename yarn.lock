@@ -1331,10 +1331,10 @@
   dependencies:
     immutable "3.8.2"
 
-"@deskpro/portal-components@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-1.2.0.tgz#0756b63fc10c2c3872f032a70d3d9df53d5b5ace"
-  integrity sha512-kgwiYBTOXU3lsK3JabQPE74OdANOnWkIZKLBgSe7gCbyA57uXGG2lDNyj2+41/6q217vWvPVMmPSeR57pWHhmw==
+"@deskpro/portal-components@1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@deskpro/portal-components/-/portal-components-1.2.4.tgz#77e9fee61feb06c8286374ffb155ef37017965c7"
+  integrity sha512-rk6kvKV+M4Y8Nwevkx//Spfrh3kPhWLtLa1h2pVh+91IfH1ocDXTJP8ZPYyL9CTv9EKyucZbMY+IrTYsrqFGrw==
   dependencies:
     "@deskpro/js-utils" "1.0.13"
     "@emotion/css" "^11.7.1"
@@ -1342,7 +1342,7 @@
     accessible-autocomplete "2.0.4"
     classnames "^2.3.2"
     date-fns "2.28.0"
-    dompurify "2.3.6"
+    dompurify "2.4.7"
     es6-promise "^4.2.4"
     immutable "^3.8.2"
     libphonenumber-js "1.9.50"
@@ -6583,10 +6583,10 @@ domhandler@^4.0.0, domhandler@^4.2.0, domhandler@^4.2.2, domhandler@^4.3.1:
   dependencies:
     domelementtype "^2.2.0"
 
-dompurify@2.3.6:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.3.6.tgz#2e019d7d7617aacac07cbbe3d88ae3ad354cf875"
-  integrity sha512-OFP2u/3T1R5CEgWCEONuJ1a5+MFKnOYpkywpUSxv/dj1LeBT1erK+JwM7zK0ROy2BRhqVCf0LRw/kHqKuMkVGg==
+dompurify@2.4.7:
+  version "2.4.7"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.4.7.tgz#277adeb40a2c84be2d42a8bcd45f582bfa4d0cfc"
+  integrity sha512-kxxKlPEDa6Nc5WJi+qRgPbOAbgTpSULL+vI3NUXsZMlkJxTqYI9wg5ZTay2sFrdZRWHPWNi+EdAhcJf81WtoMQ==
 
 domutils@^1.5.1, domutils@^1.7.0:
   version "1.7.0"
