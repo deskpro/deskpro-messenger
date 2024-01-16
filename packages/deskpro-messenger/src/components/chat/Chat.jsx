@@ -137,11 +137,13 @@ class Chat extends React.Component {
     }
 
     if(this.messagesToAck.length) {
-      this.props.sendAck(this.messagesToAck, this.props.chat);
-
       this.messagesToAckTop = this.messagesToAckTop.filter(messageId => !this.messagesToAck.includes(messageId));
       this.messagesToAckBottom = this.messagesToAckBottom.filter(messageId => !this.messagesToAck.includes(messageId));
-      this.messagesToAck = [];
+
+      if (!document.hidden) {
+        this.props.sendAck(this.messagesToAck, this.props.chat);
+        this.messagesToAck = [];
+      }
     }
   }
 
