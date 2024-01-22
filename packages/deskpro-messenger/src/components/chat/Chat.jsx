@@ -169,10 +169,6 @@ class Chat extends React.Component {
   }
 
   collectMessagesToAck = (ref, message) => {
-    if (this.messagesToAck.length > 0 || message.props.date_received) {
-      return;
-    }
-
     const rect = ref.current.getBoundingClientRect();
 
     // if the message is long then make sure the user scrolled the message
@@ -193,7 +189,9 @@ class Chat extends React.Component {
         && this.messagesToAckBottom.includes(message.props.id);
 
     if (isInViewport) {
-      this.messagesToAck.push(message.props.id);
+      if (!this.messagesToAck.includes(message.props.id)) {
+        this.messagesToAck.push(message.props.id);
+      }
     }
   }
 
