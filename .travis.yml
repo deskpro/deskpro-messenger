@@ -1,6 +1,7 @@
 language: node_js
+dist: focal
 node_js:
-  - '16'
+  - '18'
 before_install:
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > packages/deskpro-messenger/.npmrc
