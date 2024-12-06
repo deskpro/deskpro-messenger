@@ -44,6 +44,7 @@ class AutoStart extends PureComponent {
     startChat:       PropTypes.func.isRequired,
     autoStartStyle:  PropTypes.string.isRequired,
     icon:            PropTypes.string,
+    intl:            PropTypes.object,
   };
 
   static defaultProps = {
@@ -58,9 +59,9 @@ class AutoStart extends PureComponent {
   }
 
   componentDidMount() {
-    // eslint-disable-next-line no-unused-expressions
+
     import('../../screens/ChatScreen');
-    // eslint-disable-next-line no-unused-expressions
+
     import('../../screens/StartChatScreen');
   }
 

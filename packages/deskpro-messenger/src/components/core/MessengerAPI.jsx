@@ -83,7 +83,7 @@ class MessengerAPI extends PureComponent {
     const { action, payload } = event.data;
 
     switch (action) {
-      case 'open':
+      case 'open': {
         let path;
         if ('screen' in payload) {
           path = `/screens/${payload.screen}`;
@@ -93,7 +93,7 @@ class MessengerAPI extends PureComponent {
           !this.props.opened && this.props.toggleWindow();
         }
         break;
-
+      }
       case 'to':
         this.props.history.push(payload, { api: true });
         !this.props.opened && this.props.toggleWindow();

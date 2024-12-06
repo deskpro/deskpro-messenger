@@ -1,4 +1,4 @@
-// eslint-disable-next-line func-names
+ 
 const AJAXSubmit = (function () {
   function submitData(oData, config) {
     /* the AJAX request... */
@@ -63,7 +63,7 @@ const AJAXSubmit = (function () {
 
   }
 
-  // eslint-disable-next-line func-names
+   
   return function (config) {
     if (!config.url) { return; }
     new SubmitRequest(config);

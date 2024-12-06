@@ -51,7 +51,7 @@ export class RatingBlock extends PureComponent {
   render() {
     const { rating } = this.state;
 
-    return !!rating ? this.renderSmile() : this.renderButtons();
+    return rating ? this.renderSmile() : this.renderButtons();
   }
 
   renderButtons() {

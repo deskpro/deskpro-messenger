@@ -1,5 +1,0 @@
-bin/*
-tests/*
-**/node_modules/*
-**/webpack.config*.js
-**/*_Reducers.js

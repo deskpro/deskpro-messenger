@@ -23,7 +23,7 @@ class AvatarHeads extends React.PureComponent {
             ? (<div className="dpmsg-AvatarHeadsIcon" key={agent.id}>
                 <img src={agent.avatar} alt={agent.name} />
               </div>)
-            : <TextAvatar className="dpmsg-AvatarHeadText" height={44} width={44} name={agent.name} />
+            : <TextAvatar key={agent.id} className="dpmsg-AvatarHeadText" height={44} width={44} name={agent.name} />
         ))}
       </div>
     );

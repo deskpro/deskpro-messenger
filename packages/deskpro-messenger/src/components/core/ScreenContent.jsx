@@ -120,7 +120,7 @@ class ScreenContent extends PureComponent {
         type: 'chat.attachment',
         blob: e.target.response.blob
       };
-      if (!!chatData) {
+      if (chatData) {
         this.props.sendMessage(messageModel, this.props.chatData);
       } else {
         this.createChat('attachment', 'chat.attachment', messageModel)
@@ -255,7 +255,7 @@ class ScreenContent extends PureComponent {
       onSend={!!chatData && chatData.status !== 'ended' ? this.handleSendMessage : this.createChat}
       handleFileSend={this.handleFileSend}
       scrollMessages={(wrapperHeight) => {
-        if(!!chatData) {
+        if(chatData) {
           this.setState({formHeight: wrapperHeight});
           this.scrollToBottom();
         }

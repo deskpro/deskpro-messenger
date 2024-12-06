@@ -123,7 +123,19 @@ class TicketFormScreen extends React.Component {
     isOrgSet:     PropTypes.bool,
     formCache:    PropTypes.object,
     widget:       PropTypes.object,
+    department:   PropTypes.string,
+    priorities:   PropTypes.object,
     ticketSubmitCallback: PropTypes.func,
+    contentSize: PropTypes.shape({
+      animating: PropTypes.bool,
+      height: PropTypes.number,
+      maxHeight: PropTypes.number,
+      scrollArea: PropTypes.object,
+    }),
+    errors: PropTypes.shape({
+      general: PropTypes.string,
+      cc: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
@@ -271,16 +283,16 @@ class TicketFormScreen extends React.Component {
                   <br />
                 </>
               ),
-              <div className="dpmsg-BlockInnerIcon">
+              <div className="dpmsg-BlockInnerIcon" key="icon">
                 <i className="dpmsg-Icon dpmsg-Icon--Round dpmsg-IconRocket" />
               </div>,
-              <div className="dpmsg-BlockInnerHeader">
+              <div className="dpmsg-BlockInnerHeader" key="tickets_form_thanks_header">
                 <FormattedMessage
                 id="helpcenter.messenger.tickets_form_thanks_header"
                 defaultMessage="Your request on its way"
                   />
               </div>,
-              <div>
+              <div key="tickets_form_thanks">
                 <FormattedMessage
                   id="helpcenter.messenger.tickets_form_thanks"
                   defaultMessage="Thank you for contacting us. One of our team will be in touch with you via email."
