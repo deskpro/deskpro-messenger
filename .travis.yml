@@ -12,6 +12,12 @@ cache:
 install:
   - yarn
 script: yarn build
+before_deploy:
+  - yes | gem update --system --force
+  - gem install bundler
+  - gem install uri
+  - gem install faraday-net_http -v '3.3.0' # Fix faraday version
+  - gem install logger
 deploy:
   - provider: script
     skip_cleanup: true

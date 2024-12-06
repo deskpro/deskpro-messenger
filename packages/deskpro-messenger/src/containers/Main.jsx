@@ -107,7 +107,7 @@ class Main extends PureComponent {
             <Switch>
               <Route path="/screens" component={Window} />
             </Switch>
-            {!!config.disableButton ? null : <Route component={MessengerToggler} />}
+            {config.disableButton ? null : <Route component={MessengerToggler} />}
             <Route component={MessengerAPI} />
           </WithData>
         </IntlProvider>

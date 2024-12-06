@@ -114,7 +114,15 @@ class StartChatScreen extends PureComponent {
     departments:    PropTypes.object.isRequired,
     agents:         PropTypes.object.isRequired,
     chatCreateCallback: PropTypes.func,
+    createChat:     PropTypes.func,
     chatIsStarting: PropTypes.bool,
+    screenName:     PropTypes.string,
+    department:     PropTypes.string,
+    widget:         PropTypes.object,
+    contentSize:    PropTypes.object,
+    intl:           PropTypes.object,
+    errors:         PropTypes.object,
+    uploadTo:       PropTypes.string,
   };
 
   static defaultProps = {

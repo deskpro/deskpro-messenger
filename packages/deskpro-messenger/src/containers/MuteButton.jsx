@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import { toggleSound, isMuted } from '../modules/chat';
 
 export const MuteButton = ({ isMuted, toggleSound }) => (
-  // eslint-disable-next-line jsx-a11y/anchor-is-valid
   <a
     onClick={toggleSound}
     className={classNames('dpmsg-LevelRight', {

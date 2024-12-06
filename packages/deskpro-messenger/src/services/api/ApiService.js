@@ -64,7 +64,7 @@ export default class ApiService {
    *  @returns {object} Chat model.
    */
   async createChat(data) {
-    const { department: chat_department, ...chatValues } = data;
+    const { department, ...chatValues } = data;  
     if(this.jwt) {
       chatValues.jwt = this.jwt;
     }
@@ -191,7 +191,7 @@ export default class ApiService {
    * Create ticket.
    * @param {object} values Ticket values.
    */
-  async createTicket(values, config) {
+  async createTicket(values) {
     if(values.attachments) {
       values.attachments = values.attachments.map(a => ({ blob_auth: a.authcode }));
     }
