@@ -157,6 +157,26 @@ class TicketFormScreen extends React.Component {
       setTimeout(() => this.props.contentSize.scrollArea.current.scrollTop(), 50);
     }
   }
+  
+
+  shouldComponentUpdate(nextProps) {
+    // This was added because the component was re-rendering on focus.
+    // Due to props.match changing even though its the same, so the reference was changing
+
+    return (
+      nextProps.ticketSaving !== this.props.ticketSaving ||
+      nextProps.ticketSaved !== this.props.ticketSaved ||
+      nextProps.errors !== this.props.errors ||
+      nextProps.formConfig !== this.props.formConfig ||
+      nextProps.formCache !== this.props.formCache ||
+      nextProps.isUserSet !== this.props.isUserSet ||
+      nextProps.isOrgSet !== this.props.isOrgSet ||
+      nextProps.departments !== this.props.departments ||
+      nextProps.priorities !== this.props.priorities ||
+      nextProps.user !== this.props.user ||
+      nextProps.language !== this.props.language
+    );
+  }
 
   render() {
     const {
